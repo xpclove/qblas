@@ -1,6 +1,7 @@
 ﻿using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.Simulation.Simulators;
 using System;
+using Microsoft.Quantum.Primitive;
 namespace Quantum.test
 {
     class Driver
@@ -10,11 +11,12 @@ namespace Quantum.test
             using (var sim = new QuantumSimulator())
             {
                 // Try initial values
-                Result[] initials = new Result[] { Result.Zero, Result.One };
-                foreach (Result initial in initials)
-                {
-                    var res = test.Run(sim,1.0).Result;
-                }
+                    Result[] initials = new Result[] { Result.Zero, Result.One };
+                    foreach (Result initial in initials)
+                    {
+                        var res = test.Run(sim, 1.0).Result;
+                    }
+                
             }
 
             Console.WriteLine("hello qsharp!");
