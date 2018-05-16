@@ -9,4 +9,8 @@
     <PackageReference Include="Microsoft.Quantum.Canon" Version="0.2.1802.2202-preview" />
     <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.2.1802.2202-preview" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\qblas\qblas.csproj" />
+  </ItemGroup>
 </Project>

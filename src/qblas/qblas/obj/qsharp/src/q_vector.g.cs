@@ -4,9 +4,9 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("Quantum.qblas", "creat () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs", 137L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "creat () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs", 129L, 7L, 5L)]
 #line hidden
-namespace Quantum.qblas
+namespace qblas
 {
     public class creat : Operation<QVoid, QVoid>
     {
@@ -25,7 +25,7 @@ namespace Quantum.qblas
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("Quantum.qblas.creat", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.creat", OperationFunctor.Body, _args);
                 var __result__ = default(QVoid);
                 try
                 {
@@ -35,7 +35,7 @@ namespace Quantum.qblas
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("Quantum.qblas.creat", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.creat", OperationFunctor.Body, __result__);
                 }
             }
 

@@ -4,13 +4,13 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("Quantum.qblas", "Operation () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\Operation.qs", 141L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 136L, 7L, 5L)]
 #line hidden
-namespace Quantum.qblas
+namespace qblas
 {
-    public class Operation : Operation<QVoid, QVoid>
+    public class q_simulation : Operation<QVoid, QVoid>
     {
-        public Operation(IOperationFactory m) : base(m)
+        public q_simulation(IOperationFactory m) : base(m)
         {
             this.Dependencies = new Type[] { };
         }
@@ -25,7 +25,7 @@ namespace Quantum.qblas
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("Quantum.qblas.Operation", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_simulation", OperationFunctor.Body, _args);
                 var __result__ = default(QVoid);
                 try
                 {
@@ -35,7 +35,7 @@ namespace Quantum.qblas
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("Quantum.qblas.Operation", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_simulation", OperationFunctor.Body, __result__);
                 }
             }
 
@@ -44,7 +44,7 @@ namespace Quantum.qblas
 
         public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__)
         {
-            return __m__.Run<Operation, QVoid, QVoid>(QVoid.Instance);
+            return __m__.Run<q_simulation, QVoid, QVoid>(QVoid.Instance);
         }
     }
 }

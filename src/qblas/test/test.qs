@@ -2,12 +2,13 @@
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+	open qblas;
 
-    operation Operation () : ()
+    operation test (v:Double) : ()
     {
         body
         {
-            
+				q_fft();
         }
     }
 }

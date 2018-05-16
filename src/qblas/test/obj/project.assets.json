@@ -249,6 +249,20 @@
         "build": {
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
+      },
+      "qblas/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "Microsoft.Quantum.Canon": "0.2.1802.2202-preview",
+          "Microsoft.Quantum.Development.Kit": "0.2.1802.2202-preview"
+        },
+        "compile": {
+          "bin/placeholder/qblas.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/qblas.dll": {}
+        }
       }
     }
   },
@@ -778,13 +792,19 @@
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
       ]
+    },
+    "qblas/1.0.0": {
+      "type": "project",
+      "path": "../qblas/qblas.csproj",
+      "msbuildProject": "../qblas/qblas.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NETCore.App >= 2.0.0",
       "Microsoft.Quantum.Canon >= 0.2.1802.2202-preview",
-      "Microsoft.Quantum.Development.Kit >= 0.2.1802.2202-preview"
+      "Microsoft.Quantum.Development.Kit >= 0.2.1802.2202-preview",
+      "qblas >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -822,7 +842,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "X:\\git\\qblas\\src\\qblas\\qblas\\qblas.csproj": {
+              "projectPath": "X:\\git\\qblas\\src\\qblas\\qblas\\qblas.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
