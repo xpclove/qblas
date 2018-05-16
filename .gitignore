@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+/src/qblas/.vs/qblas/v15/Server/sqlite3/db.lock
+/src/qblas/.vs/qblas/v15
