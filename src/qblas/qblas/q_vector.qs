@@ -3,7 +3,7 @@
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 
-    operation Operation () : ()
+    operation creat () : ()
     {
         body
         {
