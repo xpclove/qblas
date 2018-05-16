@@ -30,13 +30,6 @@
 *.exe
 *.out
 *.app
-/src/qblas/.vs/qblas/v15/Server/sqlite3/db.lock
-/src/qblas/.vs/qblas/v15
-/src/qblas/test/bin/Debug/netcoreapp2.0
-/src/qblas/qblas/bin/Debug/netstandard2.0
-/src/qblas/test/obj/Debug/netcoreapp2.0/test.pdb
-/src/qblas/test/obj/Debug/netcoreapp2.0/test.csprojResolveAssemblyReference.cache
-/src/qblas/test/obj/Debug/netcoreapp2.0/test.csproj.FileListAbsolute.txt
-/src/qblas/test/obj/Debug/netcoreapp2.0/test.csproj.CopyComplete
-/src/qblas/qblas/obj/Debug/netstandard2.0/qblas.pdb
-/src/qblas/qblas/obj/Debug/netstandard2.0/qblas.csproj.FileListAbsolute.txt
+
+# project
+./src/
