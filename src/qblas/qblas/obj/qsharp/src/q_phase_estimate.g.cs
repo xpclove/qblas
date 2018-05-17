@@ -4,13 +4,13 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_phaseestimate () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_phase_estimate.qs", 139L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_phase_estimate (qs : Qubit[]) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_phase_estimate.qs", 150L, 7L, 5L)]
 #line hidden
 namespace qblas
 {
-    public class q_phaseestimate : Operation<QVoid, QVoid>
+    public class q_phase_estimate : Operation<QArray<Qubit>, QVoid>
     {
-        public q_phaseestimate(IOperationFactory m) : base(m)
+        public q_phase_estimate(IOperationFactory m) : base(m)
         {
             this.Dependencies = new Type[] { };
         }
@@ -20,12 +20,12 @@ namespace qblas
             get;
         }
 
-        public override Func<QVoid, QVoid> Body
+        public override Func<QArray<Qubit>, QVoid> Body
         {
-            get => (_args) =>
+            get => (qs) =>
             {
 #line hidden
-                this.Factory.StartOperation("qblas.q_phaseestimate", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_phase_estimate", OperationFunctor.Body, qs);
                 var __result__ = default(QVoid);
                 try
                 {
@@ -35,16 +35,16 @@ namespace qblas
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("qblas.q_phaseestimate", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_phase_estimate", OperationFunctor.Body, __result__);
                 }
             }
 
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs)
         {
-            return __m__.Run<q_phaseestimate, QVoid, QVoid>(QVoid.Instance);
+            return __m__.Run<q_phase_estimate, QArray<Qubit>, QVoid>(qs);
         }
     }
 }
