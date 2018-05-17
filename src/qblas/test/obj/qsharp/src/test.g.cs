@@ -5,6 +5,7 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("Quantum.test", "test (v : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 157L, 8L, 5L)]
+[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 268L, 17L, 14L)]
 #line hidden
 namespace Quantum.test
 {
@@ -75,6 +76,51 @@ namespace Quantum.test
         public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Double v)
         {
             return __m__.Run<test, Double, QVoid>(v);
+        }
+    }
+
+    public class t : Operation<QVoid, QVoid>
+    {
+        public t(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        public override Func<QVoid, QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("Quantum.test.t", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+#line 19 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    foreach (var i in new Range(-(1L), 0L))
+                    {
+                    }
+
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("Quantum.test.t", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__)
+        {
+            return __m__.Run<t, QVoid, QVoid>(QVoid.Instance);
         }
     }
 }

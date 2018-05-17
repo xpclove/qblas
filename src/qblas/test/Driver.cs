@@ -11,6 +11,7 @@ namespace Quantum.test
             Console.WriteLine("start test!");
             using (var sim = new QuantumSimulator())
             {
+
                 // Try initial values
                     Result[] initials = new Result[] { Result.Zero, Result.One };
                     foreach (Result initial in initials)

@@ -4,8 +4,8 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_fft_core (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 144L, 7L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_fft (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 633L, 34L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_fft_core (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 168L, 8L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_fft (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 673L, 35L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -54,32 +54,32 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 10 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                    var nbit = qs.Count;
 #line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                    foreach (var i in new Range((nbit - 1L), 0L))
+                    var nbit = qs.Count;
+#line 12 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+                    foreach (var i in new Range((nbit - 1L), -(1L), 0L))
                     {
-#line 13 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                        MicrosoftQuantumPrimitiveH.Apply(qs[i]);
 #line 14 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                        foreach (var j in new Range((i - 1L), 0L))
+                        MicrosoftQuantumPrimitiveH.Apply(qs[i]);
+#line 15 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+                        foreach (var j in new Range((i - 1L), -(1L), 0L))
                         {
-#line 16 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                            var k = ((i - j) + 1L);
 #line 17 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+                            var k = ((i - j) + 1L);
+#line 18 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Apply((new QArray<Qubit>()
                             {qs[j]}, (2L, k, qs[i])));
                         }
                     }
 
-                    //swap all qubits for the right order of ouput
-#line 21 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
-                    foreach (var i in new Range(0L, ((nbit - 1L) / 2L)))
+                    //swap all qubits for the right order for ouput
+#line 22 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+                    foreach (var i in new Range(0L, 1L, ((nbit - 1L) / 2L)))
                     {
-#line 23 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 24 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                         if ((i != ((nbit - 1L) - i)))
                         {
-#line 25 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 26 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                             MicrosoftQuantumPrimitiveSWAP.Apply((qs[i], qs[((nbit - 1L) - i)]));
                         }
                     }
@@ -106,9 +106,9 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 10 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                     var nbit = qs.Count;
-                    //swap all qubits for the right order of ouput
+                    //swap all qubits for the right order for ouput
                     foreach (var i in new Range((0L - (((((nbit - 1L) / 2L) - 0L) / 1L) * -(1L))), -(1L), 0L))
                     {
                         if ((i != ((nbit - 1L) - i)))
@@ -117,11 +117,11 @@ namespace qblas
                         }
                     }
 
-                    foreach (var i in new Range(((nbit - 1L) - (((0L - (nbit - 1L)) / 1L) * -(1L))), -(1L), (nbit - 1L)))
+                    foreach (var i in new Range(((nbit - 1L) - (((0L - (nbit - 1L)) / -(1L)) * -(-(1L)))), -(-(1L)), (nbit - 1L)))
                     {
-                        foreach (var j in new Range(((i - 1L) - (((0L - (i - 1L)) / 1L) * -(1L))), -(1L), (i - 1L)))
+                        foreach (var j in new Range(((i - 1L) - (((0L - (i - 1L)) / -(1L)) * -(-(1L)))), -(-(1L)), (i - 1L)))
                         {
-#line 16 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 17 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                             var k = ((i - j) + 1L);
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Adjoint.Apply((new QArray<Qubit>()
                             {qs[j]}, (2L, k, qs[i])));
@@ -154,10 +154,10 @@ namespace qblas
                 {
                     var (controlQubits,qs) = _args;
                     var nbit = qs.Count;
-                    foreach (var i in new Range((nbit - 1L), 0L))
+                    foreach (var i in new Range((nbit - 1L), -(1L), 0L))
                     {
                         MicrosoftQuantumPrimitiveH.Controlled.Apply((controlQubits, qs[i]));
-                        foreach (var j in new Range((i - 1L), 0L))
+                        foreach (var j in new Range((i - 1L), -(1L), 0L))
                         {
                             var k = ((i - j) + 1L);
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Controlled.Apply((controlQubits, (new QArray<Qubit>()
@@ -165,8 +165,8 @@ namespace qblas
                         }
                     }
 
-                    //swap all qubits for the right order of ouput
-                    foreach (var i in new Range(0L, ((nbit - 1L) / 2L)))
+                    //swap all qubits for the right order for ouput
+                    foreach (var i in new Range(0L, 1L, ((nbit - 1L) / 2L)))
                     {
                         if ((i != ((nbit - 1L) - i)))
                         {
@@ -198,7 +198,7 @@ namespace qblas
                 {
                     var (controlQubits,qs) = _args;
                     var nbit = qs.Count;
-                    //swap all qubits for the right order of ouput
+                    //swap all qubits for the right order for ouput
                     foreach (var i in new Range((0L - (((((nbit - 1L) / 2L) - 0L) / 1L) * -(1L))), -(1L), 0L))
                     {
                         if ((i != ((nbit - 1L) - i)))
@@ -207,9 +207,9 @@ namespace qblas
                         }
                     }
 
-                    foreach (var i in new Range(((nbit - 1L) - (((0L - (nbit - 1L)) / 1L) * -(1L))), -(1L), (nbit - 1L)))
+                    foreach (var i in new Range(((nbit - 1L) - (((0L - (nbit - 1L)) / -(1L)) * -(-(1L)))), -(-(1L)), (nbit - 1L)))
                     {
-                        foreach (var j in new Range(((i - 1L) - (((0L - (i - 1L)) / 1L) * -(1L))), -(1L), (i - 1L)))
+                        foreach (var j in new Range(((i - 1L) - (((0L - (i - 1L)) / -(1L)) * -(-(1L)))), -(-(1L)), (i - 1L)))
                         {
                             var k = ((i - j) + 1L);
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Adjoint.Controlled.Apply((controlQubits, (new QArray<Qubit>()
@@ -267,7 +267,7 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 37 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 38 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
                     q_fft_core.Apply(qs);
 #line hidden
                     return __result__;
