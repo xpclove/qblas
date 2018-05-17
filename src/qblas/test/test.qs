@@ -10,7 +10,7 @@
         {
 			using(qs=Qubit[10])
 			{
-				q_fft_core(qs);
+				q_fft(qs);
 			}
         }
     }

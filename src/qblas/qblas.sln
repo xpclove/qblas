@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qblas", "qblas\qblas.csproj", "{33B4DCB2-EAED-4346-B69A-456C7DCB3D88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "qblas", "qblas\qblas.csproj", "{33B4DCB2-EAED-4346-B69A-456C7DCB3D88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{B05B59C4-FF2F-44DB-91FD-AFF3DCAC2EBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test", "test\test.csproj", "{B05B59C4-FF2F-44DB-91FD-AFF3DCAC2EBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,6 +8,7 @@ namespace Quantum.test
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("start test!");
             using (var sim = new QuantumSimulator())
             {
                 // Try initial values

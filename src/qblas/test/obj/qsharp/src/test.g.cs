@@ -12,7 +12,7 @@ namespace Quantum.test
     {
         public test(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_fft_core) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_fft) };
         }
 
         public override Type[] Dependencies
@@ -36,11 +36,11 @@ namespace Quantum.test
             }
         }
 
-        protected IUnitary<QArray<Qubit>> qblasq_fft_core
+        protected IUnitary<QArray<Qubit>> qblasq_fft
         {
             get
             {
-                return this.Factory.Get<IUnitary<QArray<Qubit>>, qblas.q_fft_core>();
+                return this.Factory.Get<IUnitary<QArray<Qubit>>, qblas.q_fft>();
             }
         }
 
@@ -56,7 +56,7 @@ namespace Quantum.test
 #line 11 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     var qs = Allocate.Apply(10L);
 #line 13 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
-                    qblasq_fft_core.Apply(qs);
+                    qblasq_fft.Apply(qs);
 #line hidden
                     Release.Apply(qs);
 #line hidden
