@@ -11,7 +11,7 @@
 			mutable res=0.0;
 			using(qs=Qubit[10])
 			{
-				set res=q_vector_inner([1.0],[2.0],3,100);
+				set res=q_vector_inner([1.0],[2.0],5,100);
 				ResetAll(qs);
 				
 			}

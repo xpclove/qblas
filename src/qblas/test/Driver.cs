@@ -16,8 +16,8 @@ namespace Quantum.test
                     Result[] initials = new Result[] { Result.Zero, Result.One };
                     foreach (Result initial in initials)
                     {
-                        var res = test.Run(sim, 1.0).Result;
-                        
+                        var res = test.Run(sim, 1.0);
+                        Console.WriteLine(res.Result);
                     }
                 
             }

@@ -37,23 +37,19 @@
 						ResetAll(qs);
 					}
 					set p=Double(num_ones)*1.0/Double(N);
-					set inner=Sqrt( 1.0-2*p );
+					set inner= 2*p-1.0 ;
 				}
 				return (inner);
 			}
 		}
 
-		operation tee () : (Double)
+		operation q_vector_distance (u : Double[], v : Double[], n_qubit : Int, acc : Int) : (Double)
 		{
 			body
 			{
-				using(qs=Qubit[10])
-				{
-				 for ( i in 1..10 )
-				 {
-				 }
-				}
-				return (1.0);	
+				let inner=q_vector_inner(u,v,n_qubit,acc);
+				let distance=Sqrt(2.0-2.0*inner);
+				return (distance);	
 
 			}
 		}

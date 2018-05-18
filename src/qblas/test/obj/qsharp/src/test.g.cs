@@ -69,7 +69,7 @@ namespace Quantum.test
 #line 14 "/home/me/git/qblas/src/qblas/test/test.qs"
                     res = qblasq_vector_inner.Apply<Double>((new QArray<Double>()
                     {1D}, new QArray<Double>()
-                    {2D}, 3L, 100L));
+                    {2D}, 5L, 100L));
 #line 15 "/home/me/git/qblas/src/qblas/test/test.qs"
                     ResetAll.Apply(qs);
 #line hidden

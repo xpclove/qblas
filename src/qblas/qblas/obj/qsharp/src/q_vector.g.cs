@@ -6,7 +6,7 @@ using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_vector_creat (vector : Double[], qs : Qubit[]) : ()", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 237L, 9L, 3L)]
 [assembly: OperationDeclaration("qblas", "q_vector_inner (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 371L, 17L, 3L)]
-[assembly: OperationDeclaration("qblas", "tee () : Double", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 990L, 47L, 3L)]
+[assembly: OperationDeclaration("qblas", "q_vector_distance (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 1050L, 47L, 3L)]
 #line hidden
 namespace qblas
 {
@@ -196,11 +196,11 @@ namespace qblas
         }
     }
 
-    public class tee : Operation<QVoid, Double>
+    public class q_vector_distance : Operation<(QArray<Double>,QArray<Double>,Int64,Int64), Double>
     {
-        public tee(IOperationFactory m) : base(m)
+        public q_vector_distance(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Extensions.Math.Sqrt), typeof(qblas.q_vector_inner) };
         }
 
         public override Type[] Dependencies
@@ -208,58 +208,54 @@ namespace qblas
             get;
         }
 
-        protected Allocate Allocate
+        protected ICallable<Double, Double> MicrosoftQuantumExtensionsMathSqrt
         {
             get
             {
-                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+                return this.Factory.Get<ICallable<Double, Double>, Microsoft.Quantum.Extensions.Math.Sqrt>();
             }
         }
 
-        protected Release Release
+        protected ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double> q_vector_inner
         {
             get
             {
-                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+                return this.Factory.Get<ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double>, qblas.q_vector_inner>();
             }
         }
 
-        public override Func<QVoid, Double> Body
+        public override Func<(QArray<Double>,QArray<Double>,Int64,Int64), Double> Body
         {
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("qblas.tee", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_vector_distance", OperationFunctor.Body, _args);
                 var __result__ = default(Double);
                 try
                 {
+                    var (u,v,n_qubit,acc) = _args;
 #line 50 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
-                    var qs = Allocate.Apply(10L);
+                    var inner = q_vector_inner.Apply<Double>((u, v, n_qubit, acc));
+#line 51 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+                    var distance = MicrosoftQuantumExtensionsMathSqrt.Apply<Double>((2D - (2D * inner)));
+#line hidden
+                    __result__ = distance;
 #line 52 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
-                    foreach (var i in new Range(1L, 10L))
-                    {
-                    }
-
-#line hidden
-                    Release.Apply(qs);
-#line hidden
-                    __result__ = 1D;
-#line 56 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
                     return __result__;
                 }
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("qblas.tee", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_vector_distance", OperationFunctor.Body, __result__);
                 }
             }
 
             ;
         }
 
-        public static System.Threading.Tasks.Task<Double> Run(IOperationFactory __m__)
+        public static System.Threading.Tasks.Task<Double> Run(IOperationFactory __m__, QArray<Double> u, QArray<Double> v, Int64 n_qubit, Int64 acc)
         {
-            return __m__.Run<tee, QVoid, Double>(QVoid.Instance);
+            return __m__.Run<q_vector_distance, (QArray<Double>,QArray<Double>,Int64,Int64), Double>((u, v, n_qubit, acc));
         }
     }
 }
