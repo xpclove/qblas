@@ -4,16 +4,16 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 157L, 8L, 5L)]
-[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 293L, 19L, 14L)]
+[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : Double", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 163L, 8L, 5L)]
+[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 361L, 21L, 14L)]
 #line hidden
 namespace Quantum.test
 {
-    public class test : Operation<Double, QVoid>
+    public class test : Operation<Double, Double>
     {
         public test(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_fft) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_vector_inner) };
         }
 
         public override Type[] Dependencies
@@ -45,32 +45,38 @@ namespace Quantum.test
             }
         }
 
-        protected IUnitary<QArray<Qubit>> qblasq_fft
+        protected ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), QVoid> qblasq_vector_inner
         {
             get
             {
-                return this.Factory.Get<IUnitary<QArray<Qubit>>, qblas.q_fft>();
+                return this.Factory.Get<ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), QVoid>, qblas.q_vector_inner>();
             }
         }
 
-        public override Func<Double, QVoid> Body
+        public override Func<Double, Double> Body
         {
             get => (v) =>
             {
 #line hidden
                 this.Factory.StartOperation("Quantum.test.test", OperationFunctor.Body, v);
-                var __result__ = default(QVoid);
+                var __result__ = default(Double);
                 try
                 {
 #line 11 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    var res = 0D;
+#line 12 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     var qs = Allocate.Apply(10L);
-#line 13 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
-                    qblasq_fft.Apply(qs);
 #line 14 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    qblasq_vector_inner.Apply((new QArray<Double>()
+                    {1D}, new QArray<Double>()
+                    {2D}, 3L, 100L));
+#line 15 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     ResetAll.Apply(qs);
 #line hidden
                     Release.Apply(qs);
 #line hidden
+                    __result__ = res;
+#line 18 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     return __result__;
                 }
                 finally
@@ -83,9 +89,9 @@ namespace Quantum.test
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Double v)
+        public static System.Threading.Tasks.Task<Double> Run(IOperationFactory __m__, Double v)
         {
-            return __m__.Run<test, Double, QVoid>(v);
+            return __m__.Run<test, Double, Double>(v);
         }
     }
 
@@ -110,7 +116,7 @@ namespace Quantum.test
                 var __result__ = default(QVoid);
                 try
                 {
-#line 21 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 23 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     foreach (var i in new Range(-(1L), 0L))
                     {
                     }
