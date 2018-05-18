@@ -4,8 +4,8 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : Double", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 163L, 8L, 5L)]
-[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 361L, 21L, 14L)]
+[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/test/test.qs", 156L, 8L, 5L)]
+[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "/home/me/git/qblas/src/qblas/test/test.qs", 349L, 21L, 14L)]
 #line hidden
 namespace Quantum.test
 {
@@ -45,11 +45,11 @@ namespace Quantum.test
             }
         }
 
-        protected ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), QVoid> qblasq_vector_inner
+        protected ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double> qblasq_vector_inner
         {
             get
             {
-                return this.Factory.Get<ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), QVoid>, qblas.q_vector_inner>();
+                return this.Factory.Get<ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double>, qblas.q_vector_inner>();
             }
         }
 
@@ -62,21 +62,21 @@ namespace Quantum.test
                 var __result__ = default(Double);
                 try
                 {
-#line 11 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 11 "/home/me/git/qblas/src/qblas/test/test.qs"
                     var res = 0D;
-#line 12 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 12 "/home/me/git/qblas/src/qblas/test/test.qs"
                     var qs = Allocate.Apply(10L);
-#line 14 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
-                    qblasq_vector_inner.Apply((new QArray<Double>()
+#line 14 "/home/me/git/qblas/src/qblas/test/test.qs"
+                    res = qblasq_vector_inner.Apply<Double>((new QArray<Double>()
                     {1D}, new QArray<Double>()
                     {2D}, 3L, 100L));
-#line 15 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 15 "/home/me/git/qblas/src/qblas/test/test.qs"
                     ResetAll.Apply(qs);
 #line hidden
                     Release.Apply(qs);
 #line hidden
                     __result__ = res;
-#line 18 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 18 "/home/me/git/qblas/src/qblas/test/test.qs"
                     return __result__;
                 }
                 finally
@@ -116,7 +116,7 @@ namespace Quantum.test
                 var __result__ = default(QVoid);
                 try
                 {
-#line 23 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 23 "/home/me/git/qblas/src/qblas/test/test.qs"
                     foreach (var i in new Range(-(1L), 0L))
                     {
                     }

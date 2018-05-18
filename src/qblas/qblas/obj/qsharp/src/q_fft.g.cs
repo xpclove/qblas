@@ -4,8 +4,8 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_fft_core (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 168L, 8L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_fft (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs", 673L, 35L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_fft_core (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "/home/me/git/qblas/src/qblas/qblas/q_fft.qs", 161L, 8L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_fft (qs : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "/home/me/git/qblas/src/qblas/qblas/q_fft.qs", 639L, 35L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -54,32 +54,32 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 11 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                     var nbit = qs.Count;
-#line 12 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 12 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                     foreach (var i in new Range((nbit - 1L), -(1L), 0L))
                     {
-#line 14 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 14 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                         MicrosoftQuantumPrimitiveH.Apply(qs[i]);
-#line 15 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 15 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                         foreach (var j in new Range((i - 1L), -(1L), 0L))
                         {
-#line 17 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 17 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                             var k = ((i - j) + 1L);
-#line 18 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 18 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Apply((new QArray<Qubit>()
                             {qs[j]}, (2L, k, qs[i])));
                         }
                     }
 
                     //swap all qubits for the right order for ouput
-#line 22 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 22 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                     foreach (var i in new Range(0L, 1L, ((nbit - 1L) / 2L)))
                     {
-#line 24 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 24 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                         if ((i != ((nbit - 1L) - i)))
                         {
-#line 26 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 26 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                             MicrosoftQuantumPrimitiveSWAP.Apply((qs[i], qs[((nbit - 1L) - i)]));
                         }
                     }
@@ -106,7 +106,7 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 11 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                     var nbit = qs.Count;
                     //swap all qubits for the right order for ouput
                     foreach (var i in new Range((0L - (((((nbit - 1L) / 2L) - 0L) / 1L) * -(1L))), -(1L), 0L))
@@ -121,7 +121,7 @@ namespace qblas
                     {
                         foreach (var j in new Range(((i - 1L) - (((0L - (i - 1L)) / -(1L)) * -(-(1L)))), -(-(1L)), (i - 1L)))
                         {
-#line 17 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 17 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                             var k = ((i - j) + 1L);
                             MicrosoftQuantumPrimitiveR1Frac.Controlled.Adjoint.Apply((new QArray<Qubit>()
                             {qs[j]}, (2L, k, qs[i])));
@@ -267,7 +267,7 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-#line 38 "X:\\git\\qblas\\src\\qblas\\qblas\\q_fft.qs"
+#line 38 "/home/me/git/qblas/src/qblas/qblas/q_fft.qs"
                     q_fft_core.Apply(qs);
 #line hidden
                     return __result__;

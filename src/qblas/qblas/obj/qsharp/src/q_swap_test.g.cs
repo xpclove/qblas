@@ -4,7 +4,7 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_swap_test (control : Qubit, u : Qubit[], v : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs", 168L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_swap_test (control : Qubit, u : Qubit[], v : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs", 162L, 7L, 5L)]
 #line hidden
 namespace qblas
 {
@@ -46,19 +46,19 @@ namespace qblas
                 try
                 {
                     var (control,u,v) = _args;
-#line 10 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 10 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                     var nbit = u.Count;
-#line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 11 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                     MicrosoftQuantumPrimitiveH.Apply(control);
-#line 12 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 12 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                     foreach (var i in new Range(0L, 1L, (nbit - 1L)))
                     {
-#line 14 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 14 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                         MicrosoftQuantumPrimitiveSWAP.Controlled.Apply((new QArray<Qubit>()
                         {control}, (u[i], v[i])));
                     }
 
-#line 16 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 16 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                     MicrosoftQuantumPrimitiveH.Apply(control);
 #line hidden
                     return __result__;
@@ -83,7 +83,7 @@ namespace qblas
                 try
                 {
                     var (control,u,v) = _args;
-#line 10 "X:\\git\\qblas\\src\\qblas\\qblas\\q_swap_test.qs"
+#line 10 "/home/me/git/qblas/src/qblas/qblas/q_swap_test.qs"
                     var nbit = u.Count;
                     MicrosoftQuantumPrimitiveH.Adjoint.Apply(control);
                     foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))

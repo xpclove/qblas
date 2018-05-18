@@ -808,43 +808,35 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dell\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/home/me/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "X:\\git\\qblas\\src\\qblas\\test\\test.csproj",
+      "projectUniqueName": "/home/me/git/qblas/src/qblas/test/test.csproj",
       "projectName": "test",
-      "projectPath": "X:\\git\\qblas\\src\\qblas\\test\\test.csproj",
-      "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-      "outputPath": "X:\\git\\qblas\\src\\qblas\\test\\obj\\",
+      "projectPath": "/home/me/git/qblas/src/qblas/test/test.csproj",
+      "packagesPath": "/home/me/.nuget/packages/",
+      "outputPath": "/home/me/git/qblas/src/qblas/test/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "/home/me/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "X:\\git\\qblas\\src\\qblas\\qblas\\qblas.csproj": {
-              "projectPath": "X:\\git\\qblas\\src\\qblas\\qblas\\qblas.csproj"
+            "/home/me/git/qblas/src/qblas/qblas/qblas.csproj": {
+              "projectPath": "/home/me/git/qblas/src/qblas/qblas/qblas.csproj"
             }
           }
         }

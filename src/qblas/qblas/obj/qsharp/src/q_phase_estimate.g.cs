@@ -4,7 +4,7 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_phase_estimate (qs : Qubit[]) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_phase_estimate.qs", 150L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_phase_estimate (qs : Qubit[]) : ()", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs", 144L, 7L, 5L)]
 #line hidden
 namespace qblas
 {

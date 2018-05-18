@@ -12,7 +12,8 @@
 				H(qs[0]);
 			}
 		}
-		operation q_vector_inner (u:Double[],v:Double[],n_qubit:Int,acc:Int) : ()
+
+		operation q_vector_inner (u : Double[], v : Double[], n_qubit : Int, acc : Int) : (Double)
 		{
 			body
 			{
@@ -35,10 +36,25 @@
 						}
 						ResetAll(qs);
 					}
-				
+					set p=Double(num_ones)*1.0/Double(N);
+					set inner=Sqrt( 1.0-2*p );
 				}
-				set p=Double(num_ones)*1.0/Double(N);
-				set inner=Sqrt( (1.0-2*p) );
+				return (inner);
+			}
+		}
+
+		operation tee () : (Double)
+		{
+			body
+			{
+				using(qs=Qubit[10])
+				{
+				 for ( i in 1..10 )
+				 {
+				 }
+				}
+				return (1.0);	
+
 			}
 		}
 }
