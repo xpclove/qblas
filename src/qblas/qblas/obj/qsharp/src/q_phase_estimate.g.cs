@@ -4,7 +4,7 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_phase_estimate_core (U : Microsoft.Quantum.Canon.DiscreteOracle, qs_u : Qubit[], qs_phase : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs", 235L, 9L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_phase_estimate_core (U : Microsoft.Quantum.Canon.DiscreteOracle, qs_u : Qubit[], qs_phase : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs", 296L, 11L, 5L)]
 #line hidden
 namespace qblas
 {
@@ -62,23 +62,23 @@ namespace qblas
                 try
                 {
                     var (U,qs_u,qs_phase) = _args;
-#line 12 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
-                    var nbit = qs_phase.Count;
 #line 14 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
-                    MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_phase));
+                    var nbit = qs_phase.Count;
 #line 16 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+                    MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_phase));
+#line 18 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                     foreach (var i in new Range(0L, 1L, (nbit - 1L)))
                     {
-#line 18 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+#line 20 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                         var n = 2L.Pow(i);
-#line 19 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+#line 21 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                         U.Controlled.Apply((new QArray<Qubit>()
                         {qs_phase[i]}, (n, qs_u)));
                     }
 
-#line 22 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
-                    MicrosoftQuantumCanonSwapReverseRegister.Apply(qs_phase);
 #line 24 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+                    MicrosoftQuantumCanonSwapReverseRegister.Apply(qs_phase);
+#line 26 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                     q_fft.Adjoint.Apply(qs_phase);
 #line hidden
                     return __result__;
@@ -103,13 +103,13 @@ namespace qblas
                 try
                 {
                     var (U,qs_u,qs_phase) = _args;
-#line 12 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+#line 14 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                     var nbit = qs_phase.Count;
                     q_fft.Adjoint.Adjoint.Apply(qs_phase);
                     MicrosoftQuantumCanonSwapReverseRegister.Adjoint.Apply(qs_phase);
                     foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))
                     {
-#line 18 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
+#line 20 "/home/me/git/qblas/src/qblas/qblas/q_phase_estimate.qs"
                         var n = 2L.Pow(i);
                         U.Controlled.Adjoint.Apply((new QArray<Qubit>()
                         {qs_phase[i]}, (n, qs_u)));

@@ -50,7 +50,7 @@
 				let inner=q_vector_inner(u,v,n_qubit,acc);
 				let distance=Sqrt(2.0-2.0*inner);
 				return (distance);	
-
+ 
 			}
 		}
 }

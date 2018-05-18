@@ -3,7 +3,9 @@
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 
-    //LittleEndian Qubits
+    //  LittleEndian Qubits
+    //  U: 
+    //  qs_u: state,  qs_phase: control lines 
     operation q_phase_estimate_core (U : DiscreteOracle, 
                 qs_u:Qubit[], qs_phase : Qubit[] ) : ()
     {
