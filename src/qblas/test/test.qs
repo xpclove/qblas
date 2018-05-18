@@ -11,6 +11,8 @@
 			using(qs=Qubit[10])
 			{
 				q_fft(qs);
+				ResetAll(qs);
+				
 			}
         }
     }

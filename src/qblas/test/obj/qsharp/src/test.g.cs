@@ -5,7 +5,7 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("Quantum.test", "test (v : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 157L, 8L, 5L)]
-[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 268L, 17L, 14L)]
+[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 293L, 19L, 14L)]
 #line hidden
 namespace Quantum.test
 {
@@ -13,7 +13,7 @@ namespace Quantum.test
     {
         public test(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_fft) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_fft) };
         }
 
         public override Type[] Dependencies
@@ -34,6 +34,14 @@ namespace Quantum.test
             get
             {
                 return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected ICallable<QArray<Qubit>, QVoid> ResetAll
+        {
+            get
+            {
+                return this.Factory.Get<ICallable<QArray<Qubit>, QVoid>, Microsoft.Quantum.Primitive.ResetAll>();
             }
         }
 
@@ -58,6 +66,8 @@ namespace Quantum.test
                     var qs = Allocate.Apply(10L);
 #line 13 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     qblasq_fft.Apply(qs);
+#line 14 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    ResetAll.Apply(qs);
 #line hidden
                     Release.Apply(qs);
 #line hidden
@@ -100,7 +110,7 @@ namespace Quantum.test
                 var __result__ = default(QVoid);
                 try
                 {
-#line 19 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+#line 21 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     foreach (var i in new Range(-(1L), 0L))
                     {
                     }

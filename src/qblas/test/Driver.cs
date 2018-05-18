@@ -17,6 +17,7 @@ namespace Quantum.test
                     foreach (Result initial in initials)
                     {
                         var res = test.Run(sim, 1.0).Result;
+                        
                     }
                 
             }

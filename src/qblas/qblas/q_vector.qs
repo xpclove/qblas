@@ -1,13 +1,13 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Canon;
+		open Microsoft.Quantum.Primitive;
+		open Microsoft.Quantum.Canon;
 
-    operation creat () : ()
-    {
-        body
-        {
-            
-        }
-    }
+		operation q_vector_creat (vector:Double[],qs:Qubit[]) : ()
+		{
+			body
+			{
+				H(qs[0]);
+			}
+		}
 }
