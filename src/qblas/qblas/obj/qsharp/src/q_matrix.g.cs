@@ -4,7 +4,8 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_matrix () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 132L, 7L, 5L)]
+[assembly: UdtDeclaration("qblas", "q_matrix_1_sparse_oracle", "((Qubit[], Qubit[]) => () : Adjoint, Controlled)", "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 177L, 7L, 76L)]
+[assembly: OperationDeclaration("qblas", "q_matrix () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 308L, 11L, 5L)]
 #line hidden
 namespace qblas
 {

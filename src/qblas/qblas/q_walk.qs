@@ -43,7 +43,7 @@
 		controlled adjoint auto
 	}
 
-	operation q_walk_op_V ( matrix_A: ( (Qubit[],Qubit[]) => (): Controlled,Adjoint ), qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit ): ()
+	operation q_walk_op_V ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit ): ()
 	{
 		body
 		{
@@ -55,7 +55,7 @@
 	}
 
 
-	operation q_walk_simulation_1sparse  ( matrix_A: ( (Qubit[],Qubit[]) => (): Controlled,Adjoint ), qs_state: Qubit[], t: Double ): ()
+	operation q_walk_simulation_1_sparse  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
 	{
 		body
 		{
