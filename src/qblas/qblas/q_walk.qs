@@ -66,8 +66,8 @@
 				let qs_r=qs_tmp[nbit];
 				let qs_a=qs_state;
 				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
-				q_walk_simulation_T (qs_a,qs_b,qs_r,t);
-				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				        (q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
 			}
 		}
 	}
