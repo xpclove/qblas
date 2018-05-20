@@ -4,9 +4,9 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_vector_creat (vector : Double[], qs : Qubit[]) : ()", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 237L, 9L, 3L)]
-[assembly: OperationDeclaration("qblas", "q_vector_inner (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 371L, 17L, 3L)]
-[assembly: OperationDeclaration("qblas", "q_vector_distance (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/qblas/q_vector.qs", 1050L, 47L, 3L)]
+[assembly: OperationDeclaration("qblas", "q_vector_creat (vector : Double[], qs : Qubit[]) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs", 245L, 9L, 3L)]
+[assembly: OperationDeclaration("qblas", "q_vector_inner (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs", 387L, 17L, 3L)]
+[assembly: OperationDeclaration("qblas", "q_vector_distance (u : Double[], v : Double[], n_qubit : Int, acc : Int) : Double", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs", 1096L, 47L, 3L)]
 #line hidden
 namespace qblas
 {
@@ -40,7 +40,7 @@ namespace qblas
                 try
                 {
                     var (vector,qs) = _args;
-#line 12 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 12 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     MicrosoftQuantumPrimitiveH.Apply(qs[0L]);
 #line hidden
                     return __result__;
@@ -139,37 +139,37 @@ namespace qblas
                 try
                 {
                     var (u,v,n_qubit,acc) = _args;
-#line 20 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 20 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var N = acc;
-#line 21 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 21 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var num_ones = 0L;
-#line 22 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 22 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var p = 0D;
-#line 23 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 23 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var inner = 0D;
-#line 24 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 24 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var qs = Allocate.Apply(((n_qubit * 2L) + 1L));
-#line 26 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 26 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     foreach (var i in new Range(1L, N))
                     {
-#line 28 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 28 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         Reset.Apply(qs[0L]);
-#line 29 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 29 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         q_vector_creat.Apply((u, qs.Slice(new Range(1L, (n_qubit - 1L)))));
-#line 30 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 30 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         q_vector_creat.Apply((v, qs.Slice(new Range(n_qubit, (2L * n_qubit)))));
-#line 31 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 31 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         q_swap_test.Apply((qs[0L], qs.Slice(new Range(1L, (n_qubit - 1L))), qs.Slice(new Range(n_qubit, (2L * n_qubit)))));
-#line 32 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 32 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         var res = M.Apply<Result>(qs[0L]);
-#line 33 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 33 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         if ((res == Result.One))
                         {
-#line 35 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 35 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                             num_ones = (num_ones + 1L);
                         }
 
-#line 37 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 37 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                         ResetAll.Apply(qs);
                     }
 
@@ -177,7 +177,7 @@ namespace qblas
                     Release.Apply(qs);
 #line hidden
                     __result__ = inner;
-#line 42 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 42 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     return __result__;
                 }
                 finally
@@ -234,13 +234,13 @@ namespace qblas
                 try
                 {
                     var (u,v,n_qubit,acc) = _args;
-#line 50 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 50 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var inner = q_vector_inner.Apply<Double>((u, v, n_qubit, acc));
-#line 51 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 51 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     var distance = MicrosoftQuantumExtensionsMathSqrt.Apply<Double>((2D - (2D * inner)));
 #line hidden
                     __result__ = distance;
-#line 52 "/home/me/git/qblas/src/qblas/qblas/q_vector.qs"
+#line 52 "X:\\git\\qblas\\src\\qblas\\qblas\\q_vector.qs"
                     return __result__;
                 }
                 finally
