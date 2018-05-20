@@ -5,6 +5,7 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_walk_op_W (qs_a : Qubit[], qs_b : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 163L, 7L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 491L, 24L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -164,6 +165,226 @@ namespace qblas
         public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_a, QArray<Qubit> qs_b)
         {
             return __m__.Run<q_walk_op_W, (QArray<Qubit>,QArray<Qubit>), QVoid>((qs_a, qs_b));
+        }
+    }
+
+    public class q_walk_simulation_T : Unitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>
+    {
+        public q_walk_simulation_T(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.Rz), typeof(Microsoft.Quantum.Primitive.SWAP), typeof(qblas.q_walk_op_W) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(Double,Qubit)> MicrosoftQuantumPrimitiveRz
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(Double,Qubit)>, Microsoft.Quantum.Primitive.Rz>();
+            }
+        }
+
+        protected IUnitary<(Qubit,Qubit)> MicrosoftQuantumPrimitiveSWAP
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(Qubit,Qubit)>, Microsoft.Quantum.Primitive.SWAP>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>)> q_walk_op_W
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>)>, qblas.q_walk_op_W>();
+            }
+        }
+
+        public override Func<(QArray<Qubit>,QArray<Qubit>,Qubit,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_T", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (qs_a,qs_b,qs_r,t) = _args;
+#line 27 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_a.Count;
+#line 28 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply(1L);
+#line 30 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_bit = qs_tmp[0L];
+#line 31 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_W.Apply((qs_a, qs_b));
+#line 32 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    foreach (var i in new Range(0L, (nbit - 1L)))
+                    {
+#line 34 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                        MicrosoftQuantumPrimitiveSWAP.Controlled.Apply((new QArray<Qubit>()
+                        {qs_bit}, (qs_a[0L], qs_b[0L])));
+                    }
+
+#line 36 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    MicrosoftQuantumPrimitiveRz.Controlled.Apply((new QArray<Qubit>()
+                    {qs_r}, (t, qs_bit)));
+#line 37 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_W.Adjoint.Apply((qs_a, qs_b));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_T", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(QArray<Qubit>,QArray<Qubit>,Qubit,Double), QVoid> AdjointBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_T", OperationFunctor.Adjoint, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (qs_a,qs_b,qs_r,t) = _args;
+#line 27 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_a.Count;
+                    var qs_tmp = Allocate.Apply(1L);
+#line 30 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_bit = qs_tmp[0L];
+                    q_walk_op_W.Adjoint.Adjoint.Apply((qs_a, qs_b));
+                    MicrosoftQuantumPrimitiveRz.Controlled.Adjoint.Apply((new QArray<Qubit>()
+                    {qs_r}, (t, qs_bit)));
+                    foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))
+                    {
+                        MicrosoftQuantumPrimitiveSWAP.Controlled.Adjoint.Apply((new QArray<Qubit>()
+                        {qs_bit}, (qs_a[0L], qs_b[0L])));
+                    }
+
+                    q_walk_op_W.Adjoint.Apply((qs_a, qs_b));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_T", OperationFunctor.Adjoint, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(QArray<Qubit>,(QArray<Qubit>,QArray<Qubit>,Qubit,Double)), QVoid> ControlledBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_T", OperationFunctor.Controlled, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (controlQubits,(qs_a,qs_b,qs_r,t)) = _args;
+                    var nbit = qs_a.Count;
+                    var qs_tmp = Allocate.Apply(1L);
+                    var qs_bit = qs_tmp[0L];
+                    q_walk_op_W.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+                    foreach (var i in new Range(0L, (nbit - 1L)))
+                    {
+                        MicrosoftQuantumPrimitiveSWAP.Controlled.Controlled.Apply((controlQubits, (new QArray<Qubit>()
+                        {qs_bit}, (qs_a[0L], qs_b[0L]))));
+                    }
+
+                    MicrosoftQuantumPrimitiveRz.Controlled.Controlled.Apply((controlQubits, (new QArray<Qubit>()
+                    {qs_r}, (t, qs_bit))));
+                    q_walk_op_W.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_T", OperationFunctor.Controlled, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(QArray<Qubit>,(QArray<Qubit>,QArray<Qubit>,Qubit,Double)), QVoid> ControlledAdjointBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_T", OperationFunctor.ControlledAdjoint, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (controlQubits,(qs_a,qs_b,qs_r,t)) = _args;
+                    var nbit = qs_a.Count;
+                    var qs_tmp = Allocate.Apply(1L);
+                    var qs_bit = qs_tmp[0L];
+                    q_walk_op_W.Adjoint.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+                    MicrosoftQuantumPrimitiveRz.Controlled.Adjoint.Controlled.Apply((controlQubits, (new QArray<Qubit>()
+                    {qs_r}, (t, qs_bit))));
+                    foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))
+                    {
+                        MicrosoftQuantumPrimitiveSWAP.Controlled.Adjoint.Controlled.Apply((controlQubits, (new QArray<Qubit>()
+                        {qs_bit}, (qs_a[0L], qs_b[0L]))));
+                    }
+
+                    q_walk_op_W.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_T", OperationFunctor.ControlledAdjoint, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_a, QArray<Qubit> qs_b, Qubit qs_r, Double t)
+        {
+            return __m__.Run<q_walk_simulation_T, (QArray<Qubit>,QArray<Qubit>,Qubit,Double), QVoid>((qs_a, qs_b, qs_r, t));
         }
     }
 }
