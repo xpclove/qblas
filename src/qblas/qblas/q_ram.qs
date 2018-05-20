@@ -5,11 +5,11 @@ namespace qblas
     open Microsoft.Quantum.Canon;
 
 
-    operation q_ram_read (qs_address:Qubit[], qs_data:Qubit[] ) : ()
+    operation q_ram_call (qs_address:Qubit[], qs_data:Qubit[] ) : ()
     {
         body
         {
-            
+
             
         }
     }
