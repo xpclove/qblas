@@ -42,10 +42,33 @@
 		controlled auto
 		controlled adjoint auto
 	}
-	operation q_walk_simulation_1sparse(A: (Qubit[]=>()),t:Double )
+
+	operation q_walk_op_V ( matrix_A: ( (Qubit[],Qubit[]) => (): Controlled,Adjoint ), qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit ): ()
 	{
 		body
 		{
+			matrix_A(qs_a,qs_b);
+		}
+		adjoint auto
+		controlled auto		
+		controlled adjoint auto		
+	}
+
+
+	operation q_walk_simulation_1sparse  ( matrix_A: ( (Qubit[],Qubit[]) => (): Controlled,Adjoint ), qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				q_walk_simulation_T (qs_a,qs_b,qs_r,t);
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
 		}
 	}
 }
