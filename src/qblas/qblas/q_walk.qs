@@ -34,12 +34,18 @@
 					(Controlled SWAP) ([qs_bit], (qs_a[0],qs_b[0]) );
 				}
 				(Controlled Rz)( [qs_r], (t, qs_bit) );
-				( Adjoint q_walk_op_W ) (qs_a, qs_b);
+				(Adjoint q_walk_op_W ) (qs_a, qs_b);
 			}
             
         }
 		adjoint auto
 		controlled auto
 		controlled adjoint auto
+	}
+	operation q_walk_simulation_1sparse(A: (Qubit[]=>()),t:Double )
+	{
+		body
+		{
+		}
 	}
 }
