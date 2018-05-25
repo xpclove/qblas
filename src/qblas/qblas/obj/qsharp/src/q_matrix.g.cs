@@ -6,7 +6,7 @@ using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: UdtDeclaration("qblas", "q_matrix_1_sparse_oracle", "((Qubit[], Qubit[]) => () : Adjoint, Controlled)", "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 226L, 8L, 76L)]
 [assembly: OperationDeclaration("qblas", "q_matrix () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 357L, 12L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_matrix_simulation_densitymatrix_C (qs_control : Qubit, rho : Qubit[], sigma : Qubit[], t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 546L, 20L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_matrix_simulation_densitymatrix_C (qs_control : Qubit, qs_rho : Qubit[], qs_sigma : Qubit[], t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs", 552L, 20L, 5L)]
 #line hidden
 namespace qblas
 {
@@ -95,7 +95,7 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-                    var (qs_control,rho,sigma,t,err) = _args;
+                    var (qs_control,qs_rho,qs_sigma,t,err) = _args;
 #line 23 "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs"
                     var N_D = (MicrosoftQuantumExtensionsMathSqrt.Apply<Double>(t) / err);
 #line 24 "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs"
@@ -106,7 +106,7 @@ namespace qblas
                     foreach (var i in new Range(1L, 1L, N))
                     {
 #line 28 "X:\\git\\qblas\\src\\qblas\\qblas\\q_matrix.qs"
-                        q_walk_simulation_CSWAP.Apply((qs_control, rho, sigma, dt));
+                        q_walk_simulation_CSWAP.Apply((qs_control, qs_rho, qs_sigma, dt));
                     }
 
 #line hidden
@@ -122,9 +122,9 @@ namespace qblas
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> rho, QArray<Qubit> sigma, Double t, Double err)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_rho, QArray<Qubit> qs_sigma, Double t, Double err)
         {
-            return __m__.Run<q_matrix_simulation_densitymatrix_C, (Qubit,QArray<Qubit>,QArray<Qubit>,Double,Double), QVoid>((qs_control, rho, sigma, t, err));
+            return __m__.Run<q_matrix_simulation_densitymatrix_C, (Qubit,QArray<Qubit>,QArray<Qubit>,Double,Double), QVoid>((qs_control, qs_rho, qs_sigma, t, err));
         }
     }
 }
