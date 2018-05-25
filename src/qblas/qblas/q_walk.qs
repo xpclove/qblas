@@ -19,7 +19,7 @@
 		controlled auto
 		controlled adjoint auto
     }
-
+	// T = CSWAP
 	operation q_walk_simulation_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit, t:Double): ()
 	{	
 		body
@@ -43,6 +43,17 @@
 		controlled adjoint auto
 	}
 
+	operation q_walk_simulation_CSWAP(qs_control:Qubit, qs_a:Qubit[], qs_b:Qubit[], t:Double): ()
+	{
+		body
+		{
+			q_walk_simulation_T(qs_a,qs_b,qs_control,t);
+			
+		}
+		adjoint auto
+		controlled auto
+		controlled adjoint auto
+	}
 	operation q_walk_op_V ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit ): ()
 	{
 		body

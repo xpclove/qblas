@@ -5,9 +5,10 @@ using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_walk_op_W (qs_a : Qubit[], qs_b : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 163L, 7L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 491L, 24L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1027L, 47L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_1_sparse (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1261L, 59L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 504L, 24L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_CSWAP (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1026L, 47L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1278L, 58L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_1_sparse (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1512L, 70L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -390,6 +391,129 @@ namespace qblas
         }
     }
 
+    public class q_walk_simulation_CSWAP : Unitary<(Qubit,QArray<Qubit>,QArray<Qubit>,Double)>
+    {
+        public q_walk_simulation_CSWAP(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (qs_control,qs_a,qs_b,t) = _args;
+#line 50 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_control, t));
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid> AdjointBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Adjoint, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (qs_control,qs_a,qs_b,t) = _args;
+                    q_walk_simulation_T.Adjoint.Apply((qs_a, qs_b, qs_control, t));
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Adjoint, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(QArray<Qubit>,(Qubit,QArray<Qubit>,QArray<Qubit>,Double)), QVoid> ControlledBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Controlled, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (controlQubits,(qs_control,qs_a,qs_b,t)) = _args;
+                    q_walk_simulation_T.Controlled.Apply((controlQubits, (qs_a, qs_b, qs_control, t)));
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.Controlled, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public override Func<(QArray<Qubit>,(Qubit,QArray<Qubit>,QArray<Qubit>,Double)), QVoid> ControlledAdjointBody
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.ControlledAdjoint, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (controlQubits,(qs_control,qs_a,qs_b,t)) = _args;
+                    q_walk_simulation_T.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b, qs_control, t)));
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_CSWAP", OperationFunctor.ControlledAdjoint, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_a, QArray<Qubit> qs_b, Double t)
+        {
+            return __m__.Run<q_walk_simulation_CSWAP, (Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid>((qs_control, qs_a, qs_b, t));
+        }
+    }
+
     public class q_walk_op_V : Unitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>
     {
         public q_walk_op_V(IOperationFactory m) : base(m)
@@ -412,7 +536,7 @@ namespace qblas
                 try
                 {
                     var (matrix_A,qs_a,qs_b,qs_r) = _args;
-#line 50 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 61 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     matrix_A.Apply((qs_a, qs_b));
 #line hidden
                     return __result__;
@@ -559,21 +683,21 @@ namespace qblas
                 try
                 {
                     var (matrix_A,qs_state,t) = _args;
-#line 62 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 73 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var nbit = qs_state.Count;
-#line 63 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 74 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var qs_tmp = Allocate.Apply((nbit + 1L));
-#line 65 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 76 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
-#line 66 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 77 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var qs_r = qs_tmp[nbit];
-#line 67 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 78 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var qs_a = qs_state;
-#line 68 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 79 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
-#line 69 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 80 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
-#line 70 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+#line 81 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
 #line hidden
                     Release.Apply(qs_tmp);
