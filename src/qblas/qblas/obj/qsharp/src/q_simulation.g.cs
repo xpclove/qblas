@@ -4,17 +4,18 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("qblas", "q_simulation_swap (qs : Qubit[], time : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 166L, 7L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_swapA (qs_rho : Qubit[], qs_u : Qubit[]) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 353L, 17L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_u : Qubit[], time : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 478L, 26L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_C_Swap (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], time : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 247L, 8L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_C_densitymatrix (qs_control : Qubit, qs_rho : Qubit[], qs_sigma : Qubit[], t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 488L, 16L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_C_SwapA (qs_A : Qubit[], qs_rho : Qubit[], qs_u : Qubit[], dt : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 877L, 29L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_A : Qubit[], qs_u : Qubit[], time : Double, t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 1036L, 38L, 5L)]
 #line hidden
 namespace qblas
 {
-    public class q_simulation_swap : Operation<(QArray<Qubit>,Double), QVoid>
+    public class q_simulation_C_Swap : Operation<(Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid>
     {
-        public q_simulation_swap(IOperationFactory m) : base(m)
+        public q_simulation_C_Swap(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.H) };
+            this.Dependencies = new Type[] { typeof(qblas.q_walk_simulation_CSWAP) };
         }
 
         public override Type[] Dependencies
@@ -22,50 +23,118 @@ namespace qblas
             get;
         }
 
-        protected IUnitary<Qubit> MicrosoftQuantumPrimitiveH
+        protected IUnitary<(Qubit,QArray<Qubit>,QArray<Qubit>,Double)> q_walk_simulation_CSWAP
         {
             get
             {
-                return this.Factory.Get<IUnitary<Qubit>, Microsoft.Quantum.Primitive.H>();
+                return this.Factory.Get<IUnitary<(Qubit,QArray<Qubit>,QArray<Qubit>,Double)>, qblas.q_walk_simulation_CSWAP>();
             }
         }
 
-        public override Func<(QArray<Qubit>,Double), QVoid> Body
+        public override Func<(Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid> Body
         {
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("qblas.q_simulation_swap", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_simulation_C_Swap", OperationFunctor.Body, _args);
                 var __result__ = default(QVoid);
                 try
                 {
-                    var (qs,time) = _args;
-#line 10 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    var nbit = (qs.Count / 2L);
+                    var (qs_control,qs_a,qs_b,time) = _args;
 #line 11 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    MicrosoftQuantumPrimitiveH.Apply(qs[0L]);
+                    q_walk_simulation_CSWAP.Apply((qs_control, qs_a, qs_b, time));
 #line hidden
                     return __result__;
                 }
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("qblas.q_simulation_swap", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_simulation_C_Swap", OperationFunctor.Body, __result__);
                 }
             }
 
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs, Double time)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_a, QArray<Qubit> qs_b, Double time)
         {
-            return __m__.Run<q_simulation_swap, (QArray<Qubit>,Double), QVoid>((qs, time));
+            return __m__.Run<q_simulation_C_Swap, (Qubit,QArray<Qubit>,QArray<Qubit>,Double), QVoid>((qs_control, qs_a, qs_b, time));
         }
     }
 
-    public class q_simulation_swapA : Operation<(QArray<Qubit>,QArray<Qubit>), QVoid>
+    public class q_simulation_C_densitymatrix : Operation<(Qubit,QArray<Qubit>,QArray<Qubit>,Double,Double), QVoid>
     {
-        public q_simulation_swapA(IOperationFactory m) : base(m)
+        public q_simulation_C_densitymatrix(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Extensions.Math.Ceiling), typeof(qblas.q_walk_simulation_CSWAP) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected ICallable<Double, Int64> MicrosoftQuantumExtensionsMathCeiling
+        {
+            get
+            {
+                return this.Factory.Get<ICallable<Double, Int64>, Microsoft.Quantum.Extensions.Math.Ceiling>();
+            }
+        }
+
+        protected IUnitary<(Qubit,QArray<Qubit>,QArray<Qubit>,Double)> q_walk_simulation_CSWAP
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(Qubit,QArray<Qubit>,QArray<Qubit>,Double)>, qblas.q_walk_simulation_CSWAP>();
+            }
+        }
+
+        public override Func<(Qubit,QArray<Qubit>,QArray<Qubit>,Double,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_simulation_C_densitymatrix", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (qs_control,qs_rho,qs_sigma,t,err) = _args;
+#line 19 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var N_D = ((t * t) / err);
+#line 20 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var dt = (t / N_D);
+#line 21 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var N = MicrosoftQuantumExtensionsMathCeiling.Apply<Int64>(N_D);
+#line 22 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    foreach (var i in new Range(1L, 1L, N))
+                    {
+#line 24 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        q_walk_simulation_CSWAP.Apply((qs_control, qs_rho, qs_sigma, dt));
+                    }
+
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_simulation_C_densitymatrix", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_rho, QArray<Qubit> qs_sigma, Double t, Double err)
+        {
+            return __m__.Run<q_simulation_C_densitymatrix, (Qubit,QArray<Qubit>,QArray<Qubit>,Double,Double), QVoid>((qs_control, qs_rho, qs_sigma, t, err));
+        }
+    }
+
+    public class q_simulation_C_SwapA : Operation<(QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid>
+    {
+        public q_simulation_C_SwapA(IOperationFactory m) : base(m)
         {
             this.Dependencies = new Type[] { };
         }
@@ -75,40 +144,40 @@ namespace qblas
             get;
         }
 
-        public override Func<(QArray<Qubit>,QArray<Qubit>), QVoid> Body
+        public override Func<(QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid> Body
         {
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("qblas.q_simulation_swapA", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_simulation_C_SwapA", OperationFunctor.Body, _args);
                 var __result__ = default(QVoid);
                 try
                 {
-                    var (qs_rho,qs_u) = _args;
+                    var (qs_A,qs_rho,qs_u,dt) = _args;
 #line hidden
                     return __result__;
                 }
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("qblas.q_simulation_swapA", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_simulation_C_SwapA", OperationFunctor.Body, __result__);
                 }
             }
 
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_rho, QArray<Qubit> qs_u)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_A, QArray<Qubit> qs_rho, QArray<Qubit> qs_u, Double dt)
         {
-            return __m__.Run<q_simulation_swapA, (QArray<Qubit>,QArray<Qubit>), QVoid>((qs_rho, qs_u));
+            return __m__.Run<q_simulation_C_SwapA, (QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid>((qs_A, qs_rho, qs_u, dt));
         }
     }
 
-    public class q_simulation_A : Operation<(QArray<Qubit>,Double), QVoid>
+    public class q_simulation_A : Operation<(QArray<Qubit>,QArray<Qubit>,Double,Double,Double), QVoid>
     {
         public q_simulation_A(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Canon.ApplyToEachCA<>), typeof(Microsoft.Quantum.Primitive.H), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_simulation_swapA) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Canon.ApplyToEachCA<>), typeof(Microsoft.Quantum.Extensions.Math.Ceiling), typeof(Microsoft.Quantum.Primitive.H), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_simulation_C_SwapA) };
         }
 
         public override Type[] Dependencies
@@ -129,6 +198,14 @@ namespace qblas
             get
             {
                 return new GenericOperation(this.Factory, typeof(Microsoft.Quantum.Canon.ApplyToEachCA<>));
+            }
+        }
+
+        protected ICallable<Double, Int64> MicrosoftQuantumExtensionsMathCeiling
+        {
+            get
+            {
+                return this.Factory.Get<ICallable<Double, Int64>, Microsoft.Quantum.Extensions.Math.Ceiling>();
             }
         }
 
@@ -156,15 +233,15 @@ namespace qblas
             }
         }
 
-        protected ICallable<(QArray<Qubit>,QArray<Qubit>), QVoid> q_simulation_swapA
+        protected ICallable<(QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid> q_simulation_C_SwapA
         {
             get
             {
-                return this.Factory.Get<ICallable<(QArray<Qubit>,QArray<Qubit>), QVoid>, qblas.q_simulation_swapA>();
+                return this.Factory.Get<ICallable<(QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid>, qblas.q_simulation_C_SwapA>();
             }
         }
 
-        public override Func<(QArray<Qubit>,Double), QVoid> Body
+        public override Func<(QArray<Qubit>,QArray<Qubit>,Double,Double,Double), QVoid> Body
         {
             get => (_args) =>
             {
@@ -173,17 +250,28 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-                    var (qs_u,time) = _args;
-#line 29 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var (qs_A,qs_u,time,t,err) = _args;
+#line 41 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
                     var nbit = qs_u.Count;
-#line 30 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+#line 42 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
                     var qs_rho = Allocate.Apply(nbit);
-#line 32 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    ResetAll.Apply(qs_rho);
-#line 33 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_rho));
-#line 34 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    q_simulation_swapA.Apply((qs_rho, qs_u));
+#line 44 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var N_D = ((t * t) / err);
+#line 45 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var dt = (t / N_D);
+#line 46 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var N = MicrosoftQuantumExtensionsMathCeiling.Apply<Int64>(N_D);
+#line 47 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    foreach (var i in new Range(1L, 1L, N))
+                    {
+#line 49 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        ResetAll.Apply(qs_rho);
+#line 50 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_rho));
+#line 51 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        q_simulation_C_SwapA.Apply((qs_A, qs_rho, qs_u, dt));
+                    }
+
 #line hidden
                     Release.Apply(qs_rho);
 #line hidden
@@ -199,9 +287,9 @@ namespace qblas
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_u, Double time)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, QArray<Qubit> qs_A, QArray<Qubit> qs_u, Double time, Double t, Double err)
         {
-            return __m__.Run<q_simulation_A, (QArray<Qubit>,Double), QVoid>((qs_u, time));
+            return __m__.Run<q_simulation_A, (QArray<Qubit>,QArray<Qubit>,Double,Double,Double), QVoid>((qs_A, qs_u, time, t, err));
         }
     }
 }
