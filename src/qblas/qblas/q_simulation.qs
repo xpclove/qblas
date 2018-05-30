@@ -25,7 +25,7 @@
             }
         }
     }
-    operation q_simulation_C_SwapA (qs_A: Qubit[], qs_rho:Qubit[], qs_u: Qubit[], dt:Double) : ()
+    operation q_simulation_C_SwapA (qs_control:Qubit, qs_A: Qubit[], qs_rho:Qubit[], qs_u: Qubit[], dt:Double) : ()
     {
         body
         {   
@@ -34,7 +34,7 @@
         }
     }
 
-    operation q_simulation_A( qs_A:Qubit[], qs_u: Qubit[], time: Double, t:Double,err:Double) : ()
+    operation q_simulation_A( qs_control:Qubit, qs_A:Qubit[], qs_u: Qubit[], time: Double, t:Double,err:Double) : ()
     {
         body
         {
@@ -48,7 +48,7 @@
                 {
                     ResetAll(qs_rho);
                     ApplyToEachCA (H, qs_rho);
-                    q_simulation_C_SwapA(qs_A, qs_rho,qs_u, dt);
+                    q_simulation_C_SwapA(qs_control, qs_A, qs_rho,qs_u, dt);
                 }
             }
 
