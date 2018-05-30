@@ -25,7 +25,7 @@
             }
         }
     }
-    operation q_simulation_C_SwapA (qs_control:Qubit, qs_A: Qubit[], qs_rho:Qubit[], qs_u: Qubit[], dt:Double) : ()
+    operation q_simulation_C_SwapA (qs_control:Qubit, qs_SA: Qubit[], qs_rho:Qubit[], qs_u: Qubit[], dt:Double) : ()
     {
         body
         {   
