@@ -47,7 +47,7 @@
                 for( i in 1..1..N)
                 {
                     ResetAll(qs_rho);
-                    ApplyToEachCA ( H, qs_rho);
+                    ApplyToEachCA (H, qs_rho);
                     q_simulation_C_SwapA(qs_A, qs_rho,qs_u, dt);
                 }
             }
