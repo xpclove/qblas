@@ -6,9 +6,9 @@ using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_walk_op_W (qs_a : Qubit[], qs_b : Qubit[]) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 163L, 7L, 5L)]
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 504L, 24L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_CSWAP (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1026L, 47L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1281L, 59L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_1_sparse (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1515L, 71L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_CSWAP (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1010L, 47L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1265L, 59L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_1_sparse (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1499L, 71L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -175,7 +175,7 @@ namespace qblas
     {
         public q_walk_simulation_T(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.Rz), typeof(Microsoft.Quantum.Primitive.SWAP), typeof(qblas.q_walk_op_W) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.CCNOT), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.Rz), typeof(qblas.q_walk_op_W) };
         }
 
         public override Type[] Dependencies
@@ -188,6 +188,14 @@ namespace qblas
             get
             {
                 return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected IUnitary<(Qubit,Qubit,Qubit)> MicrosoftQuantumPrimitiveCCNOT
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(Qubit,Qubit,Qubit)>, Microsoft.Quantum.Primitive.CCNOT>();
             }
         }
 
@@ -204,14 +212,6 @@ namespace qblas
             get
             {
                 return this.Factory.Get<IUnitary<(Double,Qubit)>, Microsoft.Quantum.Primitive.Rz>();
-            }
-        }
-
-        protected IUnitary<(Qubit,Qubit)> MicrosoftQuantumPrimitiveSWAP
-        {
-            get
-            {
-                return this.Factory.Get<IUnitary<(Qubit,Qubit)>, Microsoft.Quantum.Primitive.SWAP>();
             }
         }
 
@@ -245,8 +245,7 @@ namespace qblas
                     foreach (var i in new Range(0L, (nbit - 1L)))
                     {
 #line 34 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
-                        MicrosoftQuantumPrimitiveSWAP.Controlled.Apply((new QArray<Qubit>()
-                        {qs_bit}, (qs_a[0L], qs_b[0L])));
+                        MicrosoftQuantumPrimitiveCCNOT.Apply((qs_a[0L], qs_b[0L], qs_bit));
                     }
 
 #line 36 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
@@ -289,8 +288,7 @@ namespace qblas
                     {qs_r}, (t, qs_bit)));
                     foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))
                     {
-                        MicrosoftQuantumPrimitiveSWAP.Controlled.Adjoint.Apply((new QArray<Qubit>()
-                        {qs_bit}, (qs_a[0L], qs_b[0L])));
+                        MicrosoftQuantumPrimitiveCCNOT.Adjoint.Apply((qs_a[0L], qs_b[0L], qs_bit));
                     }
 
                     q_walk_op_W.Adjoint.Apply((qs_a, qs_b));
@@ -325,8 +323,7 @@ namespace qblas
                     q_walk_op_W.Controlled.Apply((controlQubits, (qs_a, qs_b)));
                     foreach (var i in new Range(0L, (nbit - 1L)))
                     {
-                        MicrosoftQuantumPrimitiveSWAP.Controlled.Controlled.Apply((controlQubits, (new QArray<Qubit>()
-                        {qs_bit}, (qs_a[0L], qs_b[0L]))));
+                        MicrosoftQuantumPrimitiveCCNOT.Controlled.Apply((controlQubits, (qs_a[0L], qs_b[0L], qs_bit)));
                     }
 
                     MicrosoftQuantumPrimitiveRz.Controlled.Controlled.Apply((controlQubits, (new QArray<Qubit>()
@@ -365,8 +362,7 @@ namespace qblas
                     {qs_r}, (t, qs_bit))));
                     foreach (var i in new Range((0L - ((((nbit - 1L) - 0L) / 1L) * -(1L))), -(1L), 0L))
                     {
-                        MicrosoftQuantumPrimitiveSWAP.Controlled.Adjoint.Controlled.Apply((controlQubits, (new QArray<Qubit>()
-                        {qs_bit}, (qs_a[0L], qs_b[0L]))));
+                        MicrosoftQuantumPrimitiveCCNOT.Adjoint.Controlled.Apply((controlQubits, (qs_a[0L], qs_b[0L], qs_bit)));
                     }
 
                     q_walk_op_W.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b)));
