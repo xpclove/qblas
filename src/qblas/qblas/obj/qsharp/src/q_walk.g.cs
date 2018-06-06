@@ -8,7 +8,12 @@ using Microsoft.Quantum.MetaData.Attributes;
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 504L, 24L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_CSWAP (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1010L, 47L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1265L, 59L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_1_sparse (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1499L, 71L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_bool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1511L, 71L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_integer (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1978L, 87L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_real (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2443L, 103L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagebool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2913L, 119L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imageinterger (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3387L, 135L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagereal (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3857L, 151L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -625,9 +630,9 @@ namespace qblas
         }
     }
 
-    public class q_walk_simulation_1_sparse : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    public class q_walk_simulation_matrix_1_sparse_bool : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
     {
-        public q_walk_simulation_1_sparse(IOperationFactory m) : base(m)
+        public q_walk_simulation_matrix_1_sparse_bool(IOperationFactory m) : base(m)
         {
             this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
         }
@@ -674,7 +679,7 @@ namespace qblas
             get => (_args) =>
             {
 #line hidden
-                this.Factory.StartOperation("qblas.q_walk_simulation_1_sparse", OperationFunctor.Body, _args);
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_bool", OperationFunctor.Body, _args);
                 var __result__ = default(QVoid);
                 try
                 {
@@ -690,11 +695,11 @@ namespace qblas
 #line 79 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     var qs_a = qs_state;
 #line 80 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
-                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
 #line 81 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
                     q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
 #line 82 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
-                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
 #line hidden
                     Release.Apply(qs_tmp);
 #line hidden
@@ -703,7 +708,7 @@ namespace qblas
                 finally
                 {
 #line hidden
-                    this.Factory.EndOperation("qblas.q_walk_simulation_1_sparse", OperationFunctor.Body, __result__);
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_bool", OperationFunctor.Body, __result__);
                 }
             }
 
@@ -712,7 +717,462 @@ namespace qblas
 
         public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
         {
-            return __m__.Run<q_walk_simulation_1_sparse, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_bool, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+        }
+    }
+
+    public class q_walk_simulation_matrix_1_sparse_integer : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    {
+        public q_walk_simulation_matrix_1_sparse_integer(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)> q_walk_op_V
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>, qblas.q_walk_op_V>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(IUnitary,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_integer", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (matrix_A,qs_state,t) = _args;
+#line 90 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_state.Count;
+#line 91 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply((nbit + 1L));
+#line 93 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
+#line 94 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_r = qs_tmp[nbit];
+#line 95 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_a = qs_state;
+#line 96 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line 97 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
+#line 98 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_integer", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
+        {
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_integer, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+        }
+    }
+
+    public class q_walk_simulation_matrix_1_sparse_real : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    {
+        public q_walk_simulation_matrix_1_sparse_real(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)> q_walk_op_V
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>, qblas.q_walk_op_V>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(IUnitary,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_real", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (matrix_A,qs_state,t) = _args;
+#line 106 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_state.Count;
+#line 107 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply((nbit + 1L));
+#line 109 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
+#line 110 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_r = qs_tmp[nbit];
+#line 111 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_a = qs_state;
+#line 112 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line 113 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
+#line 114 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_real", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
+        {
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_real, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+        }
+    }
+
+    public class q_walk_simulation_matrix_1_sparse_imagebool : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    {
+        public q_walk_simulation_matrix_1_sparse_imagebool(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)> q_walk_op_V
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>, qblas.q_walk_op_V>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(IUnitary,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_imagebool", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (matrix_A,qs_state,t) = _args;
+#line 122 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_state.Count;
+#line 123 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply((nbit + 1L));
+#line 125 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
+#line 126 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_r = qs_tmp[nbit];
+#line 127 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_a = qs_state;
+#line 128 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line 129 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
+#line 130 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_imagebool", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
+        {
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_imagebool, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+        }
+    }
+
+    public class q_walk_simulation_matrix_1_sparse_imageinterger : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    {
+        public q_walk_simulation_matrix_1_sparse_imageinterger(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)> q_walk_op_V
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>, qblas.q_walk_op_V>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(IUnitary,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_imageinterger", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (matrix_A,qs_state,t) = _args;
+#line 138 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_state.Count;
+#line 139 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply((nbit + 1L));
+#line 141 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
+#line 142 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_r = qs_tmp[nbit];
+#line 143 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_a = qs_state;
+#line 144 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line 145 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
+#line 146 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_imageinterger", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
+        {
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_imageinterger, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
+        }
+    }
+
+    public class q_walk_simulation_matrix_1_sparse_imagereal : Operation<(IUnitary,QArray<Qubit>,Double), QVoid>
+    {
+        public q_walk_simulation_matrix_1_sparse_imagereal(IOperationFactory m) : base(m)
+        {
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(qblas.q_walk_op_V), typeof(qblas.q_walk_simulation_T) };
+        }
+
+        public override Type[] Dependencies
+        {
+            get;
+        }
+
+        protected Allocate Allocate
+        {
+            get
+            {
+                return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected Release Release
+        {
+            get
+            {
+                return this.Factory.Get<Release, Microsoft.Quantum.Primitive.Release>();
+            }
+        }
+
+        protected IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)> q_walk_op_V
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(IUnitary,QArray<Qubit>,QArray<Qubit>,Qubit)>, qblas.q_walk_op_V>();
+            }
+        }
+
+        protected IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)> q_walk_simulation_T
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<(QArray<Qubit>,QArray<Qubit>,Qubit,Double)>, qblas.q_walk_simulation_T>();
+            }
+        }
+
+        public override Func<(IUnitary,QArray<Qubit>,Double), QVoid> Body
+        {
+            get => (_args) =>
+            {
+#line hidden
+                this.Factory.StartOperation("qblas.q_walk_simulation_matrix_1_sparse_imagereal", OperationFunctor.Body, _args);
+                var __result__ = default(QVoid);
+                try
+                {
+                    var (matrix_A,qs_state,t) = _args;
+#line 154 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var nbit = qs_state.Count;
+#line 155 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_tmp = Allocate.Apply((nbit + 1L));
+#line 157 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_b = qs_tmp.Slice(new Range(0L, (nbit - 1L)));
+#line 158 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_r = qs_tmp[nbit];
+#line 159 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    var qs_a = qs_state;
+#line 160 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line 161 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_simulation_T.Apply((qs_a, qs_b, qs_r, t));
+#line 162 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
+                    q_walk_op_V.Adjoint.Apply((matrix_A, qs_a, qs_b, qs_r));
+#line hidden
+                    Release.Apply(qs_tmp);
+#line hidden
+                    return __result__;
+                }
+                finally
+                {
+#line hidden
+                    this.Factory.EndOperation("qblas.q_walk_simulation_matrix_1_sparse_imagereal", OperationFunctor.Body, __result__);
+                }
+            }
+
+            ;
+        }
+
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, IUnitary matrix_A, QArray<Qubit> qs_state, Double t)
+        {
+            return __m__.Run<q_walk_simulation_matrix_1_sparse_imagereal, (IUnitary,QArray<Qubit>,Double), QVoid>((matrix_A, qs_state, t));
         }
     }
 }
