@@ -6,8 +6,8 @@ using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_simulation_C_Swap (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], time : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 247L, 8L, 5L)]
 [assembly: OperationDeclaration("qblas", "q_simulation_C_densitymatrix (qs_control : Qubit, qs_rho : Qubit[], qs_sigma : Qubit[], t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 488L, 16L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_C_SwapA (qs_control : Qubit, qs_A : Qubit[], qs_rho : Qubit[], qs_u : Qubit[], dt : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 895L, 29L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_control : Qubit, qs_A : Qubit[], qs_u : Qubit[], time : Double, t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 1072L, 38L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_C_SwapA (qs_control : Qubit, qs_SA : Qubit[], qs_rho : Qubit[], qs_u : Qubit[], dt : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 896L, 29L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_control : Qubit, qs_A : Qubit[], qs_u : Qubit[], time : Double, t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 1073L, 38L, 5L)]
 #line hidden
 namespace qblas
 {
@@ -153,7 +153,7 @@ namespace qblas
                 var __result__ = default(QVoid);
                 try
                 {
-                    var (qs_control,qs_A,qs_rho,qs_u,dt) = _args;
+                    var (qs_control,qs_SA,qs_rho,qs_u,dt) = _args;
 #line hidden
                     return __result__;
                 }
@@ -167,9 +167,9 @@ namespace qblas
             ;
         }
 
-        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_A, QArray<Qubit> qs_rho, QArray<Qubit> qs_u, Double dt)
+        public static System.Threading.Tasks.Task<QVoid> Run(IOperationFactory __m__, Qubit qs_control, QArray<Qubit> qs_SA, QArray<Qubit> qs_rho, QArray<Qubit> qs_u, Double dt)
         {
-            return __m__.Run<q_simulation_C_SwapA, (Qubit,QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid>((qs_control, qs_A, qs_rho, qs_u, dt));
+            return __m__.Run<q_simulation_C_SwapA, (Qubit,QArray<Qubit>,QArray<Qubit>,QArray<Qubit>,Double), QVoid>((qs_control, qs_SA, qs_rho, qs_u, dt));
         }
     }
 

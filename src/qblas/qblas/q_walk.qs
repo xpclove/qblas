@@ -67,7 +67,7 @@
 	}
 
 
-	operation q_walk_simulation_1_sparse  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	operation q_walk_simulation_matrix_1_sparse_bool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
 	{
 		body
 		{
@@ -77,10 +77,107 @@
 				let qs_b=qs_tmp[0..(nbit-1)];
 				let qs_r=qs_tmp[nbit];
 				let qs_a=qs_state;
-				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
 				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
-				        (q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
 			}
 		}
 	}
+	operation q_walk_simulation_matrix_1_sparse_integer  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+		operation q_walk_simulation_matrix_1_sparse_real  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+		operation q_walk_simulation_matrix_1_sparse_real  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+		operation q_walk_simulation_matrix_1_sparse_imagebool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+		operation q_walk_simulation_matrix_1_sparse_imageinterger  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+		operation q_walk_simulation_matrix_1_sparse_imagereal  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			using(qs_tmp=Qubit[nbit+1])
+			{
+				let qs_b=qs_tmp[0..(nbit-1)];
+				let qs_r=qs_tmp[nbit];
+				let qs_a=qs_state;
+				(q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);
+				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(Adjoint q_walk_op_V) (matrix_A,qs_a,qs_b,qs_r);				
+			}
+		}
+	}
+	
 }
