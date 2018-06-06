@@ -10,10 +10,10 @@ using Microsoft.Quantum.MetaData.Attributes;
 [assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1265L, 59L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_bool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1511L, 71L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_integer (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1978L, 87L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_real (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2443L, 103L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagebool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2913L, 119L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imageinterger (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3387L, 135L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagereal (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3857L, 151L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_real (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2442L, 103L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagebool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2911L, 119L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imageinterger (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3384L, 135L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagereal (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3853L, 151L, 2L)]
 #line hidden
 namespace qblas
 {
