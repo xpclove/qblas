@@ -29,37 +29,37 @@
 			mutable rec = 0;
 			using(qs_tmp=Qubit[2])
 			{
-				ResetAll(qs_tmp)
+				ResetAll(qs_tmp);
 				bell_state_creat(qs_tmp);
-				let qs_alice = qs[1];
-				let qs_bob = qs[0];
+				let qs_alice = qs_tmp[0];
+				let qs_bob = qs_tmp[1];
 				// Alice operate
 				if(snd == 0){
 					I(qs_alice);
 				}
 				elif(snd == 1){
-					X(qs_alice);
+					Z(qs_alice);
 				}
 				elif(snd == 2){
-					Z(qs_alice);
+					X(qs_alice);
 				}
 				elif(snd == 3){
 					Z(qs_alice);
 					X(qs_alice);
 				}
-				//Bob measurement
+				//Bob operaton and measurement
+				(Adjoint bell_state_creat) (qs_tmp);
 				for(i in 0..1..Length(qs_tmp)-1)
 				{	
 					let r = M(qs_tmp[i]);
 					if( r == One )
 					{
-						set res = res+(2^i);
+						set rec = rec+(2^i);
 					}
 				};
-				ResetAll(qs);
+				ResetAll(qs_tmp);
 			}
-			return(rec)
-		
+			return(rec);
 		}
 	}
 }

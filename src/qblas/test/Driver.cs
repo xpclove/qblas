@@ -19,9 +19,9 @@ namespace Quantum.test
                 //    var res = test.Run(sim, 1.0);
                 //    Console.WriteLine(res.Result);
                 //}
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    var res = test.Run(sim, 1.0);
+                    var res = test_qs_tele.Run(sim, i);
                     Console.WriteLine(res.Result);
                 }
 

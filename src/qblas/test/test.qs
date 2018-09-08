@@ -4,6 +4,16 @@
     open Microsoft.Quantum.Canon;
 	open qblas;
 
+	operation test_qs_tele(snd:Int) : (Int)
+	{
+		body
+		{
+			mutable rec = 0;
+			set rec = q_tele_dense_coding_1(snd);
+			return(rec);
+		}
+	}
+
     operation test (v:Double) : (Int)
     {
         body
