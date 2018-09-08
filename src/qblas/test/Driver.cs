@@ -14,12 +14,17 @@ namespace Quantum.test
 
                 // Try initial values
                     Result[] initials = new Result[] { Result.Zero, Result.One };
-                    foreach (Result initial in initials)
-                    {
-                        var res = test.Run(sim, 1.0);
-                        Console.WriteLine(res.Result);
-                    }
-                
+                //foreach (Result initial in initials)
+                //{
+                //    var res = test.Run(sim, 1.0);
+                //    Console.WriteLine(res.Result);
+                //}
+                for (int i = 0; i < 30; i++)
+                {
+                    var res = test.Run(sim, 1.0);
+                    Console.WriteLine(res.Result);
+                }
+
             }
 
             Console.WriteLine("hello qsharp!");

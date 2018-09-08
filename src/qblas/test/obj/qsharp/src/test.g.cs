@@ -4,16 +4,16 @@ using Microsoft.Quantum.Primitive;
 using Microsoft.Quantum.Simulation.Core;
 using Microsoft.Quantum.MetaData.Attributes;
 
-[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : Double", new string[] { }, "/home/me/git/qblas/src/qblas/test/test.qs", 156L, 8L, 5L)]
-[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "/home/me/git/qblas/src/qblas/test/test.qs", 349L, 21L, 14L)]
+[assembly: OperationDeclaration("Quantum.test", "test (v : Double) : Int", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 160L, 8L, 5L)]
+[assembly: FunctionDeclaration("Quantum.test", "t () : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\test\\test.qs", 766L, 41L, 14L)]
 #line hidden
 namespace Quantum.test
 {
-    public class test : Operation<Double, Double>
+    public class test : Operation<Double, Int64>
     {
         public test(IOperationFactory m) : base(m)
         {
-            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(qblas.q_vector_inner) };
+            this.Dependencies = new Type[] { typeof(Microsoft.Quantum.Primitive.Allocate), typeof(Microsoft.Quantum.Primitive.M), typeof(Microsoft.Quantum.Primitive.Release), typeof(Microsoft.Quantum.Primitive.ResetAll), typeof(Microsoft.Quantum.Primitive.X), typeof(qblas.q_fft) };
         }
 
         public override Type[] Dependencies
@@ -26,6 +26,14 @@ namespace Quantum.test
             get
             {
                 return this.Factory.Get<Allocate, Microsoft.Quantum.Primitive.Allocate>();
+            }
+        }
+
+        protected ICallable<Qubit, Result> M
+        {
+            get
+            {
+                return this.Factory.Get<ICallable<Qubit, Result>, Microsoft.Quantum.Primitive.M>();
             }
         }
 
@@ -45,38 +53,77 @@ namespace Quantum.test
             }
         }
 
-        protected ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double> qblasq_vector_inner
+        protected IUnitary<Qubit> MicrosoftQuantumPrimitiveX
         {
             get
             {
-                return this.Factory.Get<ICallable<(QArray<Double>,QArray<Double>,Int64,Int64), Double>, qblas.q_vector_inner>();
+                return this.Factory.Get<IUnitary<Qubit>, Microsoft.Quantum.Primitive.X>();
             }
         }
 
-        public override Func<Double, Double> Body
+        protected IUnitary<QArray<Qubit>> qblasq_fft
+        {
+            get
+            {
+                return this.Factory.Get<IUnitary<QArray<Qubit>>, qblas.q_fft>();
+            }
+        }
+
+        public override Func<Double, Int64> Body
         {
             get => (v) =>
             {
 #line hidden
                 this.Factory.StartOperation("Quantum.test.test", OperationFunctor.Body, v);
-                var __result__ = default(Double);
+                var __result__ = default(Int64);
                 try
                 {
-#line 11 "/home/me/git/qblas/src/qblas/test/test.qs"
-                    var res = 0D;
-#line 12 "/home/me/git/qblas/src/qblas/test/test.qs"
-                    var qs = Allocate.Apply(10L);
-#line 14 "/home/me/git/qblas/src/qblas/test/test.qs"
-                    res = qblasq_vector_inner.Apply<Double>((new QArray<Double>()
-                    {1D}, new QArray<Double>()
-                    {2D}, 5L, 100L));
-#line 15 "/home/me/git/qblas/src/qblas/test/test.qs"
+#line 11 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    var res = 0L;
+#line 12 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    var qs = Allocate.Apply(4L);
+                    //set res=q_vector_inner([1.0],[2.0],5,100);
+#line 16 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    MicrosoftQuantumPrimitiveX.Apply(qs[0L]);
+                    //X(qs[1]);
+#line 18 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    qblasq_fft.Apply(qs);
+                    //				SWAP(qs[0],qs[3]);
+#line 20 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    qblasq_fft.Adjoint.Apply(qs.Slice(new Range(0L, 1L)));
+#line 21 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    MicrosoftQuantumPrimitiveX.Apply(qs[1L]);
+#line 22 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    MicrosoftQuantumPrimitiveX.Apply(qs[0L]);
+                    //Z(qs[0]);
+#line 24 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    qblasq_fft.Apply(qs.Slice(new Range(0L, 1L)));
+                    //Z(qs[1]);
+                    //(Controlled Y)([qs[0]],qs[1]);
+#line 27 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    qblasq_fft.Adjoint.Apply(qs);
+#line 28 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                    foreach (var i in new Range(0L, 1L, (qs.Count - 1L)))
+                    {
+#line 30 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                        var r = M.Apply<Result>(qs[i]);
+#line 31 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                        if ((r == Result.One))
+                        {
+#line 33 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
+                            res = (res + 10L.Pow(i));
+                        }
+                    }
+
+                    //;
+#line 36 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     ResetAll.Apply(qs);
 #line hidden
                     Release.Apply(qs);
 #line hidden
                     __result__ = res;
-#line 18 "/home/me/git/qblas/src/qblas/test/test.qs"
+                    //;
+#line 38 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     return __result__;
                 }
                 finally
@@ -89,9 +136,9 @@ namespace Quantum.test
             ;
         }
 
-        public static System.Threading.Tasks.Task<Double> Run(IOperationFactory __m__, Double v)
+        public static System.Threading.Tasks.Task<Int64> Run(IOperationFactory __m__, Double v)
         {
-            return __m__.Run<test, Double, Double>(v);
+            return __m__.Run<test, Double, Int64>(v);
         }
     }
 
@@ -116,7 +163,7 @@ namespace Quantum.test
                 var __result__ = default(QVoid);
                 try
                 {
-#line 23 "/home/me/git/qblas/src/qblas/test/test.qs"
+#line 43 "X:\\git\\qblas\\src\\qblas\\test\\test.qs"
                     foreach (var i in new Range(-(1L), 0L))
                     {
                     }
