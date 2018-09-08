@@ -7,8 +7,8 @@
 	{
 		body
 		{
-			H(qs[0]);
-			CNOT(qs[0],qs[1]);
+			H(qs[1]);
+			CNOT(qs[1],qs[0]);
 		}
 		adjoint auto
 		controlled auto
@@ -31,17 +31,17 @@
 			{
 				ResetAll(qs_tmp);
 				bell_state_creat(qs_tmp);
-				let qs_alice = qs_tmp[0];
-				let qs_bob = qs_tmp[1];
+				let qs_alice = qs_tmp[1];
+				let qs_bob = qs_tmp[0];
 				// Alice operate
 				if(snd == 0){
 					I(qs_alice);
 				}
 				elif(snd == 1){
-					Z(qs_alice);
+					X(qs_alice);
 				}
 				elif(snd == 2){
-					X(qs_alice);
+					Z(qs_alice);
 				}
 				elif(snd == 3){
 					Z(qs_alice);
