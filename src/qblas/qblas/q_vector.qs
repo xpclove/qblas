@@ -5,11 +5,12 @@
 		open Microsoft.Quantum.Extensions.Convert;
 		open Microsoft.Quantum.Extensions.Math;
 
-		operation q_vector_creat (vector:Double[],qs:Qubit[]) : ()
+		operation q_vector_creat (vector:ComplexPolar[],qs:Qubit[]) : ()
 		{
 			body
 			{
-				H(qs[0]);
+				// us Q# Library, PrepareArbitraryState()
+				PrepareArbitraryState(vector,qs);
 			}
 		}
 
