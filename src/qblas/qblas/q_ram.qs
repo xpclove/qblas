@@ -22,7 +22,9 @@ namespace qblas
                 }
             }
         }
+		adjoint auto
 		controlled auto
+		controlled adjoint auto
     }
     operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[] ) : ()
     {
@@ -39,6 +41,13 @@ namespace qblas
                     if(next_address != 0)
                     {
                         for( j in 0..(n_a-1) )
+						{
+							let bit =2^j;
+							if ( i&&&bit !=0)
+							{
+							
+							}
+						}
 
                     }
                 }
