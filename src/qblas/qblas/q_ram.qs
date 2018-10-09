@@ -3,9 +3,9 @@ namespace qblas
     open Microsoft.Quantum.Primitive;
     
     open Microsoft.Quantum.Canon;
-
-
-    operation q_ram_call (qs_address:Qubit[], qs_data:Qubit[] ) : ()
+    
+    //模拟量子内存
+    operation q_ram_call ( ram:ComplexPlar[], qs_address:Qubit[], qs_data:Qubit[] ) : ()
     {
         body
         {
