@@ -8,12 +8,12 @@ using Microsoft.Quantum.MetaData.Attributes;
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_T (qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit, t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 504L, 24L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_simulation_CSWAP (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], t : Double) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1010L, 47L, 2L)]
 [assembly: OperationDeclaration("qblas", "q_walk_op_V (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : ()", new string[] { "Controlled", "Adjoint" }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1265L, 59L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_bool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1511L, 71L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_integer (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1978L, 87L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_real (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2442L, 103L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagebool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2911L, 119L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imageinterger (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3384L, 135L, 2L)]
-[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagereal (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3853L, 151L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_bool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1517L, 71L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_integer (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 1984L, 87L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_real (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2448L, 103L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagebool (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 2917L, 119L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imageinterger (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3390L, 135L, 2L)]
+[assembly: OperationDeclaration("qblas", "q_walk_simulation_matrix_1_sparse_imagereal (matrix_A : qblas.q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs", 3859L, 151L, 2L)]
 #line hidden
 namespace qblas
 {
@@ -538,7 +538,7 @@ namespace qblas
                 {
                     var (matrix_A,qs_a,qs_b,qs_r) = _args;
 #line 62 "X:\\git\\qblas\\src\\qblas\\qblas\\q_walk.qs"
-                    matrix_A.Apply((qs_a, qs_b));
+                    matrix_A.Apply((qs_a, qs_b, qs_r));
 #line hidden
                     return __result__;
                 }
@@ -562,7 +562,7 @@ namespace qblas
                 try
                 {
                     var (matrix_A,qs_a,qs_b,qs_r) = _args;
-                    matrix_A.Adjoint.Apply((qs_a, qs_b));
+                    matrix_A.Adjoint.Apply((qs_a, qs_b, qs_r));
 #line hidden
                     return __result__;
                 }
@@ -586,7 +586,7 @@ namespace qblas
                 try
                 {
                     var (controlQubits,(matrix_A,qs_a,qs_b,qs_r)) = _args;
-                    matrix_A.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+                    matrix_A.Controlled.Apply((controlQubits, (qs_a, qs_b, qs_r)));
 #line hidden
                     return __result__;
                 }
@@ -610,7 +610,7 @@ namespace qblas
                 try
                 {
                     var (controlQubits,(matrix_A,qs_a,qs_b,qs_r)) = _args;
-                    matrix_A.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b)));
+                    matrix_A.Adjoint.Controlled.Apply((controlQubits, (qs_a, qs_b, qs_r)));
 #line hidden
                     return __result__;
                 }

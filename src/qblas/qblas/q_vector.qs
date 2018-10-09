@@ -10,11 +10,12 @@
 			body
 			{
 				// us Q# Library, PrepareArbitraryState()
-				PrepareArbitraryState(vector,qs);
+				PrepareArbitraryState( vector, qs );
+				
 			}
 		}
 
-		operation q_vector_inner (u : Double[], v : Double[], n_qubit : Int, acc : Int) : (Double)
+		operation q_vector_inner (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
 		{
 			body
 			{
@@ -44,12 +45,12 @@
 			}
 		}
 
-		operation q_vector_distance (u : Double[], v : Double[], n_qubit : Int, acc : Int) : (Double)
+		operation q_vector_distance (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
 		{
 			body
 			{
 				let inner=q_vector_inner(u,v,n_qubit,acc);
-				let distance=Sqrt(2.0-2.0*inner);
+				let distance=Sqrt(2.0-2.0 * inner);
 				return (distance);	
  
 			}

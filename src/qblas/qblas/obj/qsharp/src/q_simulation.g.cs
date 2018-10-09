@@ -6,8 +6,8 @@ using Microsoft.Quantum.MetaData.Attributes;
 
 [assembly: OperationDeclaration("qblas", "q_simulation_C_Swap (qs_control : Qubit, qs_a : Qubit[], qs_b : Qubit[], time : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 247L, 8L, 5L)]
 [assembly: OperationDeclaration("qblas", "q_simulation_C_densitymatrix (qs_control : Qubit, qs_rho : Qubit[], qs_sigma : Qubit[], t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 488L, 16L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_C_SwapA (qs_control : Qubit, qs_SA : Qubit[], qs_rho : Qubit[], qs_u : Qubit[], dt : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 896L, 29L, 5L)]
-[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_control : Qubit, qs_A : Qubit[], qs_u : Qubit[], time : Double, t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 1073L, 38L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_C_SwapA (qs_control : Qubit, qs_SA : Qubit[], qs_rho : Qubit[], qs_u : Qubit[], dt : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 997L, 32L, 5L)]
+[assembly: OperationDeclaration("qblas", "q_simulation_A (qs_control : Qubit, qs_A : Qubit[], qs_u : Qubit[], time : Double, t : Double, err : Double) : ()", new string[] { }, "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs", 1172L, 40L, 5L)]
 #line hidden
 namespace qblas
 {
@@ -251,24 +251,24 @@ namespace qblas
                 try
                 {
                     var (qs_control,qs_A,qs_u,time,t,err) = _args;
-#line 41 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+#line 43 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
                     var nbit = qs_u.Count;
-#line 42 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    var qs_rho = Allocate.Apply(nbit);
 #line 44 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    var N_D = ((t * t) / err);
-#line 45 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    var dt = (t / N_D);
+                    var qs_rho = Allocate.Apply(nbit);
 #line 46 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                    var N = MicrosoftQuantumExtensionsMathCeiling.Apply<Int64>(N_D);
+                    var N_D = ((t * t) / err);
 #line 47 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var dt = (t / N_D);
+#line 48 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                    var N = MicrosoftQuantumExtensionsMathCeiling.Apply<Int64>(N_D);
+#line 49 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
                     foreach (var i in new Range(1L, 1L, N))
                     {
-#line 49 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                        ResetAll.Apply(qs_rho);
-#line 50 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
-                        MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_rho));
 #line 51 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        ResetAll.Apply(qs_rho);
+#line 52 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
+                        MicrosoftQuantumCanonApplyToEachCA.Apply((((IUnitary)MicrosoftQuantumPrimitiveH), qs_rho));
+#line 53 "X:\\git\\qblas\\src\\qblas\\qblas\\q_simulation.qs"
                         q_simulation_C_SwapA.Apply((qs_control, qs_A, qs_rho, qs_u, dt));
                     }
 

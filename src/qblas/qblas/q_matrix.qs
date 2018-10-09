@@ -8,7 +8,7 @@
 
     //1 sparse matrix oracle, input Qubit[]: address, Qubit[]: data, |a>|c>
     // 1-稀疏矩阵如何存储： 只保存非0矩阵元，|x>|y>|element>形式
-    newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[]) => (): Adjoint,Controlled ) ;
+    newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit) => (): Adjoint,Controlled ) ;
 
     operation q_matrix () : ()
     {
@@ -17,7 +17,7 @@
             
         }
     }
-    
+
     // _C 表示受控版本
     operation q_matrix_simulation_densitymatrix_C(qs_control:Qubit, qs_rho:Qubit[], qs_sigma:Qubit[], t:Double, err:Double): ()
     {

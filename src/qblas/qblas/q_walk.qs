@@ -59,7 +59,7 @@
 	{
 		body
 		{
-			matrix_A(qs_a,qs_b);
+			matrix_A(qs_a,qs_b, qs_r);
 		}
 		adjoint auto
 		controlled auto		
