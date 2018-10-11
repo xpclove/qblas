@@ -35,8 +35,7 @@ namespace qblas
             let N_RAM = Length(RAM);
             let n_a = Length(qs_address);
             let n_d = Length(qs_data);
-            using(qs_tmp = Qubit[n_a])
-            {
+            
                 for(i in 0..(N_RAM-1) )
                 {
                         let next_address = RAM[i];
@@ -61,7 +60,6 @@ namespace qblas
 							}
 						}
                 }
-            }
         }
 
 		adjoint auto
