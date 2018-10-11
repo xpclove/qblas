@@ -27,7 +27,7 @@ namespace qblas
     }
 
     //模拟读取量子内存 RAM[qs_address] = qs_data
-	// |qs_address>|0>	->	|qs_address>|qs_data>	
+	// |qs_address>|qs_data>	->	 |qs_address>|RAM[qs_address]>	
     operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[] ) : ()
     {
         body
@@ -40,6 +40,7 @@ namespace qblas
                 for(i in 0..(N_RAM-1) )
                 {
                         let next_address = RAM[i];
+                        
                         for( j in 0..(n_a-1) )
 						{
 							let bit = 2^j;
@@ -62,7 +63,7 @@ namespace qblas
                 }
             }
         }
-        
+
 		adjoint auto
 		controlled auto
 		controlled adjoint auto
