@@ -6,8 +6,7 @@ namespace qblas
 
     newtype ComplexPolar = (Double, Double);
     
-    //模拟读取量子内存 RAM[qs_address] = qs_data
-    //qs_data 处于0态
+    //qs_data 处于|0>态, 制备到 |data> 基矢态
     operation q_ram_qstoint(qs_data:Qubit[], data:Int) : ()
     {
         body
@@ -26,6 +25,9 @@ namespace qblas
 		controlled auto
 		controlled adjoint auto
     }
+
+    //模拟读取量子内存 RAM[qs_address] = qs_data
+	// |qs_address>|0>	->	|qs_address>|qs_data>	
     operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[] ) : ()
     {
         body
@@ -37,22 +39,33 @@ namespace qblas
             {
                 for(i in 0..(N_RAM-1) )
                 {
-                    let next_address = RAM[i];
-                    if(next_address != 0)
-                    {
+                        let next_address = RAM[i];
                         for( j in 0..(n_a-1) )
 						{
-							let bit =2^j;
-							if ( i&&&bit !=0)
+							let bit = 2^j;
+							if ( (i&&&bit) == 0 )
 							{
-							
+                                X (qs_address[j]);
 							}
 						}
 
-                    }
+						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
+
+                        for( j in 0..(n_a-1) )
+						{
+							let bit = 2^j;
+							if ( (i&&&bit) == 0 )
+							{
+                                X (qs_address[j]);
+							}
+						}
                 }
             }
         }
+        
+		adjoint auto
+		controlled auto
+		controlled adjoint auto
     }
     
 }
