@@ -11,8 +11,8 @@ namespace qblas
     {
         body
         {
-            let n_q = Length(qs_data);
-            for(i in 0..n_q-1 )
+            let n_d = Length(qs_data);
+            for(i in 0..n_d-1 )
             {
                 let bit = 2^i;
                 if ( (data&&&bit) != 0)
