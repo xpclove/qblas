@@ -27,8 +27,8 @@ namespace qblas
     }
 
     //模拟读取量子内存 RAM[qs_address] = qs_data
-	// |qs_address>|qs_data>	->	 |qs_address>|RAM[qs_address]>	
-    operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[] ) : ()
+	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
+    operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
     {
         body
         {
@@ -59,6 +59,8 @@ namespace qblas
                                 X (qs_address[j]);
 							}
 						}
+
+                        X (qs_r);
                 }
         }
 
