@@ -50,6 +50,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
+                        X (qs_r);
 
                         for( j in 0..(n_a-1) )
 						{
@@ -60,7 +61,6 @@ namespace qblas
 							}
 						}
 
-                        X (qs_r);
                 }
         }
 
