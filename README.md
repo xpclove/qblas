@@ -12,6 +12,6 @@ Xiaopeng Cui, Department of Physics，Fudan University
 
 Shanghai,China
 
-email: xpclove@gamil.com
+Email: xpclove@gamil.com
 
 
