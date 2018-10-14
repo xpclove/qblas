@@ -5,6 +5,9 @@ namespace qblas
     open Microsoft.Quantum.Canon;
 
     newtype ComplexPolar = (Double, Double);
+    newtype QBLAS_M_Int  = (Int,Int);
+    newtype QBLAS_M_Real  = (Int,Double);
+
     
     //qs_data 处于|0>态, 制备到 |data> 基矢态
     operation q_ram_qstoint(qs_data:Qubit[], data:Int) : ()
@@ -69,7 +72,7 @@ namespace qblas
     }
 
 
-     operation q_ram_call_integer ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
+     operation q_ram_call_integer ( RAM : QBLAS_M_Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit[] ) : ()
     {
         body
         {
@@ -79,7 +82,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let next_address = RAM[i];
+                        let (next_address, weight) = RAM[i];
                         
                         for( j in 0..(n_a-1) )
 						{
@@ -91,7 +94,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        X (qs_r);
+                        (Controlled q_ram_qstoint) ( qs_address, (qs_r ,weight ) );
 
                         for( j in 0..(n_a-1) )
 						{
@@ -109,7 +112,7 @@ namespace qblas
 		controlled adjoint auto
     }
     
-     operation q_ram_call_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
+     operation q_ram_call_real ( RAM : QBLAS_M_Real[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit[] ) : ()
     {
         body
         {
@@ -119,7 +122,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let next_address = RAM[i];
+                        let (next_address, weight) = RAM[i];
                         
                         for( j in 0..(n_a-1) )
 						{
@@ -131,7 +134,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        X (qs_r);
+                        // (Controlled q_ram_qstoint) ( qs_address, (qs_data , weight) );
 
                         for( j in 0..(n_a-1) )
 						{
