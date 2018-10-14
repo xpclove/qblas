@@ -6,7 +6,7 @@ namespace qblas
 
     newtype ComplexPolar = (Double, Double);
     newtype QBLAS_M_Int  = (Int,Int);
-    newtype QBLAS_M_Real  = (Int,Double);
+    newtype QBLAS_M_Real  = (Int,Int);
 
     
     //qs_data 处于|0>态, 制备到 |data> 基矢态
@@ -134,7 +134,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        // (Controlled q_ram_qstoint) ( qs_address, (qs_data , weight) );
+                        (Controlled q_ram_qstoint) ( qs_address, (qs_data , weight) );
 
                         for( j in 0..(n_a-1) )
 						{
