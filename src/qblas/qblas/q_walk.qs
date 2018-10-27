@@ -236,7 +236,7 @@
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
 				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
 				(q_walk_simulation_Y) (qs_weight, t);
-				(q_walk_simulation_sF) (qs_weight[1..nbit-1], t, 0);
+				(q_walk_simulation_F_p) (qs_weight[1..nbit-1], t, 0);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
@@ -255,7 +255,7 @@
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
 				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
 				(q_walk_simulation_Y) (qs_weight, t);
-				(q_walk_simulation_sF) (qs_weight[1..nbit-1], t, 2);
+				(q_walk_simulation_F_p) (qs_weight[1..nbit-1], t, 2);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}

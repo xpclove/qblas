@@ -15,16 +15,14 @@
 
 
 
-    function q_matrix_convert(ram:(Int,Double)[]) : (QBLAS_M_Weight[])
+    function q_matrix_convert(ram:(Int,Int)[]) : (QBLAS_M_Weight[])
     {
         let n = Length(ram);
         mutable  RAM = new QBLAS_M_Weight [n];
         for(i in 0..n-1)
         {
             let (v,w) = ram[i];
-            mutable rw = 0;
-            if ( w > 0.0 ) {set rw = 1;}
-            set RAM[i] = QBLAS_M_Weight(v,rw);
+            set RAM[i] = QBLAS_M_Weight(v,w);
         }
         return (RAM);
     }
