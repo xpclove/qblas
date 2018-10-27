@@ -33,7 +33,7 @@
 				{
 					CCNOT ( qs_a[0],qs_b[0],qs_bit );
 				}
-				(Controlled Rz)( [qs_r], (t, qs_bit) );
+				(Controlled Rz)( [qs_r], (2*t, qs_bit) );
 				(Adjoint q_walk_op_W ) (qs_a, qs_b);
 			}
             
