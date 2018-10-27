@@ -21,7 +21,7 @@ namespace Quantum.test
                 //}
                 for (int i = 0; i < 4; i++)
                 {
-                    var res = test_qs_tele.Run(sim, i);
+                    var res = test_qwalk.Run(sim, i);
                     Console.WriteLine(res.Result);
                 }
 

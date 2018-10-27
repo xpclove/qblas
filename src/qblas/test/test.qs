@@ -4,6 +4,20 @@
     open Microsoft.Quantum.Canon;
 	open qblas;
 
+	operation test_qwalk(s:Int):(Int)
+	{
+		body
+		{
+			using(qs =Qubit[2])
+			{
+				mutable m = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test );
+				q_walk_simulation_matrix_1_sparse_bool (m, qs, 3.0);
+
+			}
+			return (0);
+		}
+	}
+
 	operation test_qs_tele(snd:Int) : (Int)
 	{
 		body
