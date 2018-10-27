@@ -10,7 +10,7 @@ namespace qblas
 
     
     //qs_data 处于|0>态, 制备到 |data> 基矢态
-    operation q_ram_qstoint(qs_data:Qubit[], data:Int) : ()
+    operation q_ram_function_assignment_int(qs_data:Qubit[], data:Int) : ()
     {
         body
         {
@@ -29,6 +29,24 @@ namespace qblas
 		controlled adjoint auto
     }
 
+    // //寻址操作
+    // operation q_ram_addressing ( qs_address:Qubit[] ) : ()
+    // {
+    //     let n_a = Length(qs_address);
+    //     body
+    //     {
+    //         for( j in 0..(n_a-1) )
+    //         {
+    //             let bit = 2^j;
+    //             if ( (i&&&bit) == 0 )
+    //             {
+    //                 X (qs_address[j]);
+    //             }
+    //         }
+    //     }
+    // }
+
+
     //模拟读取量子内存 RAM[qs_address] = qs_data
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
     operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
@@ -36,33 +54,35 @@ namespace qblas
         body
         {
             let N_RAM = Length(RAM);
-            let n_a = Length(qs_address);
             let n_d = Length(qs_data);
+            let n_a = Length(qs_address);
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let next_address = RAM[i];
-                        
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+                    let next_address = RAM[i];
 
-						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        X (qs_r);
+                    // do 寻址
+                    for( j in 0..(n_a-1) )
+                    {
+                        let bit = 2^j;
+                        if ( (i&&&bit) == 0 )
+                        {
+                            X (qs_address[j]);
+                        }
+                    }
 
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
+                    X (qs_r);
+
+                    // undo 寻址
+                    for( j in 0..(n_a-1) )
+                    {
+                        let bit = 2^j;
+                        if ( (i&&&bit) == 0 )
+                        {
+                            X (qs_address[j]);
+                        }
+                    }
 
                 }
         }
@@ -93,8 +113,8 @@ namespace qblas
 							}
 						}
 
-						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        (Controlled q_ram_qstoint) ( qs_address, (qs_r ,weight ) );
+						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_r ,weight ) );
 
                         for( j in 0..(n_a-1) )
 						{
@@ -133,8 +153,8 @@ namespace qblas
 							}
 						}
 
-						(Controlled q_ram_qstoint) ( qs_address, (qs_data , next_address) );
-                        (Controlled q_ram_qstoint) ( qs_address, (qs_data , weight) );
+						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , weight) );
 
                         for( j in 0..(n_a-1) )
 						{
