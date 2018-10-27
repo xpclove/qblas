@@ -11,23 +11,23 @@
     // |vertex>|0>|0>   ->  |vertex>|netxt-vertex>|weight>
     newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[]) => (): Adjoint,Controlled ) ;
 
-    operation q_matrix_1_sparse_bool_test( qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
+    operation q_matrix_1_sparse_bool_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
             let RAM = [1;0;2];
-            q_ram_call_bool(RAM, qs_address, qs_data, qs_r);
+            q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
 		controlled auto
 		controlled adjoint auto
     }
-    operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
+    operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
             let RAM = [1;0;2];
-            q_ram_call_bool(RAM, qs_address, qs_data, qs_r);
+            q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
 		controlled auto

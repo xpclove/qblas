@@ -10,7 +10,7 @@
 			body
 			{
 				// us Q# Library, PrepareArbitraryState()
-				PrepareArbitraryState( vector, qs );
+				// PrepareArbitraryState( vector, qs );
 				
 			}
 		}
