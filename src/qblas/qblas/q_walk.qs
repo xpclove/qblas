@@ -2,6 +2,7 @@
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+	open Microsoft.Quantum.Extensions.Convert;
 
     operation q_walk_op_W (qs_a: Qubit[], qs_b: Qubit[]) : ()
     {
@@ -112,10 +113,18 @@
 		}
 	}
 
-	operation q_walk_simulation_F( qs_weight:Qubit[]) : ()
+	// weight:litte-end
+	operation q_walk_simulation_F( qs_weight:Qubit[], t:Double) : ()
 	{
 		body
 		{
+			let nbit = Length(qs_weight);
+			for(i in 0..nbit-1)
+			{
+				let g = ToDouble(2^i);
+				let angle = ( t * g );
+				Rz (angle, qs_weight[i]);
+			}
 		}
 	}
 	operation q_walk_simulation_matrix_1_sparse_integer  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
@@ -131,7 +140,7 @@
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
 				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
-				(q_walk_simulation_F) (qs_weight);
+				(q_walk_simulation_F) (qs_weight, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
