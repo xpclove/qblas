@@ -4,6 +4,7 @@
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
 
+    //
     operation q_simulation_C_Swap (qs_control:Qubit, qs_a: Qubit[], qs_b:Qubit[], time: Double) : ()
     {
         body
@@ -36,7 +37,7 @@
 
         }
     }
-    operation q_simulation_A( qs_control:Qubit, qs_A:Qubit[], qs_u: Qubit[], time: Double, t:Double,err:Double) : ()
+    operation q_simulation_A( qs_control:Qubit, qs_A:Qubit[], qs_u: Qubit[], time: Double, t:Double, err:Double) : ()
     {
         body
         {

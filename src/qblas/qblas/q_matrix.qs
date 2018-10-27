@@ -15,14 +15,14 @@
 
 
 
-    function q_matrix_convert(ram:(Int,Int)[]) : QBLAS_M_Weight[]
+    function q_matrix_convert(ram:(Int, Int, Int)[]) : QBLAS_M_Weight[]
     {
         let n = Length(ram);
         mutable  RAM = new QBLAS_M_Weight[n];
         for(i in 0..n-1)
         {
-            let (v,w) = ram[i];
-            set RAM[i] = QBLAS_M_Weight(v,w);
+            let (v,next_v,w) = ram[i];
+            set RAM[i] = QBLAS_M_Weight(v,next_v,w);
         }
         return RAM;
     }
@@ -31,7 +31,7 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(1,1);(0,1);(2,1);(3,1)] );
+            let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
@@ -42,7 +42,7 @@
     {
         body
         {
-            let RAM = [QBLAS_M_Weight(1,1);QBLAS_M_Weight(0,1);QBLAS_M_Weight(2,1)];            
+            let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );           
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
@@ -53,7 +53,7 @@
     {
         body
         {
-            let ram = [(1,13);(0,23);(2,35)];
+            let ram = [(1,2,13);(0,1,23);(3,2,35)];
             let RAM = q_matrix_convert(ram);            
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }

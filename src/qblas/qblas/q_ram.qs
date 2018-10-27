@@ -5,7 +5,7 @@ namespace qblas
     open Microsoft.Quantum.Canon;
 
     newtype ComplexPolar = (Double, Double);
-    newtype QBLAS_M_Weight  = (Int, Int) ;
+    newtype QBLAS_M_Weight  = (Int, Int, Int) ;
     // newtype QBLAS_M_Real  = (Int,Int);
 
     
@@ -59,13 +59,13 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                    let (next_address, weight) = RAM[i];
+                    let (address, next_address, weight) = RAM[i];
 
                     // do 寻址
                     for( j in 0..(n_a-1) )
                     {
                         let bit = 2^j;
-                        if ( (i&&&bit) == 0 )
+                        if ( ( address&&&bit ) == 0 )
                         {
                             X (qs_address[j]);
                         }
@@ -78,7 +78,7 @@ namespace qblas
                     for( j in 0..(n_a-1) )
                     {
                         let bit = 2^j;
-                        if ( (i&&&bit) == 0 )
+                        if ( ( address&&&bit ) == 0 )
                         {
                             X (qs_address[j]);
                         }
@@ -102,12 +102,12 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let (next_address, weight) = RAM[i];
+                        let (address, next_address, weight) = RAM[i];
                         
                         for( j in 0..(n_a-1) )
 						{
 							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
+							if ( ( address&&&bit) == 0 )
 							{
                                 X (qs_address[j]);
 							}
@@ -119,7 +119,7 @@ namespace qblas
                         for( j in 0..(n_a-1) )
 						{
 							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
+							if ( ( address&&&bit) == 0 )
 							{
                                 X (qs_address[j]);
 							}
@@ -142,12 +142,12 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let (next_address, weight) = RAM[i];
+                        let (address, next_address, weight) = RAM[i];
                         
                         for( j in 0..(n_a-1) )
 						{
 							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
+							if ( ( address&&&bit) == 0 )
 							{
                                 X (qs_address[j]);
 							}
@@ -159,7 +159,7 @@ namespace qblas
                         for( j in 0..(n_a-1) )
 						{
 							let bit = 2^j;
-							if ( (i&&&bit) == 0 )
+							if ( ( address&&&bit) == 0 )
 							{
                                 X (qs_address[j]);
 							}
