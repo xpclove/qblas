@@ -10,7 +10,7 @@ namespace qblas
 
     
     //qs_data 处于|0>态, 制备到 |data> 基矢态
-    operation q_ram_function_assignment_int(qs_data:Qubit[], data:Int) : ()
+    operation q_ram_function_assignment_int ( qs_data:Qubit[], data:Int ) : ()
     {
         body
         {
@@ -92,7 +92,7 @@ namespace qblas
     }
 
 
-     operation q_ram_call_integer ( RAM : QBLAS_M_Int[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit[] ) : ()
+     operation q_ram_call_integer ( RAM : QBLAS_M_Int[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
@@ -114,7 +114,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
-                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_r ,weight ) );
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
 
                         for( j in 0..(n_a-1) )
 						{
