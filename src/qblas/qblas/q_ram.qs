@@ -5,11 +5,11 @@ namespace qblas
     open Microsoft.Quantum.Canon;
 
     newtype ComplexPolar = (Double, Double);
-    newtype QBLAS_M_Int  = (Int,Int);
-    newtype QBLAS_M_Real  = (Int,Int);
+    newtype QBLAS_M_Weight  = (Int, Int) ;
+    // newtype QBLAS_M_Real  = (Int,Int);
 
     
-    //qs_data 处于|0>态, 制备到 |data> 基矢态
+    //函数赋值，qs_data 处于|0>态, 制备到 |data> 基矢态
     operation q_ram_function_assignment_int ( qs_data:Qubit[], data:Int ) : ()
     {
         body
@@ -49,7 +49,7 @@ namespace qblas
 
     //模拟读取量子内存 RAM[qs_address] = qs_data
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
-    operation q_ram_call_bool ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
@@ -59,7 +59,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                    let next_address = RAM[i];
+                    let (next_address, weight) = RAM[i];
 
                     // do 寻址
                     for( j in 0..(n_a-1) )
@@ -92,7 +92,7 @@ namespace qblas
     }
 
 
-     operation q_ram_call_integer ( RAM : QBLAS_M_Int[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+     operation q_ram_call_integer ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
@@ -132,7 +132,7 @@ namespace qblas
 		controlled adjoint auto
     }
     
-     operation q_ram_call_real ( RAM : QBLAS_M_Real[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+     operation q_ram_call_real ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {

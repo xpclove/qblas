@@ -15,7 +15,7 @@
     {
         body
         {
-            let RAM = [1;0;2];
+            let RAM = [QBLAS_M_Weight(1,1);QBLAS_M_Weight(0,1);QBLAS_M_Weight(2,1)];
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
@@ -26,7 +26,7 @@
     {
         body
         {
-            let RAM = [1;0;2];
+            let RAM = [QBLAS_M_Weight(1,1);QBLAS_M_Weight(0,1);QBLAS_M_Weight(2,1)];            
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto
