@@ -8,6 +8,7 @@
 
     //1 sparse matrix oracle, input Qubit[]: address, Qubit[]: data, |a>|c>
     // 1-稀疏矩阵如何存储： 只保存非0矩阵元，|x>|y>|element>形式
+    // |vertex>|0>|0>   ->  |vertex>|netxt-vertex>|weight>
     newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[]) => (): Adjoint,Controlled ) ;
 
     operation q_matrix_1_sparse_bool_test( qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
