@@ -6,10 +6,28 @@
     
     open Microsoft.Quantum.Extensions.Math;
 
+
     //1 sparse matrix oracle, input Qubit[]: address, Qubit[]: data, |a>|c>
     // 1-稀疏矩阵如何存储： 只保存非0矩阵元，|x>|y>|element>形式
     // |vertex>|0>|0>   ->  |vertex>|netxt-vertex>|weight>
     newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[]) => (): Adjoint,Controlled ) ;
+    // newtype QBLAS_M_Weight = (Int. Int);
+
+
+
+    function q_matrix_convert(ram:(Int,Double)[]) : (QBLAS_M_Weight[])
+    {
+        let n = Length(ram);
+        mutable  RAM = new QBLAS_M_Weight [n];
+        for(i in 0..n-1)
+        {
+            let (v,w) = ram[i];
+            mutable rw = 0;
+            if ( w > 0.0 ) {set rw = 1;}
+            set RAM[i] = QBLAS_M_Weight(v,rw);
+        }
+        return (RAM);
+    }
 
     operation q_matrix_1_sparse_bool_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
