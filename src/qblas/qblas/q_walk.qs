@@ -114,7 +114,7 @@
 		}
 	}
 
-	// weight:litte-end
+	// weight:litte-end, n_bits_float:小数部分位数，小数在前
 	operation q_walk_simulation_F( qs_weight:Qubit[], t:Double, n_bits_float:Int) : ()
 	{
 		body
@@ -153,7 +153,7 @@
 		body
 		{
 			let nbit=Length(qs_state);
-			using(qs_tmp=Qubit[nbit+1])
+			using(qs_tmp=Qubit[nbit*2+1])
 			{
 				let qs_b=qs_tmp[1..nbit];
 				let qs_weight=qs_tmp[nbit+1..2*nbit];
