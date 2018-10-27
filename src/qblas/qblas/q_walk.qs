@@ -260,5 +260,22 @@
 			}
 		}
 	}
+	operation q_walk_simulation_matrix_1_sparse  ( matrix_A_real: q_matrix_1_sparse_oracle,
+	 matrix_A_image: q_matrix_1_sparse_oracle,
+	 qs_state: Qubit[], 
+	 t: Double,
+	 N: Int ): ()
+	{
+		body
+		{
+			let nbit=Length(qs_state);
+			let dt = t / ToDouble(N);
+			for( i in 0..N-1)
+			{
+				q_walk_simulation_matrix_1_sparse_real(matrix_A_real, qs_state, dt);
+				q_walk_simulation_matrix_1_sparse_imagereal(matrix_A_image, qs_state, dt);
+			}
+		}
+	}
 	
 }
