@@ -132,7 +132,7 @@ namespace qblas
 		controlled adjoint auto
     }
     
-     operation q_ram_call_real ( RAM : QBLAS_M_Real[], qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit[] ) : ()
+     operation q_ram_call_real ( RAM : QBLAS_M_Real[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
@@ -154,7 +154,7 @@ namespace qblas
 						}
 
 						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
-                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , weight) );
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
 
                         for( j in 0..(n_a-1) )
 						{

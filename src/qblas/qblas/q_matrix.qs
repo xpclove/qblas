@@ -21,6 +21,17 @@
 		controlled auto
 		controlled adjoint auto
     }
+    operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_r:Qubit ) : ()
+    {
+        body
+        {
+            let RAM = [1;0;2];
+            q_ram_call_bool(RAM, qs_address, qs_data, qs_r);
+        }
+        adjoint auto
+		controlled auto
+		controlled adjoint auto
+    }
 
     operation q_matrix () : ()
     {
