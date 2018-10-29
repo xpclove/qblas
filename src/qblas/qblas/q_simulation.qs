@@ -30,18 +30,20 @@
 
 
     //参考 PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
-    operation q_simulation_C_SwapA (qs_control:Qubit, qs_SA: q_matrix_1_sparse_oracle,
+    operation q_simulation_C_SwapA (qs_control:Qubit,
+     qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : ()
     {
         body
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt;
-            q_walk_simulation_matrix_1_sparse_real (qs_SA, qs_u, t);
+            q_walk_simulation_matrix_1_sparse (qs_SA_real, qs_SA_image, qs_u, t, 1000);
         }
     }
 
-    operation q_simulation_C_A( qs_control:Qubit, qs_SA:q_matrix_1_sparse_oracle,
+    operation q_simulation_C_A( qs_control:Qubit, 
+     qs_SA_real:q_matrix_1_sparse_oracle, qs_SA_image:q_matrix_1_sparse_oracle,
      qs_u: Qubit[], t:Double, err:Double) : ()
     {
         body
@@ -55,7 +57,8 @@
             {
                 ResetAll(qs_rho);
                 ApplyToEachCA (H, qs_rho); // 制备全 1 rho
-                q_simulation_C_SwapA(qs_control, qs_SA,qs_u, dt);
+                // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
+                q_simulation_C_SwapA(qs_control, qs_SA_real, qs_SA_image, qs_u, dt);
             }
 
         }
