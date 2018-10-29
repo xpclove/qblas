@@ -175,17 +175,17 @@ namespace qblas
     {
         body
         {
-            let N_RAM = Length(RAM);
+            // let N_RAM = Length(RAM);
             let n_a = Length(qs_address);
             let n_d = Length(qs_data);
-            let N = 2^(n_a/2);
+            let N = 2^(n_a/2); // RAM size
             
                 for(j in 0..(N-1) )
                 {       
                     for( i in 0..(N-1) )
                     {
-                        let address = 2^j+i;
-                        let next_address = 2^i+j;
+                        let address = 2^j+i; // SWAP 非0元素位置
+                        let next_address = 2^i+j;  // SWAP 非0元素位置
                         for ( k in 0..(n_a-1) )
                         {
                             let bit = 2^k;
