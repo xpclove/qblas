@@ -171,5 +171,46 @@ namespace qblas
 		controlled auto
 		controlled adjoint auto
     }
+    operation q_ram_call_SwapA ( RAM : Int[][], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    {
+        body
+        {
+            let N_RAM = Length(RAM);
+            let n_a = Length(qs_address);
+            let n_d = Length(qs_data);
+            let N = 2^(n_a/2);
+            
+                for(j in 0..(N-1) )
+                {       
+                    for( i in 0..(N-1) )
+                    {
+                        let address = 2^j+i;
+                        let next_address = 2^i+j;
+                        for ( k in 0..(n_a-1) )
+                        {
+                            let bit = 2^k;
+                            if ( ( address &&& bit) == 0 )
+                            {
+                                X (qs_address[j]);
+                            }
+                        }
+                        let weight = RAM[i][j];
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
+                        (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
+                        for ( k in 0..(n_a-1) )
+                        {
+                            let bit = 2^k;
+                            if ( ( address &&& bit) == 0 )
+                            {
+                                X (qs_address[j]);
+                            }
+                        }
+                    }
+                }
+        }
+		adjoint auto
+		controlled auto
+		controlled adjoint auto
+    }
     
 }
