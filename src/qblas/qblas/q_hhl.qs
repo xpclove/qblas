@@ -3,16 +3,17 @@
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 	
-	//qs_phase: LitteEndian Qubits
+	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>
 	operation q_hhl_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
 	{
 		body
 		{
 			let nbit =Length ( qs_phase );
 			let dt =0.1;
-			for(i in 0..nbit-1)
+			let N=2^nbit-1;
+			for(i in 0..N)
 			{
-				(Controlled Ry) ( [qs_phase[i]], (dt,  qs_r) );
+				(Controlled Ry) ( qs_phase, (dt,  qs_r) );
 			}
 		}
 		adjoint auto
