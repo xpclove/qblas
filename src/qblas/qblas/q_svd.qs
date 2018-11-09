@@ -4,7 +4,7 @@
     open Microsoft.Quantum.Canon;
 	
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>
-	operation q_hhl_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
+	operation q_svd_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
 	{
 		body
 		{
@@ -21,7 +21,7 @@
 		controlled adjoint auto
 	}
 
-    operation q_hhl_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : ()
+    operation q_svd_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : ()
     {
         body
         {
