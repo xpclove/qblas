@@ -2,7 +2,9 @@
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
-	
+	//Reference
+		//PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
+		
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>
 	operation q_svd_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
 	{
