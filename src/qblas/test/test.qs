@@ -6,7 +6,7 @@
 
 	operation test_qwalk(s:Int):(Int)
 	{
-		body
+		body(...)
 		{
 			using(qs =Qubit[2])
 			{
@@ -20,7 +20,7 @@
 
 	operation test_qs_tele(snd:Int) : (Int)
 	{
-		body
+		body(...)
 		{
 			mutable rec = 0;
 			set rec = q_tele_dense_coding_1(snd);
@@ -30,7 +30,7 @@
 
     operation test (v:Double) : (Int)
     {
-        body
+        body(...)
         {
 			mutable res=0;
 			using(qs=Qubit[4])
@@ -56,13 +56,13 @@
 					{
 						set res = res+(10^i);
 					}
-				};
+				}
 				ResetAll(qs);
-			};
+			}
 			return(res);
         }
     }
-    function t() : () 
+    function t() : Unit 
     {
         for(i in (-1)..0)
         {

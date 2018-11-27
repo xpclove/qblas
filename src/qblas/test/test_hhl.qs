@@ -5,6 +5,18 @@ namespace Quantum.test
 	open Microsoft.Quantum.Extensions.Convert;
 	open qblas;
 
+	operation U_test (n:Int, u:Qubit[]) : Unit
+	{
+		body(...)
+		{
+			let dt = 0.1;
+			let angle = dt*ToDouble(n);
+			Rz(angle, u[0]);
+		}
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+	}
 	
 	operation test_hhl ( s:Int ):(Int)
 	{
@@ -12,9 +24,8 @@ namespace Quantum.test
 		{
 			using(qs = Qubit[2])
 			{
-
-				let  n = 1;
-				//q_hhl(U_test, [qs[0]], qs[1]);
+				let U = DiscreteOracle ( U_test);
+				q_hhl(U, [qs[0]], qs[1]);
 			}
 			return (0);
 		}
