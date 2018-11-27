@@ -10,7 +10,7 @@
     //1 sparse matrix oracle, input Qubit[]: address, Qubit[]: data, |a>|c>
     // 1-稀疏矩阵如何存储： 只保存非0矩阵元，|x>|y>|element>形式
     // |vertex>|0>|0>   ->  |vertex>|netxt-vertex>|weight>
-    newtype q_matrix_1_sparse_oracle =   ((Qubit[], Qubit[], Qubit[]) => (): Adjoint,Controlled)  ;
+    newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[])=>(): Adjoint, Controlled );
     // newtype QBLAS_M_Weight = (Int. Int);
 
 
@@ -31,7 +31,7 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );
+            let RAM = q_matrix_convert( [(0,1,1),(1,0,1),(2,2,1),(3,3,1)] );
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
@@ -42,7 +42,7 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );           
+            let RAM = q_matrix_convert( [(0,1,1),(1,0,1),(2,2,1),(3,3,1)] );           
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;

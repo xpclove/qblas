@@ -59,7 +59,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                    let (address, next_address, weight) = RAM[i];
+                    let (address, next_address, weight) = RAM[i]!;
 
                     // do 寻址
                     for( j in 0..(n_a-1) )
@@ -102,7 +102,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let (address, next_address, weight) = RAM[i];
+                        let (address, next_address, weight) = RAM[i]!;
                         
                         for( j in 0..(n_a-1) )
 						{
@@ -142,7 +142,7 @@ namespace qblas
             
                 for(i in 0..(N_RAM-1) )
                 {
-                        let (address, next_address, weight) = RAM[i];
+                        let (address, next_address, weight) = RAM[i]!;
                         
                         for( j in 0..(n_a-1) )
 						{

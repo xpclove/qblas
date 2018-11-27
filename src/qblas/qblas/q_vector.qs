@@ -38,8 +38,8 @@
 						}
 						ResetAll(qs);
 					}
-					set p=Double(num_ones)*1.0/Double(N);
-					set inner= 2*p-1.0 ;
+					set p=ToDouble(num_ones)*1.0/ToDouble(N);
+					set inner= 2.0*p-1.0 ;
 				}
 				return (inner);
 			}

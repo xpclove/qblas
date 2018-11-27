@@ -6,7 +6,7 @@
     //  LittleEndian Qubits
     //  U: 
     //  qs_u: state,  qs_phase: control lines 
-    operation q_phase_estimate_core ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
+    operation q_phase_estimate_core ( U_A: DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
     {
         body
         {
@@ -17,7 +17,7 @@
             for( i in 0..1..(nbit-1) ) 
             {  
                 let n = 2^(i);
-                (Controlled U) ( [ qs_phase[i] ], (n, qs_u) );
+                (Controlled U_A!) ( [ qs_phase[i] ], (n, qs_u) );
             }
 
             SwapReverseRegister(qs_phase);

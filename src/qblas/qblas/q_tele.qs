@@ -39,7 +39,7 @@
 
 				//Alice send res to Bob
 				//Bob operation
-				(Adjoint q_bell_state_creat) ( [qs_bob;qs_rec] );
+				(Adjoint q_bell_state_creat) ( [qs_bob, qs_rec] );
 				if(res == 0){
 					I(qs_rec);
 				}elif(res == 1){

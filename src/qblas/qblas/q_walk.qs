@@ -90,7 +90,7 @@
 	{
 		body
 		{
-			matrix_A(qs_a, qs_b, qs_weight);
+			matrix_A! (qs_a, qs_b, qs_weight);
 		}
 		adjoint auto;
 		controlled auto;		
