@@ -2,6 +2,8 @@
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+	open Microsoft.Quantum.Extensions.Convert;
+	open Microsoft.Quantum.Extensions.Math; 
 	
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>
 	operation q_hhl_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
@@ -9,11 +11,11 @@
 		body
 		{
 			let nbit =Length ( qs_phase );
-			let dt =0.1;
-			let N=2^nbit-1;
-			for(i in 0..N)
+			for(i in 0..nbit-1)
 			{
-				(Controlled Ry) ( qs_phase, (dt,  qs_r) );
+				let A_1 =  1.0 / ToDouble(2^i) ;
+				let dt = ArcSin(A_1) * 2.0 ;
+				(Controlled Ry) ( [qs_phase[i]], (dt,  qs_r) );
 			}
 		}
 		adjoint auto
@@ -38,7 +40,7 @@
 	{
 		body
 		{
-			using( qs_phase=Qubit[4] )
+			using( qs_phase=Qubit[5] )
 			{
 				q_hhl_core(U_A,qs_u,qs_phase, qs_r);
 				ResetAll(qs_phase);
