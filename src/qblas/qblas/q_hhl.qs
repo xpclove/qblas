@@ -18,9 +18,9 @@
 				(Controlled Ry) ( [qs_phase[i]], (dt,  qs_r) );
 			}
 		}
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
 	}
 
     operation q_hhl_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : ()
@@ -31,9 +31,9 @@
 			q_hhl_rotation_lamda(qs_phase, qs_r);
 			(Adjoint q_phase_estimate_core) (U_A,qs_u, qs_phase);
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
 	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit ):()

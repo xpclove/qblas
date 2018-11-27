@@ -24,9 +24,9 @@ namespace qblas
                 }
             }
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
     // //寻址操作
@@ -86,9 +86,9 @@ namespace qblas
 
                 }
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
 
@@ -127,9 +127,9 @@ namespace qblas
 
                 }
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
     
      operation q_ram_call_real ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
@@ -167,9 +167,9 @@ namespace qblas
 
                 }
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
     operation q_ram_call_SwapA ( RAM : Int[][], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
@@ -208,9 +208,9 @@ namespace qblas
                     }
                 }
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
     
 }

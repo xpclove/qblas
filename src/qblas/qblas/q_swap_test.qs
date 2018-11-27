@@ -15,8 +15,8 @@
             }
             H(control); 
         }
-        adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 }

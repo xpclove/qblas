@@ -24,9 +24,9 @@
 
             (Adjoint q_fft) (qs_phase);
         }
-        adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
     operation q_phase_estimate ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()

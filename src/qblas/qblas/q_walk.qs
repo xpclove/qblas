@@ -17,9 +17,9 @@
 			}
             
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 	operation q_walk_op_A (qs_a: Qubit[], qs_b: Qubit[], qs_tmp:Qubit) : ()
     {
@@ -35,9 +35,9 @@
 			}
             
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
 	// T = CSWAP
@@ -59,9 +59,9 @@
 			}
             
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
 	}
 
 	operation q_walk_simulation_CSWAP( qs_control:Qubit, qs_a:Qubit[], qs_b:Qubit[], t:Double ): ()
@@ -70,9 +70,9 @@
 		{
 			q_walk_simulation_T(qs_a,qs_b,qs_control,t);
 		}
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
 	}
 	
 	// M 
@@ -82,9 +82,9 @@
 		{
 			// matrix_A(qs_a, qs_b, qs_r);
 		}
-		adjoint auto
-		controlled auto		
-		controlled adjoint auto		
+		adjoint auto;
+		controlled auto;		
+		controlled adjoint auto;
 	}
 	operation q_walk_op_M ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_weight: Qubit[] ): ()
 	{
@@ -92,9 +92,9 @@
 		{
 			matrix_A(qs_a, qs_b, qs_weight);
 		}
-		adjoint auto
-		controlled auto		
-		controlled adjoint auto		
+		adjoint auto;
+		controlled auto;		
+		controlled adjoint auto;		
 	}
 
 	operation q_walk_simulation_matrix_1_sparse_bool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
@@ -130,7 +130,7 @@
 				Rz (angle, qs_weight[i]);
 			}
 		}
-		controlled auto
+		controlled auto;
 	}
 	operation q_walk_simulation_F_n( qs_weight:Qubit[], t:Double, n_bits_float:Int) : ()
 	{
@@ -146,7 +146,7 @@
 				Rz (angle, qs_weight[i]);
 			}
 		}
-		controlled auto
+		controlled auto;
 	}
 	operation q_walk_simulation_sF( qs_weight:Qubit[], t:Double, n_bits_float:Int) :()
 	{

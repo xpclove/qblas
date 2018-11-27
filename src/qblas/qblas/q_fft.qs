@@ -27,9 +27,9 @@
 				}
 			}
         }
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 	operation q_fft(qs:Qubit[]):()
 	{
@@ -37,8 +37,8 @@
 		{
 			q_fft_core(qs);
 		}
-		adjoint auto
-		controlled auto
-		controlled adjoint auto	
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;	
 	}
 }

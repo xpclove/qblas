@@ -34,9 +34,9 @@
             let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
-        adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
     operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
@@ -45,21 +45,21 @@
             let RAM = q_matrix_convert( [(0,1,1);(1,0,1);(2,2,1);(3,3,1)] );           
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
-        adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
     operation q_matrix_1_sparse_real_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
     {
         body
         {
-            let ram = [(1,2,13);(0,1,23);(3,2,35)];
+            let ram = [(1,2,13),(0,1,23),(3,2,35)];
             let RAM = q_matrix_convert(ram);            
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
-        adjoint auto
-		controlled auto
-		controlled adjoint auto
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
     }
 
 

@@ -11,9 +11,9 @@
 			H(qs[1]);
 			CNOT(qs[1],qs[0]);
 		}
-		adjoint auto
-		controlled auto
-		controlled adjoint auto
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
 	}
 
     operation q_tele_qubit_1 (qs_snd:Qubit, qs_rec:Qubit) : ()
@@ -30,7 +30,7 @@
 				let qs_alice = qs_bell[1];
 				let qs_bob = qs_bell[0];
 				//Alice operation
-				(Adjoint q_bell_state_creat) ( [qs_alice;qs_snd] );
+				(Adjoint q_bell_state_creat) ( [qs_alice,qs_snd] );
 				let a_0 = M(qs_alice);
 				let a_1 = M(qs_snd);
 				mutable res = 0;
