@@ -21,14 +21,13 @@ namespace Quantum.test
                 //}
                 for (int i = 0; i < 4; i++)
                 {
-                    var res = test_qwalk.Run(sim, i);
+                    var res = test_hhl.Run(sim, i);
                     Console.WriteLine(res.Result);
                 }
 
             }
 
             Console.WriteLine("hello qsharp!");
-            Console.ReadKey();
         }
     }
 }
