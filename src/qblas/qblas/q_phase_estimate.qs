@@ -28,4 +28,13 @@
 		controlled auto
 		controlled adjoint auto
     }
+
+    operation q_phase_estimate ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
+    {
+        body
+        {
+            q_phase_estimate_core(U, qs_u, qs_phase);
+        }
+    }
 }
+
