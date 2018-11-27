@@ -14,14 +14,14 @@
 				H(qs[i]);
 				for(j in (i-1)..-1..0 )
 				{	
-					let k = i-j+1;
-					(Controlled R1Frac)  ( [qs[j]], (2,k,qs[i]) );
+					let k = i-j;
+					(Controlled R1Frac)  ( [qs[j]], (k,1,qs[i]) );
 				}
 			}
 			//swap all qubits for the right order for ouput
-			for(i in 0..1..(nbit-1)/2)
+			for( i in 0..1..((nbit-1)/2) )
 			{
-				if(i!=nbit-1-i)
+				if( i != (nbit-1-i) )
 				{
 					SWAP(qs[i],qs[nbit-1-i]);
 				}
