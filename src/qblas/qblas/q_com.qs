@@ -7,7 +7,7 @@ namespace qblas
     {
         body(...)
         {
-            let n = Length(qs);
+            let nbit = Length(qs);
             for( i in 0..1..(nbit-1)/2 )
 			{
 				if( i != (nbit-1-i) )
