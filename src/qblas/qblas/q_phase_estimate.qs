@@ -8,15 +8,18 @@
     //  qs_u: state,  qs_phase: control lines 
     operation q_phase_estimate_core ( U_A: DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
     {
-        body
+        body(...)
         {
             let nbit = Length(qs_phase);
 
-            ApplyToEachCA(H, qs_phase);
+            for(i in 0..1..(nbit-1))
+            {
+                H(qs_phase[i]);
+            }
 
             for( i in 0..1..(nbit-1) ) 
             {  
-                let n = 2^(i);
+                let n = 2^i;
                 (Controlled U_A!) ( [ qs_phase[i] ], (n, qs_u) );
             }
 
@@ -31,7 +34,7 @@
 
     operation q_phase_estimate ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
     {
-        body
+        body(...)
         {
             q_phase_estimate_core(U, qs_u, qs_phase);
         }
