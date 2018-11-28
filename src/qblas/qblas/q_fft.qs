@@ -17,7 +17,7 @@
 				{	
 					let n = i-j+1;
 					let k = 2;
-					Message(ToStringI(i));
+					q_print((i,j,n,k))
 					(Controlled R1Frac)  ( [qs[j]], (k, n, qs[i]) );
 				}
 			}

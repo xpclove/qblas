@@ -8,10 +8,12 @@ namespace qblas
     {
         body(...)
         {
+            mutable line ="";
             for( i in item)
             {
-                Message(ToStingI(i));
+               set line = line +" "+ToStingI(i));
             }
+            Message(line);
         }
     }
 }
