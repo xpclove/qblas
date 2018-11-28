@@ -8,7 +8,6 @@ namespace qblas
     {
         body(...)
         {
-            let line ="";
             let N = Length(item);
             for(i in 0..N-1)
             {
@@ -25,7 +24,6 @@ namespace qblas
     {
         body(...)
         {
-            let line ="";
             let N = Length(item);
             for(i in 0..N-1)
             {

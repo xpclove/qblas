@@ -47,14 +47,34 @@
 		controlled adjoint auto;
     }
 
-	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit ):()
+	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):()
 	{
 		body(...)
 		{
-			using( qs_phase=Qubit[5] )
+			using( qs_phase=Qubit[nbit_phase] )
 			{
 				q_hhl_core(U_A,qs_u,qs_phase, qs_r);
 				ResetAll(qs_phase);
+			}
+		}
+	}
+	operation q_hhl_OK( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):()
+	{
+		body(...)
+		{
+			using( qs_phase=Qubit[nbit_phase] )
+			{
+				repeat
+				{
+					q_hhl_core(U_A,qs_u,qs_phase, qs_r);
+					ResetAll(qs_phase);
+					let result = M(qs_r);
+					ResetAll(qs_phase);
+				}until (result == One)
+				fixup
+				{
+
+				}
 			}
 		}
 	}

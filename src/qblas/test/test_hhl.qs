@@ -69,13 +69,12 @@ namespace Quantum.test
 
 				q_hhl_core (U, [qs_u], qs[1..10], qs_r) ;
 
-				
 				let r = MeasureInteger(LittleEndian([qs_r]));
-				Message(ToStringI(r));
 				ResetAll(qs[1..11]);
 				DumpRegister("phase.txt", [qs_u]);
-				let result_int = ToDouble(MeasureInteger( LittleEndian( [qs_u] ) ) );
-				set res = result_int;
+				let result_int = MeasureInteger( LittleEndian( [qs_u] ) );
+				set res = ToDouble(result_int);
+				q_print([r,result_int]);
 				ResetAll(qs);
 			}
 			return(res);
