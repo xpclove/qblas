@@ -4,16 +4,21 @@ namespace qblas
     open Microsoft.Quantum.Canon;
 	open Microsoft.Quantum.Extensions.Convert;
 	
-	operation q_print(item:()):Unit
+	operation q_print (item:Int[] ):Unit
     {
         body(...)
         {
-            mutable line ="";
-            for( i in item)
+            let line ="";
+            let N = Length(item);
+            for(i in 0..N-1)
             {
-               set line = line +" "+ToStingI(i));
+                let p = item[i];
+                Message( ToStringI(p) );
             }
-            Message(line);
+            Message("___________");
         }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
     }
 }

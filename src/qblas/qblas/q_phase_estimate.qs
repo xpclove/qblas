@@ -23,8 +23,6 @@
                 (Controlled U_A!) ( [ qs_phase[i] ], (n, qs_u) );
             }
 
-            SwapReverseRegister(qs_phase);
-
             (Adjoint q_fft) (qs_phase);
         }
         adjoint auto;
