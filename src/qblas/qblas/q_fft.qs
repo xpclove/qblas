@@ -24,14 +24,7 @@
 			//swap all qubits for the right order for ouput
             //SwapReverseRegister(qs);
 
-			for( i in 0..1..(nbit-1)/2 )
-			{
-				if( i != (nbit-1-i) )
-				{
-					//Message(ToStringI(i)+" "+ToStringI(nbit-1-i));
-					SWAP( qs[i], qs[nbit-1-i] );
-				}
-			}
+			q_com_swap_all(qs);
         }
 		adjoint auto;
 		controlled auto;
