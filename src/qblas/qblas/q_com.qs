@@ -21,5 +21,26 @@ namespace qblas
         controlled auto;
         controlled adjoint auto;
     }
+    
+    //Ref: Quantum Algorithms for Scientific Computing and Approximate Optimization(2018)
+    operation q_math_reciprocal_int( w:Qubit[], x:Qubit[]) : Unit
+    {
+        body(...)
+        {
+            using (qs_r = Qubit())
+            {
+
+                let n = Length(w);
+                let b =  Length(x);
+                CNOT (w[n-1], qs_r);
+                for ( i in  n-1..-1..1)
+                {
+
+                }
+                Reset(qs_r);
+            }
+
+        }
+    }
 }
 
