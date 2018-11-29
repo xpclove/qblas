@@ -27,17 +27,20 @@ namespace qblas
     {
         body(...)
         {
-            using (qs_r = Qubit())
+            let n = Length(w);
+            let b =  Length(x);
+            //prepare x_0
+            CNOT (w[n-1], x[b-1]);
+            for ( i in 2..1..b)
+            {
+                X(x[b-i+1]);
+                CCNOT( w[n-1],x[b-i+1], x[b-i] );
+                X(x[b-i+1]);
+            }
+            //Newton method for x=1/w;
+            for ( i in  n-1..-1..1)
             {
 
-                let n = Length(w);
-                let b =  Length(x);
-                CNOT (w[n-1], qs_r);
-                for ( i in  n-1..-1..1)
-                {
-
-                }
-                Reset(qs_r);
             }
 
         }
