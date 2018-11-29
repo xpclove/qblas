@@ -37,7 +37,7 @@ namespace qblas
                 CCNOT( w[n-1],x[b-i+1], x[b-i] );
                 X(x[b-i+1]);
             }
-            //Newton method for x=1/w;
+            //Newton iteration method for x=1/w;
             for ( i in  n-1..-1..1)
             {
 
