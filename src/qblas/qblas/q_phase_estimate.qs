@@ -6,7 +6,7 @@
     //  LittleEndian Qubits
     //  U: 
     //  qs_u: state,  qs_phase: control lines 
-    operation q_phase_estimate_core ( U_A: DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
+    operation q_phase_estimate_core ( U_A: DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : Unit
     {
         body(...)
         {
@@ -30,7 +30,7 @@
 		controlled adjoint auto;
     }
 
-    operation q_phase_estimate ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : ()
+    operation q_phase_estimate ( U:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[] ) : Unit
     {
         body(...)
         {

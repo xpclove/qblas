@@ -6,27 +6,35 @@
 	open Microsoft.Quantum.Extensions.Math; 
 	
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>
-	operation q_hhl_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):()
+	operation q_hhl_rotation_lamda( qs_phase:Qubit[], qs_r:Qubit ):Unit
 	{
 		body(...)
 		{
 			let nbit =Length ( qs_phase );
-			let sign =nbit-1;
-			for(i in 0..nbit-2)
+			using(qs_phase_rcp=Qubit[nbit])
 			{
-				CNOT(qs_phase[sign], qs_phase[i]);
-			}
-			for(i in 0..nbit-2)
-			{
-				let lamda_div = 2.0*PI()/ToDouble( (2^nbit) -1) ;
-				let A_1 =  1.0 / (  ToDouble(2^i) ) ;
-				let dt = ArcSin(A_1) * 2.0 ;
-				(Controlled Ry) ( [qs_phase[i]], (dt,  qs_r) );
-			}
-			(Controlled Z)  ( [qs_phase[sign]], qs_r);
-			for( i in 0..nbit-2 )
-			{
-				CNOT(qs_phase[sign], qs_phase[i]);
+				let sign =nbit-1;
+				for(i in 0..nbit-2)
+				{
+					CNOT(qs_phase[sign], qs_phase[i]);
+				}
+				q_math_reciprocal_int(qs_phase, qs_phase_rcp);
+
+				for(i in nbit..1)
+				{
+					let lamda_div = 2.0*PI()/ToDouble( (2^nbit) -1) ;
+					let A_1 =  1.0 / (  ToDouble(2^i) ) ;
+					let dt = ArcSin(A_1) * 2.0 ;
+					(Controlled Ry) ( [qs_phase_rcp[i]], (dt,  qs_r) );
+				}
+
+				(Adjoint q_math_reciprocal_int) (qs_phase, qs_phase_rcp);
+
+				(Controlled Z)  ( [qs_phase[sign]], qs_r);
+				for( i in 0..nbit-2 )
+				{
+					CNOT(qs_phase[sign], qs_phase[i]);
+				}
 			}
 		}
 		adjoint auto;
@@ -34,7 +42,7 @@
 		controlled adjoint auto;
 	}
 
-    operation q_hhl_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : ()
+    operation q_hhl_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : Unit
     {
         body(...)
         {
@@ -47,7 +55,7 @@
 		controlled adjoint auto;
     }
 
-	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):()
+	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Unit
 	{
 		body(...)
 		{
@@ -58,7 +66,7 @@
 			}
 		}
 	}
-	operation q_hhl_OK( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):()
+	operation q_hhl_OK( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Unit
 	{
 		body(...)
 		{
