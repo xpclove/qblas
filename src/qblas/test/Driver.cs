@@ -12,13 +12,11 @@ namespace Quantum.test
             using (var sim = new QuantumSimulator())
             {
                 sim.OnLog += (msg) => { Console.WriteLine(msg); };
-                
-                for (int i = 0; i < 4; i++)
+                for(int i = 0; i < 4; i++)
                 {
                     var res = test_hhl.Run(sim, i);
                     Console.WriteLine("Result= "+res.Result);
                 }
-
             }
 
             Console.WriteLine("hello qsharp!");
