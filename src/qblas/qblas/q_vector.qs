@@ -63,4 +63,14 @@
 				return (distance);	
 			}
 		}
+
+		operation q_vectors_distance (us : ComplexPolar[][], vs : ComplexPolar[][], n_qubit : Int, acc : Double) : (Double)
+		{
+			body(...)
+			{
+				let inner=q_vector_inner(u, v, n_qubit, acc);
+				let distance=Sqrt(2.0-2.0*inner);
+				return (distance);	
+			}
+		}
 }
