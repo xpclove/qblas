@@ -5,19 +5,19 @@
 		open Microsoft.Quantum.Extensions.Convert;
 		open Microsoft.Quantum.Extensions.Math;
 
-		operation q_vector_creat (vector:ComplexPolar[],qs:Qubit[]) : ()
+		operation q_vector_creat (vector:ComplexPolar[], qs:Qubit[]) : Unit
 		{
-			body
+			body(...)
 			{
 				// us Q# Library, PrepareArbitraryState()
-				// PrepareArbitraryState( vector, qs );
+				PrepareArbitraryState( vector, BigEndian(qs) );
 				
 			}
 		}
 
 		operation q_vector_inner (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
 		{
-			body
+			body(...)
 			{
 				let N = acc;
 				mutable num_ones=0;
@@ -28,13 +28,15 @@
 					for(i in 1..N)
 					{
 						Reset(qs[0]);
-						q_vector_creat(u,qs[1..(n_qubit-1)]);
-						q_vector_creat(v,qs[(n_qubit)..(2*n_qubit)]);
-						q_swap_test( qs[0],qs[1..(n_qubit-1)],qs[n_qubit..(2*n_qubit)] );
+						let qs_u =qs[1..(n_qubit-1)];
+						let qs_v =qs[(n_qubit)..(2*n_qubit)];
+						q_vector_creat(u, qs_u);
+						q_vector_creat(v, qs_v);
+						q_swap_test_core( qs[0], qs_u, qs_v );
 						let res = M(qs[0]);
 						if(res == One) 
 						{ 
-							set num_ones=num_ones+1;
+							set num_ones= num_ones+1;
 						}
 						ResetAll(qs);
 					}
@@ -47,7 +49,7 @@
 
 		operation q_vector_distance (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
 		{
-			body
+			body(...)
 			{
 				let inner=q_vector_inner(u,v,n_qubit,acc);
 				let distance=Sqrt(2.0-2.0 * inner);

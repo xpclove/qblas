@@ -5,7 +5,7 @@ namespace qblas
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
 
-    newtype ComplexPolar = (Double, Double);
+    
     newtype QBLAS_M_Weight  = (Int, Int, Int) ;
     // newtype QBLAS_M_Real  = (Int,Int);
 
