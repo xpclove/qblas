@@ -32,7 +32,7 @@
 		controlled adjoint auto;
     }
 
-	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Unit
+	operation q_hhl( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Result
 	{
 		body(...)
 		{
@@ -41,9 +41,12 @@
 				q_hhl_core(U_A,qs_u,qs_phase, qs_r);
 				ResetAll(qs_phase);
 			}
+			let res =M(qs_r);
+			return(res);
 		}
 	}
-	operation q_hhl_OK( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Unit
+
+	operation q_hhl_until_OK( U_A:DiscreteOracle, prepare_oracle:(Qubit[]=>Unit), qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int ):Unit
 	{
 		body(...)
 		{
@@ -51,6 +54,8 @@
 			{
 				repeat
 				{
+					ResetAll(qs_u);
+					prepare_oracle(qs_u);
 					q_hhl_core(U_A,qs_u,qs_phase, qs_r);
 					ResetAll(qs_phase);
 					let result = M(qs_r);
@@ -58,7 +63,6 @@
 				}until (result == One)
 				fixup
 				{
-
 				}
 			}
 		}
