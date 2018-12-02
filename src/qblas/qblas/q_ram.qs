@@ -30,22 +30,23 @@ namespace qblas
 		controlled adjoint auto;
     }
 
-    // //寻址操作
-    // operation q_ram_addressing ( qs_address:Qubit[] ) : ()
-    // {
-    //     let n_a = Length(qs_address);
-    //     body
-    //     {
-    //         for( j in 0..(n_a-1) )
-    //         {
-    //             let bit = 2^j;
-    //             if ( (i&&&bit) == 0 )
-    //             {
-    //                 X (qs_address[j]);
-    //             }
-    //         }
-    //     }
-    // }
+
+    //寻址操作
+    operation q_ram_addressing ( qs_address:Qubit[] ) : ()
+    {
+        let n_a = Length(qs_address);
+        body
+        {
+            for( j in 0..(n_a-1) )
+            {
+                let bit = 2^j;
+                if ( (i&&&bit) == 0 )
+                {
+                    X (qs_address[j]);
+                }
+            }
+        }
+    }
 
 
     //模拟读取量子内存 RAM[qs_address] = qs_data
