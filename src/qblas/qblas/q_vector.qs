@@ -19,7 +19,7 @@
 		{
 			body(...)
 			{
-				let N = 1.0/acc;
+				let N = Ceiling(1.0/acc);
 				mutable num_ones=0;
 				mutable p=0.0;
 				mutable inner=0.0;
@@ -28,33 +28,39 @@
 					for(i in 1..N)
 					{
 						Reset(qs[0]);
-						let qs_u =qs[1..(n_qubit-1)];
-						let qs_v =qs[(n_qubit)..(2*n_qubit)];
+						let qs_control = qs[0];
+						let qs_u =qs[ 1..n_qubit ];
+						let qs_v =qs[ (n_qubit+1)..2*n_qubit ];
+
 						q_vector_creat(u, qs_u);
 						q_vector_creat(v, qs_v);
-						q_swap_test_core( qs[0], qs_u, qs_v );
+						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);
-						if(res == One) 
+						// 0 为通过测试, 1为未通过测试
+						if(res == Zero) 
 						{ 
 							set num_ones= num_ones+1;
 						}
 						ResetAll(qs);
 					}
-					set p=ToDouble(num_ones)*1.0/ToDouble(N);
-					set inner= 2.0*p-1.0 ;
+					set p = ToDouble(num_ones)*1.0/ToDouble(N);
+					if( p< 0.5)
+					{
+						set p =0.5;
+					}
+					set inner = Sqrt(2.0*p-1.0) ;
 				}
 				return (inner);
 			}
 		}
 
-		operation q_vector_distance (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
+		operation q_vector_distance (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
-				let inner=q_vector_inner(u,v,n_qubit,acc);
-				let distance=Sqrt(2.0-2.0 * inner);
+				let inner=q_vector_inner(u, v, n_qubit, acc);
+				let distance=Sqrt(2.0-2.0*inner);
 				return (distance);	
- 
 			}
 		}
 }

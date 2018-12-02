@@ -7,14 +7,15 @@ namespace Quantum.test
 	open Microsoft.Quantum.Extensions.Math;
 	open qblas;
 
-	operation test_vector () : Int
+	operation test_vector (p:Int) : Int
 	{
 		body(...)
 		{
 			let u = [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)];
-			let v = [ComplexPolar(1.0/Sqrt(2.0), 0.0), ComplexPolar(1.0/Sqrt(2.0), 0.0)];
-			let inr= q_vector_inner(u, v, 1, 0.01);
-			q_print_D([inr]);
+			let v = [ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)];
+			let inr= q_vector_inner(u, v, 1, 0.001);
+			let s =  q_vector_distance(u, v, 1, 0.001);
+			q_print_D([inr,s]);
 			return(1);
 		}
 	}
