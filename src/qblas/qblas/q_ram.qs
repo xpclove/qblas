@@ -1,8 +1,9 @@
 namespace qblas
 {
     open Microsoft.Quantum.Primitive;
-    
+    open Microsoft.Quantum.Extensions.Convert;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Extensions.Math;
 
     newtype ComplexPolar = (Double, Double);
     newtype QBLAS_M_Weight  = (Int, Int, Int) ;
@@ -206,6 +207,53 @@ namespace qblas
                             }
                         }
                     }
+                }
+        }
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+    }
+
+    operation q_ram_call_lamda_rcp ( qs_address:Qubit[], qs_weight:Qubit[] ) : Unit
+    {
+        body(...)
+        {
+            let n_a = Length(qs_address);
+
+                for(i in 0..(2^n_a-1) )
+                {
+                    let (address, weight) = ( i, 1.0/ToDouble(i) );
+
+                    // do 寻址
+                    for( j in 0..(n_a-1) )
+                    {
+                        let bit = 2^j;
+                        if ( ( address&&&bit ) == 0 )
+                        {
+                            X (qs_address[j]);
+                        }
+                    }
+                    
+                    if( address == 0)
+                    {
+                        (Controlled X) (qs_address,(qs_weight[0]));
+                    }
+                    else
+                    {
+                        let angle = 2.0*ArcSin(weight);
+                        (Controlled Ry) ( qs_address, (angle , qs_weight[0]) );
+                    }
+
+                    // undo 寻址
+                    for( j in 0..(n_a-1) )
+                    {
+                        let bit = 2^j;
+                        if ( ( address&&&bit ) == 0 )
+                        {
+                            X (qs_address[j]);
+                        }
+                    }
+
                 }
         }
 		adjoint auto;

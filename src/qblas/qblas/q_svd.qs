@@ -28,7 +28,7 @@
         body
         {
 			q_phase_estimate_core (U_A,qs_u, qs_phase);
-			q_hhl_rotation_lamda(qs_phase, qs_r);
+			q_svd_rotation_lamda(qs_phase, qs_r);
 			(Adjoint q_phase_estimate_core) (U_A,qs_u, qs_phase);
         }
 		adjoint auto;

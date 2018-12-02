@@ -67,7 +67,7 @@ namespace Quantum.test
 				let qs_phase = qs[1..10];
 				let qs_r = qs[11];
 				DumpRegister("phase_0.txt", [qs_u]);
-				q_hhl_core (U, [qs_u], [qs[1]], qs_r) ;
+				q_hhl_core (U, [qs_u], qs_phase, qs_r) ;
 
 				let r = MeasureInteger(LittleEndian([qs_r]));
 				ResetAll(qs[1..11]);
