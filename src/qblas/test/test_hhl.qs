@@ -23,7 +23,7 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let dt = 2.0;
+			let dt = 3.0;
 			let angle = dt*ToDouble(n);
 			Rx(angle, u[0]);
 		}
