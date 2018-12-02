@@ -15,11 +15,11 @@
 			}
 		}
 
-		operation q_vector_inner (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Int) : (Double)
+		operation q_vector_inner (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
-				let N = acc;
+				let N = 1.0/acc;
 				mutable num_ones=0;
 				mutable p=0.0;
 				mutable inner=0.0;

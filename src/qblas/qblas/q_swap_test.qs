@@ -3,7 +3,7 @@
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 
-    operation q_swap_test_core (control:Qubit,u:Qubit[],v:Qubit[]) : Unit
+    operation q_swap_test_core (control:Qubit, u:Qubit[], v:Qubit[]) : Unit
     {
         body(...)
         {

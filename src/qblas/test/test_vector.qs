@@ -11,7 +11,11 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let dt = 2.0;
+			let u = [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)];
+			let v = [ComplexPolar(1.0/Sqrt(2.0), 0.0), ComplexPolar(1.0/Sqrt(2.0), 0.0)];
+			let inr= q_vector_inner(u, v, 1, 0.01);
+			q_print_D([inr]);
+			return(1);
 		}
 	}
 }
