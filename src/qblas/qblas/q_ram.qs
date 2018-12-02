@@ -32,20 +32,23 @@ namespace qblas
 
 
     //寻址操作
-    operation q_ram_addressing ( qs_address:Qubit[] ) : ()
+    operation q_ram_addressing ( qs_address:Qubit[], address:Int ) : Unit
     {
-        let n_a = Length(qs_address);
-        body
+        body(...)
         {
+            let n_a = Length(qs_address);
             for( j in 0..(n_a-1) )
             {
                 let bit = 2^j;
-                if ( (i&&&bit) == 0 )
+                if ( (address&&&bit) == 0 )
                 {
                     X (qs_address[j]);
                 }
             }
         }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
     }
 
 
@@ -226,15 +229,8 @@ namespace qblas
                     let (address, phase) = ( i, i );
 
                     // do 寻址
-                    for( j in 0..(n_a-1) )
-                    {
-                        let bit = 2^j;
-                        if ( ( address&&&bit ) == 0 )
-                        {
-                            X (qs_address[j]);
-                        }
-                    }
-                    
+                    q_ram_addressing(qs_address, address);
+
                     if( address > 0)
                     {
                         if ( address >= 2^(n_a-1) )
@@ -258,14 +254,7 @@ namespace qblas
                     }
 
                     // undo 寻址
-                    for( j in 0..(n_a-1) )
-                    {
-                        let bit = 2^j;
-                        if ( ( address&&&bit ) == 0 )
-                        {
-                            X (qs_address[j]);
-                        }
-                    }
+                    (Adjoint q_ram_addressing) (qs_address, address);
 
                 }
         }
