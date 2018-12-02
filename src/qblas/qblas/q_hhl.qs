@@ -55,6 +55,7 @@
 				repeat
 				{
 					ResetAll(qs_u);
+					Reset(qs_r);
 					prepare_oracle(qs_u);
 					q_hhl_core(U_A,qs_u,qs_phase, qs_r);
 					ResetAll(qs_phase);
