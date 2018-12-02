@@ -176,9 +176,9 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_ram_call_SwapA ( RAM : Int[][], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_ram_call_SwapA ( RAM : Int[][], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
-        body
+        body(...)
         {
             // let N_RAM = Length(RAM);
             let n_a = Length(qs_address);
@@ -229,10 +229,11 @@ namespace qblas
                     let (address, phase) = ( i, i );
 
                     // do 寻址
-                    q_ram_addressing(qs_address, address);
+                    (q_ram_addressing) (qs_address, address);
 
                     if( address > 0)
                     {
+                        //补码 负数部分
                         if ( address >= 2^(n_a-1) )
                         {
                             let lamda = ToDouble(phase-2^n_a)*lamda_div;
@@ -242,6 +243,7 @@ namespace qblas
                                 (Controlled Ry) ( qs_address, (angle , qs_weight[0]) );
                             }
                         }
+                        //补码 正数部分
                         else
                         {
                             let lamda = ToDouble(phase)*lamda_div;
