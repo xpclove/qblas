@@ -11,7 +11,7 @@ namespace Quantum.test
             Console.WriteLine("start test!");
             using (var sim = new QuantumSimulator())
             {
-                sim.OnLog += (msg) => { Console.WriteLine(msg); };
+                // sim.OnLog += (msg) => { Console.WriteLine(msg); };
                 for(int i = 0; i < 4; i++)
                 {
                     var res = test_hhl.Run(sim, i);

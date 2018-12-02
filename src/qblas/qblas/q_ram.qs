@@ -214,7 +214,7 @@ namespace qblas
 		controlled adjoint auto;
     }
 
-    operation q_ram_call_lamda_rcp ( qs_address:Qubit[], qs_weight:Qubit[] ) : Unit
+    operation q_ram_call_lamda_rcp ( qs_address:Qubit[], qs_weight:Qubit[], lamda_div:Double) : Unit
     {
         body(...)
         {
@@ -222,7 +222,7 @@ namespace qblas
 
                 for(i in 0..(2^n_a-1) )
                 {
-                    let (address, weight) = ( i, 1.0/ToDouble(i) );
+                    let (address, phase) = ( i, i );
 
                     // do 寻址
                     for( j in 0..(n_a-1) )
@@ -234,14 +234,26 @@ namespace qblas
                         }
                     }
                     
-                    if( address == 0)
+                    if( address > 0)
                     {
-                        (Controlled X) (qs_address,(qs_weight[0]));
-                    }
-                    else
-                    {
-                        let angle = 2.0*ArcSin(weight);
-                        (Controlled Ry) ( qs_address, (angle , qs_weight[0]) );
+                        if ( address >= 2^(n_a-1) )
+                        {
+                            let lamda = ToDouble(phase-2^n_a)*lamda_div;
+                            if(lamda <= -1.0) 
+                            {
+                                let angle = 2.0*ArcSin( 1.0/lamda );
+                                (Controlled Ry) ( qs_address, (angle , qs_weight[0]) );
+                            }
+                        }
+                        else
+                        {
+                            let lamda = ToDouble(phase)*lamda_div;
+                            if(lamda >= 1.0)
+                            {  
+                                let angle = 2.0*ArcSin( 1.0/lamda );
+                                (Controlled Ry) ( qs_address, (angle , qs_weight[0]) );
+                            }
+                        }
                     }
 
                     // undo 寻址

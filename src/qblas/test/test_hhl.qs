@@ -25,7 +25,7 @@ namespace Quantum.test
 		{
 			let dt = 2.0;
 			let angle = dt*ToDouble(n);
-			Ry(angle, u[0]);
+			Rx(angle, u[0]);
 		}
 		adjoint auto;
 		controlled auto;
@@ -64,17 +64,17 @@ namespace Quantum.test
 			{
 				let U = DiscreteOracle ( U_hhl );
 				let qs_u =qs[0];
-				let qs_phase = qs[1..10];
-				let qs_r = qs[11];
+				let qs_phase = qs[2..11];
+				let qs_r = qs[1];
+				X(qs_u);
 				DumpRegister("phase_0.txt", [qs_u]);
 				q_hhl_core (U, [qs_u], qs_phase, qs_r) ;
-
+				ResetAll(qs_phase);
 				let r = MeasureInteger(LittleEndian([qs_r]));
-				ResetAll(qs[1..11]);
 				DumpRegister("phase_1.txt", [qs_u]);
-				let result_int = MeasureInteger( LittleEndian( [qs_u] ) );
-				set res = ToDouble(result_int);
-				q_print([r,result_int]);
+				let result_u = MeasureInteger( LittleEndian( [qs_u] ) );
+				set res = ToDouble(r);
+				q_print([r,result_u]);
 				ResetAll(qs);
 			}
 			return(res);
