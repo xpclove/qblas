@@ -79,17 +79,17 @@
 			}
 		}
 
-		operation q_vectors_distance (us : ComplexPolar[][], vs : ComplexPolar[][], n_qubit : Int, acc : Double) : (Double)
+		operation q_vectors_distance (vectors:ComplexPolar[][], us : Int[], vs : Int[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
-				let inner=q_vectors_inner(us, vs, n_qubit, acc);
+				let inner=q_vectors_inner(vectors, us, vs, n_qubit, acc);
 				let distance=Sqrt(2.0-2.0*inner);
 				return (distance);	
 			}
 		}
 
-		operation q_vectors_inner (us : ComplexPolar[][], vs : ComplexPolar[][], n_qubit : Int, acc : Double) : (Double)
+		operation q_vectors_inner (vectors:ComplexPolar[][], us : Int[], vs :Int[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
@@ -107,11 +107,10 @@
 					{
 						Reset(qs[0]);
 						let qs_control = qs[0];
-						q_vector_creat(us[0], qs_u);
-						q_vector_creat(vs[0], qs_v);
-
 						let qs_u =qs[ 1..nbit_address ];
 						let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
+						let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+n_qubit)];
+						q_vectors_creat(vectors, qs_u, qs_vector);
 						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);
 						// 0 为通过测试, 1为未通过测试
