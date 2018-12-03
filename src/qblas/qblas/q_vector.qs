@@ -14,6 +14,20 @@
 				
 			}
 		}
+		operation q_vectors_creat (vs:ComplexPolar[][], qs_adress:Qubit[], qs_v:Qubit) : Unit
+		{
+			body(...)
+			{
+				let nbit = Length(qs_adress);
+				for(address in 0..(2^nbit-1) )
+				{
+					
+
+					PrepareArbitraryState( vector, BigEndian(qs_v) );
+				}
+				
+			}
+		}
 
 		operation q_vector_inner (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
@@ -82,17 +96,21 @@
 				mutable num_ones=0;
 				mutable p=0.0;
 				mutable inner=0.0;
-				using(qs=Qubit[n_qubit*2+1])
+				let n_vector_us = Length(us);
+				let n_vector_vs = Length(vs);
+				let n_vector = n_vector_us + n_vector_vs;
+				let nbit_address = Ceiling( Log( ToDouble(n_vector) )/Log(2.0) );
+				using(qs=Qubit[ 1+nbit_address*2+n_qubit ] ) 
 				{
 					for(i in 1..N)
 					{
 						Reset(qs[0]);
 						let qs_control = qs[0];
-						let qs_u =qs[ 1..n_qubit ];
-						let qs_v =qs[ (n_qubit+1)..2*n_qubit ];
-
 						q_vector_creat(us[0], qs_u);
 						q_vector_creat(vs[0], qs_v);
+
+						let qs_u =qs[ 1..nbit_address ];
+						let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
 						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);
 						// 0 为通过测试, 1为未通过测试
