@@ -14,16 +14,17 @@
 				
 			}
 		}
-		operation q_vectors_creat (vs:ComplexPolar[][], qs_adress:Qubit[], qs_v:Qubit) : Unit
+		operation q_vectors_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
 			body(...)
 			{
-				let nbit = Length(qs_adress);
+				let nbit = Length(qs_address);
 				for(address in 0..(2^nbit-1) )
 				{
-					
-
-					PrepareArbitraryState( vector, BigEndian(qs_v) );
+					let vector = vs[address];
+					q_ram_addressing(qs_address, address);
+					(Controlled PrepareArbitraryState) (qs_address, ( vector, BigEndian(qs_v) ) ) ; 
+					(Adjoint q_ram_addressing) (qs_address, address);
 				}
 				
 			}
