@@ -93,10 +93,12 @@
 			body(...)
 			{
 				let nbit = Length(qs_v);
+				X(qs_v[nbit-1]);			//最高位 0-1， 0 对应 u那一支， -1对应v那一支
 				for(i in 0..(nbit-1))
 				{
 					H(qs_v[i]);
 				}
+
 			}
 		}
 		operation q_vector_s_inner (vectors:ComplexPolar[][], us : Int[], vs :Int[], n_qubit : Int, acc : Double) : (Double)
