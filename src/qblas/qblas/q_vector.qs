@@ -69,12 +69,12 @@
 			}
 		}
 
-		operation q_vector_distance (u : ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
+		operation q_vector_distance (u_norm:Double, u : ComplexPolar[], v_norm:Double, v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
 				let inner=q_vector_inner(u, v, n_qubit, acc);
-				let distance=Sqrt(2.0-2.0*inner);
+				let distance=Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner);
 				return (distance);	
 			}
 		}
