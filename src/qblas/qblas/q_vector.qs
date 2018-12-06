@@ -79,11 +79,11 @@
 			}
 		}
 
-		operation q_vector_s_distance (vectors:ComplexPolar[][], us : Int[], vs : Int[], n_qubit : Int, acc : Double) : (Double)
+		operation q_vector_s_distance (norms:Double[], vectors:ComplexPolar[][], us : Int[], vs : Int[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
-				let inner=q_vector_s_inner(vectors, us, vs, n_qubit, acc);
+				let inner=q_vector_s_inner(norms, vectors, us, vs, n_qubit, acc);
 				let distance=Sqrt(2.0-2.0*inner);
 				return (distance);	
 			}
@@ -101,7 +101,7 @@
 
 			}
 		}
-		operation q_vector_s_inner (vectors:ComplexPolar[][], us : Int[], vs :Int[], n_qubit : Int, acc : Double) : (Double)
+		operation q_vector_s_inner (norms:Double[], vectors:ComplexPolar[][], us : Int[], vs :Int[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
