@@ -14,7 +14,7 @@
 				
 			}
 		}
-		operation q_vector_state_prepare (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
+		operation q_vector_s_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
 			body(...)
 			{
