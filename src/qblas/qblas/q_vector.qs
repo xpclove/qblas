@@ -13,6 +13,7 @@
 				PrepareArbitraryState( vector, BigEndian(qs) );
 				
 			}
+			controlled auto;
 		}
 		operation q_vector_s_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
@@ -91,16 +92,17 @@
 			}
 		}
 
-		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:Double[], vectors_group :Int[]) : Unit
+		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
 		{
 			body(...)
 			{
-				let nbit = Length(qs_address);
-				X(qs_address[nbit-1]);			//最高位 0-1， 0 对应 u那一支， 1对应v那一支
-				for(i in 0..(nbit-1))
-				{
-					H(qs_address[i]);
-				}
+				let nbit_address = Length(qs_address);
+				let n_vector = Length(qs_address);
+				H(qs_address[nbit_address-1]);
+				let vectors_u = norms[0..(n_vector/2-1)];
+				let vectors_v = norms[(n_vector/2)..(n_vector-1)];
+				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
+				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
 			}
 		}
 		operation q_vector_s_vpool_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
@@ -119,7 +121,7 @@
 				qs_psi_vector));
 			}
 		}
-		operation q_vector_s_swaptest_state_prepare(vectors_group :Int[], norms:Double[], vectors:ComplexPolar[][],
+		operation q_vector_s_swaptest_state_prepare(vectors_group :Int[], norms:ComplexPolar[], vectors:ComplexPolar[][],
 		 qs:Qubit[] ):Unit
 		{
 			body(...)
