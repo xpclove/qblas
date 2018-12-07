@@ -77,24 +77,15 @@
 			}
 		}
 
-		operation q_vector_s_distance (norms:Double[], vectors:ComplexPolar[][], us : Int[], vs : Int[], n_qubit : Int, acc : Double) : (Double)
+		operation q_vector_s_address_prepare (qs_address:Qubit[], vectors_group :Int[]) : Unit
 		{
 			body(...)
 			{
-				let inner=q_vector_s_inner(norms, vectors, us, vs, n_qubit, acc);
-				let distance=Sqrt(2.0-2.0*inner);
-				return (distance);	
-			}
-		}
-		operation q_vector_s_address_prepare (qs_v:Qubit[], us : Int[], vs :Int[]) : Unit
-		{
-			body(...)
-			{
-				let nbit = Length(qs_v);
-				X(qs_v[nbit-1]);			//最高位 0-1， 0 对应 u那一支， -1对应v那一支
+				let nbit = Length(qs_address);
+				X(qs_address[nbit-1]);			//最高位 0-1， 0 对应 u那一支， -1对应v那一支
 				for(i in 0..(nbit-1))
 				{
-					H(qs_v[i]);
+					H(qs_address[i]);
 				}
 
 			}
@@ -108,7 +99,7 @@
 				let qs_u =qs[ 1..n_qubit ];
 				let qs_v =qs[ (n_qubit+1)..2*n_qubit ];
 				let nbit_address = Ceiling( Log( ToDouble(n_vector) )/Log(2.0) );
-				q_vector_s_address_prepare(qs_v, us, vs);
+				q_vector_s_address_prepare(qs_address, vectors_group);
 			}
 		}
 		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
@@ -146,6 +137,16 @@
 					ResetAll(qs);
 				}
 				return (inner);
+			}
+		}
+		operation q_vector_s_distance (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
+		{
+			body(...)
+			{
+				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
+				let Z_s =1.0;
+				let distance= Z_s*inner;
+				return (distance);	
 			}
 		}
 }
