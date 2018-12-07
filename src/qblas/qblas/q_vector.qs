@@ -44,7 +44,8 @@
 					{
 						Reset(qs[0]);
 						let qs_control = qs[0];
-
+						let qs_u = qs[1..n_qubit];
+						let qs_v = qs[(n_qubit+1)..2*n_qubit];
 						q_vector_creat(u, qs_u);
 						q_vector_creat(v, qs_v);
 						q_swap_test_core( qs_control, qs_u, qs_v );
