@@ -29,7 +29,17 @@
 				
 			}
 		}
+		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit), qs_address:Qubit[], qs_vector:Qubit[]): Unit
+		{
+			body(...)
+			{
+				using(qs_r = Qubit())
+				{
+					ram_call(qs_address, qs_vector);
+				}
 
+			}
+		}
 		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
