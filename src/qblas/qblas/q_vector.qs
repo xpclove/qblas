@@ -78,7 +78,7 @@
 			}
 		}
 
-		operation q_vector_s_address_prepare (qs_address:Qubit[], vectors_group :Int[]) : Unit
+		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:Double[], vectors_group :Int[]) : Unit
 		{
 			body(...)
 			{
@@ -91,7 +91,14 @@
 
 			}
 		}
-		operation q_vector_s_swaptest_state_prepare(norms:Double[], vectors:ComplexPolar[][], vectors_group :Int[],
+		operation q_vector_s_vpool_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][]) : Unit
+		{
+			body(...)
+			{
+				let (qs_psi_a, qs_psi_vector) = qs_pool; 
+			}
+		}
+		operation q_vector_s_swaptest_state_prepare(vectors_group :Int[], norms:Double[], vectors:ComplexPolar[][],
 		 qs:Qubit[] ):Unit
 		{
 			body(...)
@@ -101,7 +108,8 @@
 				let qs_u =qs[ 1..nbit_address ];
 				let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
 				let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector)];
-				q_vector_s_address_prepare(qs_u, vectors_group);
+				q_vector_s_address_prepare(qs_u, norms, vectors_group);
+				q_vector_s_vpool_prepare((qs_v, qs_vector), vectors);
 			}
 		}
 		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
