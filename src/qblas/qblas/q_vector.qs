@@ -91,15 +91,16 @@
 			}
 		}
 		operation q_vector_s_swaptest_state_prepare(norms:Double[], vectors:ComplexPolar[][], vectors_group :Int[],
-		 qs_address:Qubit[],
-		 qs_vector_pool:Qubit[] ):Unit
+		 qs:Qubit[] ):Unit
 		{
 			body(...)
 			{
-				let qs_u =qs[ 1..n_qubit ];
-				let qs_v =qs[ (n_qubit+1)..2*n_qubit ];
-				let nbit_address = Ceiling( Log( ToDouble(n_vector) )/Log(2.0) );
-				q_vector_s_address_prepare(qs_address, vectors_group);
+				let nbit_address = Ceiling( Log( ToDouble( Length(vectors_group) ) )/Log(2.0) );
+				let nbit_vector = Ceiling( Log( ToDouble( Length(vectors[0]) ) )/Log(2.0) );
+				let qs_u =qs[ 1..nbit_address ];
+				let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
+				let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector)];
+				q_vector_s_address_prepare(qs_u, vectors_group);
 			}
 		}
 		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
