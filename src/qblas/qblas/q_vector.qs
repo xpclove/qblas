@@ -99,7 +99,7 @@
 			{
 				let nbit_address = Length(qs_address); //地址线Qubit数目
 				let n_vector = 2^nbit_address; // 向量数目
-
+				X (qs_address[nbit_address-1]);
 				H (qs_address[nbit_address-1]);
 				let vectors_u = norms[0..(n_vector/2-1)];
 				let vectors_v = norms[(n_vector/2)..(n_vector-1)];
