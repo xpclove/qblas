@@ -21,9 +21,9 @@ namespace qblas
         controlled auto;
         controlled adjoint auto;
     }
-    function q_com_convert_tuple_to_complexpolar(data:(Double,Double)[]) : ComplexPolar[]
+    function q_com_convert_tuples_to_complexpolars(data:(Double,Double)[]) : ComplexPolar[]
     {
-        // ...
+        // DoubleTuple[]  to ComplexPolar[]
         let n = Length(data);
         mutable newdata = new ComplexPolar[n];
         for(i in 0..n-1)
@@ -33,5 +33,16 @@ namespace qblas
         return(newdata);
     }
 
+        function q_com_convert_doubles_to_complexpolars(data:Double[]) : ComplexPolar[]
+    {
+        // Double[]  to ComplexPolar[]
+        let n = Length(data);
+        mutable newdata = new ComplexPolar[n];
+        for(i in 0..n-1)
+        {
+            set newdata[i]=ComplexPolar(data[i], 0.0);
+        }
+        return(newdata);
+    }
 }
 

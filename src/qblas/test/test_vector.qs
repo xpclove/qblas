@@ -16,8 +16,8 @@ namespace Quantum.test
 			{
 				// ...
 				let v = [ComplexPolar(3.0, 0.0), ComplexPolar(3.0, 0.0)];
-				let u =[(3.0,0.0),(3.0,0.0)];
-				let cp = q_com_convert_tuple_to_complexpolar(u);
+				let u =[3.0,3.0];
+				let cp = q_com_convert_doubles_to_complexpolars(u);
 				q_vector_creat(cp,qs);
 				DumpRegister("ctdump.txt",qs);
 				ResetAll(qs);
