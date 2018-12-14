@@ -92,13 +92,14 @@
 				return (distance);	
 			}
 		}
-		//向量组 swaptest vector-1(模向量) 准备， 目前只支持两组等数量向量
-		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
+		//向量组 swaptest vector-1(模向量 |phi>) 准备， 目前只支持两组等数量向量
+		operation q_vector_s_vnorms_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
 		{
 			body(...)
 			{
 				let nbit_address = Length(qs_address); //地址线Qubit数目
 				let n_vector = 2^nbit_address; // 向量数目
+
 				H (qs_address[nbit_address-1]);
 				let vectors_u = norms[0..(n_vector/2-1)];
 				let vectors_v = norms[(n_vector/2)..(n_vector-1)];
@@ -106,15 +107,16 @@
 				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
 			}
 		}
-		//向量组 swaptest vector-2(方向向量) 准备， 目前只支持两组等数量向量
-		operation q_vector_s_vpool_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
+		//向量组 swaptest vector-2(方向向量 |psi>) 准备， 目前只支持两组等数量向量
+		operation q_vector_s_vdirections_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
 		{
 			body(...)
 			{
-				let (qs_psi_a, qs_psi_vector) = qs_pool;
-				let nbit_address = Length(qs_psi_a);
-				let n_vector = Length(vectors);
-				H(qs_psi_a[nbit_address-1]);
+				let (qs_psi_a, qs_psi_vector) = qs_pool; //弹出向量Qubit[], (地址线， 向量)
+				let nbit_address = Length(qs_psi_a); //地址线Qubit数目
+				let n_vector = Length(vectors); //向量总数目
+
+				H (qs_psi_a[nbit_address-1]);
 				let vectors_u = vectors[0..(n_vector/2-1)];
 				let vectors_v = vectors[(n_vector/2)..(n_vector-1)];
 				(Controlled q_vector_s_creat) ( [qs_psi_a[nbit_address-1]], (vectors_u, qs_psi_a[0..nbit_address-2],
@@ -133,8 +135,8 @@
 				let qs_u =qs[ 1..nbit_address ];
 				let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
 				let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector)];
-				q_vector_s_address_prepare(qs_u, norms, vectors_group);
-				q_vector_s_vpool_prepare((qs_v, qs_vector), vectors, vectors_group);
+				q_vector_s_vnorms_prepare(qs_u, norms, vectors_group);
+				q_vector_s_vdirections_prepare((qs_v, qs_vector), vectors, vectors_group);
 			}
 		}
 		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
