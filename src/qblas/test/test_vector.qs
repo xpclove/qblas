@@ -16,7 +16,9 @@ namespace Quantum.test
 			{
 				// ...
 				let v = [ComplexPolar(3.0, 0.0), ComplexPolar(3.0, 0.0)];
-				q_vector_creat(v,qs);
+				let u =[(3.0,0.0),(3.0,0.0)];
+				let cp = q_com_convert_tuple_to_complexpolar(u);
+				q_vector_creat(cp,qs);
 				DumpRegister("ctdump.txt",qs);
 				ResetAll(qs);
 			} 
@@ -56,7 +58,7 @@ namespace Quantum.test
 		body(...)
 		{
 			let inr= q_vector_s_inner(oracle, 2, 4, 0.01);
-;			let s =  q_vector_s_distance(oracle, 2, 4, 0.01);
+			let s =  q_vector_s_distance(oracle, 2, 4, 0.01);
 			q_print_D([inr,s]);
 			return(1);
 		}
