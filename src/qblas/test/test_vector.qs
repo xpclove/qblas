@@ -7,6 +7,22 @@ namespace Quantum.test
 	open Microsoft.Quantum.Extensions.Math;
 	open qblas;
 
+	// 测试 qs_creat
+	operation test_creat(p:Int):Unit
+	{
+		body(...)
+		{
+			using (qs = Qubit[1])
+			{
+				// ...
+				let v = [ComplexPolar(3.0, 0.0), ComplexPolar(3.0, 0.0)];
+				q_vector_creat(v,qs);
+				DumpRegister("ctdump.txt",qs);
+				ResetAll(qs);
+			} 
+		}
+	}
+
 	//	2个单位向量测试
 	operation test_vector (p:Int) : Int
 	{
