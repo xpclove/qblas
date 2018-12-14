@@ -114,7 +114,7 @@
 			{
 				let (qs_psi_a, qs_psi_vector) = qs_pool; //弹出向量Qubit[], (地址线， 向量)
 				let nbit_address = Length(qs_psi_a); //地址线Qubit数目
-				let n_vector = Length(vectors); //向量总数目
+				let n_vector = 2^nbit_address; //向量总数目
 
 				H (qs_psi_a[nbit_address-1]);
 				let vectors_u = vectors[0..(n_vector/2-1)];
