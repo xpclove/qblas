@@ -33,6 +33,7 @@
 			controlled auto;
 			controlled adjoint auto;
 		}
+		// ramcall 方式创建向量
 		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit), qs_address:Qubit[], qs_vector:Qubit[]): Unit
 		{
 			body(...)
@@ -91,7 +92,7 @@
 				return (distance);	
 			}
 		}
-
+		// swaptest vector 1 准备
 		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
 		{
 			body(...)
@@ -105,6 +106,7 @@
 				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
 			}
 		}
+		// swaptest vector 2 准备 
 		operation q_vector_s_vpool_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
 		{
 			body(...)
