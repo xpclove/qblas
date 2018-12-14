@@ -32,7 +32,23 @@ namespace qblas
         }
         return(newdata);
     }
-
+    function q_com_convert_tupless_to_complexpolarss(data:(Double,Double)[][]) : ComplexPolar[][]
+    {
+        // DoubleTuple[][]  to ComplexPolar[][]
+        let n1 = Length(data);
+        let n2 = Length(data[0]); 
+        mutable newdata = new (ComplexPolar[])[n1];
+        for(i in 0..n1-1)
+        {
+           mutable newdata_i = new (ComplexPolar)[n2];
+            for(j in 0..n2-1)
+            {
+                set newdata_i[j]=ComplexPolar(data[i][j]);
+            }
+            set newdata[i] = newdata_i;
+        }
+        return(newdata);
+    }
         function q_com_convert_doubles_to_complexpolars(data:Double[]) : ComplexPolar[]
     {
         // Double[]  to ComplexPolar[]

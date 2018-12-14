@@ -44,8 +44,9 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let vectors =[ [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)],[ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)],
-			[ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)], [ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)] ] ;
+			let vectors_raw =[ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)],
+			[(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
+			let vectors = q_com_convert_tupless_to_complexpolarss(vectors_raw);
 			let group=[0,0,1,1];
 			let norms=[ ComplexPolar(1.0, 0.0),ComplexPolar(0.0, 0.0),ComplexPolar(1.0, 0.0),
 			ComplexPolar(1.0, 0.0)] ;
