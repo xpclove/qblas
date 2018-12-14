@@ -176,12 +176,25 @@
 				return (inner);
 			}
 		}
+		operation q_vector_Z_simulation():Unit
+		{
+			body(...)
+			{
+			}
+		}
+		operation q_vector_count_Z():Double
+		{
+			body(...)
+			{
+				return(1.0);
+			}
+		}
 		operation q_vector_s_distance (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
 				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
-				let Z_s =1.0;
+				let Z_s =q_vector_count_Z();
 				let distance= Z_s*inner;
 				return (distance);	
 			}
