@@ -92,21 +92,21 @@
 				return (distance);	
 			}
 		}
-		// swaptest vector 1 准备
+		//向量组 swaptest vector-1(模向量) 准备， 目前只支持两组等数量向量
 		operation q_vector_s_address_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
 		{
 			body(...)
 			{
-				let nbit_address = Length(qs_address);
-				let n_vector = Length(qs_address);
-				H(qs_address[nbit_address-1]);
+				let nbit_address = Length(qs_address); //地址线Qubit数目
+				let n_vector = 2^nbit_address; // 向量数目
+				H (qs_address[nbit_address-1]);
 				let vectors_u = norms[0..(n_vector/2-1)];
 				let vectors_v = norms[(n_vector/2)..(n_vector-1)];
 				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
 				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
 			}
 		}
-		// swaptest vector 2 准备 
+		//向量组 swaptest vector-2(方向向量) 准备， 目前只支持两组等数量向量
 		operation q_vector_s_vpool_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
 		{
 			body(...)
