@@ -14,7 +14,7 @@ namespace Quantum.test
                 // sim.OnLog += (msg) => { Console.WriteLine(msg); };
                 for(int i = 0; i < 4; i++)
                 {
-                    var res = test_creat.Run(sim, i);
+                    var res = test_vector_s.Run(sim, i);
                     Console.WriteLine("Result= "+res.Result);
                 }
             }
