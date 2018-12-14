@@ -7,6 +7,7 @@ namespace Quantum.test
 	open Microsoft.Quantum.Extensions.Math;
 	open qblas;
 
+	//	2个单位向量测试
 	operation test_vector (p:Int) : Int
 	{
 		body(...)
@@ -14,7 +15,32 @@ namespace Quantum.test
 			let u = [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)];
 			let v = [ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)];
 			let inr= q_vector_inner(u, v, 1, 0.001);
-			let s =  q_vector_distance(u, v, 1, 0.001);
+			let s =  q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
+			q_print_D([inr,s]);
+			return(1);
+		}
+	}
+
+	// 2组等数量向量测试，每组2个向量
+	operation oracle(qs:Qubit[]): Unit
+	{
+		body(...)
+		{
+			let vectors =[ [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)],[ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)],
+			[ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)], [ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)] ] ;
+			let group=[0,0,1,1];
+			let norms=[ ComplexPolar(1.0, 0.0),ComplexPolar(0.0, 0.0),ComplexPolar(1.0, 0.0),
+			ComplexPolar(1.0, 0.0)] ;
+			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
+		}
+	}
+
+	operation test_vector_s (p:Int) : Int
+	{
+		body(...)
+		{
+			let inr= q_vector_s_inner(oracle, 2, 4, 0.01);
+;			let s =  q_vector_s_distance(oracle, 2, 4, 0.01);
 			q_print_D([inr,s]);
 			return(1);
 		}
