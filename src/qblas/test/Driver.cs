@@ -12,7 +12,7 @@ namespace Quantum.test
             using (var sim = new QuantumSimulator())
             {
                 // sim.OnLog += (msg) => { Console.WriteLine(msg); };
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < 1; i++)
                 {
                     var res = test_vector_prepare.Run(sim, i);
                     Console.WriteLine("Result= "+res.Result);

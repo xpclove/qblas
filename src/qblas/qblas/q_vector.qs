@@ -4,6 +4,8 @@
 		open Microsoft.Quantum.Canon;
 		open Microsoft.Quantum.Extensions.Convert;
 		open Microsoft.Quantum.Extensions.Math;
+		open Microsoft.Quantum.Extensions.Diagnostics;
+
 
 		operation q_vector_creat (vector:ComplexPolar[], qs:Qubit[]) : Unit
 		{
@@ -34,16 +36,18 @@
 			controlled adjoint auto;
 		}
 		// ram call 方式创建向量
-		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_real:Int): Unit
+		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], qs_tmp:Qubit[], nbit_real:Int): Unit
 		{
 			body(...)
 			{
-				using(qs_tmp = Qubit[nbit_real+1] )
+				using(qs_tmpr = Qubit[1] )
 				{
-					let qs_vector = qs_tmp[ 0..(nbit_real-1) ];
+					let qs_vector=qs_tmp[ 0..(nbit_real-1) ];
 					let qs_r = qs_tmp[nbit_real];
 					repeat
 					{
+						ResetAll(qs_address);
+						for(i in 0..Length(qs_address)-1 ){ H(qs_address[i]); }
 						ram_call (qs_address, qs_vector); //加载数据
 						let n_v =Length(qs_vector);
 						for(i in 0..n_v-1)
@@ -53,6 +57,8 @@
 							(Controlled Ry) ( [qs_vector[i]], (angle, qs_r) ); //受控旋转
 						}
 						let result = M(qs_r); //通过测量制备向量
+						if(result == One) { q_print_D([1.0]); }
+						else { q_print_D([0.0]);}
 						(Adjoint ram_call) (qs_address, qs_vector); //撤销加载
 						ResetAll(qs_tmp);
 					}until (result == One)
