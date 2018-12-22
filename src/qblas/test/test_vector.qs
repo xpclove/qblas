@@ -28,7 +28,7 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [40, 40, 70, 100 ];
+			let v = [50, 50, 30, 100 ];
 			let RAM=v;
 			q_ram_load_real(RAM, qs_address, qs_data);
 		}
