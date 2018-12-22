@@ -39,13 +39,11 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			using (qs = Qubit[2+8+1])
+			using (qs = Qubit[2])
 			{
 				// ...
-				let qs_v =qs[0..1];
-				let qs_tmp = qs[2..10];
-				q_vector_prepare(ram_call, qs_v, qs_tmp, 8);
-				DumpRegister("vector_dump.txt",qs_v);
+				q_vector_prepare(ram_call, qs, 8);
+				DumpRegister("vector_dump.txt",qs);
 				ResetAll(qs);
 			} 
 		}
