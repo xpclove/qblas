@@ -24,7 +24,22 @@ namespace Quantum.test
 			} 
 		}
 	}
-
+	operation test_vector_prepare(p:Int):Unit
+	{
+		body(...)
+		{
+			using (qs = Qubit[2])
+			{
+				// ...
+				let v = [ComplexPolar(3.0, 0.0), ComplexPolar(3.0, 0.0)];
+				let u =[3.0,3.0];
+				let cp = q_com_convert_doubles_to_complexpolars(u);
+				q_vector_creat(cp,qs);
+				DumpRegister("ctdump.txt",qs);
+				ResetAll(qs);
+			} 
+		}
+	}
 	//	2个单位向量测试
 	operation test_vector (p:Int) : Int
 	{

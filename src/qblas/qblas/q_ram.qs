@@ -178,7 +178,7 @@ namespace qblas
     }
     operation q_ram_load_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : ()
     {
-    // real value = 1/RAM[i] ;
+    // Real Value = ArcSin( (Pi/2) /Max * RAM[i] ) ;
         body(...)
         {
             let N_RAM = Length(RAM);

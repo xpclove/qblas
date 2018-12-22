@@ -33,14 +33,30 @@
 			controlled auto;
 			controlled adjoint auto;
 		}
-		// ramcall 方式创建向量
-		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit), qs_address:Qubit[], qs_vector:Qubit[]): Unit
+		// ram call 方式创建向量
+		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_real:Int): Unit
 		{
 			body(...)
 			{
-				using(qs_r = Qubit())
+				using(qs_tmp = Qubit[nbit_real+1] )
 				{
-					ram_call(qs_address, qs_vector);
+					let qs_vector = qs_tmp[ 0..(nbit_real-1) ];
+					let qs_r = qs_tmp[nbit_real];
+					repeat
+					{
+						ram_call (qs_address, qs_vector); //加载数据
+						let n_v =Length(qs_vector);
+						for(i in 0..n_v-1)
+						{
+							let angle_base = 2.0*PI() / (ToDouble(2^n_v)) ;
+							let angle = ToDouble(2^i)*angle_base;
+							(Controlled Ry) ( [qs_vector[i]], (angle, qs_r) ); //受控旋转
+						}
+						let result = M(qs_r); //通过测量制备向量
+						(Adjoint ram_call) (qs_address, qs_vector); //撤销加载
+						ResetAll(qs_tmp);
+					}until (result == One)
+					fixup{}
 				}
 
 			}
