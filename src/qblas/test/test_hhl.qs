@@ -84,26 +84,35 @@ namespace Quantum.test
 	}
 
 	//测试 密度矩阵模拟
-	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/6
+	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/3
 	operation test_DM_simulation(p:Int):Double
 	{
 		body(...)
 		{
 			mutable res = 0.0;
-			using(qs = Qubit[20])
+			let N =100;
+			for(s in 0..N-1)
 			{
-				let qs_control= qs[0];
-				let qs_sigma = [qs[1]];
-				mutable qs_rhos= new (Qubit[])[18];
-				for( i in 0..17)
+				using(qs = Qubit[20])
 				{
-					set qs_rhos[i]=[qs[2+i]];
+					let qs_control= qs[0];
+					let qs_sigma = [qs[1]];
+					mutable qs_rhos= new (Qubit[])[18];
+					for( i in 0..17)
+					{
+						H(qs[2+i]); //制备 |rho>
+						set qs_rhos[i]=[qs[2+i]];
+					}
+					X(qs_control);
+					let time = PI()/3.0;
+					q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, time, 18);
+					DumpRegister("dm.txt", qs_sigma);
+					let r = M(qs_sigma[0]);
+					if(r == One) {set res = res + 1.0/ToDouble(N);}
+					ResetAll(qs);
 				}
-				X(qs_control);
-				q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, 1.0, 18);
-				DumpRegister("dm.txt", qs_sigma);
-				ResetAll(qs);
 			}
+			q_print_D([res]);
 			return(res);
 		}
 	}
