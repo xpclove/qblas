@@ -32,6 +32,7 @@ namespace Quantum.test
 		controlled adjoint auto;
 	}
 	
+	//测试相估计
 	operation test_qpe ( s:Int ):Double
 	{
 		body(...)
@@ -55,6 +56,7 @@ namespace Quantum.test
 		}
 	}
 
+	//测试HHL 矩阵求逆
 	operation test_hhl(s:Int):Double
 	{
 		body(...)
@@ -80,4 +82,30 @@ namespace Quantum.test
 			return(res);
 		}
 	}
+
+	//测试 密度矩阵模拟
+	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/6
+	operation test_DM_simulation(p:Int):Double
+	{
+		body(...)
+		{
+			mutable res = 0.0;
+			using(qs = Qubit[20])
+			{
+				let qs_control= qs[0];
+				let qs_sigma = [qs[1]];
+				mutable qs_rhos= new (Qubit[])[18];
+				for( i in 0..17)
+				{
+					set qs_rhos[i]=[qs[2+i]];
+				}
+				X(qs_control);
+				q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, 1.0, 18);
+				DumpRegister("dm.txt", qs_sigma);
+				ResetAll(qs);
+			}
+			return(res);
+		}
+	}
+
 }

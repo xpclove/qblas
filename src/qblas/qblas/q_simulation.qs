@@ -5,25 +5,27 @@
     open Microsoft.Quantum.Extensions.Math;
     open Microsoft.Quantum.Extensions.Convert;
 
-    //
-    operation q_simulation_C_Swap (qs_control:Qubit, qs_a: Qubit[], qs_b:Qubit[], time: Double) : ()
+    //CSWAP 模拟
+    operation q_simulation_C_Swap (qs_control:Qubit, qs_a: Qubit[], qs_b:Qubit[], time: Double) : Unit
     {
-        body
+        body(...)
         {
             q_walk_simulation_CSWAP(qs_control,qs_a,qs_b, time);
         }
     }
-
-    operation q_simulation_C_densitymatrix (qs_control:Qubit, qs_rho:Qubit[], qs_sigma:Qubit[], t:Double, err:Double): ()
+    //
+    operation q_simulation_C_densitymatrix (qs_control:Qubit, qs_rho:Qubit[][], qs_sigma:Qubit[], t:Double, N:Int): Unit
     {
-        body
+        body(...)
         {
-            let N_D = t*t / err;
-            let dt = t/N_D;
-            let N = Ceiling(N_D);
-            for ( i in 1..1..N )
+            // let N_D = t*t / err;
+            // let dt = t/N_D;
+            // let N = Ceiling(N_D);
+            let dt =t/ToDouble(N);
+            for ( i in 0..1..N-1 )
             {
-                q_walk_simulation_CSWAP (qs_control, qs_rho, qs_sigma, dt) ;
+                //每模拟一步消耗一个 |rho>
+                q_walk_simulation_CSWAP (qs_control, qs_rho[i], qs_sigma, dt) ;
             }
         }
     }
