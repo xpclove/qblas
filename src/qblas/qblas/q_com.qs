@@ -2,6 +2,7 @@ namespace qblas
 {
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Extensions.Math;
 
     //颠倒量子比特顺序
     operation q_com_swap_all ( qs:Qubit[] ) : ()
@@ -75,6 +76,16 @@ namespace qblas
                 set newdata_i[j]=ComplexPolar(data[i][j], 0.0);
             }
             set newdata[i] = newdata_i;
+        }
+        return(newdata);
+    }
+    function q_com_convert_doubles_to_angles(data:Double[]):Double[]
+    {
+         let n = Length(data);
+        mutable newdata = new Double[n];
+        for(i in 0..n-1)
+        {
+            set newdata[i]= 2.0*ArcSin(data[i]);
         }
         return(newdata);
     }

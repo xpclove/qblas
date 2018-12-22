@@ -29,7 +29,25 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
-
+    operation q_ram_function_assignment_real ( qs_data:Qubit[], data:Int) : ()
+    {
+        body
+        {
+            let n_d = Length(qs_data);
+            for(i in 0..n_d-1 )
+            {
+                let bit = 2^i;
+                let v_bit = data*1;
+                if ( (data&&&bit) != 0)
+                {
+                    X (qs_data[i]);
+                }
+            }
+        }
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+    }
 
     //寻址操作
     operation q_ram_addressing ( qs_address:Qubit[], address:Int ) : Unit

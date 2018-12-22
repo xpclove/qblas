@@ -24,6 +24,17 @@ namespace Quantum.test
 			} 
 		}
 	}
+	operation ram_call(qs_address:Qubit[], qs_data:Qubit[]):Unit
+	{
+		body(...)
+		{
+			let v = [40, 40, 70, 100 ];
+			let RAM=v;
+			q_ram_load_real(RAM, qs_address, qs_data);
+		}
+		adjoint auto;
+	}
+	//RAM 方式制备向量
 	operation test_vector_prepare(p:Int):Unit
 	{
 		body(...)
@@ -31,10 +42,7 @@ namespace Quantum.test
 			using (qs = Qubit[2])
 			{
 				// ...
-				let v = [ComplexPolar(3.0, 0.0), ComplexPolar(3.0, 0.0)];
-				let u =[3.0,3.0];
-				let cp = q_com_convert_doubles_to_complexpolars(u);
-				q_vector_creat(cp,qs);
+				q_vector_prepare(ram_call, qs, 8);
 				DumpRegister("ctdump.txt",qs);
 				ResetAll(qs);
 			} 
