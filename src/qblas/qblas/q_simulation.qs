@@ -68,11 +68,28 @@
 
     operation q_simulation_C_SwapA_integer (qs_control:Qubit, qs_SA_int: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
     {
-        body
+        body(...)
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
             q_walk_simulation_matrix_1_sparse_integer (qs_SA_int,  qs_u, t);
+        }
+    }
+    operation q_simulation_C_SwapA_integer( qs_control:Qubit, qs_SA_real:q_matrix_1_sparse_oracle, qs_u: Qubit[], t:Double, err:Double) : Unit
+    {
+        body(...)
+        {
+            let nbit = Length(qs_u) / 2;
+            let qs_rho = qs_u[0..nbit-1];
+            let N_D = (t*t) / err;
+            let dt = t/N_D;
+            let N = Ceiling(N_D);
+            for( i in 1..1..N)
+            {
+                ResetAll(qs_rho);
+                ApplyToEachCA (H, qs_rho); // 制备全 1 rho
+                q_simulation_C_SwapA_integer(qs_control, qs_SA_real, qs_u, dt);
+            }
         }
     }
  }
