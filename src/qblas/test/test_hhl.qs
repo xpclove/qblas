@@ -149,10 +149,12 @@ namespace Quantum.test
 				let qs_b = [qs[1]];
 				let qs_weight = [qs[2]];
 
-				H(qs[0]);
+				// H(qs[0]);
 				// q_matrix_1_sparse_bool_test(qs_a, qs_b, qs_weight);
-				
-				DumpRegister("bool.txt", qs);
+				let time=PI()/2.0;
+				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test);
+				q_walk_simulation_matrix_1_sparse_bool(ora,	qs_b,  time);
+				DumpRegister("bool.txt", qs_b);
 				ResetAll(qs);
 			}
 			return(1.0);
