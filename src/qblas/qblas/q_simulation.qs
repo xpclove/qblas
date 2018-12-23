@@ -75,7 +75,7 @@
             q_walk_simulation_matrix_1_sparse_integer (qs_SA_int,  qs_u, t);
         }
     }
-    operation q_simulation_C_SwapA_integer( qs_control:Qubit, qs_SA_real:q_matrix_1_sparse_oracle, qs_u: Qubit[], t:Double, err:Double) : Unit
+    operation q_simulation_C_A_integer( qs_control:Qubit, qs_SA_real:q_matrix_1_sparse_oracle, qs_u: Qubit[], t:Double, err:Double) : Unit
     {
         body(...)
         {
