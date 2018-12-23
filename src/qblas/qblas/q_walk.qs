@@ -176,12 +176,12 @@
 		{
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];
-			for(i in 0..nbit-1)
+			for(i in 0..nbit-2)
 			{
 				let fi = ToDouble(i);
 				let ff = ToDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
-				let angle = -2.0 * ( t * g );
+				let angle = 2.0 * ( t * g );
 				(Controlled Rz) ( [qs_weight[i]], (angle, qs_sign) );
 			}
 		}
@@ -218,8 +218,7 @@
 				let qs_r = qs_tmp[0];
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
-				(q_walk_simulation_sF) (qs_weight, t, 2);
+				(q_walk_simulation_T_sF) (qs_a,qs_b,qs_r, qs_weight, 2, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);					
 			}
 		}
