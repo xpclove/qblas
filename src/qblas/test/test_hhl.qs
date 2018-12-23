@@ -119,7 +119,7 @@ namespace Quantum.test
 
 	operation test_swap_simulation(p:Int):Double
 	{
-	//测试 模拟swap ，时间Pi
+	//测试 模拟swap ，时间 Pi/2.0
 		body(...)
 		{
 			using(qs = Qubit[3])
@@ -130,7 +130,8 @@ namespace Quantum.test
 
 				X(qs[0]);
 				X(qs[2]);
-				q_simulation_C_Swap(qs_control, qs_a, qs_b, PI());
+				let time = PI()/2.0;
+				q_simulation_C_Swap(qs_control, qs_a, qs_b, time);
 				DumpRegister("swap.txt", qs_b);
 				ResetAll(qs);
 			}
@@ -152,7 +153,7 @@ namespace Quantum.test
 				// H(qs[0]);
 				// q_matrix_1_sparse_bool_test(qs_a, qs_b, qs_weight);
 
-				let time = PI()/2.0;
+				let time = PI()/4.0;
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test);
 				
 				q_walk_simulation_matrix_1_sparse_bool(ora,	qs_b,  time);
