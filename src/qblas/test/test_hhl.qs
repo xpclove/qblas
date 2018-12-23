@@ -117,4 +117,24 @@ namespace Quantum.test
 		}
 	}
 
+	operation test_swap_simulation(p:Int):Double
+	{
+		body(...)
+		{
+			using(qs = Qubit[3])
+			{
+				let qs_a = [qs[0]];
+				let qs_b = [qs[1]];
+				let qs_control = qs[2];
+
+				X(qs[0]);
+				X(qs[2]);
+				q_simulation_C_Swap(qs_control, qs_a, qs_b, PI());
+				DumpRegister("swap.txt", qs_b);
+				ResetAll(qs);
+			}
+			return(1.0);
+		}
+	}
+
 }

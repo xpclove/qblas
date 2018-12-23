@@ -11,7 +11,7 @@ namespace qblas
 
     
     //函数赋值，qs_data 处于|0>态, 制备到 |data> 基矢态
-    operation q_ram_function_assignment_int ( qs_data:Qubit[], data:Int ) : ()
+    operation q_ram_function_assignment_int ( qs_data:Qubit[], data:Int ) : Unit
     {
         body
         {
@@ -29,7 +29,7 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_ram_function_assignment_real ( qs_data:Qubit[], data:Int) : ()
+    operation q_ram_function_assignment_real ( qs_data:Qubit[], data:Int) : Unit
     {
         body
         {
@@ -72,7 +72,7 @@ namespace qblas
 
     //模拟读取量子内存 RAM[qs_address] = qs_data
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
-    operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body
         {
@@ -194,20 +194,18 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
+
     operation q_ram_load_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : Unit
     {
-    // Real Value = Int type, rotantion angle ) ;
+    // Real Value = Int type, ( rotantion_angle/2PI*128 ) ;
         body(...)
         {
             let N_RAM = Length(RAM);
             for(i in 0..(N_RAM-1) )
             {
                     let (address, data) = (i, RAM[i]);
-                    
                     q_ram_addressing (qs_address, address);
-
                     (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , data) );
-
                     (Adjoint q_ram_addressing) (qs_address, address);
             }
         }
