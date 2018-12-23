@@ -91,9 +91,6 @@ namespace Quantum.test
 		{
 			mutable res = 0.0;
 			let N =100;
-			let v =[0.2, 0.2, 1.0, 0.9];
-			let realv = q_com_convert_doubles_to_angles(v);
-			q_print( realv );
 			for(s in 0..-1)
 			{
 				using(qs = Qubit[20])

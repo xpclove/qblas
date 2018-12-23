@@ -28,8 +28,8 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [50, 50, 30, 100 ];
-			let RAM=v;
+			let v =[0.3, 0.6, 0.6, 0.9];
+			let RAM = q_com_convert_doubles_to_angles(v);
 			q_ram_load_real(RAM, qs_address, qs_data);
 		}
 		adjoint auto;
