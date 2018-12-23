@@ -66,7 +66,7 @@
     {
         body
         {
-            let RAM = [ [1,1],[1,1] ];
+            let RAM = [ [1,1], [1,1] ];
             q_ram_call_SwapA(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
@@ -74,7 +74,7 @@
 		controlled adjoint auto;
     }
 
-    operation q_matrix () : ()
+    operation q_matrix () : Unit
     {
         body
         {

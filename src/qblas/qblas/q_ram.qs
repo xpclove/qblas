@@ -231,6 +231,7 @@ namespace qblas
                         let next_address = i*N+j;  // SWAP 非0元素位置
                         let weight = RAM[i][j];
                         q_print([address, next_address, weight]);
+                        
                         q_ram_addressing(qs_address, address);
 
                         (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );

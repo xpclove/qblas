@@ -200,12 +200,12 @@ namespace Quantum.test
 				let qs_b = qs[2..3];
 				let qs_weight = qs[0..1];
 
-				H(qs[0]);
-				H(qs[1]);
+				H(qs[4]);
+				H(qs[5]);
 				q_matrix_SwapA_test(qs_a, qs_b, qs_weight);
 
-				let time = PI()/4.0;
-				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
+				// let time = PI()/4.0;
+				// let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
 				
 				// q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
 				DumpRegister("swapa.txt", qs);
