@@ -66,4 +66,13 @@
         }
     }
 
+    operation q_simulation_C_SwapA_integer (qs_control:Qubit, qs_SA_int: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
+    {
+        body
+        {
+            let nbit = Length(qs_u) /2 ;
+            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
+            q_walk_simulation_matrix_1_sparse_integer (qs_SA_int,  qs_u, t);
+        }
+    }
  }
