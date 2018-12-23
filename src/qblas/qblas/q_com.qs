@@ -79,13 +79,15 @@ namespace qblas
         }
         return(newdata);
     }
-    function q_com_convert_doubles_to_angles(data:Double[]):Double[]
+    
+    function q_com_convert_doubles_to_angles ( data:Double[] ): Int[]
     {
-         let n = Length(data);
-        mutable newdata = new Double[n];
+        // double to angle for rotation
+        let n = Length(data);
+        mutable newdata = new Int[n];
         for(i in 0..n-1)
         {
-            set newdata[i]= 2.0*ArcSin(data[i]);
+            set newdata[i]= Floor( 2.0*ArcSin(data[i])/PI()*128.0 );
         }
         return(newdata);
     }

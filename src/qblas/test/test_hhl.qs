@@ -84,14 +84,17 @@ namespace Quantum.test
 	}
 
 	//测试 密度矩阵模拟
-	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/3
+	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi
 	operation test_DM_simulation(p:Int):Double
 	{
 		body(...)
 		{
 			mutable res = 0.0;
 			let N =100;
-			for(s in 0..N-1)
+			let v =[0.2, 0.2, 1.0, 0.9];
+			let realv = q_com_convert_doubles_to_angles(v);
+			q_print( realv );
+			for(s in 0..-1)
 			{
 				using(qs = Qubit[20])
 				{
@@ -104,7 +107,7 @@ namespace Quantum.test
 						set qs_rhos[i]=[qs[2+i]];
 					}
 					X(qs_control);
-					let time = PI()/3.0;
+					let time = PI();
 					q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, time, 18);
 					DumpRegister("dm.txt", qs_sigma);
 					let r = M(qs_sigma[0]);
