@@ -181,8 +181,8 @@
 				let fi = ToDouble(i);
 				let ff = ToDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
-				let angle = ( t * g );
-				Rz (angle, qs_weight[i]);
+				let angle = -2.0 * ( t * g );
+				(Controlled Rz) ( [qs_weight[i]], (angle, qs_sign) );
 			}
 		}
 		adjoint auto;
