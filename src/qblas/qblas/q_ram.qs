@@ -221,32 +221,23 @@ namespace qblas
             let n_a = Length(qs_address);
             let n_d = Length(qs_data);
             let N = 2^(n_a/2); // RAM size
-            
+            //RAM(N*N) 填充 SWAP(N^2*N^2) 填充规则 RAM[i][j] -> SWAP[j*N+i][i*N+j]
+
                 for(j in 0..(N-1) )
                 {       
                     for( i in 0..(N-1) )
                     {
-                        let address = 2^j+i; // SWAP 非0元素位置
-                        let next_address = 2^i+j;  // SWAP 非0元素位置
-                        for ( k in 0..(n_a-1) )
-                        {
-                            let bit = 2^k;
-                            if ( ( address &&& bit) == 0 )
-                            {
-                                X (qs_address[j]);
-                            }
-                        }
+                        let address = j*N+i; // SWAP 非0元素位置
+                        let next_address = i*N+j;  // SWAP 非0元素位置
                         let weight = RAM[i][j];
+                        q_print([address, next_address, weight]);
+                        q_ram_addressing(qs_address, address);
+
                         (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
                         (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
-                        for ( k in 0..(n_a-1) )
-                        {
-                            let bit = 2^k;
-                            if ( ( address &&& bit) == 0 )
-                            {
-                                X (qs_address[j]);
-                            }
-                        }
+
+                        (Adjoint q_ram_addressing) (qs_address, address);
+
                     }
                 }
         }

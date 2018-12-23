@@ -27,7 +27,7 @@
         return RAM;
     }
 
-    operation q_matrix_1_sparse_bool_test ( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_matrix_1_sparse_bool_test ( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body
         {
@@ -38,7 +38,7 @@
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_matrix_1_sparse_integer_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit 
     {
         body
         {
@@ -49,7 +49,7 @@
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_matrix_1_sparse_real_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_matrix_1_sparse_real_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body
         {
@@ -62,7 +62,7 @@
 		controlled adjoint auto;
     }
 
-    operation q_matrix_SwapA_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_matrix_SwapA_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body
         {
