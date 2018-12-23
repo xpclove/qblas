@@ -194,24 +194,23 @@ namespace Quantum.test
 	//测试 low rank SwapA matrix simulation , A(2*2), 时间 Pi
 		body(...)
 		{
-			using(qs = Qubit[7])
+			using(qs = Qubit[22])
 			{
-				let qs_control = qs[6];
-				let qs_a = qs[4..5];
-				let qs_b = qs[2..3];
-				let qs_weight = qs[0..1];
+				// let qs_a = qs[4..5];
+				// let qs_b = qs[2..3];
+				// let qs_weight = qs[0..1];
 
-				// H(qs[4]);
-				// H(qs[5]);
-				// q_matrix_SwapA_test(qs_a, qs_b, qs_weight);
+				// // H(qs[4]);
+				// // H(qs[5]);
+				// // q_matrix_SwapA_test(qs_a, qs_b, qs_weight);
 
 				let ora = q_matrix_1_sparse_oracle(q_matrix_SwapA_test);
 				
+				let qs_u =qs[0..20];
+				let qs_control = qs[21];
 				X(qs_control);
-				let qs_u =qs[0..1];
 				let time = PI();
-				let err = 0.01;
-				q_simulation_C_A_integer(qs_control, ora, qs_u, time, err);
+				q_simulation_C_A_integer(qs_control, ora, qs_u, time, 20);
 				DumpRegister("swapa.txt", qs_u);
 				ResetAll(qs);
 			}
