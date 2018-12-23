@@ -119,7 +119,7 @@ namespace Quantum.test
 
 	operation test_swap_simulation(p:Int):Double
 	{
-	//测试 模拟swap ，时间 Pi/2.0
+	//测试 Swap simulation ，时间 Pi/2.0
 		body(...)
 		{
 			using(qs = Qubit[3])
@@ -141,7 +141,7 @@ namespace Quantum.test
 
 	operation test_1_sparse_bool(p:Int):Double
 	{
-	//测试 模拟swap ，时间Pi
+	//测试 1 sparse bool matrix simulation , 2*2， 时间 Pi/4
 		body(...)
 		{
 			using(qs = Qubit[3])
@@ -166,7 +166,7 @@ namespace Quantum.test
 
 	operation test_1_sparse_integer(p:Int):Double
 	{
-	//测试 模拟swap ，时间Pi
+	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/4
 		body(...)
 		{
 			using(qs = Qubit[4])
