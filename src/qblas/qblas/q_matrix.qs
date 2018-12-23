@@ -55,13 +55,24 @@
         {
             let ram = [(1,2,13),(0,1,23),(3,2,35)];
             let RAM = q_matrix_convert(ram);            
-            q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
+            q_ram_call_real(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
 		controlled auto;
 		controlled adjoint auto;
     }
 
+    operation q_matrix_SwapA_test( qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    {
+        body
+        {
+            let RAM = [ [1,1],[1,1] ];
+            q_ram_call_SwapA(RAM, qs_address, qs_data, qs_weight);
+        }
+        adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+    }
 
     operation q_matrix () : ()
     {

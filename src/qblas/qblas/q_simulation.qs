@@ -32,7 +32,7 @@
 
 
     //参考 PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
-    operation q_simulation_C_SwapA (qs_control:Qubit,
+    operation q_simulation_C_SwapA (qs_control:Qubit,   
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : Unit
     {
