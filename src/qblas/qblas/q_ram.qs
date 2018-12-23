@@ -155,7 +155,7 @@ namespace qblas
 		controlled adjoint auto;
     }
     
-    operation q_ram_call_real ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+    operation q_ram_call_real ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body
         {
@@ -194,40 +194,22 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_ram_load_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : ()
+    operation q_ram_load_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : Unit
     {
-    // Real Value = ArcSin( (Pi/2) /Max * RAM[i] ) ;
+    // Real Value = Int type, rotantion angle ) ;
         body(...)
         {
             let N_RAM = Length(RAM);
-            let n_a = Length(qs_address);
-            let n_d = Length(qs_data);
-            
-                for(i in 0..(N_RAM-1) )
-                {
-                        let (address, data) = (i, RAM[i]);
-                        
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+            for(i in 0..(N_RAM-1) )
+            {
+                    let (address, data) = (i, RAM[i]);
+                    
+                    q_ram_addressing (qs_address, address);
 
-						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , data) );
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , data) );
 
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
-
-                }
+                    (Adjoint q_ram_addressing) (qs_address, address);
+            }
         }
 		adjoint auto;
 		controlled auto;
