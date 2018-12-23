@@ -164,4 +164,29 @@ namespace Quantum.test
 		}
 	}
 
+	operation test_1_sparse_integer(p:Int):Double
+	{
+	//测试 模拟swap ，时间Pi
+		body(...)
+		{
+			using(qs = Qubit[3])
+			{
+				let qs_a = [qs[0]];
+				let qs_b = [qs[1]];
+				let qs_weight = [qs[2]];
+
+				// H(qs[0]);
+				// q_matrix_1_sparse_bool_test(qs_a, qs_b, qs_weight);
+
+				let time = PI()/4.0;
+				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
+				
+				q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
+				DumpRegister("integer.txt", qs_b);
+				ResetAll(qs);
+			}
+			return(1.0);
+		}
+	}
+
 }
