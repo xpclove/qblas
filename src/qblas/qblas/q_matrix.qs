@@ -31,7 +31,7 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(0,1,1),(1,0,1),(2,2,1),(3,3,1)] );
+            let RAM = q_matrix_convert( [(0,1,1),(1,0,1)] );
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;

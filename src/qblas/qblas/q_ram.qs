@@ -95,7 +95,7 @@ namespace qblas
                     }
 
                     (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
-                    X (qs_weight[0]);
+                    (Controlled X)  ( qs_address, (qs_weight[0]) );
 
                     // undo 寻址
                     for( j in 0..(n_a-1) )
