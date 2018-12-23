@@ -42,8 +42,8 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(0,1,4),(1,0,4)] );           
-            q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
+            let RAM = q_matrix_convert( [(0,1,2),(1,0,2)] );           
+            q_ram_call_integer(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
 		controlled auto;
