@@ -106,7 +106,7 @@
 			using(qs_tmp=Qubit[nbit+1+1])
 			{
 				let qs_b = qs_tmp[1..nbit];
-				let qs_weight = [ qs_tmp[nbit+1] ];
+				let qs_weight = qs_tmp[nbit+1..nbit+1];
 				let qs_r = qs_tmp[0]; //control line 
 				let qs_a = qs_state;
 				X(qs_r); 
