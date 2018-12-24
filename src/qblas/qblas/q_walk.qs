@@ -309,9 +309,9 @@
 	 matrix_A_image: q_matrix_1_sparse_oracle,
 	 qs_state: Qubit[], 
 	 t: Double,
-	 N: Int ): ()
+	 N: Int ): Unit
 	{
-		body
+		body(...)
 		{
 			let nbit=Length(qs_state);
 			let dt = t / ToDouble(N);
