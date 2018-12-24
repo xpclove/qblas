@@ -175,13 +175,13 @@
 		body
 		{
 			let nbit = Length(qs_weight);
-			let qs_sign = qs_weight[nbit-1];
+			let qs_sign = qs_weight[nbit-1];// sign=1 t为负数，exp( -i t), 因此旋转相位为正； sign=0 为正数
 			for(i in 0..nbit-2)
 			{
 				let fi = ToDouble(i);
 				let ff = ToDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
-				let angle = 2.0 * ( t * g );
+				let angle = 2.0 * ( t * g ); // exp(-i sigma t) 因此两倍t
 				(Controlled Rz) ( [qs_weight[i]], (angle, qs_sign) );
 			}
 		}
