@@ -53,7 +53,7 @@
     {
         body
         {
-            let ram = [(1,2,13),(0,1,23),(3,2,35)];
+            let ram = [(0,1,1),(1,0,1)];
             let RAM = q_matrix_convert(ram);            
             q_ram_call_real(RAM, qs_address, qs_data, qs_weight);
         }
