@@ -98,9 +98,9 @@
 		controlled adjoint auto;		
 	}
 
-	operation q_walk_simulation_matrix_1_sparse_bool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	operation q_walk_simulation_matrix_1_sparse_bool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
-		body
+		body(...)
 		{
 			let nbit=Length(qs_state);
 			using(qs_tmp=Qubit[nbit+1+1])
@@ -119,9 +119,9 @@
 	}
 
 	// weight:litte-end 正数； n_bits_float:小数部分位数，小数在前
-	operation q_walk_simulation_F_p( qs_weight:Qubit[], t:Double, n_bits_float:Int) : ()
+	operation q_walk_simulation_F_p( qs_weight:Qubit[], t:Double, n_bits_float:Int) : Unit
 	{
-		body
+		body(...)
 		{
 			let nbit = Length(qs_weight);
 			for(i in 0..nbit-1)
@@ -137,9 +137,9 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_F_n( qs_weight:Qubit[], t:Double, n_bits_float:Int) : ()
+	operation q_walk_simulation_F_n( qs_weight:Qubit[], t:Double, n_bits_float:Int) : Unit
 	{
-		body
+		body(...)
 		{
 			let nbit = Length(qs_weight);
 			for(i in 0..nbit-1)
