@@ -155,9 +155,9 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_T_sF (qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], n_bits_float:Int, t:Double): ()
-	{	
-		body
+	operation q_walk_simulation_T_sF (qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], n_bits_float:Int, t:Double): Unit
+	{
+		body(...)
         {
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];
@@ -170,9 +170,9 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_sF( qs_weight:Qubit[], t:Double, n_bits_float:Int, Rp:Pauli) :()
+	operation q_walk_simulation_sF( qs_weight:Qubit[], t:Double, n_bits_float:Int, Rp:Pauli) :Unit
 	{
-		body
+		body(...)
 		{
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];// sign=1 t为负数，exp( -i t), 因此旋转相位为正； sign=0 为正数
@@ -189,9 +189,9 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_matrix_1_sparse_integer  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
+	operation q_walk_simulation_matrix_1_sparse_integer  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
-		body
+		body(...)
 		{
 			let nbit=Length(qs_state);
 			using(qs_tmp=Qubit[1+nbit+4])
@@ -283,7 +283,7 @@
 				let qs_r = qs_tmp[0];
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T_Y_sF) (qs_a,qs_b,qs_r, qs_weight, 0, t);
+				(q_walk_simulation_T_R_sF) (PauliY, qs_a,qs_b,qs_r, qs_weight, 0, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
