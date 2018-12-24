@@ -238,15 +238,30 @@
 
 		}
 	}
+	operation q_walk_simulation_T_Y_sF (qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], n_bits_float:Int, t:Double): ()
+	{	
+		body
+        {
+			let nbit = Length(qs_weight);
+			let qs_sign = qs_weight[nbit-1];
+			q_walk_op_A (qs_a, qs_b, qs_sign); // A
+			(q_walk_simulation_sF) (qs_weight, t, n_bits_float); // rotation F	
+			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
+            
+        }
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+	}
 	operation q_walk_simulation_matrix_1_sparse_imagebool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): ()
 	{
 		body
 		{
 			let nbit=Length(qs_state);
-			using(qs_tmp=Qubit[2*nbit+1])
+			using(qs_tmp=Qubit[1+nbit+1])
 			{
 				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..2*nbit];
+				let qs_weight=qs_tmp[nbit+1..nbit+1];
 				let qs_r = qs_tmp[0];
 				X(qs_r);
 				let qs_a=qs_state;
@@ -262,16 +277,14 @@
 		body
 		{
 			let nbit=Length(qs_state);
-			using(qs_tmp=Qubit[2*nbit+1])
+			using(qs_tmp=Qubit[1+nbit+4])
 			{
 				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..2*nbit];
+				let qs_weight=qs_tmp[nbit+1..nbit+4];
 				let qs_r = qs_tmp[0];
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
-				(q_walk_simulation_Y) (qs_weight, t);
-				(q_walk_simulation_F_p) (qs_weight[1..nbit-1], t, 0);
+				(q_walk_simulation_T_Y_sF) (qs_a,qs_b,qs_r, qs_weight, 0, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
@@ -281,16 +294,14 @@
 		body
 		{
 			let nbit=Length(qs_state);
-			using(qs_tmp=Qubit[2*nbit+1])
+			using(qs_tmp=Qubit[1+nbit+8])
 			{
 				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..2*nbit];
+				let qs_weight=qs_tmp[nbit+1..nbit+8];
 				let qs_r = qs_tmp[0];
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
-				(q_walk_simulation_Y) (qs_weight, t);
-				(q_walk_simulation_F_p) (qs_weight[1..nbit-1], t, 2);
+				(q_walk_simulation_T_Y_sF) (qs_a,qs_b,qs_r, qs_weight, 2, t); // 目前两位浮点
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
