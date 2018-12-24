@@ -111,7 +111,7 @@
 				let qs_a = qs_state;
 				X(qs_r); 
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T) (qs_a,qs_b,qs_r,t);
+				(q_walk_simulation_T_R) (PauliZ, qs_a, qs_b, qs_r, qs_weight, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
 				X(qs_r);			
 			}
