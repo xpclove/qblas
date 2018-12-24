@@ -162,7 +162,7 @@
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];
 			q_walk_op_A (qs_a, qs_b, qs_sign); // A
-			(q_walk_simulation_sF) (qs_weight, t, n_bits_float); // rotation F	
+			(q_walk_simulation_sF) (qs_weight, t, n_bits_float, PauliZ); // rotation F	
 			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
             
         }
@@ -170,7 +170,7 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_sF( qs_weight:Qubit[], t:Double, n_bits_float:Int) :()
+	operation q_walk_simulation_sF( qs_weight:Qubit[], t:Double, n_bits_float:Int, Rp:Pauli) :()
 	{
 		body
 		{
@@ -182,7 +182,7 @@
 				let ff = ToDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
 				let angle = 2.0 * ( t * g ); // exp(-i sigma t) 因此两倍t
-				(Controlled Rz) ( [qs_weight[i]], (angle, qs_sign) );
+				(Controlled R) ( [qs_weight[i]], (Rp, angle, qs_sign) );
 			}
 		}
 		adjoint auto;
@@ -245,7 +245,7 @@
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];
 			q_walk_op_A (qs_a, qs_b, qs_sign); // A
-			(q_walk_simulation_sF) (qs_weight, t, n_bits_float); // rotation F	
+			(q_walk_simulation_sF) (qs_weight, t, n_bits_float, PauliY); // rotation F	
 			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
             
         }
