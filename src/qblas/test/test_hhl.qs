@@ -222,6 +222,7 @@ namespace Quantum.test
 				}
 			}
 			return(res);
+			q_print_D([res]);
 		}
 	}
 
