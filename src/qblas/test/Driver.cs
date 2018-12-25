@@ -18,9 +18,9 @@ namespace Quantum.test
                 {
                     // var res = test_vector_prepare.Run(sim, i);
                     var res = test_DM_simulation.Run(sim,1).Result;
-                    Console.WriteLine("Run over, Result= "+res);
+                    Console.WriteLine("run over, Result= ");
                     double[] p = q_debug_dump("dump.txt", 0);
-                    for( int j=0; j<2; j++ ) { Console.WriteLine( j.ToString()+" "+ p[j].ToString() + " " ); }
+                    for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
                     Console.WriteLine("end test!");
                 }
             }
