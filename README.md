@@ -15,3 +15,5 @@ Shanghai, China
 Email: xpclove@gamil.com
 
 
+References:
+1. Quantum machine learning, 2017, https://www.nature.com/articles/nature23474
