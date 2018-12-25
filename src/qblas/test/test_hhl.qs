@@ -90,13 +90,13 @@ namespace Quantum.test
 		body(...)
 		{
 			mutable res = 0.0;
-			let N =100;
-			for(s in 0..-1)
+			let N =1;
+			for(s in 1..N)
 			{
 				using(qs = Qubit[20])
 				{
-					let qs_control= qs[0];
-					let qs_sigma = [qs[1]];
+					let qs_control= qs[1];
+					let qs_sigma = [qs[0]];
 					mutable qs_rhos= new (Qubit[])[18];
 					for( i in 0..17)
 					{
@@ -107,6 +107,7 @@ namespace Quantum.test
 					let time = PI();
 					q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, time, 18);
 					DumpRegister("dm.txt", qs_sigma);
+					DumpRegister("dump.txt", qs);
 					let r = M(qs_sigma[0]);
 					if(r == One) {set res = res + 1.0/ToDouble(N);}
 					ResetAll(qs);
