@@ -6,9 +6,9 @@
 	open Microsoft.Quantum.Extensions.Math;
 	open Microsoft.Quantum.Extensions.Diagnostics;
 
-    operation q_walk_op_W (qs_a: Qubit[], qs_b: Qubit[]) : ()
+    operation q_walk_op_W (qs_a: Qubit[], qs_b: Qubit[]) : Unit
     {
-        body
+        body(...)
         {
 			let nbit=Length(qs_a);
 			for ( i in 0..(nbit-1) )
@@ -22,9 +22,9 @@
 		controlled auto;
 		controlled adjoint auto;
     }
-	operation q_walk_op_A (qs_a: Qubit[], qs_b: Qubit[], qs_tmp:Qubit) : ()
+	operation q_walk_op_A (qs_a: Qubit[], qs_b: Qubit[], qs_tmp:Qubit) : Unit
     {
-        body
+        body(...)
         {
 			let nbit=Length(qs_a);
 			
@@ -42,9 +42,9 @@
     }
 
 	// T = CSWAP
-	operation q_walk_simulation_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit, t:Double): ()
+	operation q_walk_simulation_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit, t:Double): Unit
 	{	
-		body
+		body(...)
         {
 			let nbit=Length(qs_a);
 			let angle = 2.0*t; //旋转角度
