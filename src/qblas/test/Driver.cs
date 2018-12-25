@@ -15,8 +15,9 @@ namespace Quantum.test
                 for(int i = 0; i < 1; i++)
                 {
                     // var res = test_vector_prepare.Run(sim, i);
-                    var res = test_1_sparse_integer.Run(sim,1);
-                    Console.WriteLine("Result= "+res.Result);
+                    var res = test_SwapA.Run(sim,1).Result;
+                    Console.WriteLine("Result= "+res);
+                    Console.WriteLine("end");
                 }
             }
 

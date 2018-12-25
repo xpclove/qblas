@@ -80,11 +80,12 @@
         body(...)
         {
             let dt =  t/ToDouble(N);
-            for( i in 0..1..N-1)
+            for( i in 1..1..N)
             {
-                let qs_rho = qs_u[0];
+                let qs_rho = qs_u[i];
+                Reset(qs_rho);
                 H(qs_rho); // 制备  |rho> =|+>
-                let qs_ru=[qs_rho, qs_u[N]];
+                let qs_ru=[qs_rho, qs_u[0]];
                 q_simulation_C_SwapA_integer(qs_control, qs_SA_int, qs_ru, dt);
             }
         }
