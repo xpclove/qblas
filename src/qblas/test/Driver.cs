@@ -20,8 +20,8 @@ namespace Quantum.test
                     var res = test_SwapA.Run(sim,1).Result;
                     Console.WriteLine("Result= "+res);
                     double[] p = q_debug_dump("dump.txt", 0);
-                    foreach( double pi in p ) { Console.WriteLine( pi.ToString() + " " ); }
-                    Console.WriteLine("end");
+                    foreach( double pi in p ) { Console.WriteLine(  pi.ToString() + " " ); }
+                    Console.WriteLine("end test!");
                 }
             }
 
