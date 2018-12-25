@@ -157,6 +157,7 @@ namespace Quantum.test
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test);
 				
 				q_walk_simulation_matrix_1_sparse_bool(ora,	qs_b,  time);
+				// Rx (2.0*time, qs[1]);
 				DumpRegister("bool.txt", qs_b);
 				ResetAll(qs);
 			}

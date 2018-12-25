@@ -31,7 +31,8 @@
     {
         body
         {
-            let RAM = q_matrix_convert( [(0,1,1),(1,0,1)] );
+            let RAM = q_matrix_convert( [(0,1,0),(1,0,0)] ); //weight=0 表示+1, weight=1, -1
+            let RAM_image = q_matrix_convert( [(0,1,1),(1,0,1)] );
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
