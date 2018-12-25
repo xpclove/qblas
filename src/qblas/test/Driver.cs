@@ -18,6 +18,8 @@ namespace Quantum.test
                     // var res = test_vector_prepare.Run(sim, i);
                     var res = test_SwapA.Run(sim,1).Result;
                     Console.WriteLine("Result= "+res);
+                    double[] p = q_debug_dump("dump.txt", 0);
+                    foreach( double pi in p ) { Console.WriteLine( pi.ToString() + " " ); }
                     Console.WriteLine("end");
                 }
             }
