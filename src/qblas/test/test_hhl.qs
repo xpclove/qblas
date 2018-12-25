@@ -84,7 +84,7 @@ namespace Quantum.test
 	}
 
 	//测试 密度矩阵模拟
-	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi
+	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/3.0
 	operation test_DM_simulation(p:Int):Double
 	{
 		body(...)
@@ -104,7 +104,7 @@ namespace Quantum.test
 						set qs_rhos[i]=[qs[2+i]];
 					}
 					X(qs_control);
-					let time = PI();
+					let time = PI()/3.0;
 					q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, time, 18);
 					DumpRegister("dm.txt", qs_sigma);
 					DumpRegister("dump.txt", qs);
