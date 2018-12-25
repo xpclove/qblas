@@ -36,7 +36,7 @@
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : Unit
     {
-        body
+        body(...)
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt;
@@ -48,7 +48,7 @@
      qs_SA_real:q_matrix_1_sparse_oracle, qs_SA_image:q_matrix_1_sparse_oracle,
      qs_u: Qubit[], t:Double, err:Double) : Unit
     {
-        body
+        body(...)
         {
             let nbit = Length(qs_u) / 2;
             let qs_rho = qs_u[0..nbit-1];
@@ -82,6 +82,7 @@
             let dt =  t/ToDouble(N);
             for( i in 1..1..N)
             {
+                q_print([i]);
                 let qs_rho = qs_u[i];
                 Reset(qs_rho);
                 H(qs_rho); // 制备  |rho> =|+>
