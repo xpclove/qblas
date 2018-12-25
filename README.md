@@ -8,7 +8,7 @@ Develop with Q#.
 The library help you run quantum basic linear algebra and quantum simulation tasks on a quntum computer.
 
 Authors：
-Xiaopeng Cui, Department of Physics，Fudan University
+Xiaopeng Cui, etc. Department of Physics，Fudan University
 
 Shanghai, China
 
