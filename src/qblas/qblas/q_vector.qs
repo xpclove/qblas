@@ -193,7 +193,7 @@
 					{
 						set p =0.5;
 					}
-					set inner = Sqrt(2.0*p-1.0) ;
+					set inner = Sqrt(2.0*p-1.0) ; //向量组内积
 					ResetAll(qs);
 				}
 				return (inner);
@@ -203,6 +203,7 @@
 		{
 			body(...)
 			{
+			//需要完成...
 			}
 		}
 		operation q_vector_count_Z():Double

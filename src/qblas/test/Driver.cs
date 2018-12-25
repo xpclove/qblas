@@ -23,5 +23,9 @@ namespace Quantum.test
 
             Console.WriteLine("hello qsharp!");
         }
+        static void q_debug_dump(string filename, int i)
+        {
+
+        }
     }
 }

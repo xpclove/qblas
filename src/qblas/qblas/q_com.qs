@@ -82,7 +82,7 @@ namespace qblas
     
     function q_com_convert_doubles_to_angles ( data:Double[] ): Int[]
     {
-        // double to angle for rotation
+        // double to rotation angle for rotation
         let n = Length(data);
         mutable newdata = new Int[n];
         for(i in 0..n-1)
