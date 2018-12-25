@@ -184,6 +184,7 @@ namespace Quantum.test
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
 				
 				q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
+				q_walk_simulation_matrix_1_sparse_imageinteger(ora,	qs_b,  time);
 				DumpRegister("integer.txt", qs_b);
 				ResetAll(qs);
 			}
