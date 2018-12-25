@@ -102,9 +102,9 @@ namespace qblas
     }
 
 
-     operation q_ram_call_integer ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : ()
+     operation q_ram_call_integer ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
-        body
+        body(...)
         {
             let N_RAM = Length(RAM);
             let n_a = Length(qs_address);
