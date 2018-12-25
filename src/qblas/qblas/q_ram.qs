@@ -85,28 +85,14 @@ namespace qblas
                     let (address, next_address, weight) = RAM[i]!;
 
                     // do 寻址
-                    for( j in 0..(n_a-1) )
-                    {
-                        let bit = 2^j;
-                        if ( ( address&&&bit ) == 0 )
-                        {
-                            X (qs_address[j]);
-                        }
-                    }
+                    (q_ram_addressing) (qs_address, address);
 
                     (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
                     (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
 
 
                     // undo 寻址
-                    for( j in 0..(n_a-1) )
-                    {
-                        let bit = 2^j;
-                        if ( ( address&&&bit ) == 0 )
-                        {
-                            X (qs_address[j]);
-                        }
-                    }
+                    (Adjoint q_ram_addressing) (qs_address, address);
 
                 }
         }
@@ -127,27 +113,13 @@ namespace qblas
                 for(i in 0..(N_RAM-1) )
                 {
                         let (address, next_address, weight) = RAM[i]!;
-                        
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+
+                        q_ram_addressing(qs_address, address);
 
 						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
                         (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
 
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+                        (Adjoint q_ram_addressing) (qs_address, address);
 
                 }
         }
@@ -158,7 +130,7 @@ namespace qblas
     
     operation q_ram_call_real ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
-        body
+        body(...)
         {
             let N_RAM = Length(RAM);
             let n_a = Length(qs_address);
@@ -167,27 +139,13 @@ namespace qblas
                 for(i in 0..(N_RAM-1) )
                 {
                         let (address, next_address, weight) = RAM[i]!;
-                        
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+
+                        q_ram_addressing(qs_address, address);
 
 						(Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , next_address) );
                         (Controlled q_ram_function_assignment_int) ( qs_address, (qs_weight , weight) );
 
-                        for( j in 0..(n_a-1) )
-						{
-							let bit = 2^j;
-							if ( ( address&&&bit) == 0 )
-							{
-                                X (qs_address[j]);
-							}
-						}
+                        (Adjoint q_ram_addressing) (qs_address, address); 
 
                 }
         }
