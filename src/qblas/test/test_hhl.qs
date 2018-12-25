@@ -202,7 +202,7 @@ namespace Quantum.test
 			let N =100;
 			for(i in 0..N)
 			{
-				using(qs = Qubit[22])
+				using(qs = Qubit[3])
 				{
 					// let qs_a = qs[4..5];
 					// let qs_b = qs[2..3];
@@ -214,13 +214,13 @@ namespace Quantum.test
 
 					let ora = q_matrix_1_sparse_oracle(q_matrix_SwapA_test);
 					
-					let qs_u =qs[0..20];
-					let qs_control = qs[21];
+					let qs_u =qs[0..1];
+					let qs_control = qs[3];
 					X(qs_control);
 					let time = PI();
-					q_simulation_C_A_integer(qs_control, ora, qs_u, time, 20);
+					q_simulation_C_A_integer(qs_control, ora, qs_u, time, 100);
 					DumpRegister("swapa.txt", qs_u);
-					let r = M(qs_u[20]);
+					let r = M(qs_u[1]);
 					if( r== One) { set res = res + 1.0/ToDouble(N); }
 					ResetAll(qs);
 				}
