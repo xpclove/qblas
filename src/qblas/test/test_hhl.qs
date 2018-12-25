@@ -168,7 +168,7 @@ namespace Quantum.test
 
 	operation test_1_sparse_integer(p:Int):Double
 	{
-	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/4
+	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/8
 		body(...)
 		{
 			using(qs = Qubit[4])
@@ -185,6 +185,7 @@ namespace Quantum.test
 				
 				// q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
 				q_walk_simulation_matrix_1_sparse_imageinteger(ora,	qs_b,  time);
+				// Ry (time*4.0, qs[1] );
 				DumpRegister("integer.txt", qs_b);
 				ResetAll(qs);
 			}
