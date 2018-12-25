@@ -75,7 +75,7 @@
             q_walk_simulation_matrix_1_sparse_integer (qs_SA_int,  qs_u, t);
         }
     }
-    operation q_simulation_C_A_integer( qs_control:Qubit, qs_SA_real:q_matrix_1_sparse_oracle, qs_u: Qubit[], t:Double, N:Int) : Unit
+    operation q_simulation_C_A_integer( qs_control:Qubit, qs_SA_int:q_matrix_1_sparse_oracle, qs_u: Qubit[], t:Double, N:Int) : Unit
     {
         body(...)
         {
@@ -85,7 +85,7 @@
                 let qs_rho = qs_u[i];
                 H(qs_rho); // 制备  |rho> =|+>
                 let qs_ru=[qs_rho, qs_u[N]];
-                q_simulation_C_SwapA_integer(qs_control, qs_SA_real, qs_ru, dt);
+                q_simulation_C_SwapA_integer(qs_control, qs_SA_int, qs_ru, dt);
             }
         }
     }
