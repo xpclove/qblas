@@ -28,10 +28,7 @@ namespace Quantum.test
         {
             StreamReader sw = File.OpenText(filename);
             string line;
-            for( int i=0; i<2; i++ )
-            {
-                line = sr.ReadLine();
-            }
+            for( int i=0; i<2; i++ ) line = sr.ReadLine(); 
             long n_seq = 0;
             double sum_0 = 0.0;
             double sum_1 = 0.0;
