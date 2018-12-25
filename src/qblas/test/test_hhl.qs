@@ -196,7 +196,7 @@ namespace Quantum.test
 
 	operation test_SwapA(p: Int): Double
 	{
-	//测试 low rank SwapA matrix simulation , A(2*2), 时间 Pi
+	//测试 low rank SwapA matrix simulation , A(2*2), 时间 Pi/3.0
 		body(...)
 		{
 			mutable res=0.0;
@@ -218,7 +218,8 @@ namespace Quantum.test
 					let qs_u =qs[0..18];
 					let qs_control = qs[19];
 					X(qs_control);
-					let time = PI();
+
+					let time = PI()/3.0;
 					q_simulation_C_A_integer(qs_control, ora, qs_u, time, 18);
 					DumpRegister("swapa.txt", qs_u);
 					DumpRegister("dump.txt", qs);
