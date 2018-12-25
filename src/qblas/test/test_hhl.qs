@@ -199,7 +199,7 @@ namespace Quantum.test
 		body(...)
 		{
 			mutable res=0.0;
-			let N =100;
+			let N =1;
 			for(i in 1..N)
 			{
 				using(qs = Qubit[20])
@@ -220,6 +220,7 @@ namespace Quantum.test
 					let time = PI();
 					q_simulation_C_A_integer(qs_control, ora, qs_u, time, 18);
 					DumpRegister("swapa.txt", qs_u);
+					DumpRegister("dump.txt", qs);
 					let r = M(qs_u[0]);
 					if( r == One) { set res = res + 1.0/ToDouble(N); }
 					ResetAll(qs);
