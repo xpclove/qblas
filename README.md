@@ -10,7 +10,7 @@ The library help you run quantum basic linear algebra and quantum simulation tas
 Authors：
 Xiaopeng Cui, Department of Physics，Fudan University
 
-Shanghai,China
+Shanghai, China
 
 Email: xpclove@gamil.com
 
