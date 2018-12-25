@@ -180,10 +180,10 @@ namespace Quantum.test
 				// H(qs[0]);
 				// q_matrix_1_sparse_integer_test(qs_a, qs_b, qs_weight);
 
-				let time = PI()/4.0;
+				let time = PI()/8.0;
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
 				
-				q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
+				// q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
 				q_walk_simulation_matrix_1_sparse_imageinteger(ora,	qs_b,  time);
 				DumpRegister("integer.txt", qs_b);
 				ResetAll(qs);

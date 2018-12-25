@@ -271,7 +271,7 @@
 			}
 		}
 	}
-	operation q_walk_simulation_matrix_1_sparse_imageinterger  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
+	operation q_walk_simulation_matrix_1_sparse_imageinteger  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
 		body(...)
 		{
