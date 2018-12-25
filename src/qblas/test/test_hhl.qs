@@ -120,17 +120,19 @@ namespace Quantum.test
 
 	operation test_swap_simulation(p:Int):Double
 	{
-	//测试 Swap simulation ，时间 Pi/2.0
+	//测试 Swap simulation ，时间 Pi/2.0, |a> 交换到 |b>
 		body(...)
 		{
-			using(qs = Qubit[3])
+			using(qs = Qubit[5])
 			{
-				let qs_a = [qs[0]];
-				let qs_b = [qs[1]];
-				let qs_control = qs[2];
+				let qs_a = qs[0..1];
+				let qs_b = qs[2..3];
+				let qs_control = qs[4];
 
 				X(qs[0]);
-				X(qs[2]);
+				X(qs[1]);
+
+				X(qs[4]);
 				let time = PI()/2.0;
 				q_simulation_C_Swap(qs_control, qs_a, qs_b, time);
 				DumpRegister("swap.txt", qs_b);

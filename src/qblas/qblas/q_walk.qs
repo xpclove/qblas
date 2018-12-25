@@ -13,8 +13,8 @@
 			let nbit=Length(qs_a);
 			for ( i in 0..(nbit-1) )
 			{
-				CNOT(qs_a[0],qs_b[0]);
-				H(qs_a[0]);
+				CNOT(qs_a[i],qs_b[i]);
+				H(qs_a[i]);
 			}
             
         }
@@ -32,7 +32,7 @@
 
 			for ( i in 0..(nbit-1) )
 			{
-				CCNOT ( qs_a[0],qs_b[0],qs_tmp);
+				CCNOT ( qs_a[i],qs_b[i],qs_tmp);
 			}
             
         }
