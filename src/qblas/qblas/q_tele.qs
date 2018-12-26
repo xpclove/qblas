@@ -3,10 +3,10 @@
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 
-	operation q_bell_state_creat( qs:Qubit[]) : ()
+	operation q_bell_state_creat( qs:Qubit[]) : Unit
 	{
 	//Little-End 
-		body
+		body(...)
 		{
 			H(qs[1]);
 			CNOT(qs[1],qs[0]);
@@ -16,9 +16,9 @@
 		controlled adjoint auto;
 	}
 
-    operation q_tele_qubit_1 (qs_snd:Qubit, qs_rec:Qubit) : ()
+    operation q_tele_qubit_1 (qs_snd:Qubit, qs_rec:Qubit) : Unit
     {
-        body
+        body(...)
         {
 			using(qs_bell = Qubit[2])
 			{
@@ -57,7 +57,7 @@
     }
 	operation q_tele_dense_coding_1(snd:Int) : (Int)
 	{
-		body
+		body(...)
 		{
 			mutable rec = 0;
 			using(qs_tmp=Qubit[2])
@@ -89,7 +89,7 @@
 					{
 						set rec = rec+(2^i);
 					}
-				};
+				}
 				ResetAll(qs_tmp);
 			}
 			return(rec);

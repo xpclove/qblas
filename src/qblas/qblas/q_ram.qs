@@ -13,7 +13,7 @@ namespace qblas
     //函数赋值，qs_data 处于|0>态, 制备到 |data> 基矢态
     operation q_ram_function_assignment_int ( qs_data:Qubit[], data:Int ) : Unit
     {
-        body
+        body(...)
         {
             let n_d = Length(qs_data);
             for(i in 0..n_d-1 )
