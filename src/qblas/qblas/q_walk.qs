@@ -207,11 +207,12 @@
 			}
 		}
 	}
-	operation q_walk_simulation_matrix_1_sparse_real  ( matrix_A: q_matrix_1_sparse_oracle, nbit_float:Int, qs_state: Qubit[], t: Double ): Unit
+	operation q_walk_simulation_matrix_1_sparse_real  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
 		body(...)
 		{
 			let nbit=Length(qs_state);
+			let nbit_float = q_com_real_nbit_float();
 			using(qs_tmp=Qubit[1+nbit+8])
 			{
 				let qs_b=qs_tmp[1..nbit];
@@ -298,11 +299,12 @@
 			}
 		}
 	}
-	operation q_walk_simulation_matrix_1_sparse_imagereal  ( matrix_A: q_matrix_1_sparse_oracle, nbit_float: Int, qs_state: Qubit[], t: Double ): Unit
+	operation q_walk_simulation_matrix_1_sparse_imagereal  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
 		body(...)
 		{
 			let nbit=Length(qs_state);
+			let nbit_float = q_com_real_nbit_float();
 			using(qs_tmp=Qubit[1+nbit+8])
 			{
 				let qs_b=qs_tmp[1..nbit];
@@ -327,8 +329,8 @@
 			let dt = t / ToDouble(N);
 			for( i in 0..N-1)
 			{
-				q_walk_simulation_matrix_1_sparse_real(matrix_A_real, 2, qs_state, dt);
-				q_walk_simulation_matrix_1_sparse_imagereal(matrix_A_image, 2, qs_state, dt);
+				q_walk_simulation_matrix_1_sparse_real(matrix_A_real, qs_state, dt);
+				q_walk_simulation_matrix_1_sparse_imagereal(matrix_A_image, qs_state, dt);
 			}
 		}
 	}

@@ -33,7 +33,12 @@
     {
         body(...)
         {
-            let simulaton =[0];
+            let simulatons =[q_walk_simulation_matrix_1_sparse_bool, q_walk_simulation_matrix_1_sparse_integer,
+            q_walk_simulation_matrix_1_sparse_real, q_walk_simulation_matrix_1_sparse_imagebool, 
+            q_walk_simulation_matrix_1_sparse_imageinteger,q_walk_simulation_matrix_1_sparse_imagereal ];
+            
+            simulatons[matrix_type](matrix, qs_u, t);
+
         }
     }
     operation q_simulation_C_Trotter (qs_control:Qubit, matrixs: q_matrix_1_sparse_oracle[], matrixs_type:Int[], qs_u:Qubit[], t:Double, N:Int): Unit

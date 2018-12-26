@@ -4,7 +4,10 @@ namespace qblas
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
 
-    
+    operation q_com_real_nbit_float():Int
+    {
+        return(2);
+    }
     //颠倒量子比特顺序
     operation q_com_swap_all ( qs:Qubit[] ) : Unit
     {
