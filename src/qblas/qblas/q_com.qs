@@ -4,7 +4,7 @@ namespace qblas
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
 
-    operation q_com_real_nbit_float():Int
+    operation q_com_real_nbit_float( ) : Int
     {
         let nbit_float = 2;
         return(nbit_float);
