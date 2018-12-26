@@ -4,6 +4,7 @@ namespace qblas
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
 
+    
     //颠倒量子比特顺序
     operation q_com_swap_all ( qs:Qubit[] ) : Unit
     {

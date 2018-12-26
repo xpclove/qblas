@@ -315,7 +315,7 @@
 			}
 		}
 	}
-	operation q_walk_simulation_matrix_1_sparse  ( matrix_A_real: q_matrix_1_sparse_oracle,
+	operation q_walk_simulation_matrix_1_sparse_complex  ( matrix_A_real: q_matrix_1_sparse_oracle,
 	 matrix_A_image: q_matrix_1_sparse_oracle,
 	 qs_state: Qubit[], 
 	 t: Double,
