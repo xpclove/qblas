@@ -5,7 +5,7 @@
 	open Microsoft.Quantum.Extensions.Convert;
 	
 	//LitteEndian Qubits
-    operation q_fft_core (qs:Qubit[]) : ()
+    operation q_fft_core (qs:Qubit[]) : Unit
     {
         body(...)
         {
@@ -30,7 +30,7 @@
 		controlled auto;
 		controlled adjoint auto;
     }
-	operation q_fft(qs:Qubit[]):()
+	operation q_fft(qs:Qubit[]) : Unit
 	{
 		body(...)
 		{

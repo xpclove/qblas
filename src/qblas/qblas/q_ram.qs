@@ -31,7 +31,7 @@ namespace qblas
     }
     operation q_ram_function_assignment_real ( qs_data:Qubit[], data:Int) : Unit
     {
-        body
+        body(...)
         {
             let n_d = Length(qs_data);
             for(i in 0..n_d-1 )

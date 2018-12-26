@@ -65,9 +65,9 @@
 		controlled adjoint auto;
 	}
 
-	operation q_walk_simulation_CSWAP( qs_control:Qubit, qs_a:Qubit[], qs_b:Qubit[], t:Double ): ()
+	operation q_walk_simulation_CSWAP( qs_control:Qubit, qs_a:Qubit[], qs_b:Qubit[], t:Double ): Unit
 	{
-		body
+		body(...)
 		{
 			q_walk_simulation_T(qs_a,qs_b,qs_control,t);
 		}
@@ -262,6 +262,7 @@
 		}
 		adjoint auto;
 		controlled auto;
+		controlled adjoint auto;
 	}
 	operation q_walk_simulation_matrix_1_sparse_imagebool  ( matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
