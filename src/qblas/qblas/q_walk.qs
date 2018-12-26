@@ -77,9 +77,9 @@
 	}
 	
 	// M 
-	operation q_walk_op_V ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_r:Qubit ): ()
+	operation q_walk_op_V ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_r:Qubit ): Unit
 	{
-		body
+		body(...)
 		{
 			// matrix_A(qs_a, qs_b, qs_r);
 		}
@@ -87,9 +87,9 @@
 		controlled auto;		
 		controlled adjoint auto;
 	}
-	operation q_walk_op_M ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_weight: Qubit[] ): ()
+	operation q_walk_op_M ( matrix_A: q_matrix_1_sparse_oracle, qs_a: Qubit[], qs_b: Qubit[], qs_weight: Qubit[] ): Unit
 	{
-		body
+		body(...)
 		{
 			matrix_A! (qs_a, qs_b, qs_weight);
 		}

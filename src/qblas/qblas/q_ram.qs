@@ -74,7 +74,7 @@ namespace qblas
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
     operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
-        body
+        body(...)
         {
             let N_RAM = Length(RAM);
             let n_d = Length(qs_data);

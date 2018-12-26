@@ -6,10 +6,11 @@ namespace qblas
 
     operation q_com_real_nbit_float( ) : Int
     {
+        //设置 real 浮点位数
         let nbit_float = 2;
         return(nbit_float);
     }
-    //颠倒量子比特顺序
+    //颠倒全部量子比特顺序
     operation q_com_swap_all ( qs:Qubit[] ) : Unit
     {
         body(...)
