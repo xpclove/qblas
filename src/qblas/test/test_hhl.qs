@@ -227,7 +227,7 @@ namespace Quantum.test
 					X(qs_control);
 
 					let time = PI()/6.0;
-					q_simulation_C_A_type (qs_control, 1, ora, qs_rhos, qs_u, time, 18);
+					q_simulation_C_A_type ([qs_control], 1, ora, qs_rhos, qs_u, time, 18);
 					DumpRegister("swapa.txt", qs_u);
 					DumpRegister("dump.txt", qs);
 					let r = M(qs_u[0]);

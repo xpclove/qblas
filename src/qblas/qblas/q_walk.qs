@@ -350,7 +350,7 @@
 			}
 		}
 	}
-	operation q_walk_simulation_C_matrix_1_sparse_core  (qs_control: Qubit, matrix_type:Int, matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
+	operation q_walk_simulation_C_matrix_1_sparse_core  (qs_controls: Qubit[], matrix_type:Int, matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
 		body(...)
 		{
@@ -363,7 +363,7 @@
 				let qs_a = qs_state;
 				let time = t_sign * t;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_C_T_R_sF) (Rp, qs_a, qs_b, qs_control, qs_weight, nbit_float, time); // 目前两位浮点
+				(q_walk_simulation_C_T_R_sF) (qs_controls, Rp, qs_a, qs_b, qs_weight, nbit_float, time); // 目前两位浮点
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
@@ -375,28 +375,28 @@
             q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
 		}
 	}
-    operation q_walk_simulation_C_matrix_1_sparse_type (qs_control:Qubit, matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    operation q_walk_simulation_C_matrix_1_sparse_type (qs_controls:Qubit[], matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
     {
         body(...)
         {           
-            q_walk_simulation_C_matrix_1_sparse_core(qs_control, matrix_type, matrix, qs_u, t);
+            q_walk_simulation_C_matrix_1_sparse_core(qs_controls, matrix_type, matrix, qs_u, t);
 		}
 	}
-	operation q_walk_simulation_C_T_R_sF (Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], n_bits_float:Int, t:Double): Unit
+	operation q_walk_simulation_C_T_R_sF(qs_controls: Qubit[], Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_weight:Qubit[], n_bits_float:Int, t:Double): Unit
 	{	
 		body(...)
         {
 			let nbit = Length(qs_weight);
 			let qs_sign = qs_weight[nbit-1];
 			q_walk_op_A (qs_a, qs_b, qs_sign); // A
-			(Controlled q_walk_simulation_sF) ( [qs_control], (qs_weight, t, n_bits_float, Rp) ); // rotation F	for Rp
+			(Controlled q_walk_simulation_sF) ( qs_controls, (qs_weight, t, n_bits_float, Rp) ); // rotation F	for Rp
 			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
         }
 		adjoint auto;
 		controlled auto;
 		controlled adjoint auto;
 	}
-	operation q_walk_simulation_C_T_R(Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], t:Double) : Unit
+	operation q_walk_simulation_C_T_R(qs_controls: Qubit[], Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_weight:Qubit[], t:Double) : Unit
 	{
 		body(...)
 		{
@@ -404,7 +404,7 @@
 			let qs_sign = qs_weight[nbit-1];
 			q_walk_op_A (qs_a, qs_b, qs_sign); // A
 			let angle = 2.0*t;
-			(Controlled R) ( [qs_control], (Rp, angle, qs_sign) );
+			(Controlled R) ( qs_controls, (Rp, angle, qs_sign) );
 			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
 		}
 	}
