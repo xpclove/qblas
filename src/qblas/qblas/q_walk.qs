@@ -335,21 +335,27 @@
 			}
 		}
 	}
-
+	operation q_walk_matrix_type(type: Int):(Pauli, Int, Int) // (Pauli, nbit_flaot, nbit_weight)
+	{
+		let p= [PauliZ, PauliY];
+		let nbit_float = q_com_real_nbit_float();
+		let types = [ (p[0], 0, 1), (p[0], 0, 8), (p[0], nbit_float, 8), (p[1], 0, 1), (p[1], 0, 8), (p[1], nbit_float, 8)];
+		return(types[type]);
+	}
 	operation q_walk_simulation_matrix_1_sparse_core  (matrix_type:Int, matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
 	{
 		body(...)
 		{
-			let nbit=Length(qs_state);
-			let nbit_float = q_com_real_nbit_float();
-			using(qs_tmp=Qubit[1+nbit+8])
+			let nbit=Length( qs_state );
+			let ( Rp, nbit_float, nbit_weight) = q_walk_matrix_type( matrix_type );
+			using(qs_tmp=Qubit[1+nbit+nbit_weight])
 			{
 				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..nbit+8];
+				let qs_weight=qs_tmp[nbit+1..nbit+nbit_weight];
 				let qs_r = qs_tmp[0];
 				let qs_a=qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T_R_sF) (PauliY, qs_a,qs_b,qs_r, qs_weight, nbit_float, -t); // 目前两位浮点
+				(q_walk_simulation_T_R_sF) (Rp, qs_a,qs_b,qs_r, qs_weight, nbit_float, -t); // 目前两位浮点
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
 			}
 		}
