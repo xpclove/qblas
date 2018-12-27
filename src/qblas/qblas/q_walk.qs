@@ -361,5 +361,12 @@
 			}
 		}
 	}
+    operation q_walk_matrix_1_sparse_type (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    {
+        body(...)
+        {           
+            q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
+		}
+	}
 	
 }
