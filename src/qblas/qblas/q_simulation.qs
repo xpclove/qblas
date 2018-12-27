@@ -148,4 +148,34 @@
             }
         }
     }
+    operation q_simulation_SwapA_complex (
+     qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
+     qs_u: Qubit[], dt:Double) : Unit
+    {
+        body(...)
+        {
+            let nbit = Length(qs_u) /2 ;
+            let t = ToDouble(2^nbit) * dt;
+            q_walk_simulation_matrix_1_sparse_complex (qs_SA_real, qs_SA_image, qs_u, t, 1000);
+        }
+    }
+
+    operation q_simulation_A_complex(
+     qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
+     qs_rhos: Qubit[][],
+     qs_u: Qubit[], t:Double, N:Int) : Unit
+    {
+        body(...)
+        {
+            let dt =  t/ToDouble(N);
+            for( i in 0..1..N-1)
+            {
+                ResetAll(qs_rhos[i]);
+                q_com_apply (H, qs_rhos[i]); // 制备全 1 rho
+                // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
+                q_simulation_C_SwapA_complex( qs_SA_real, qs_SA_image, qs_u, dt);
+            }
+
+        }
+    }
  }
