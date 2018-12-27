@@ -401,4 +401,16 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
+	operation q_walk_simulation_C_T_R(Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], t:Double) : Unit
+	{
+		body(...)
+		{
+			let nbit = Length(qs_weight);
+			let qs_sign = qs_weight[nbit-1];
+			q_walk_op_A (qs_a, qs_b, qs_sign); // A
+			let angle = 2.0*t;
+			(Controlled R) ( [qs_control], (Rp, angle, qs_sign) );
+			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
+		}
+	}
 }
