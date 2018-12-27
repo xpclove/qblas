@@ -144,7 +144,7 @@ namespace Quantum.test
 
 	operation test_1_sparse_bool(p:Int):Double
 	{
-	//测试 1 sparse bool matrix simulation , 2*2， 时间 Pi/4
+	//测试 1 sparse bool matrix simulation , 2*2， 时间 Pi/4 	, matrix = sigma_x, image_matrx = sigma_y
 		body(...)
 		{
 			using(qs = Qubit[3])
@@ -171,7 +171,7 @@ namespace Quantum.test
 
 	operation test_1_sparse_integer(p:Int):Double
 	{
-	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/8
+	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/8, matrix = 2*sigma_x, image_matrx = 2*sigma_y
 		body(...)
 		{
 			using(qs = Qubit[4])

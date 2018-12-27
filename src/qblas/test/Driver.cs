@@ -17,10 +17,10 @@ namespace Quantum.test
                 for(int i = 0; i < 1; i++)
                 {
                     // var res = test_vector_prepare.Run(sim, i);
-                    var res = test_SwapA.Run(sim,1).Result;
+                    var res = test_1_sparse_integer.Run(sim,1).Result;
                     Console.WriteLine("run over, Result= ");
-                    double[] p = q_debug_dump("dump.txt", 0);
-                    for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
+                    // double[] p = q_debug_dump("dump.txt", 0);
+                    // for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
                     Console.WriteLine("end test!");
                 }
             }
