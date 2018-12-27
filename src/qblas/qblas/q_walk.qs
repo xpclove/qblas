@@ -349,10 +349,10 @@
 		{
 			let nbit=Length( qs_state );
 			let ( Rp, nbit_float, nbit_weight, t_sign) = q_walk_matrix_type( matrix_type );
-			using(qs_tmp=Qubit[1+nbit+nbit_weight])
+			using( qs_tmp = Qubit[1+nbit+nbit_weight] )
 			{
-				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..nbit+nbit_weight];
+				let qs_b = qs_tmp[1..nbit];
+				let qs_weight = qs_tmp[nbit+1..nbit+nbit_weight];
 				let qs_r = qs_tmp[0];
 				let qs_a = qs_state;
 				let time = t_sign * t;
@@ -368,7 +368,7 @@
 		{
 			let nbit=Length( qs_state );
 			let ( Rp, nbit_float, nbit_weight, t_sign) = q_walk_matrix_type( matrix_type );
-			using(qs_tmp=Qubit[nbit+nbit_weight])
+			using( qs_tmp = Qubit[nbit+nbit_weight] )
 			{
 				let qs_b = qs_tmp[0..nbit-1];
 				let qs_weight = qs_tmp[nbit..nbit+nbit_weight-1];
