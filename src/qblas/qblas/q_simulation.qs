@@ -50,7 +50,7 @@
     }
 
     //参考 PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
-    operation q_simulation_C_SwapA (qs_control:Qubit,   
+    operation q_simulation_C_SwapA_complex (qs_control:Qubit,   
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : Unit
     {
@@ -62,23 +62,20 @@
         }
     }
 
-    operation q_simulation_C_A( qs_control:Qubit, 
-     qs_SA_real:q_matrix_1_sparse_oracle, qs_SA_image:q_matrix_1_sparse_oracle,
-     qs_u: Qubit[], t:Double, err:Double) : Unit
+    operation q_simulation_C_A_complex( qs_control:Qubit, 
+     qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
+     qs_rhos: Qubit[][],
+     qs_u: Qubit[], t:Double, N:Int) : Unit
     {
         body(...)
         {
-            let nbit = Length(qs_u) / 2;
-            let qs_rho = qs_u[0..nbit-1];
-            let N_D = (t*t) / err;
-            let dt = t/N_D;
-            let N = Ceiling(N_D);
-            for( i in 1..1..N)
+            let dt =  t/ToDouble(N);
+            for( i in 0..1..N-1)
             {
-                ResetAll(qs_rho);
-                ApplyToEachCA (H, qs_rho); // 制备全 1 rho
+                ResetAll(qs_rhos[i]);
+                q_com_apply (H, qs_rhos[i]); // 制备全 1 rho
                 // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
-                q_simulation_C_SwapA(qs_control, qs_SA_real, qs_SA_image, qs_u, dt);
+                q_simulation_C_SwapA_complex(qs_control, qs_SA_real, qs_SA_image, qs_u, dt);
             }
 
         }
