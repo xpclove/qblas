@@ -339,6 +339,7 @@
 	{
 		let p= [PauliZ, PauliY];
 		let nbit_float = q_com_real_nbit_float();
+		// type: 0 bool , 1 integer, 2 real, 3 imagebool, 4 imageinteger, 5 imagereal
 		let types = [ (p[0], 0, 1), (p[0], 0, 8), (p[0], nbit_float, 8), (p[1], 0, 1), (p[1], 0, 8), (p[1], nbit_float, 8)];
 		return(types[type]);
 	}
