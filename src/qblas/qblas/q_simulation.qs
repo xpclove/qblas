@@ -33,7 +33,7 @@
     { //type 代表 6种基本 1-sparse matrix type
         body(...)
         {           
-            q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
+            q_walk_simulation_matrix_1_sparse_type(matrix_type, matrix, qs_u, t);
 
         }
     }
@@ -41,7 +41,7 @@
     { //type 代表 6种基本 1-sparse matrix type
         body(...)
         {           
-            q_walk_simulation_C_matrix_1_sparse_core(qs_control, matrix_type, matrix, qs_u, t);
+            q_walk_simulation_C_matrix_1_sparse_type(qs_control, matrix_type, matrix, qs_u, t);
 
         }
     }
