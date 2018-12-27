@@ -97,5 +97,35 @@ namespace qblas
         }
         return(newdata);
     }
+
+    function q_com_array_join ( qa: Qubit[], qb:Qubit[] ) : Qubit[] 
+    {
+        let na = Length(qa);
+        let nb = Length(qb);
+        let n = na + nb;
+        mutable qs = new Qubit[n];
+        for( i in 0..na-1)
+        {
+            set qs[i] = qa[i];
+        }
+        for( i in 0..nb-1)
+        {
+            set qs[ na+i ] = qb[i];
+        }
+        return (qs);
+    }
+    operation q_com_apply ( op: (Qubit => Unit: Adjoint, Controlled), qs: Qubit[]): Unit
+    {
+        body(...)
+        {
+            for ( i in 0..Length(qs)-1)
+            {
+                op (qs[i]);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }
 
