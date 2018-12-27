@@ -33,7 +33,7 @@
     {
         body(...)
         {           
-            q_walk_simulation_matrix_1_sparse_core[matrix_type, matrix, qs_u, t);
+            q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
 
         }
     }
