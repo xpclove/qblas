@@ -113,4 +113,28 @@
             }
         }
     }
+    operation q_simulation_SwapA_type (type:Int, qs_SA: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
+    {
+        body(...)
+        {
+            let nbit = Length(qs_u) /2 ;
+            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
+            q_simulation_matrix_1_sparse_type (type, qs_SA,  qs_u, t);
+        }
+    }
+    operation q_simulation_A_type (type: Int, qs_SA:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
+    {
+        body(...)
+        {
+            let dt =  t/ToDouble(N);
+            for( i in 0..1..N-1 )
+            {
+                q_print([i]);
+                ResetAll(qs_rhos[i]);
+                q_com_apply( H, qs_rhos[i]); // 制备  |rho> =|+>
+                let qs_ru = q_com_array_join( qs_rhos[i], qs_u ) ;
+                q_simulation_SwapA_type(type,  qs_SA, qs_ru, dt);
+            }
+        }
+    }
  }
