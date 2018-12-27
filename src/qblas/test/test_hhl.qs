@@ -203,7 +203,7 @@ namespace Quantum.test
 		{
 			mutable res=0.0;
 			let N =1;
-			for(i in 1..N)
+			for(j in 1..N)
 			{
 				using(qs = Qubit[20])
 				{
@@ -217,12 +217,17 @@ namespace Quantum.test
 
 					let ora = q_matrix_1_sparse_oracle(q_matrix_SwapA_test);
 					
-					let qs_u =qs[0..18];
+					let qs_u =qs[0..0];
+					mutable qs_rhos= new (Qubit[])[18];
+					for( i in 0..17)
+					{
+						set qs_rhos[i]=[qs[1+i]];
+					}
 					let qs_control = qs[19];
 					X(qs_control);
 
 					let time = PI()/6.0;
-					q_simulation_C_A_integer(qs_control, ora, qs_u, time, 18);
+					q_simulation_C_A_integer(qs_control, ora, qs_rhos, qs_u, time, 18);
 					DumpRegister("swapa.txt", qs_u);
 					DumpRegister("dump.txt", qs);
 					let r = M(qs_u[0]);
