@@ -77,7 +77,8 @@
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt;
-            q_walk_simulation_matrix_1_sparse_complex (qs_SA_real, qs_SA_image, qs_u, t, 1000);
+            // q_walk_simulation_matrix_1_sparse_complex (qs_SA_real, qs_SA_image, qs_u, t, 1000);
+            q_simulation_C_Trotter(qs_controls, [qs_SA_real, qs_SA_image], [2, 5], qs_u, t, 1000);
         }
     }
 
@@ -96,7 +97,6 @@
                 // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
                 q_simulation_C_SwapA_complex(qs_controls, qs_SA_real, qs_SA_image, qs_u, dt);
             }
-
         }
     }
 
