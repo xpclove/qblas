@@ -347,7 +347,7 @@
 	{
 		body(...)
 		{
-			let nbit=Length( qs_state );
+			let nbit = Length( qs_state );
 			let ( Rp, nbit_float, nbit_weight, t_sign) = q_walk_matrix_type( matrix_type );
 			using( qs_tmp = Qubit[1+nbit+nbit_weight] )
 			{
@@ -366,7 +366,7 @@
 	{
 		body(...)
 		{
-			let nbit=Length( qs_state );
+			let nbit = Length( qs_state );
 			let ( Rp, nbit_float, nbit_weight, t_sign) = q_walk_matrix_type( matrix_type );
 			using( qs_tmp = Qubit[nbit+nbit_weight] )
 			{
@@ -380,12 +380,18 @@
 			}
 		}
 	}
-    operation q_walk_matrix_1_sparse_type (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    operation q_walk_simulation_matrix_1_sparse_type (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
     {
         body(...)
         {           
             q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
 		}
 	}
-	
+    operation q_walk_simulation_C_matrix_1_sparse_type (qs_control:Qubit, matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    {
+        body(...)
+        {           
+            q_walk_simulation_matrix_1_sparse_core(qs_control, matrix_type, matrix, qs_u, t);
+		}
+	}
 }
