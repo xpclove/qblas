@@ -37,6 +37,14 @@
 
         }
     }
+    operation q_simulation_C_matrix_1_sparse_type (qs_control:Qubit, matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    { //type 代表 6种基本 1-sparse matrix type
+        body(...)
+        {           
+            q_walk_simulation_C_matrix_1_sparse_core(qs_control, matrix_type, matrix, qs_u, t);
+
+        }
+    }
     operation q_simulation_C_Trotter (qs_control:Qubit, matrixs: q_matrix_1_sparse_oracle[], matrixs_type:Int[], qs_u:Qubit[], t:Double, N:Int): Unit
     {
         body(...)

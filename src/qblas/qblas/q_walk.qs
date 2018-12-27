@@ -361,6 +361,23 @@
 			}
 		}
 	}
+	operation q_walk_simulation_C_matrix_1_sparse_core  (matrix_type:Int, matrix_A: q_matrix_1_sparse_oracle, qs_state: Qubit[], t: Double ): Unit
+	{
+		body(...)
+		{
+			let nbit=Length( qs_state );
+			let ( Rp, nbit_float, nbit_weight) = q_walk_matrix_type( matrix_type );
+			using(qs_tmp=Qubit[nbit+nbit_weight])
+			{
+				let qs_b=qs_tmp[0..nbit-1];
+				let qs_weight=qs_tmp[nbit..nbit+nbit_weight-1];
+				let qs_a=qs_state;
+				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
+				(q_walk_simulation_T_R_sF) (Rp, qs_a,qs_b,qs_r, qs_weight, nbit_float, -t); // 目前两位浮点
+				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);				
+			}
+		}
+	}
     operation q_walk_matrix_1_sparse_type (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
     {
         body(...)
