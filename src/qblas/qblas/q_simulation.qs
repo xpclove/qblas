@@ -45,20 +45,31 @@
 
         }
     }
-    operation q_simulation_C_Trotter (qs_control:Qubit, matrixs: q_matrix_1_sparse_oracle[], matrixs_type:Int[], qs_u:Qubit[], t:Double, N:Int): Unit
+    operation q_simulation_Trotter (matrixs: q_matrix_1_sparse_oracle[], matrixs_type:Int[], qs_u:Qubit[], t:Double, N:Int): Unit
     {
         body(...)
         {
             let dt =t/ToDouble(N);
             for ( i in 0..1..(Length(matrixs)-1) )
             {
-                q_simulation_matrix_1_sparse_type (  matrixs_type[i], matrixs[i], qs_u, t );
+                q_simulation_matrix_1_sparse_type (matrixs_type[i], matrixs[i], qs_u, t );
+            }
+        }
+    }
+    operation q_simulation_C_Trotter (qs_controls:Qubit[], matrixs: q_matrix_1_sparse_oracle[], matrixs_type:Int[], qs_u:Qubit[], t:Double, N:Int): Unit
+    {
+        body(...)
+        {
+            let dt =t/ToDouble(N);
+            for ( i in 0..1..(Length(matrixs)-1) )
+            {
+                q_simulation_C_matrix_1_sparse_type (  qs_controls, matrixs_type[i], matrixs[i], qs_u, t );
             }
         }
     }
 
     //参考 PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
-    operation q_simulation_C_SwapA_complex (qs_control:Qubit,   
+    operation q_simulation_C_SwapA_complex (qs_controls:Qubit[],   
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : Unit
     {
@@ -70,7 +81,7 @@
         }
     }
 
-    operation q_simulation_C_A_complex( qs_control:Qubit, 
+    operation q_simulation_C_A_complex( qs_controls:Qubit[], 
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_rhos: Qubit[][],
      qs_u: Qubit[], t:Double, N:Int) : Unit
@@ -83,7 +94,7 @@
                 ResetAll(qs_rhos[i]);
                 q_com_apply (H, qs_rhos[i]); // 制备全 1 rho
                 // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
-                q_simulation_C_SwapA_complex(qs_control, qs_SA_real, qs_SA_image, qs_u, dt);
+                q_simulation_C_SwapA_complex(qs_controls, qs_SA_real, qs_SA_image, qs_u, dt);
             }
 
         }
