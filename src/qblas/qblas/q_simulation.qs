@@ -29,7 +29,7 @@
             }
         }
     }
-    operation q_simulation_matrix_1_sparse (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
+    operation q_simulation_matrix_1_sparse_type (matrix_type:Int, matrix: q_matrix_1_sparse_oracle, qs_u:Qubit[], t:Double): Unit
     {
         body(...)
         {           
@@ -44,7 +44,7 @@
             let dt =t/ToDouble(N);
             for ( i in 0..1..(Length(matrixs)-1) )
             {
-                q_simulation_matrix_1_sparse(  matrixs_type[i], matrixs[i], qs_u, t );
+                q_simulation_matrix_1_sparse_type (  matrixs_type[i], matrixs[i], qs_u, t );
             }
         }
     }
@@ -90,7 +90,7 @@
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
-            q_simulation_matrix_1_sparse (type, qs_SA,  qs_u, t);
+            q_simulation_matrix_1_sparse_type (type, qs_SA,  qs_u, t);
         }
     }
     operation q_simulation_C_A_type ( qs_control:Qubit, type: Int, qs_SA:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
