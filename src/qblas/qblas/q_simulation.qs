@@ -84,16 +84,16 @@
         }
     }
 
-    operation q_simulation_C_SwapA_integer (qs_control:Qubit, qs_SA_int: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
+    operation q_simulation_C_SwapA_type (qs_control:Qubit, type:Int, qs_SA: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
     {
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
             let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
-            q_walk_simulation_matrix_1_sparse_integer (qs_SA_int,  qs_u, t);
+            q_simulation_matrix_1_sparse (type, qs_SA,  qs_u, t);
         }
     }
-    operation q_simulation_C_A_integer( qs_control:Qubit, qs_SA_int:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
+    operation q_simulation_C_A_type ( qs_control:Qubit, type: Int, qs_SA:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
     {
         body(...)
         {
@@ -103,8 +103,8 @@
                 q_print([i]);
                 ResetAll(qs_rhos[i]);
                 q_com_apply( H, qs_rhos[i]); // 制备  |rho> =|+>
-                let qs_ru=q_com_array_join( qs_rhos[i], qs_u ) ;
-                q_simulation_C_SwapA_integer(qs_control, qs_SA_int, qs_ru, dt);
+                let qs_ru = q_com_array_join( qs_rhos[i], qs_u ) ;
+                q_simulation_C_SwapA_type(qs_control, type,  qs_SA, qs_ru, dt);
             }
         }
     }
