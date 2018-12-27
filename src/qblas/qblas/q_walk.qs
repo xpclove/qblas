@@ -103,17 +103,15 @@
 		body(...)
 		{
 			let nbit=Length(qs_state);
-			using(qs_tmp=Qubit[nbit+1+1])
+			using(qs_tmp=Qubit[nbit+1])
 			{
-				let qs_b = qs_tmp[1..nbit];
-				let qs_weight = qs_tmp[nbit+1..nbit+1];
+				let qs_b = qs_tmp[0..nbit-1];
+				let qs_weight = qs_tmp[nbit..nbit+1-1];
 				let qs_r = qs_tmp[0]; //control line 
 				let qs_a = qs_state;
-				X(qs_r); 
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T_R) (PauliZ, qs_a, qs_b, qs_r, qs_weight, t);
+				(q_walk_simulation_T_R) (PauliZ, qs_a, qs_b, qs_weight, t);
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				X(qs_r);			
 			}
 		}
 	}
@@ -222,7 +220,7 @@
 			}
 		}
 	}
-	operation q_walk_simulation_T_R(Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_control: Qubit, qs_weight:Qubit[], t:Double) : Unit
+	operation q_walk_simulation_T_R(Rp: Pauli, qs_a: Qubit[], qs_b: Qubit[], qs_weight:Qubit[], t:Double) : Unit
 	{
 		body(...)
 		{
@@ -265,17 +263,14 @@
 		body(...)
 		{
 			let nbit=Length(qs_state); 
-			using(qs_tmp=Qubit[1+nbit+1])
+			using(qs_tmp=Qubit[nbit+1])
 			{
-				let qs_b=qs_tmp[1..nbit];
-				let qs_weight=qs_tmp[nbit+1..nbit+1];
-				let qs_r = qs_tmp[0];
-				let qs_a=qs_state;
-				X(qs_r);
+				let qs_b=qs_tmp[0..nbit-1];
+				let qs_weight=qs_tmp[nbit..nbit+1-1];
+				let qs_a = qs_state;
 				(q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				(q_walk_simulation_T_R) (PauliY, qs_a,qs_b,qs_r, qs_weight, -t); //时间翻转问题需要解决
+				(q_walk_simulation_T_R) (PauliY, qs_a,qs_b, qs_weight, -t); //时间翻转问题需要解决
 				(Adjoint q_walk_op_M) (matrix_A,qs_a,qs_b,qs_weight);
-				X(qs_r);				
 			}
 		}
 	}
