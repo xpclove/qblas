@@ -173,7 +173,7 @@
                 ResetAll(qs_rhos[i]);
                 q_com_apply (H, qs_rhos[i]); // 制备全 1 rho
                 // qs_SA_real: A实数部分， qs_SA_image: A虚数部分
-                q_simulation_C_SwapA_complex( qs_SA_real, qs_SA_image, qs_u, dt);
+                q_simulation_SwapA_complex( qs_SA_real, qs_SA_image, qs_u, dt);
             }
 
         }
