@@ -105,7 +105,7 @@ namespace Quantum.test
 					}
 					X(qs_control);
 					let time = PI()/3.0;
-					q_simulation_C_densitymatrix(qs_control, qs_rhos, qs_sigma, time, 18);
+					q_simulation_C_densitymatrix([qs_control], qs_rhos, qs_sigma, time, 18);
 					DumpRegister("dm.txt", qs_sigma);
 					DumpRegister("dump.txt", qs);
 					let r = M(qs_sigma[0]);
@@ -134,7 +134,7 @@ namespace Quantum.test
 
 				X(qs[4]);
 				let time = PI()/2.0;
-				q_simulation_C_Swap(qs_control, qs_a, qs_b, time);
+				q_simulation_C_Swap([qs_control], qs_a, qs_b, time);
 				DumpRegister("swap.txt", qs_b);
 				ResetAll(qs);
 			}

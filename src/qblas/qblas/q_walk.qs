@@ -41,8 +41,8 @@
 		controlled adjoint auto;
     }
 
-	// T = CSWAP
-	operation q_walk_simulation_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit, t:Double): Unit
+	// T = SWAP
+	operation q_walk_simulation_C_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit[], t:Double): Unit
 	{	
 		body(...)
         {
@@ -54,7 +54,7 @@
 
 				q_walk_op_A (qs_a, qs_b, qs_bit); // A
 
-				(Controlled Rz) ( [qs_r], (angle, qs_bit) ); //Rz
+				(Controlled Rz) ( qs_r, (angle, qs_bit) ); //Rz
 				
 				(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_bit); // A+
 			}
@@ -65,11 +65,11 @@
 		controlled adjoint auto;
 	}
 
-	operation q_walk_simulation_CSWAP( qs_control:Qubit, qs_a:Qubit[], qs_b:Qubit[], t:Double ): Unit
+	operation q_walk_simulation_C_SWAP( qs_controls:Qubit[], qs_a:Qubit[], qs_b:Qubit[], t:Double ): Unit
 	{
 		body(...)
 		{
-			q_walk_simulation_T(qs_a,qs_b,qs_control,t);
+			q_walk_simulation_C_T(qs_a,qs_b,qs_controls,t);
 		}
 		adjoint auto;
 		controlled auto;
@@ -407,5 +407,38 @@
 			(Controlled R) ( qs_controls, (Rp, angle, qs_sign) );
 			(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_sign); // A+
 		}
+	}
+	operation q_walk_simulation_T (qs_a: Qubit[], qs_b: Qubit[], t:Double): Unit
+	{	
+		body(...)
+        {
+			let nbit=Length(qs_a);
+			let angle = 2.0*t; //旋转角度
+			using(qs_tmp=Qubit[1])
+			{
+				let qs_bit=qs_tmp[0];
+
+				q_walk_op_A (qs_a, qs_b, qs_bit); // A
+
+				(Rz) ( (angle, qs_bit) ); //Rz
+				
+				(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_bit); // A+
+			}
+            
+        }
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+	}
+
+	operation q_walk_simulation_SWAP(qs_a:Qubit[], qs_b:Qubit[], t:Double ): Unit
+	{
+		body(...)
+		{
+			q_walk_simulation_T(qs_a,qs_b,t);
+		}
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
 	}
 }

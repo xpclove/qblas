@@ -82,21 +82,5 @@
         {
             
         }
-    }
-
-    // _C 表示受控版本
-    operation q_matrix_simulation_densitymatrix_C(qs_control:Qubit, qs_rho:Qubit[], qs_sigma:Qubit[], t:Double, err:Double): Unit
-    {
-        body(...)
-        {
-            let N_D = Sqrt(t) / err;
-            let dt = t/N_D;
-            let N = Ceiling(N_D);
-            for ( i in 1..1..N )
-            {
-                q_walk_simulation_CSWAP (qs_control, qs_rho, qs_sigma, dt) ;
-            }
-        }
-    }
-    
+    }    
 }
