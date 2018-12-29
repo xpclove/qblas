@@ -34,7 +34,7 @@ namespace Quantum.test
 		}
 		adjoint auto;
 	}
-	//RAM 方式制备向量
+	//测试 RAM 方式制备向量
 	operation test_vector_prepare(p:Int):Unit
 	{
 		body(...)
@@ -48,7 +48,7 @@ namespace Quantum.test
 			} 
 		}
 	}
-	//	2个单位向量测试
+	//	2个单位向量内积测试
 	operation test_vector (p:Int) : Int
 	{
 		body(...)
@@ -62,7 +62,7 @@ namespace Quantum.test
 		}
 	}
 
-	// 2组等数量向量测试，每组2个向量
+	// 2组等数量向量内积测试，每组2个向量
 	operation oracle(qs:Qubit[]): Unit
 	{
 		body(...)
