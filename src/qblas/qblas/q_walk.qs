@@ -42,7 +42,7 @@
     }
 
 	// T = SWAP
-	operation q_walk_simulation_C_T (qs_a: Qubit[], qs_b: Qubit[], qs_r: Qubit[], t:Double): Unit
+	operation q_walk_simulation_C_T (qs_a: Qubit[], qs_b: Qubit[], qs_controls: Qubit[], t:Double): Unit
 	{	
 		body(...)
         {
@@ -54,7 +54,7 @@
 
 				q_walk_op_A (qs_a, qs_b, qs_bit); // A
 
-				(Controlled Rz) ( qs_r, (angle, qs_bit) ); //Rz
+				(Controlled Rz) ( qs_controls, (angle, qs_bit) ); //Rz
 				
 				(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_bit); // A+
 			}
@@ -420,7 +420,7 @@
 
 				q_walk_op_A (qs_a, qs_b, qs_bit); // A
 
-				(Rz) ( (angle, qs_bit) ); //Rz
+				(Rz) (angle, qs_bit); //Rz
 				
 				(Adjoint q_walk_op_A ) (qs_a, qs_b, qs_bit); // A+
 			}
