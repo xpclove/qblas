@@ -134,7 +134,7 @@ namespace Quantum.test
 
 				X(qs[4]);
 				let time = PI()/2.0;
-				q_simulation_C_Swap([qs_control], qs_a, qs_b, time);
+				q_simulation_C_swap([qs_control], qs_a, qs_b, time);
 				DumpRegister("swap.txt", qs_b);
 				ResetAll(qs);
 			}

@@ -6,7 +6,7 @@
     open Microsoft.Quantum.Extensions.Convert;
 
     //CSWAP 模拟
-    operation q_simulation_C_Swap (qs_controls:Qubit[], qs_a: Qubit[], qs_b:Qubit[], time: Double) : Unit
+    operation q_simulation_C_swap (qs_controls:Qubit[], qs_a: Qubit[], qs_b:Qubit[], time: Double) : Unit
     {
         body(...)
         {
