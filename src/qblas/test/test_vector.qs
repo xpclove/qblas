@@ -67,12 +67,11 @@ namespace Quantum.test
 	{//态准备oracle
 		body(...)
 		{
-			let vectors_raw =[ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)],
-			[(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
-			let norms_raw=[ 1.0, 1.0, 1.0, 1.0] ;
+			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
+			let norms_raw = [ 1.0, 1.0, 1.0, 1.0] ;
 			let vectors = q_com_convert_tupless_to_complexpolarss(vectors_raw);
-			let norms=q_com_convert_doubles_to_complexpolars(norms_raw);
-			let group=[0,0,1,1];
+			let norms = q_com_convert_doubles_to_complexpolars(norms_raw);
+			let group = [0,0,1,1];
 
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
