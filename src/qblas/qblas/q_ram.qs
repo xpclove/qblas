@@ -69,7 +69,23 @@ namespace qblas
         controlled adjoint auto;
     }
 
-
+    operation q_ram_load ( RAM:Int[], qs_address:Qubit[], qs_data:Qubit[] ) : Unit
+    {
+        body(...)
+        {
+            let N_RAM = Length(RAM);
+            for(i in 0..(N_RAM-1) )
+            {
+                    let (address, data) = (i, RAM[i]);
+                    q_ram_addressing (qs_address, address);
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , data) );
+                    (Adjoint q_ram_addressing) (qs_address, address);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
     //模拟读取量子内存 RAM[qs_address] = qs_data
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
     operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
