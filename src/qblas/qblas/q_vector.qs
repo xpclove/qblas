@@ -233,7 +233,7 @@
 					{
 						set p =0.5;
 					}
-					set inner = Sqrt(2.0*p-1.0) ; //向量组内积
+					set inner = Sqrt(2.0*p-1.0) ; //向量组投影概率
 					ResetAll(qs);
 				}
 				return (inner);
