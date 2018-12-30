@@ -172,6 +172,26 @@ namespace qblas
 		controlled auto;
 		controlled adjoint auto;
     }
+    operation q_ram_load_complex ( RAM : (Int,Int)[], qs_address:Qubit[], qs_v_r:Qubit[], qs_v_i:Qubit[]) : Unit
+    {
+    // Real Value = Int type, ( rotantion_angle/2PI*128 ) ;
+        body(...)
+        {
+            let N_RAM = Length(RAM);
+            for(i in 0..(N_RAM-1) )
+            {
+                    let (address, data) = (i, RAM[i]);
+                    let (real, image)=data;
+                    q_ram_addressing (qs_address, address);
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_v_r , real) );
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_v_i , image) );
+                    (Adjoint q_ram_addressing) (qs_address, address);
+            }
+        }
+		adjoint auto;
+		controlled auto;
+		controlled adjoint auto;
+    }
     operation q_ram_call_SwapA ( RAM : Int[][], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
         body(...)
