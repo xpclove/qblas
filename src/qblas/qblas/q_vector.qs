@@ -90,14 +90,14 @@
 						{
 							let angle_base = 2.0*PI() / (ToDouble(2^n_r)) ;
 							let angle = ToDouble(2^i)*angle_base;
-							(Controlled Ry) ( [qs_vector_real[i]], (angle, qs_r) ); //受控旋转
+							(Controlled Ry) ( [qs_vector_real[i]], (angle, qs_r) ); //受控旋转 Ry 制备振幅
 						}
 						let n_i =Length(qs_vector_image);
 						for(i in 0..n_i-1)
 						{
 							let angle_base = 2.0*PI() / (ToDouble(2^n_i)) ;
 							let angle = ToDouble(2^i)*angle_base;
-							(Controlled Rz) ( [qs_vector_image[i]], (angle, qs_r) ); //受控旋转
+							(Controlled Rz) ( [qs_vector_image[i]], (angle, qs_r) ); //受控旋转 Rz 制备相位
 						}
 						let result = M(qs_r); //通过测量制备向量
 						(Adjoint ram_call) (qs_address, qs_vector_real, qs_vector_image); //撤销加载
