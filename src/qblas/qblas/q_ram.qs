@@ -174,7 +174,7 @@ namespace qblas
     }
     operation q_ram_load_complex ( RAM : (Int,Int)[], qs_address:Qubit[], qs_v_r:Qubit[], qs_v_i:Qubit[]) : Unit
     {
-    // Real Value = Int type, ( rotantion_angle/2PI*128 ) ;
+    // Real and Image Value = Int type, ( rotantion_angle/2PI*128 ) ;
         body(...)
         {
             let N_RAM = Length(RAM);
