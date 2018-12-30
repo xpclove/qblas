@@ -24,6 +24,8 @@ namespace Quantum.test
 			} 
 		}
 	}
+	
+	//测试 RAM 方式制备向量
 	operation ram_call(qs_address:Qubit[], qs_data:Qubit[]):Unit
 	{
 		body(...)
@@ -34,7 +36,6 @@ namespace Quantum.test
 		}
 		adjoint auto;
 	}
-	//测试 RAM 方式制备向量
 	operation test_vector_prepare(p:Int):Unit
 	{
 		body(...)
@@ -48,6 +49,7 @@ namespace Quantum.test
 			} 
 		}
 	}
+
 	//	2个单位向量内积测试
 	operation test_vector (p:Int) : Int
 	{
@@ -76,7 +78,6 @@ namespace Quantum.test
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
 	}
-
 	operation test_vector_s (p:Int) : Int
 	{
 		body(...)
