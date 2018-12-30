@@ -68,6 +68,46 @@
 
 			}
 		}
+		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_complex:Int): Unit
+		{
+			body(...)
+			{
+				using(qs_tmp = Qubit[ nbit_complex+1 ] )
+				{
+					let qs_vector_real = qs_tmp[ 0..(nbit_complex/2-1) ];
+					let qs_vector_image = qs_tmp[ nbit_complex/2..(nbit_complex-1) ];
+					let qs_r = qs_tmp[ nbit_complex ];
+					repeat
+					{
+						ResetAll (qs_address);
+						for(i in 0..Length(qs_address)-1 )
+						{ 
+							H(qs_address[i]);
+						}
+						ram_call (qs_address, qs_vector_real, qs_vector_image); //加载数据
+						let n_r =Length(qs_vector_real);
+						for(i in 0..n_r-1)
+						{
+							let angle_base = 2.0*PI() / (ToDouble(2^n_r)) ;
+							let angle = ToDouble(2^i)*angle_base;
+							(Controlled Ry) ( [qs_vector_real[i]], (angle, qs_r) ); //受控旋转
+						}
+						let n_i =Length(qs_vector_image);
+						for(i in 0..n_i-1)
+						{
+							let angle_base = 2.0*PI() / (ToDouble(2^n_i)) ;
+							let angle = ToDouble(2^i)*angle_base;
+							(Controlled Rz) ( [qs_vector_image[i]], (angle, qs_r) ); //受控旋转
+						}
+						let result = M(qs_r); //通过测量制备向量
+						(Adjoint ram_call) (qs_address, qs_vector_real, qs_vector_image); //撤销加载
+						ResetAll(qs_tmp);
+					}until (result == One)
+					fixup{}
+				}
+
+			}
+		}
 		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
