@@ -68,7 +68,7 @@ namespace qblas
         controlled auto;
         controlled adjoint auto;
     }
-
+    //模拟读取量子内存 RAM[qs_address] = qs_data
     operation q_ram_load ( RAM:Int[], qs_address:Qubit[], qs_data:Qubit[] ) : Unit
     {
         body(...)
@@ -86,7 +86,7 @@ namespace qblas
         controlled auto;
         controlled adjoint auto;
     }
-    //模拟读取量子内存 RAM[qs_address] = qs_data
+
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
     operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
