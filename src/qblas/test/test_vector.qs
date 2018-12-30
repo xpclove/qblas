@@ -64,7 +64,7 @@ namespace Quantum.test
 		}
 	}
 
-	// 2组等数量向量内积测试，每组2个向量
+	// 2组等数量向量测试，每组2个向量
 	operation oracle(qs:Qubit[]): Unit
 	{//态准备oracle
 		body(...)
