@@ -99,14 +99,14 @@ namespace qblas
     }
     function q_com_convert_tuples_to_angles ( data:(Double, Double)[] ): (Int,Int)[]
     {
-        // (double,double) to rotation (angle,angle) for rotation
+        // Polar (double,double) to rotation (angle,angle) for rotation
         let n = Length(data);
         mutable newdata = new (Int, Int)[n];
         for(i in 0..n-1)
         {
             let (data_r, data_i) = data[i];
             let angle_r = Floor( 2.0*ArcSin( data_r )/PI()*128.0 );
-            let angle_i = Floor( 2.0*ArcSin( data_i )/PI()*128.0 );
+            let angle_i = Floor( data_i/PI()*128.0 );
             set newdata[i]= (angle_r, angle_i);
         }
         return(newdata);
