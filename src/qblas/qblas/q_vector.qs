@@ -35,7 +35,7 @@
 			controlled auto;
 			controlled adjoint auto;
 		}
-		// ram call 方式创建向量
+		// ram call 方式制备实数向量
 		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_real:Int): Unit
 		{
 			body(...)
@@ -57,22 +57,22 @@
 						{
 							let angle_base = 2.0*PI() / (ToDouble(2^n_v)) ;
 							let angle = ToDouble(2^i)*angle_base;
-							(Controlled Ry) ( [qs_vector[i]], (angle, qs_r) ); //受控旋转
+							(Controlled Ry) ( [qs_vector[i]], (angle, qs_r) ); //受控旋转 Ry 制备振幅
 						}
 						let result = M(qs_r); //通过测量制备向量
 						(Adjoint ram_call) (qs_address, qs_vector); //撤销加载
 						ResetAll(qs_tmp);
-					}until (result == One)
+					} until (result == One)
 					fixup{}
 				}
 
 			}
 		}
 		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit:Int): Unit
-		{
+		{ //ramcall 方式制备复数向量
 			body(...)
 			{
-				using(qs_tmp = Qubit[ 2 * nbit + 1 ] )
+				using(qs_tmp = Qubit[ 2 * nbit + 1 ] ) //nbit 数据位数，精度控制
 				{
 					let qs_vector_real = qs_tmp[ 0..(nbit-1) ];
 					let qs_vector_image = qs_tmp[ nbit..(2*nbit-1) ];
@@ -84,7 +84,8 @@
 						{ 
 							H(qs_address[i]);
 						}
-						ram_call (qs_address, qs_vector_real, qs_vector_image); //加载数据
+						ram_call (qs_address, qs_vector_real, qs_vector_image); //加载数据, real:振幅, image:相位
+
 						let n_r =Length(qs_vector_real);
 						for(i in 0..n_r-1)
 						{
@@ -92,6 +93,7 @@
 							let angle = ToDouble(2^i)*angle_base;
 							(Controlled Ry) ( [qs_vector_real[i]], (angle, qs_r) ); //受控旋转 Ry 制备振幅
 						}
+
 						let n_i =Length(qs_vector_image);
 						for(i in 0..n_i-1)
 						{
@@ -99,10 +101,11 @@
 							let angle = ToDouble(2^i)*angle_base;
 							(Controlled Rz) ( [qs_vector_image[i]], (angle, qs_r) ); //受控旋转 Rz 制备相位
 						}
+
 						let result = M(qs_r); //通过测量制备向量
 						(Adjoint ram_call) (qs_address, qs_vector_real, qs_vector_image); //撤销加载
 						ResetAll(qs_tmp);
-					}until (result == One)
+					} until (result == One)
 					fixup{}
 				}
 

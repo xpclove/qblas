@@ -32,7 +32,7 @@ namespace Quantum.test
 		{
 			let v = [0.3, 0.6, 0.6, 0.9];
 			let RAM = q_com_convert_doubles_to_angles(v);
-			q_ram_load_real(RAM, qs_address, qs_data);
+			q_ram_load_real_angle(RAM, qs_address, qs_data);
 		}
 		adjoint auto;
 	}
@@ -55,13 +55,13 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [ (0.3,0.0), (0.6,0.0), (0.6,0.5), (0.9,0.5)];
+			let v = [ (0.3,0.0), (0.6,0.0), (0.6,0.5), (0.9, 0.5)];
 			let RAM = q_com_convert_tuples_to_angles(v);
-			q_ram_load_complex(RAM, qs_address, qs_real, qs_image);
+			q_ram_load_complex_angle(RAM, qs_address, qs_real, qs_image);
 		}
 		adjoint auto;
 	}
-	operation test_vector_prepare_complex(p:Int):Unit
+	operation test_vector_complex_prepare(p:Int):Unit
 	{
 		body(...)
 		{

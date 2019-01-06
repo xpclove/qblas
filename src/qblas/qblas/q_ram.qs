@@ -170,25 +170,19 @@ namespace qblas
 		controlled adjoint auto;
     }
 
-    operation q_ram_load_real ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : Unit
+    operation q_ram_load_real_angle ( RAM : Int[], qs_address:Qubit[], qs_data:Qubit[]) : Unit
     {
     // Real Value = Int type, ( rotantion_angle/2PI*128 ) ;
         body(...)
         {
             let N_RAM = Length(RAM);
-            for(i in 0..(N_RAM-1) )
-            {
-                    let (address, data) = (i, RAM[i]);
-                    q_ram_addressing (qs_address, address);
-                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data , data) );
-                    (Adjoint q_ram_addressing) (qs_address, address);
-            }
+            q_ram_load(RAM, qs_address, qs_data);
         }
 		adjoint auto;
 		controlled auto;
 		controlled adjoint auto;
     }
-    operation q_ram_load_complex ( RAM : (Int,Int)[], qs_address:Qubit[], qs_v_r:Qubit[], qs_v_i:Qubit[]) : Unit
+    operation q_ram_load_complex_angle ( RAM : (Int,Int)[], qs_address:Qubit[], qs_v_r:Qubit[], qs_v_i:Qubit[]) : Unit
     {
     // Real and Image Value = Int type, ( rotantion_angle/2PI*128 ) ;
         body(...)
