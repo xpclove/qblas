@@ -99,7 +99,7 @@ namespace qblas
     }
     function q_com_convert_tuples_to_angles ( data:(Double, Double)[] ): (Int,Int)[]
     {
-        // double to rotation angle for rotation
+        // (double,double) to rotation (angle,angle) for rotation
         let n = Length(data);
         mutable newdata = new (Int, Int)[n];
         for(i in 0..n-1)
