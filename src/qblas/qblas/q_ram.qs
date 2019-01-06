@@ -86,7 +86,25 @@ namespace qblas
         controlled auto;
         controlled adjoint auto;
     }
-
+    operation q_ram_loads ( RAM:(Int,Int)[], qs_address:Qubit[], qs_data:Qubit[][] ) : Unit
+    {
+        body(...)
+        {
+            let N_RAM = Length(RAM);
+            for(i in 0..(N_RAM-1) )
+            {
+                    let (address, data) = (i, RAM[i]);
+                    let (data_0, data_1) = data;
+                    q_ram_addressing (qs_address, address);
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data[0] , data_0) );
+                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_data[1] , data_1) );
+                    (Adjoint q_ram_addressing) (qs_address, address);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 	// |qs_address>|qs_data>|qs_r>	->	 |qs_address>|RAM[qs_address]>|1>
     operation q_ram_call_bool ( RAM : QBLAS_M_Weight[], qs_address:Qubit[], qs_data:Qubit[], qs_weight:Qubit[] ) : Unit
     {
@@ -188,15 +206,7 @@ namespace qblas
         body(...)
         {
             let N_RAM = Length(RAM);
-            for(i in 0..(N_RAM-1) )
-            {
-                    let (address, data) = (i, RAM[i]);
-                    let (real, image)=data;
-                    q_ram_addressing (qs_address, address);
-                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_v_r , real) );
-                    (Controlled q_ram_function_assignment_int) ( qs_address, (qs_v_i , image) );
-                    (Adjoint q_ram_addressing) (qs_address, address);
-            }
+            q_ram_loads(RAM, qs_address, [qs_v_r, qs_v_i]);
         }
 		adjoint auto;
 		controlled auto;
