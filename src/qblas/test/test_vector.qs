@@ -25,12 +25,12 @@ namespace Quantum.test
 		}
 	}
 	
-	//测试 RAM 方式制备向量
+	//测试 RAM 方式制备实数向量
 	operation ram_call(qs_address:Qubit[], qs_data:Qubit[]):Unit
 	{
 		body(...)
 		{
-			let v =[0.3, 0.6, 0.6, 0.9];
+			let v = [0.3, 0.6, 0.6, 0.9];
 			let RAM = q_com_convert_doubles_to_angles(v);
 			q_ram_load_real(RAM, qs_address, qs_data);
 		}
@@ -49,6 +49,32 @@ namespace Quantum.test
 			} 
 		}
 	}
+
+	//测试 RAM 方式制备复数向量
+	operation ram_call_complex(qs_address:Qubit[], qs_real:Qubit[], qs_image:Qubit[]):Unit
+	{
+		body(...)
+		{
+			let v = [ (0.3,0.3), (0.6,0.6), (0.6,0.6), (0.9,0.9)];
+			let RAM = q_com_convert_tuples_to_angles(v);
+			q_ram_load_complex(RAM, qs_address, qs_real, qs_image);
+		}
+		adjoint auto;
+	}
+	operation test_vector_prepare_complex(p:Int):Unit
+	{
+		body(...)
+		{
+			using (qs = Qubit[2])
+			{
+				// ...
+				q_vector_complex_prepare(ram_call_complex, qs, 8);
+				DumpRegister("vector_dump.txt",qs);
+				ResetAll(qs);
+			} 
+		}
+	}
+
 
 	//	2个单位向量内积测试
 	operation test_vector (p:Int) : Int
