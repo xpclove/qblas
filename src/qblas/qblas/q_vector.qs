@@ -68,15 +68,15 @@
 
 			}
 		}
-		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_complex:Int): Unit
+		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit:Int): Unit
 		{
 			body(...)
 			{
-				using(qs_tmp = Qubit[ nbit_complex+1 ] )
+				using(qs_tmp = Qubit[ 2 * nbit + 1 ] )
 				{
-					let qs_vector_real = qs_tmp[ 0..(nbit_complex/2-1) ];
-					let qs_vector_image = qs_tmp[ nbit_complex/2..(nbit_complex-1) ];
-					let qs_r = qs_tmp[ nbit_complex ];
+					let qs_vector_real = qs_tmp[ 0..(nbit-1) ];
+					let qs_vector_image = qs_tmp[ nbit..(2*nbit-1) ];
+					let qs_r = qs_tmp[ 2*nbit ];
 					repeat
 					{
 						ResetAll (qs_address);

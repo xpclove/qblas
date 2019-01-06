@@ -55,7 +55,7 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [ (0.3,0.3), (0.6,0.6), (0.6,0.6), (0.9,0.9)];
+			let v = [ (0.3,0.0), (0.6,0.0), (0.6,0.5), (0.9,0.5)];
 			let RAM = q_com_convert_tuples_to_angles(v);
 			q_ram_load_complex(RAM, qs_address, qs_real, qs_image);
 		}
