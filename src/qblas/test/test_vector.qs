@@ -110,9 +110,9 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let pj= q_vector_s_inner(oracle, 2, 4, 0.001);
+			let P_j= q_vector_s_inner(oracle, 2, 4, 0.001);
 			let s =  q_vector_s_distance(oracle, 2, 4, 0.001);
-			q_print_D([pj,s]); 
+			q_print_D([P_j,s]); 
 			return(1);
 		}
 	}
