@@ -153,8 +153,8 @@
 		{
 			body(...)
 			{
-				let inner=q_vector_inner(u, v, n_qubit, acc);
-				let distance=Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner);
+				let inner = q_vector_inner(u, v, n_qubit, acc);
+				let distance = Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner);
 				return (distance);	
 			}
 		}

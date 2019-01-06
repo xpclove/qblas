@@ -77,15 +77,17 @@ namespace Quantum.test
 
 
 	//	2个单位向量内积测试
-	operation test_vector (p:Int) : Int
+	operation test_vector_inner (p:Int) : Int
 	{
 		body(...)
 		{
-			let u = [ComplexPolar(1.0, 0.0), ComplexPolar(0.0, 0.0)];
-			let v = [ComplexPolar(0.0, 0.0), ComplexPolar(1.0, 0.0)];
+			let u_raw = [(1.0, 0.0), (0.0, 0.0)];
+			let v_raw = [(0.0, 0.0), (1.0, 0.0)];
+			let u = q_com_convert_tuples_to_complexpolars(u_raw);
+			let v = q_com_convert_tuples_to_complexpolars(v_raw);
 			let inr= q_vector_inner(u, v, 1, 0.001);
-			let s =  q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
-			q_print_D([inr,s]);
+			// let s =  q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
+			q_print_D([inr]);
 			return(1);
 		}
 	}
@@ -104,13 +106,13 @@ namespace Quantum.test
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
 	}
-	operation test_vector_s (p:Int) : Int
+	operation test_vectors_inner (p:Int) : Int
 	{
 		body(...)
 		{
-			let inr= q_vector_s_inner(oracle, 2, 4, 0.001);
+			let pj= q_vector_s_inner(oracle, 2, 4, 0.001);
 			let s =  q_vector_s_distance(oracle, 2, 4, 0.001);
-			q_print_D([inr,s]); 
+			q_print_D([pj,s]); 
 			return(1);
 		}
 	}
