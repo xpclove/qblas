@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage{braket}
+\usepackage{amsmath}
+\begin{document}
+\title{QBLAS}
+\author{Xiaopeng Cui}
+\date{1,1 2019}
+\maketitle
+\tableofcontents
+\section{Number format}
+All in Int type.
+
+Little endian
+
+Bool: $ \ket{b} = \ket{bool},\ bool=0,1 $
+
+Int: $ \ket{b} = \ket{b_0b_1...b_{n-1}b_n},	\  b= (b_0 2^0 + b_1 2^1+ ... + b_{n-1} 2^{n-1}) sign(b_n)  $
+
+Real: $ \ket{b} = \ket{b_0b_1...b_{n-1}b_n},\ 	 b= (b_0 2^{-1} + b_1 2^{-2}+ ... + b_n 2^{-(n-1)} ) sign(b_n)  $
+
+Complex: $ \ket{b_n}\ket{b_\phi} \ 	b_n\  is\  norm,\  b_\phi \  is\  angle $
+
+
+\section{QRAM}
+$$ \vec{v} =\left(
+\begin{array}{c}
+v_0 \\
+v_1 \\
+\vdots \\
+v_N \\
+\end{array}
+\right) $$
+
+$$ \vec{v}:		\sum_{ j=0 }^{ 2^n-1 } { \ket{j}}	\xrightarrow{QRAM}		\sum_{ j=0 }^{2^n-1} { \ket{j} \ket{v_j} },	n=\log_2(N)	$$	
+
+\section{QVector}
+\subsection{Prepare}
+\subsubsection{ Real vector}
+$$ \vec{v} =\left(
+\begin{array}{c}
+v_0 \\
+v_1 \\
+\vdots \\
+v_N \\
+\end{array}
+\right) $$
+$$ \sum_j{ \ket{j} } $$
+$$  \sum_j{\ket{j}\ket{v_j}} $$
+$$  \sum_j{\ket{j}\ket{v_j} \ket{0} } $$
+$$  \sum_j{\ket{j}\ket{v_j} ( \sqrt{1-v_j^2} \ket{0} + v_j\ket{1}) } $$
+$$  \sum_j{v_j\ket{j}\ket{v_j}\ket{1} } $$
+$$  \sum_j{v_j\ket{j} } $$
+
+\subsubsection{ Complex vector}
+$$ \vec{v} =\left(
+\begin{array}{c}
+v_0 e^{i\phi_0} \\
+v_1 e^{i\phi_1} \\
+\vdots \\
+v_N e^{i\phi_N} \\
+\end{array}
+\right) $$
+$$ \sum_j{ \ket{j} } $$
+$$ \xrightarrow{QRAM}  \sum_j{\ket{j}\ket{v_j} \ket{\phi_j} } $$
+$$ \xrightarrow{Auxiliary}  \sum_j{\ket{j}\ket{v_j} \ket{\phi_j} \ket{0} } $$
+$$  \sum_j{\ket{j}\ket{v_j} \ket{\phi_j} ( \sqrt{1-v_j^2} \ket{0} + v_j\ket{1}) } $$
+$$  \sum_j{\ket{j}\ket{v_j} \ket{\phi_j} ( \sqrt{1-v_j^2} \ket{0} + v_j e^{i\phi_j}\ket{1}) } $$
+$$  \sum_j{v_j e^{i\phi_j} \ket{j}\ket{v_j}\ket{1} } $$
+$$  \sum_j{v_j e^{i\phi_j} \ket{j} } $$
+
+\subsection{Distance}
+\subsubsection{swapt test and inner}
+Swap test method
+$$ \ket{\Phi} = \ket{0} \ket{u} \ket{v} \xrightarrow{H}  \frac{(\ket{0}+\ket{1})}{\sqrt{2} }\ket{u}\ket{v}  \xrightarrow{CSWAP}  \frac{(\ket{0}\ket{u}\ket{v}+\ket{1}	\ket{v}\ket{u})}{\sqrt{2}} \\ $$
+$$\xrightarrow{H}  \frac{\ket{0}(\ket{u}\ket{v}+\ket{v}\ket{u})+\ket{1}(\ket{u}\ket{v}-\ket{v}\ket{u})}{2} $$
+$$ P_{pass}=\frac{(\bra{u}\bra{v}+\bra{v}\bra{u}) (\ket{u}\ket{v}+\ket{v}\ket{u})}{4}$$
+$$ P_{pass}=\frac{(1+|\braket{u|v}|^2)}{2}$$
+$$ P_{failure}=1-P_{pass} = \frac{(1-|\braket{u|v}|^2)}{2}$$
+ Projective probability $ P = |\braket{u|v}|^2 $
+$$ Inner: |\braket{u|v}| = \sqrt{P} =\sqrt{ 2P_{pass} -1} $$
+$$ D^{2}=||\ |u|\ket{u}-|v|\ket{v}\ ||^{2} = |u|^2+|v|^2-2|u||v| \braket{u|v}\\
+ =|u|^2+|v|^2-2|u||v|\sqrt{1-2P_{pass}} $$
+$$ D^2=|u|^2+|v|^2-2|u||v|\sqrt{1-2P_{failure}} $$
+
+\subsubsection{ QVector: Distance of 2 Vectors}
+
+\[  \ket{\varphi}=(\ket{0}\ket{u}+\ket{1}\ket{v})/\sqrt{2}
+\]
+\[  \ket{\psi}=(|u|\ket{0}-|v|\ket{1})/\sqrt{|u|^{2}+|v|^{2}}
+\]
+The success probability p of this projective measurement
+can be estimated by repeated measurements.
+\[  p=|\braket{\psi|\varphi}|^{2} = 2P_{pass}-1\]
+\[
+    p=|\   ((|u|\ket{0}-|v|\ket{1})/\sqrt{|u|^{2}+|v|^{2}})^{\dag}(\ket{0}\ket{u}+\ket{1}\ket{v})/\sqrt{2}\ |^{2}
+\]
+$$ p=\frac{1}{2}\frac{1}{|u|^{2}+|v|^{2}}||\ |u|\ket{u}-|v|\ket{v}\ ||^{2} $$
+D is the distance of $\ket{u}$ and $\ket{v}$. so,\\
+$$ D^{2}=||\ |u|\ket{u}-|v|\ket{v}\ ||^{2} $$
+$$ D=\sqrt{2p(|u|^{2}+|v|^{2})} $$
+
+1 vs M vectos
+
+
+\[  \ket{\varphi}=\frac{1}{{\sqrt{M+1}}}(\ket{0}\ket{u}+\sum_{j=1}^{M}\ket{j}\ket{v_j})
+\]
+\[  \ket{\psi}=\frac{1}{\sqrt{|u|^{2}+\sum_{j=1}^{j=M}|v_m|^{2}}}(|u|\ket{0}-\sum_{j=1}^{M}|v_j|\ket{j})
+\]
+
+\subsubsection{ Distance of 2 Groups of Vectors}
+
+\[  \ket{\varphi}= \frac{1}{ \sqrt{M} }  \sum_k{ \ket{k}\ket{v_k} } 
+\]
+$$  \ket{\psi}=\frac{1}{ \sqrt{Z} }  \sum_k{ g_k  |v_k| \ket{k} } 
+,  Z=  \sum_k{  |v_k|^2  }, g_k=\pm1 
+$$
+The success probability p of this projective measurement
+can be estimated by repeated measurements.
+$$  p=|\braket{\psi|\varphi}|^{2}   = \frac{1}{ M }  \frac{1}{Z} ||g_k  |v_k| \ket{v_k}  ||^{2}  $$
+$$ p = 2P_{pass}-1 $$
+D is the distance of 2 group. so,\\
+$$ D^{2}=||g_k  |v_k| \ket{v_k}  ||^{2} $$
+$$ D=\sqrt{ M Z p }  = \sqrt{ M Z (2P_{pass}-1)}  $$
+
+\section{Qautnum simulation}
+\subsection{1-sparse matrix}
+
+
+\end{document}
