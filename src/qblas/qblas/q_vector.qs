@@ -171,15 +171,22 @@
 		{
 			body(...)
 			{
-				// let nbit_address = Length(qs_address); //地址线Qubit数目
-				// let n_vector = 2^nbit_address; // 向量数目
-				// X (qs_address[nbit_address-1]);
-				// H (qs_address[nbit_address-1]);
-				// let vectors_u = norms[0..(n_vector/2-1)];
-				// let vectors_v = norms[(n_vector/2)..(n_vector-1)];
-				// (Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
-				// (Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
-				q_vector_creat ( norms, qs_address );
+				let nbit_address = Length(qs_address); //地址线Qubit数目
+				let n_vector = 2^nbit_address; // 向量数目
+				if ( nbit_address > 1)
+				{
+					X (qs_address[nbit_address-1]);
+					H (qs_address[nbit_address-1]);
+					let vectors_u = norms[0..(n_vector/2-1)];
+					let vectors_v = norms[(n_vector/2)..(n_vector-1)];
+					(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
+					(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
+				}
+				else
+				{
+					q_vector_creat ( norms, qs_address );
+					Rz(PI(), qs_address[0]);
+				}
 			}
 		}
 
