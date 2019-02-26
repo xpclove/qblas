@@ -65,7 +65,7 @@
 						let result = M(qs_r); //通过测量制备向量
 						(Adjoint ram_call) (qs_address, qs_vector); //撤销加载
 						ResetAll(qs_tmp);
-					} until (result == One)
+					} until (result == One) //直到制备完成，否则一直循环
 					fixup{}
 				}
 
@@ -110,7 +110,7 @@
 						let result = M(qs_r); //通过测量制备向量
 						(Adjoint ram_call) (qs_address, qs_vector_real, qs_vector_image); //撤销加载
 						ResetAll(qs_tmp);
-					} until (result == One)
+					} until (result == One)	//直到制备完成，否则一直循环
 					fixup{}
 				}
 
