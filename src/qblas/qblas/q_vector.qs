@@ -6,17 +6,18 @@
 		open Microsoft.Quantum.Extensions.Math;
 		open Microsoft.Quantum.Extensions.Diagnostics;
 
-
-		operation q_vector_creat (vector:ComplexPolar[], qs:Qubit[]) : Unit
+		//use Q# Library to creat vector, ComplexPolar[] -> |qs_v>
+		operation q_vector_creat (vector:ComplexPolar[], qs_v:Qubit[]) : Unit
 		{
 			body(...)
 			{
 				// us Q# Library, PrepareArbitraryState()
-				PrepareArbitraryState( vector, BigEndian(qs) );
+				PrepareArbitraryState( vector, BigEndian(qs_v) );
 				
 			}
 			controlled auto;
 		}
+		//use Q# Library to creat vectors, ComplexPolar[] -> |qs_address>|qs_v>
 		operation q_vector_s_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
 			body(...)
