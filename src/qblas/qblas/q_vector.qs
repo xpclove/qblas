@@ -173,7 +173,7 @@
 			{
 				let nbit_address = Length(qs_address); //地址线Qubit数目
 				let n_vector = 2^nbit_address; // 向量数目
-				if ( nbit_address > 1)
+				if ( nbit_address  > 1 )
 				{
 					X (qs_address[nbit_address-1]);
 					H (qs_address[nbit_address-1]);
@@ -185,7 +185,7 @@
 				else
 				{
 					q_vector_creat ( norms, qs_address );
-					Rz(PI(), qs_address[0]);
+					Rz(PI(), qs_address[ nbit_address-1 ]);
 				}
 			}
 		}
