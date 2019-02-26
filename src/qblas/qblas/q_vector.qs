@@ -117,8 +117,8 @@
 			}
 		}
 
-		// 计算两个向量内积 u,v: 待计算向量, n_qubit: 向量所占qubit数量, acc: 计算精确度
-		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
+		// 计算两个向量内积 u,v: 待计算向量, nbit_vector: 向量所占qubit数量, acc: 计算精确度
+		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
@@ -126,14 +126,14 @@
 				mutable num_ones=0;
 				mutable p=0.0;
 				mutable inner=0.0;
-				using(qs=Qubit[n_qubit*2+1])
+				using( qs = Qubit[nbit_vector*2+1] )
 				{
 					for(i in 1..N)
 					{
 						Reset(qs[0]);
 						let qs_control = qs[0];
-						let qs_u = qs[1..n_qubit];
-						let qs_v = qs[(n_qubit+1)..2*n_qubit];
+						let qs_u = qs[ 1..nbit_vector ];
+						let qs_v = qs[ (nbit_vector+1)..2*nbit_vector ];
 						q_vector_creat(u, qs_u);
 						q_vector_creat(v, qs_v);
 						q_swap_test_core( qs_control, qs_u, qs_v );
@@ -156,11 +156,11 @@
 			}
 		}
 
-		operation q_vector_distance (u_norm:Double, u : ComplexPolar[], v_norm:Double, v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
+		operation q_vector_distance (u_norm:Double, u : ComplexPolar[], v_norm:Double, v : ComplexPolar[], nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
-				let inner = q_vector_inner(u, v, n_qubit, acc);
+				let inner = q_vector_inner(u, v, nbit_vector, acc);
 				let distance = Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner);
 				return (distance);	
 			}
@@ -267,7 +267,7 @@
 			body(...)
 			{
 			//待完成...
-				return(1.0);
+				return(4.0);
 			}
 		}
 		
@@ -277,8 +277,8 @@
 			{
 				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
 				let Z_s =q_vector_count_Z();
-				let M_v = ToDouble( nbit_vector);
-				let distance = Sqrt( Z_s*M_v*inner*inner );
+				let M_s = ToDouble( nbit_address);
+				let distance = Sqrt( Z_s*4.0*inner*inner );
 				return (distance);	
 			}
 		}
