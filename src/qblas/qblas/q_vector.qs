@@ -17,7 +17,7 @@
 			}
 			controlled auto;
 		}
-		//use Q# Library to creat vectors, ComplexPolar[] -> |qs_address>|qs_v>
+		//use Q# Library to creat vectors, ComplexPolar[][] -> |qs_address>|qs_v>
 		operation q_vector_s_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
 			body(...)
