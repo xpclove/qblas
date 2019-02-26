@@ -108,7 +108,7 @@ namespace Quantum.test
 	}
 	operation oracle_2(qs:Qubit[]): Unit
 	{	
-		//态准备oracle 
+		//态准备oracle 每组2个向量
 		body(...)
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;

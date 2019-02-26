@@ -3,27 +3,24 @@ namespace qblas
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
 	open Microsoft.Quantum.Extensions.Convert;
-	
-	operation q_print(item:Int[] ):Unit
+
+	function q_print_s(item:String ):Unit
     {
-        body(...)
-        {
-            let N = Length(item);
-            for(i in 0..N-1)
-            {
-                let p = item[i];
-                Message( ToStringI(p) );
-            }
-            Message("___________");
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+            Message(item);
     }
-    operation q_print_D (item:Double[] ):Unit
+
+	function q_print(item:Int[] ):Unit
     {
-        body(...)
+        let N = Length(item);
+        for(i in 0..N-1)
         {
+            let p = item[i];
+            Message( ToStringI(p) );
+        }
+        Message("___________");
+    }
+    function q_print_D (item:Double[] ):Unit
+    {
             let N = Length(item);
             for(i in 0..N-1)
             {
@@ -31,9 +28,5 @@ namespace qblas
                 Message( ToStringD(p) );
             }
             Message("___________");
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

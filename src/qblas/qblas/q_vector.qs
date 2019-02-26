@@ -171,14 +171,15 @@
 		{
 			body(...)
 			{
-				let nbit_address = Length(qs_address); //地址线Qubit数目
-				let n_vector = 2^nbit_address; // 向量数目
-				X (qs_address[nbit_address-1]);
-				H (qs_address[nbit_address-1]);
-				let vectors_u = norms[0..(n_vector/2-1)];
-				let vectors_v = norms[(n_vector/2)..(n_vector-1)];
-				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
-				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
+				// let nbit_address = Length(qs_address); //地址线Qubit数目
+				// let n_vector = 2^nbit_address; // 向量数目
+				// X (qs_address[nbit_address-1]);
+				// H (qs_address[nbit_address-1]);
+				// let vectors_u = norms[0..(n_vector/2-1)];
+				// let vectors_v = norms[(n_vector/2)..(n_vector-1)];
+				// (Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_u, qs_address[0..nbit_address-2]));
+				// (Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
+				q_vector_creat ( norms, qs_address );
 			}
 		}
 
@@ -224,7 +225,7 @@
 				mutable num_ones=0;
 				mutable p=0.0;
 				mutable inner=0.0;
-				using(qs=Qubit[ 1+nbit_address*2+nbit_vector ] ) 
+				using(qs=Qubit[ 1 + nbit_address*2 + nbit_vector ] ) 
 				{
 					for(i in 1..N)
 					{
@@ -232,7 +233,7 @@
 						let qs_control = qs[0];
 						let qs_u =qs[ 1..nbit_address ];
 						let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
-						let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector)];
+						let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector) ];
 						swaptest_state_prepare(qs);
 						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);	// 0 为通过测试, 1为未通过测试
