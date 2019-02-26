@@ -92,10 +92,23 @@ namespace Quantum.test
 		}
 	}
 
-	// 2组等数量向量内积测试，每组2个向量
-	operation oracle(qs:Qubit[]): Unit
+	// 2组等数量向量内积测试，每组1-2个向量
+	operation oracle_1(qs:Qubit[]): Unit
 	{	
-		//态准备oracle
+		//态准备oracle 每组1个向量
+		body(...)
+		{
+			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)] , [(0.0, 0.0), (1.0, 0.0)] ] ;
+			let norms_raw 	= [ 1.0, 1.0] ;
+			let vectors 	= q_com_convert_tupless_to_complexpolarss(vectors_raw);
+			let norms 		= q_com_convert_doubles_to_complexpolars(norms_raw);
+			let group 		= [ 0, 1 ];
+			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
+		}
+	}
+	operation oracle_2(qs:Qubit[]): Unit
+	{	
+		//态准备oracle 
 		body(...)
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
@@ -110,9 +123,9 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let P_j = 	q_vector_s_inner(oracle, 2, 1, 0.001);
-			let s 	= 	q_vector_s_distance(oracle, 2, 1, 0.001);
-			q_print_D( [P_j, s] ); 
+			let A_p = 	q_vector_s_inner(oracle_2, 2, 1, 0.001);
+			let s 	= 	q_vector_s_distance(oracle_2, 2, 1, 0.001);
+			q_print_D( [A_p, s] ); 
 			return(1); 
 		}
 	}
