@@ -17,6 +17,7 @@
 			}
 			controlled auto;
 		}
+
 		//use Q# Library to creat vectors, ComplexPolar[][] -> |qs_address>|qs_v>
 		operation q_vector_s_creat (vs:ComplexPolar[][], qs_address:Qubit[], qs_v:Qubit[]) : Unit
 		{
@@ -36,7 +37,8 @@
 			controlled auto;
 			controlled adjoint auto;
 		}
-		// ram call 方式制备实数向量
+
+		// ram_call 方式制备实数向量
 		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_real:Int): Unit
 		{
 			body(...)
@@ -69,8 +71,10 @@
 
 			}
 		}
+
+		//ram_call 方式制备复数向量
 		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit:Int): Unit
-		{ //ramcall 方式制备复数向量
+		{
 			body(...)
 			{
 				using(qs_tmp = Qubit[ 2 * nbit + 1 ] ) //nbit 数据位数，精度控制
@@ -112,6 +116,8 @@
 
 			}
 		}
+
+		// 计算两个向量内积 u,v: 待计算向量, n_qubit: 向量占qubit数量, acc: 计算精确度
 		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
