@@ -277,7 +277,8 @@
 			{
 				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
 				let Z_s =q_vector_count_Z();
-				let distance= Z_s*inner;
+				let M_v = ToDouble( nbit_vector);
+				let distance = Sqrt( Z_s*M_v*inner*inner );
 				return (distance);	
 			}
 		}
