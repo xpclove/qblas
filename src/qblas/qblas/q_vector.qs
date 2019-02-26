@@ -117,7 +117,7 @@
 			}
 		}
 
-		// 计算两个向量内积 u,v: 待计算向量, n_qubit: 向量占qubit数量, acc: 计算精确度
+		// 计算两个向量内积 u,v: 待计算向量, n_qubit: 向量所占qubit数量, acc: 计算精确度
 		operation q_vector_inner ( u:ComplexPolar[], v : ComplexPolar[], n_qubit : Int, acc : Double) : (Double)
 		{
 			body(...)
@@ -165,6 +165,7 @@
 				return (distance);	
 			}
 		}
+
 		//向量组 swaptest vector-1(模向量 |phi>) 准备， 目前只支持两组等数量向量
 		operation q_vector_s_vnorms_prepare (qs_address:Qubit[], norms:ComplexPolar[], vectors_group :Int[]) : Unit
 		{
@@ -180,6 +181,7 @@
 				(Controlled q_vector_creat) ( [qs_address[nbit_address-1]], (vectors_v, qs_address[0..nbit_address-2]));
 			}
 		}
+
 		//向量组 swaptest vector-2(方向向量 |psi>) 准备， 目前只支持两组等数量向量
 		operation q_vector_s_vdirections_prepare (qs_pool:(Qubit[],Qubit[]), vectors:ComplexPolar[][], vectors_group:Int[]) : Unit
 		{
@@ -198,6 +200,7 @@
 				qs_psi_vector));
 			}
 		}
+		
 		operation q_vector_s_swaptest_state_prepare(vectors_group :Int[], norms:ComplexPolar[], vectors:ComplexPolar[][],
 		 qs:Qubit[] ):Unit
 		{
@@ -212,6 +215,7 @@
 				q_vector_s_vdirections_prepare((qs_v, qs_vector), vectors, vectors_group);
 			}
 		}
+
 		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
@@ -249,6 +253,7 @@
 				return (inner);
 			}
 		}
+
 		operation q_vector_Z_simulation():Unit
 		{
 			body(...)
@@ -256,6 +261,7 @@
 			//需要完成...
 			}
 		}
+
 		operation q_vector_count_Z():Double
 		{
 			body(...)
@@ -263,6 +269,7 @@
 				return(1.0);
 			}
 		}
+		
 		operation q_vector_s_distance (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
