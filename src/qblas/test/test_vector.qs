@@ -81,13 +81,13 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let u_raw = [(1.0, 0.0), (0.0, 0.0)];
-			let v_raw = [(0.0, 0.0), (1.0, 0.0)];
-			let u = q_com_convert_tuples_to_complexpolars(u_raw);
-			let v = q_com_convert_tuples_to_complexpolars(v_raw);
-			let inr = q_vector_inner(u, v, 1, 0.001);
-			// let s =  q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
-			q_print_D( [inr] );
+			let u_raw 	= [(1.0, 0.0), (0.0, 0.0)];
+			let v_raw 	= [(0.0, 0.0), (1.0, 0.0)];
+			let u 		= q_com_convert_tuples_to_complexpolars(u_raw);
+			let v 		= q_com_convert_tuples_to_complexpolars(v_raw);
+			let inr 	= q_vector_inner(u, v, 1, 0.001);
+			let s 		= q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
+			q_print_D( [inr, s] );
 			return(1);
 		}
 	}
@@ -110,8 +110,8 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let P_j = 	q_vector_s_inner(oracle, 2, 4, 0.001);
-			let s 	= 	q_vector_s_distance(oracle, 2, 4, 0.001);
+			let P_j = 	q_vector_s_inner(oracle, 2, 1, 0.001);
+			let s 	= 	q_vector_s_distance(oracle, 2, 1, 0.001);
 			q_print_D( [P_j, s] ); 
 			return(1); 
 		}

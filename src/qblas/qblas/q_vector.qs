@@ -160,8 +160,8 @@
 		{
 			body(...)
 			{
-				let inner = q_vector_inner(u, v, nbit_vector, acc);
-				let distance = Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner);
+				let inner	 = q_vector_inner(u, v, nbit_vector, acc);
+				let distance = Sqrt( u_norm*u_norm + v_norm*v_norm - 2.0*u_norm*v_norm*inner );
 				return (distance);	
 			}
 		}
@@ -242,7 +242,7 @@
 						}
 						ResetAll(qs);
 					}
-					set p = ToDouble(num_ones)*1.0/ToDouble(N);
+					set p = ToDouble(num_ones)*1.0/ToDouble(N) ;
 					if( p< 0.5)
 					{
 						set p =0.5;
@@ -271,14 +271,14 @@
 			}
 		}
 		
-		operation q_vector_s_distance (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
+		operation q_vector_s_distance ( swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double ) : (Double)
 		{
 			body(...)
 			{
 				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
 				let Z_s =q_vector_count_Z();
 				let M_s = ToDouble( nbit_address);
-				let distance = Sqrt( Z_s*4.0*inner*inner );
+				let distance = Sqrt( Z_s*4.0*inner );
 				return (distance);	
 			}
 		}
