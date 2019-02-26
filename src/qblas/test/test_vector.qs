@@ -25,7 +25,7 @@ namespace Quantum.test
 		}
 	}
 	
-	//测试 RAM 方式制备：实数向量
+	//测试 ram_call 方式制备：实数向量
 	operation ram_call(qs_address:Qubit[], qs_data:Qubit[]):Unit
 	{
 		body(...)
@@ -50,7 +50,7 @@ namespace Quantum.test
 		}
 	}
 
-	//测试 RAM 方式制备：复数向量
+	//测试 ram_call 方式制备：复数向量
 	operation ram_call_complex(qs_address:Qubit[], qs_real:Qubit[], qs_image:Qubit[]):Unit
 	{
 		body(...)
@@ -92,7 +92,7 @@ namespace Quantum.test
 		}
 	}
 
-	// 2组等数量向量测试，每组2个向量
+	// 2组等数量向量内积测试，每组2个向量
 	operation oracle(qs:Qubit[]): Unit
 	{//态准备oracle
 		body(...)
