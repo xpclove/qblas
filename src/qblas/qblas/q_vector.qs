@@ -283,10 +283,10 @@
 		{
 			body(...)
 			{
-				let inner=q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
+				let A_p =q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
 				let Z_s = ToDouble(2^nbit_address);
 				let M_s = ToDouble(2^nbit_address);
-				let distance = Sqrt( Z_s*M_s*inner );
+				let distance = Sqrt( Z_s*M_s*A_p*A_p );
 				return (distance);	
 			}
 		}
