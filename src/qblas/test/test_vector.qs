@@ -85,16 +85,17 @@ namespace Quantum.test
 			let v_raw = [(0.0, 0.0), (1.0, 0.0)];
 			let u = q_com_convert_tuples_to_complexpolars(u_raw);
 			let v = q_com_convert_tuples_to_complexpolars(v_raw);
-			let inr= q_vector_inner(u, v, 1, 0.001);
+			let inr = q_vector_inner(u, v, 1, 0.001);
 			// let s =  q_vector_distance(1.0, u, 1.0, v, 1, 0.001);
-			q_print_D([inr]);
+			q_print_D( [inr] );
 			return(1);
 		}
 	}
 
 	// 2组等数量向量内积测试，每组2个向量
 	operation oracle(qs:Qubit[]): Unit
-	{//态准备oracle
+	{	
+		//态准备oracle
 		body(...)
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
