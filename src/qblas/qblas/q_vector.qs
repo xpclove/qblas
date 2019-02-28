@@ -181,6 +181,7 @@
 					{
 						let (c, t ) = norms[i]!;
 						set gnorms[i] = ComplexPolar( c, t+PI()*ToDouble(vectors_group[i]) );
+						// q_print_D( [ c, t+PI()*ToDouble(vectors_group[i]) ] );
 					}
 					q_vector_creat (gnorms, qs_address);
 				}
