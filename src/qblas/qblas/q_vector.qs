@@ -210,6 +210,7 @@
 					qs_psi_vector));
 				}
 
+				q_com_apply(H, qs_psi_a);
 				q_vector_s_creat (vectors, qs_psi_a, qs_psi_vector);
 			}
 		}
@@ -244,8 +245,8 @@
 						let qs_u =qs[ 1..nbit_address ];
 						let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
 						let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector) ];
-						let qs_swaptest = [ qs_u, qs_v, qs_vector]; 
-						swaptest_state_prepare( qs_swaptest );
+						let qs_swaptest_pool = [ qs_u, qs_v, qs_vector]; 
+						swaptest_state_prepare( qs_swaptest_pool );
 						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);	// 0 为通过测试, 1为未通过测试
 						if(res == Zero) 
