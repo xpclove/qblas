@@ -129,6 +129,7 @@ namespace Quantum.test
 			let A_p = 	q_vector_s_inner(oracle_2, 2, 1, 0.001);
 			let s 	= 	q_vector_s_distance(oracle_2, 2, 1, 0.001);
 			
+			
 			q_print_D( [A_p, s] ); 
 			return(1); 
 		}
