@@ -24,6 +24,7 @@
 			body(...)
 			{
 				let nbit = Length(qs_address);
+				q_com_apply(H, qs_address);
 				for(address in 0..(2^nbit-1) )
 				{
 					let vector = vs[address];
@@ -210,7 +211,6 @@
 					qs_psi_vector));
 				}
 
-				q_com_apply(H, qs_psi_a);
 				q_vector_s_creat (vectors, qs_psi_a, qs_psi_vector);
 			}
 		}
