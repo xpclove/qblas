@@ -173,7 +173,7 @@
 			{
 				let nbit_address = Length(qs_address); //地址线Qubit数目
 				let n_vector = 2^nbit_address; // 向量数目
-				if ( nbit_address  > 1 )
+				if ( nbit_address   == 0 ) //暂时不用
 				{
 					X (qs_address[nbit_address-1]);
 					H (qs_address[nbit_address-1]);
@@ -185,7 +185,7 @@
 				else
 				{
 					q_vector_creat ( norms, qs_address );
-					Rz(PI(), qs_address[ nbit_address-1 ]);
+					Rz( PI(), qs_address[ nbit_address-1 ] );
 				}
 			}
 		}
@@ -198,14 +198,19 @@
 				let (qs_psi_a, qs_psi_vector) = qs_pool; //弹出向量Qubit[], (地址线， 向量)
 				let nbit_address = Length(qs_psi_a); //地址线Qubit数目
 				let n_vector = 2^nbit_address; //向量总数目
+				
+				if( nbit_address == 0 ) //暂时不用
+				{
+					H (qs_psi_a[nbit_address-1]);
+					let vectors_u = vectors[0..(n_vector/2-1)];
+					let vectors_v = vectors[(n_vector/2)..(n_vector-1)];
+					(Controlled q_vector_s_creat) ( [qs_psi_a[nbit_address-1]], (vectors_u, qs_psi_a[0..nbit_address-2],
+					qs_psi_vector));
+					(Controlled q_vector_s_creat) ( [qs_psi_a[nbit_address-1]], (vectors_v, qs_psi_a[0..nbit_address-2],
+					qs_psi_vector));
+				}
 
-				H (qs_psi_a[nbit_address-1]);
-				let vectors_u = vectors[0..(n_vector/2-1)];
-				let vectors_v = vectors[(n_vector/2)..(n_vector-1)];
-				(Controlled q_vector_s_creat) ( [qs_psi_a[nbit_address-1]], (vectors_u, qs_psi_a[0..nbit_address-2],
-				qs_psi_vector));
-				(Controlled q_vector_s_creat) ( [qs_psi_a[nbit_address-1]], (vectors_v, qs_psi_a[0..nbit_address-2],
-				qs_psi_vector));
+				q_vector_s_creat (vectors, qs_psi_a, qs_psi_vector);
 			}
 		}
 		
@@ -284,8 +289,8 @@
 			body(...)
 			{
 				let A_p =q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
-				let Z_s = ToDouble(2^nbit_address);
-				let M_s = ToDouble(2^nbit_address);
+				let Z_s = ToDouble(2^nbit_address);	// 向量总模数
+				let M_s = ToDouble(2^nbit_address); // 向量总个数
 				let distance = Sqrt( Z_s*M_s*A_p*A_p );
 				return (distance);	
 			}
