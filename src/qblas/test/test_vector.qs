@@ -100,9 +100,9 @@ namespace Quantum.test
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)] , [(0.0, 0.0), (1.0, 0.0)] ] ;
 			let norms_raw 	= [ 1.0, 1.0] ;
+			let group 		= [ 0, 1 ];
 			let vectors 	= q_com_convert_tupless_to_complexpolarss(vectors_raw);
 			let norms 		= q_com_convert_doubles_to_complexpolars(norms_raw);
-			let group 		= [ 0, 1 ];
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
 	}
@@ -113,9 +113,9 @@ namespace Quantum.test
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
 			let norms_raw 	= [ 1.0, 1.0, 1.0, 1.0] ;
+			let group 		= [ 0, 0, 1, 1 ];
 			let vectors 	= q_com_convert_tupless_to_complexpolarss(vectors_raw);
 			let norms 		= q_com_convert_doubles_to_complexpolars(norms_raw);
-			let group 		= [ 0, 0, 1, 1 ];
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
 	}
@@ -129,7 +129,7 @@ namespace Quantum.test
 			let A_p = 	q_vector_s_inner(oracle_2, 2, 1, 0.001);
 			let s 	= 	q_vector_s_distance(oracle_2, 2, 1, 0.001);
 			
-			
+
 			q_print_D( [A_p, s] ); 
 			return(1); 
 		}

@@ -3,6 +3,7 @@ namespace qblas
     open Microsoft.Quantum.Primitive;
     open Microsoft.Quantum.Canon;
     open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Extensions.Convert;
 
     operation q_com_real_nbit_float( ) : Int
     {
@@ -65,6 +66,17 @@ namespace qblas
         for(i in 0..n-1)
         {
             set newdata[i]=ComplexPolar(data[i], 0.0);
+        }
+        return(newdata);
+    }
+    function q_com_convert_ints_to_complexpolars(data:Int[]) : ComplexPolar[]
+    {
+        // Int[]  to ComplexPolar[]
+        let n = Length(data);
+        mutable newdata = new ComplexPolar[n];
+        for(i in 0..n-1)
+        {
+            set newdata[i]=ComplexPolar(ToDouble( data[i] ), 0.0);
         }
         return(newdata);
     }
