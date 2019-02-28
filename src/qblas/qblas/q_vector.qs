@@ -215,21 +215,19 @@
 		}
 		
 		operation q_vector_s_swaptest_state_prepare(vectors_group :Int[], norms:ComplexPolar[], vectors:ComplexPolar[][],
-		 qs:Qubit[] ):Unit
+		 qss:Qubit[][] ):Unit
 		{
 			body(...)
 			{
-				let nbit_address = Ceiling( Log( ToDouble( Length(vectors_group) ) )/Log(2.0) );
-				let nbit_vector = Ceiling( Log( ToDouble( Length(vectors[0]) ) )/Log(2.0) );
-				let qs_u =qs[ 1..nbit_address ];
-				let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
-				let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector)];
+				let qs_u = qss[0];
+				let qs_v = qss[1];
+				let qs_vector = qss[2];
 				q_vector_s_vnorms_prepare(qs_u, norms, vectors_group);
 				q_vector_s_vdirections_prepare((qs_v, qs_vector), vectors, vectors_group);
 			}
 		}
 
-		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
+		operation q_vector_s_inner (swaptest_state_prepare:(Qubit[][]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double) : (Double)
 		{
 			body(...)
 			{
@@ -246,7 +244,8 @@
 						let qs_u =qs[ 1..nbit_address ];
 						let qs_v =qs[ (nbit_address+1)..2*nbit_address ];
 						let qs_vector = qs[ (2*nbit_address+1)..(nbit_address*2+nbit_vector) ];
-						swaptest_state_prepare(qs);
+						let qs_swaptest = [ qs_u, qs_v, qs_vector]; 
+						swaptest_state_prepare( qs_swaptest );
 						q_swap_test_core( qs_control, qs_u, qs_v );
 						let res = M(qs[0]);	// 0 为通过测试, 1为未通过测试
 						if(res == Zero) 
@@ -284,7 +283,7 @@
 			}
 		}
 		
-		operation q_vector_s_distance ( swaptest_state_prepare:(Qubit[]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double ) : (Double)
+		operation q_vector_s_distance ( swaptest_state_prepare:(Qubit[][]=>Unit), nbit_address:Int, nbit_vector : Int, acc : Double ) : (Double)
 		{
 			body(...)
 			{

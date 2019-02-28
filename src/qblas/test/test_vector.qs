@@ -93,7 +93,7 @@ namespace Quantum.test
 	}
 
 	// 2组等数量向量内积测试，每组1-2个向量
-	operation oracle_1(qs:Qubit[]): Unit
+	operation oracle_1(qs:Qubit[][]): Unit
 	{	
 		//态准备oracle 每组1个向量
 		body(...)
@@ -106,7 +106,7 @@ namespace Quantum.test
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
 		}
 	}
-	operation oracle_2(qs:Qubit[]): Unit
+	operation oracle_2(qs:Qubit[][]): Unit
 	{	
 		//态准备oracle 每组2个向量
 		body(...)
