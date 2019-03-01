@@ -100,7 +100,7 @@ namespace Quantum.test
 		{
 			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)] , [(0.0, 0.0), (1.0, 0.0)] ] ;
 			let norms_raw 	= [ 1.0, 1.0] ;
-			let group 		= [ 0, 1 ];
+			let group 		= [ 0, 1 ]; //0,1 不同组
 			let vectors 	= q_com_convert_tupless_to_complexpolarss(vectors_raw);
 			let norms 		= q_com_convert_doubles_to_complexpolars(norms_raw);
 			q_vector_s_swaptest_state_prepare(group, norms, vectors, qs);
