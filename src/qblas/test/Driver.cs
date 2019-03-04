@@ -54,11 +54,13 @@ namespace Quantum.test
 
             Console.WriteLine("hello qsharp!");
         }
-        static double[] q_debug_dump(string filename, int seq_i)
+
+        //dump模拟器量子比特态 方便统计分析指定量子比特状态
+        static double[] q_debug_dump(string filename, int seq_i) // filename: 文件名,   seq_i: 第几个量子比特
         {
             StreamReader sr = File.OpenText(filename);
             string line;
-            for( int i=0; i<2; i++ ) line = sr.ReadLine(); 
+            for( int i=0; i<2; i++ ) line = sr.ReadLine(); // dump文件空line, 跳过
             long n_seq = 0;
             double sum_0 = 0.0;
             double sum_1 = 0.0;
@@ -71,12 +73,13 @@ namespace Quantum.test
                 double real=Double.Parse( ms[1].Value );
                 double image=Double.Parse( ms[2].Value );
                 double p = real*real + image*image;
+                //以上为正则表达式解析dump文件,获取每个基矢概率s
                 n_seq++;
-                if( (seq&(1<<seq_i) ) == 0 )sum_0 += p;
+                if( (seq&(1<<seq_i) ) == 0 )sum_0 += p; //通过"与"操作累加第seq_i个比特0 or 1状态概率
                 else sum_1 += p;
             }
             sr.Close();
-            double[] result = new double[2] { sum_0, sum_1 };
+            double[] result = new double[2] { sum_0, sum_1 };//输出最终结果
             return( result );
         }
     }
