@@ -10,7 +10,8 @@ namespace Quantum.test
     {
         static void Main(string[] args)
         {
-            test_vector();
+            // test_vector();
+            test_matrix();
         }
         static void test_matrix()
         {
