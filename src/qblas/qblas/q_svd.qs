@@ -30,15 +30,11 @@
     }
 
 	//奇异值分解: 核心思想，用量子态所对应的密度矩阵模拟演化量子态自己导出本征值 对应奇异值
-	operation q_svd( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int):Unit
+	operation q_svd( U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit):Unit
 	{
 		body(...)
 		{
-			using( qs_phase=Qubit[nbit_phase] )
-			{
 				q_md_core(U_A,qs_u,qs_phase, qs_r);
-				ResetAll(qs_phase);
-			}
 		}
 	}
 	//本征值分解: 采用QPE导出矩阵本征值， |qs_u> 本征态， |qs_phase> 本征值 
