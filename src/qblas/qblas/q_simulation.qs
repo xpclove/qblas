@@ -13,7 +13,7 @@
             q_walk_simulation_C_SWAP(qs_controls,qs_a,qs_b, time);
         }
     }
-    //
+    // _C 受控版本密度矩阵模拟
     operation q_simulation_C_densitymatrix (qs_controls:Qubit[], qs_rho:Qubit[][], qs_sigma:Qubit[], t:Double, N:Int): Unit
     {
         body(...)
@@ -126,17 +126,18 @@
         }
     }
 
-    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 系数矩阵来模拟 SwapA
+    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 稀疏矩阵来模拟 SwapA
+    // type: 0 bool , 1 integer, 2 real, 3 imagebool, 4 imageinteger, 5 imagerealss
     operation q_simulation_SwapA_type (type:Int, qs_SA: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
     {
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
-            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
+            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数, 由于该模拟模拟dt实际模拟的是dt/N,故此处先乘以N来模拟真实dt
             q_simulation_matrix_1_sparse_type (type, qs_SA,  qs_u, t);
         }
     }
-    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 系数矩阵来模拟 SwapA
+    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 稀疏矩阵来模拟 SwapA
     //type:对应不同类型， qs_SA 制作好的 SwapA 矩阵，|qs_rhos>[]:消耗的等权叠加矩阵， |qs_u>被模拟的向量， t:模拟试卷， N:模拟切割属
     operation q_simulation_A_type (type: Int, qs_SA:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
     {
