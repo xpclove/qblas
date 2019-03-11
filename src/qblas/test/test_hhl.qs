@@ -88,6 +88,7 @@ namespace Quantum.test
 
 	//测试 密度矩阵模拟
 	// |rho> = |+>, |sigma> = |0>, 演化时间 Pi/3.0
+	// |sigma> 演化结果 |sigma_end> = sqrt(0.75)|0> + sqrt(0.25)|1>
 	operation test_DM_simulation(p:Int):Double
 	{
 		body(...)
