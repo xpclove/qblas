@@ -21,7 +21,8 @@ namespace Quantum.test
                 // sim.OnLog += (msg) => { Console.WriteLine(msg); };
                 for(int i = 0; i < 1; i++)
                 {
-                    var res = test_qpe.Run(sim,1).Result;
+                    // var res = test_qpe.Run(sim,1).Result;
+                    var res = test_hhl.Run(sim,1).Result;
                     // var res = test_DM_simulation.Run(sim,1).Result;
                     Console.WriteLine("run over, Result= ");
                     // double[] p = q_debug_dump("dump.txt", 0);

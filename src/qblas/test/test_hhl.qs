@@ -58,7 +58,7 @@ namespace Quantum.test
 		}
 	}
 
-	//测试 HHL 矩阵求逆
+	//测试 HHL 矩阵求逆 A|x>=|u>, |x>=A-1|u>, 令|u>=|1>，A=sigma_x, 求|x>=|0>
 	operation test_hhl(s:Int):Double
 	{
 		body(...)
@@ -66,19 +66,20 @@ namespace Quantum.test
 			mutable res = 0.0;
 			using(qs = Qubit[12])
 			{
-				let U = DiscreteOracle ( U_hhl );
-				let qs_u =qs[0];
-				let qs_phase = qs[2..11];
-				let qs_r = qs[1];
+				let U 		= 	DiscreteOracle ( U_hhl );
+				let qs_u 	=	qs[0];	//待求拟比特
+				let qs_r 	= 	qs[1];	//辅助比特
+				let qs_phase= 	qs[2..11];	//存放相位
 				X(qs_u);
 				DumpRegister("phase_0.txt", [qs_u]);
 				q_hhl_core (U, [qs_u], qs_phase, qs_r) ;
 				ResetAll(qs_phase);
-				let r = MeasureInteger(LittleEndian([qs_r]));
-				DumpRegister("phase_1.txt", [qs_u]);
+				let r = MeasureInteger( LittleEndian( [qs_r] ) );
+				DumpRegister( "phase_1.txt", [qs_u] );
 				let result_u = MeasureInteger( LittleEndian( [qs_u] ) );
 				set res = ToDouble(r);
-				q_print([r,result_u]);
+
+				q_print( [r, result_u] ); //|r>=|1>,代表HHL成功
 				ResetAll(qs);
 			}
 			return(res);
