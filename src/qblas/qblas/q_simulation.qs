@@ -178,7 +178,7 @@
 
         }
     }
-
+    //密度矩阵模拟 参考nature Quantum PCA, |qs_rho>[]:s用以消耗的密度矩阵态， |qs_sigma>:被模拟的态， t:模拟试卷， N:消耗密度矩阵个数
     operation q_simulation_densitymatrix (qs_rho:Qubit[][], qs_sigma:Qubit[], t:Double, N:Int): Unit
     {
         body(...)
