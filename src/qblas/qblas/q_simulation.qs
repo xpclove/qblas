@@ -69,6 +69,7 @@
     }
 
     //参考 PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
+    //  _C  为受控版本
     operation q_simulation_C_SwapA_complex (qs_controls:Qubit[],   
      qs_SA_real: q_matrix_1_sparse_oracle, qs_SA_image: q_matrix_1_sparse_oracle,
      qs_u: Qubit[], dt:Double) : Unit
@@ -124,6 +125,8 @@
             }
         }
     }
+
+    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 系数矩阵来模拟 SwapA
     operation q_simulation_SwapA_type (type:Int, qs_SA: q_matrix_1_sparse_oracle, qs_u: Qubit[], dt:Double) : Unit
     {
         body(...)
@@ -133,6 +136,8 @@
             q_simulation_matrix_1_sparse_type (type, qs_SA,  qs_u, t);
         }
     }
+    //模拟稠密低秩矩阵A, 将A制作为 1 稀疏的矩阵SwapA，然后调用 1 系数矩阵来模拟 SwapA
+    //type:对应不同类型， qs_SA 制作好的 SwapA 矩阵，|qs_rhos>[]:消耗的等权叠加矩阵， |qs_u>被模拟的向量， t:模拟试卷， N:模拟切割属
     operation q_simulation_A_type (type: Int, qs_SA:q_matrix_1_sparse_oracle, qs_rhos: Qubit[][], qs_u: Qubit[], t:Double, N:Int) : Unit
     {
         body(...)
