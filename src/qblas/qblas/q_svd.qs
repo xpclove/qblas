@@ -29,6 +29,7 @@
 		controlled adjoint auto;
     }
 
+	//核心思想，用量子态所对应的密度矩阵模拟演化量子态自己导出本征值 对应奇异值
 	operation q_svd( U_A:DiscreteOracle, qs_u:Qubit[], qs_r:Qubit, nbit_phase:Int):Unit
 	{
 		body(...)
