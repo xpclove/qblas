@@ -6,14 +6,15 @@ namespace Quantum.test
 	open Microsoft.Quantum.Extensions.Diagnostics;
 	open Microsoft.Quantum.Extensions.Math;
 	open qblas;
-
-	operation U_test (n:Int, u:Qubit[]) : Unit
+	
+	//Discrete Oracle：U = exp( i*sigma_z*dt)
+	operation U_test (n:Int, qs_u:Qubit[]) : Unit
 	{
 		body(...)
 		{
-			let dt = 2.0;
-			let angle = dt*ToDouble(n);
-			Rz(angle, u[0]);
+			let dt = -1.0;
+			let angle = 2.0*dt*ToDouble(n);
+			Rz (angle, qs_u[0]);
 		}
 		adjoint auto;
 		controlled auto;
@@ -32,31 +33,32 @@ namespace Quantum.test
 		controlled adjoint auto;
 	}
 	
-	//测试相估计
+	//测试相估计, Discrete Oracle:U=exp(i*sigma_z*t ), |u>=|0>, U|u> = exp(i t)|u> 采用 QPE 计算 此相位 t
+	// t = 1.0
 	operation test_qpe ( s:Int ):Double
 	{
 		body(...)
 		{
 			mutable phase =0.0;
-			using(qs = Qubit[11])
+			using(qs = Qubit[11]) //qs[0]待测试比特, qs[1..10]保存相位
 			{
-				H(qs[0]);
-				let U = DiscreteOracle ( U_test);
-				let mq = LittleEndian(qs[1..10]);
+				let U 	= DiscreteOracle ( U_test );
+				let mq 	= LittleEndian( qs[1..10] );
 
 				q_phase_estimate(U, [qs[0]], qs[1..10]) ;
-				DumpRegister("phase.txt", qs);
+				DumpRegister( "phase.txt", qs );
 
-				let phase_base = 2.0*PI()/ToDouble(2^10-1);
-				let result_int = ToDouble(MeasureInteger(mq));
-				set phase= result_int*phase_base;
+				let phase_base 	= 	2.0*PI() / ToDouble( 2^10 );
+				let result_int 	= 	ToDouble( MeasureInteger(mq) );
+				set phase		= 	result_int * phase_base;
 				ResetAll(qs);
 			}
+			q_print_D([phase]);
 			return (phase);
 		}
 	}
 
-	//测试HHL 矩阵求逆
+	//测试 HHL 矩阵求逆
 	operation test_hhl(s:Int):Double
 	{
 		body(...)
