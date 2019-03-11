@@ -15,7 +15,7 @@
 		controlled auto;
 		controlled adjoint auto;
 	}
-
+	//矩阵分解核心程序，采用QPE方法
     operation q_md_core (U_A:DiscreteOracle, qs_u:Qubit[], qs_phase:Qubit[], qs_r:Qubit) : Unit
     {
         body(...)
