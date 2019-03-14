@@ -22,7 +22,7 @@
         {
 			q_phase_estimate_core (U_A,qs_u, qs_phase);
 			// q_md_rotation_lamda_rcp(qs_phase, qs_r);
-			(Adjoint q_phase_estimate_core) (U_A,qs_u, qs_phase);
+			// (Adjoint q_phase_estimate_core) (U_A,qs_u, qs_phase);
         }
 		adjoint auto;
 		controlled auto;
