@@ -164,8 +164,12 @@ complex vector test:
 \subsubsection{HHL}
 	$$ \ket{1} \rightarrow(\sigma_x^{-1}) \rightarrow \ket{0} $$
 \subsubsection{DM Simulation}
-	$$ \rho = \ket{+} \bra{+}, \, \sigma = \ket{0}\ket{0}, \, t=\frac{\pi}{3} $$
+	$$ \rho = \ket{+} \bra{+} = \frac{1}{2}( \ket{0}\bra{0} + \ket{1}\bra{1}  ) $$
+	$$ \sigma = \ket{0}\ket{0}, \, t=\frac{\pi}{3} $$
 	$$ e^{-i \rho t} \sigma e^{i \rho t} $$
+	$$ e^{-i \rho t} = (1-\rho) + e^{-it} \rho = 1+(e^{-it}-1)\rho$$
+	$$ e^{-i \rho t} \ket{0} = \frac{e^{-it}+1}{2}\ket{0} + \frac{e^{-it}-1}{2}\ket{1} $$
+	$$ =A\ket{0}+B\ket{1}, \ t=\frac{\pi}{3}, \ |A|^2 =0.75 $$
 \subsubsection{T=Swap Simulation}
 \subsubsection{1-sparse matrix Simulation}
 \section{Code}
