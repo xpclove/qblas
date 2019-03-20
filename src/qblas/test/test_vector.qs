@@ -30,7 +30,7 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [0.3, 0.6, 0.6, 0.9]; //待制备向量
+			let v = [0.3, 0.6, 0.6, 0.9]; //待制备实数向量
 			let RAM = q_com_convert_doubles_to_angles(v);
 			q_ram_load_real_angle(RAM, qs_address, qs_data);
 		}
@@ -55,7 +55,7 @@ namespace Quantum.test
 	{
 		body(...)
 		{
-			let v = [ (0.3,0.0), (0.6,0.0), (0.6,PI()), (0.9, 2.0*PI())]; //待制备向量
+			let v = [ (0.3,0.0), (0.6,0.0), (0.6,PI()), (0.9, 2.0*PI())]; //待制备复数向量
 			let RAM = q_com_convert_tuples_to_angles(v);
 			q_ram_load_complex_angle(RAM, qs_address, qs_real, qs_image);
 		}
