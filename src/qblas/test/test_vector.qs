@@ -76,13 +76,13 @@ namespace Quantum.test
 	}
 
 
-	//	2个单位向量内积测试
+	//	2个单位向量内积测试 inner = 0, distance=sqrt(2)
 	operation test_vector_inner (p:Int) : Int
 	{
 		body(...)
 		{
-			let u_raw 	= [(1.0, 0.0), (0.0, 0.0)];
-			let v_raw 	= [(0.0, 0.0), (1.0, 0.0)];
+			let u_raw 	= [(1.0, 0.0), (0.0, 0.0)];//向量1
+			let v_raw 	= [(0.0, 0.0), (1.0, 0.0)];//向量2
 			let u 		= q_com_convert_tuples_to_complexpolars(u_raw);
 			let v 		= q_com_convert_tuples_to_complexpolars(v_raw);
 			let inr 	= q_vector_inner(u, v, 1, 0.001);

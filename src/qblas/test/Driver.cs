@@ -43,8 +43,8 @@ namespace Quantum.test
                 for(int i = 0; i < 1; i++)
                 {
                     // var res = test_vector_prepare.Run(sim, i).Result;        //测试实数 ram_call方式 向量制备
-                    var res = test_vector_complex_prepare.Run(sim,1).Result; //测试复数 ram_call方式 向量制备
-                    // var res = test_vector_inner.Run(sim,1).Result;       //测试两个向量内积
+                    // var res = test_vector_complex_prepare.Run(sim,1).Result; //测试复数 ram_call方式 向量制备
+                    var res = test_vector_inner.Run(sim,1).Result;       //测试两个单位向量内积
                     // var res = test_vectors_inner.Run(sim,1).Result;         //测试向量组内积           
                     Console.WriteLine("run over, Result= ");
                     // double[] p = q_debug_dump("dump.txt", 0);
