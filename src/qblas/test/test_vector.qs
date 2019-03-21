@@ -111,7 +111,7 @@ namespace Quantum.test
 		//态准备oracle 每组2个向量
 		body(...)
 		{
-			let vectors_raw = [ [(1.0, 0.0), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
+			let vectors_raw = [ [(1.0, PI()), (0.0, 0.0)],[(1.0, 0.0), (0.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)], [(0.0, 0.0), (1.0, 0.0)] ] ;
 			let norms_raw 	= [ 1.0, 1.0, 1.0, 1.0] ;
 			let group 		= [ 0, 0, 1, 1 ];
 			let vectors 	= q_com_convert_tupless_to_complexpolarss(vectors_raw);
