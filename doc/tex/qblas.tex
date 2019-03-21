@@ -152,10 +152,24 @@ QPE 相位数据格式
 \subsubsection{Prepare Vector}
 real vector test:
 
+	prepare real vector  $ \vec{v} = [ 0.3, 0.3, 0.6, 0.9] $
+	
 complex vector test:
+
+	prepare complex vector  $ \vec{v} = [ 0.3, 0.3, 0.6e^{i\pi}, 0.9e^{i2\pi}] $
+	
+	第三项和其他相位相反，因此多个负号
+
 \subsubsection{Swap Test}
+	两个单位向量内积
+	$$\vec{v_1} = [1,0], \vec{v_2} = [0,1] $$
+	内积为0，距离为$\sqrt{2}$
 \subsubsection{2 Unit Vector Inner}
 \subsubsection{2 Groups Distance}
+	两组向量
+	$$ group 1 , \vec{v_{11}} =[1,0], \vec{v_{12}} =[1,0] $$
+	$$ group 2 , \vec{v_{21}} =[0,1], \vec{v_{21}} =[0,1] $$
+	预期 $ A_p = 0.5, \ D = 2\sqrt{2} $
 \subsection{Matrix}
 \subsubsection{QPE}
 	$$ \ket{u} = \ket{0}, \  A=\sigma_z, \ t= -1 $$
