@@ -58,7 +58,8 @@ namespace Quantum.test
 		}
 	}
 
-	//测试 HHL 矩阵求逆 A|x>=|u>, |x>=A-1|u>, 令|u>=|1>，A=sigma_x, 求|x>=|0>
+	//测试 HHL 矩阵求逆 A|x>=|u>, |x>=A-1|u>, 令|u>=|1>，A=sigma_x, 求|x>
+	//|x>=|0>
 	operation test_hhl(s:Int):Double
 	{
 		body(...)
