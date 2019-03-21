@@ -10,8 +10,8 @@ namespace Quantum.test
     {
         static void Main(string[] args)
         {
-            test_vector();
-            // test_matrix();
+            // test_vector();
+            test_matrix();
         }
         static void test_matrix()
         {
@@ -23,10 +23,11 @@ namespace Quantum.test
                 {
                     // var res = test_qpe.Run(sim,1).Result;
                     // var res = test_hhl.Run(sim,1).Result;
-                    var res = test_DM_simulation.Run(sim,1).Result;
+                    var res = test_swap_simulation.Run(sim,1).Result;
+                    // var res = test_DM_simulation.Run(sim,1).Result;
                     Console.WriteLine("run over, Result= ");
-                    double[] p = q_debug_dump("dump.txt", 0);
-                    for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
+                    // double[] p = q_debug_dump("dump.txt", 0);
+                    // for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
                     Console.WriteLine("end test!");
                 }
             }
