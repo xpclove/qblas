@@ -193,6 +193,16 @@ $$= 1+(e^{-it}-1)\rho$$
 \subsubsection{T=Swap Simulation}
 	$$ \ket{a}=\ket{11},\ \ket{b}=\ket{00}, e^{-iTt}\ket{a}\ket{b} = \ket{b}\ket{a}, t=\frac{\pi}{2} $$
 \subsubsection{1-sparse matrix Simulation}
+$$ \sigma_x =\left(\begin{matrix}
+	0 & 1 \\
+	1& 0
+	\end{matrix}\right),
+	\sigma_y = \left(\begin{matrix}
+	0 & -i \\
+	i & 0 
+	\end{matrix}\right)
+	$$
+	$$ bool matrix, e^{-i\sigma_x \frac{\pi}{4} }\ket{0}=e^{-iR_x \frac{\pi}{2} }\ket{0} = \frac{1}{\sqrt{2}}(\ket{0}-i\ket{1}) $$
 \section{Code}
 
 
