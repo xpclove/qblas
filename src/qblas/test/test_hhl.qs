@@ -159,9 +159,6 @@ namespace Quantum.test
 				let qs_b = [qs[1]];
 				let qs_weight = [qs[2]];
 
-				// H(qs[0]);
-				// q_matrix_1_sparse_bool_test(qs_a, qs_b, qs_weight);
-
 				let time = PI()/4.0;
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test);
 				
