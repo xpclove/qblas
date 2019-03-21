@@ -156,8 +156,8 @@ namespace Quantum.test
 			using(qs = Qubit[3])
 			{
 				let qs_a = [qs[0]];
-				let qs_b = [qs[1]];
-				let qs_weight = [qs[2]];
+				let qs_b = [qs[1]];//被模拟比特
+				let qs_weight = [qs[2]];//存放矩阵权重
 
 				let time = PI()/4.0;
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_bool_test);
@@ -182,9 +182,6 @@ namespace Quantum.test
 				let qs_a = [qs[0]];
 				let qs_b = [qs[1]];
 				let qs_weight = qs[2..3];
-
-				// H(qs[0]);
-				// q_matrix_1_sparse_integer_test(qs_a, qs_b, qs_weight);
 
 				let time = PI()/8.0;
 				let ora = q_matrix_1_sparse_oracle(q_matrix_1_sparse_integer_test);
