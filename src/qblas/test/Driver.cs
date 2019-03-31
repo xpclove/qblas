@@ -23,14 +23,14 @@ namespace Quantum.test
                 {
                     // var res = test_qpe.Run(sim,1).Result;
                     // var res = test_hhl.Run(sim,1).Result;
-                    // var res = test_swap_simulation.Run(sim,1).Result;
+                    var res = test_swap_simulation.Run(sim,1).Result;
                     // var res = test_1_sparse_bool.Run(sim,1).Result;
                     // var res = test_1_sparse_integer.Run(sim,1).Result;                    
                     // var res = test_DM_simulation.Run(sim,1).Result;
-                    var res = test_SwapA.Run(sim,1).Result;
+                    // var res = test_SwapA.Run(sim,1).Result;
                     Console.WriteLine("run over, Result= ");
-                    double[] p = q_debug_dump("dump.txt", 0);
-                    for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
+                    // double[] p = q_debug_dump("dump.txt", 0);
+                    // for( int j=0; j<2; j++ ) { Console.WriteLine(" |"+ j.ToString()+"> "+ p[j].ToString() + " " ); }
                     Console.WriteLine("end test!");
                 }
             }
