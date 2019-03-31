@@ -23,9 +23,9 @@ namespace Quantum.test
                 {
                     // var res = test_qpe.Run(sim,1).Result;
                     // var res = test_hhl.Run(sim,1).Result;
-                    var res = test_swap_simulation.Run(sim,1).Result;
+                    // var res = test_swap_simulation.Run(sim,1).Result;
                     // var res = test_1_sparse_bool.Run(sim,1).Result;
-                    // var res = test_1_sparse_integer.Run(sim,1).Result;                    
+                    var res = test_1_sparse_integer.Run(sim,1).Result;                    
                     // var res = test_DM_simulation.Run(sim,1).Result;
                     // var res = test_SwapA.Run(sim,1).Result;
                     Console.WriteLine("run over, Result= ");

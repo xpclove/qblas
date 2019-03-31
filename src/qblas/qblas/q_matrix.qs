@@ -34,6 +34,7 @@
             let RAM = q_matrix_convert( [(0,1,0),(1,0,0)] ); //weight=0 表示+1, weight=1, -1
             let RAM_image = q_matrix_convert( [(0,1,1),(1,0,0)] ); //image weight=0 表示+i, weight=1, -i
             q_ram_call_bool(RAM, qs_address, qs_data, qs_weight);
+            // q_ram_call_bool(RAM_image, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
 		controlled auto;
@@ -44,8 +45,9 @@
         body(...)
         {
             let RAM = q_matrix_convert( [(0,1,2),(1,0,2)] );           
-            let RAM_image = q_matrix_convert( [(0,1,10),(1,0,2)] );           
-            q_ram_call_integer(RAM_image, qs_address, qs_data, qs_weight);
+            let RAM_image = q_matrix_convert( [(0,1,10),(1,0,2)] );       
+            q_ram_call_integer(RAM, qs_address, qs_data, qs_weight);
+            // q_ram_call_integer(RAM_image, qs_address, qs_data, qs_weight);
         }
         adjoint auto;
 		controlled auto;
