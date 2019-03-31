@@ -150,12 +150,13 @@ namespace Quantum.test
 
 	operation test_1_sparse_bool(p:Int):Double
 	{
-	//测试 1 sparse bool matrix simulation , 2*2， 时间 Pi/4 	, matrix = sigma_x, image_matrx = sigma_y
+	//测试 1 sparse bool matrix simulation , 2*2， 时间 Pi/4 	, bool_matrix = sigma_x, image_bool_matrx = sigma_y
 		body(...)
 		{
 			using(qs = Qubit[3])
 			{
 				let qs_a = [qs[0]];
+
 				let qs_b = [qs[1]];//被模拟比特
 				let qs_weight = [qs[2]];//存放矩阵权重
 
@@ -164,7 +165,6 @@ namespace Quantum.test
 				
 				q_walk_simulation_matrix_1_sparse_bool(ora, qs_b, time);
 				// q_walk_simulation_matrix_1_sparse_imagebool(ora, qs_b, time);
-				// Rx (2.0*time, qs[1]);
 				DumpRegister("bool.txt", qs_b);
 				ResetAll(qs);
 			}
@@ -174,13 +174,14 @@ namespace Quantum.test
 
 	operation test_1_sparse_integer(p:Int):Double
 	{
-	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/8, matrix = 2*sigma_x, image_matrx = 2*sigma_y
+	//测试 1 sparse integer matrix simulation , 2*2, 时间 Pi/8, integer_matrix = 2*sigma_x, image_integer_matrx = 2*sigma_y
 		body(...)
 		{
 			using(qs = Qubit[4])
 			{
 				let qs_a = [qs[0]];
-				let qs_b = [qs[1]];
+
+				let qs_b = [qs[1]];//被模拟比特
 				let qs_weight = qs[2..3];
 
 				let time = PI()/8.0;
@@ -188,7 +189,6 @@ namespace Quantum.test
 				
 				// q_walk_simulation_matrix_1_sparse_integer(ora,	qs_b,  time);
 				q_walk_simulation_matrix_1_sparse_imageinteger(ora,	qs_b,  time);
-				// Ry (time*4.0, qs[1] );
 				DumpRegister("integer.txt", qs_b);
 				ResetAll(qs);
 			}
