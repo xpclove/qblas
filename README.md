@@ -3,12 +3,14 @@ Quantum BLAS.    License: GPL v3
 
 A open source quantum basic linear algebra and quantum simulation library.
 
-Develop with Q#.
-
-The library help you run quantum basic linear algebra and quantum simulation tasks on a quntum computer.
+Developed with Q#.
+Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
+The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.
+The basic linear algebra contains vector inner product, HHL matrix eigenvalue decomposition, fourier transform and other algorithms.
+The quantum simulation contains sparse matrix quantum walk simulation, density matrix exponentiation simulation and Trotter decomposition simulation.
 
 Authors：
-Xiaopeng Cui, etc. Department of Physics，Fudan University
+Xiaopeng Cui, Yu Shi. Department of Physics，Fudan University
 
 Shanghai, China
 
