@@ -5,6 +5,8 @@ A open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
+Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
+
 Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
 The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.
 
