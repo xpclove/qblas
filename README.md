@@ -20,7 +20,7 @@ Shanghai, China
 
 Email: xpclove@gmail.com
 
-Project website: http://qblas.org 
+Project website: http://qblas.site
 
 References:
 
