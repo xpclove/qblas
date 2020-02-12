@@ -50,4 +50,8 @@ Pan, “Entanglement-based machine learning on a quantum computer,” Phys. Rev.
 [10]	Seth Lloyd, Masoud Mohseni, and Patrick Rebentrost, “Quantum algorithms for supervised and unsupervised machine learning,” arXiv e-prints , arXiv:1307.0411 (2013), arXiv:1307.0411
 [quant-ph].
 
+[11]  Vittorio Giovannetti, Seth Lloyd,  and Lorenzo Maccone, “Quantum random access memory,”Phys. Rev. Lett.100, 160501 (2008).
+
+[12]  Vittorio Giovannetti, Seth Lloyd,   and Lorenzo Maccone, “Architectures for a quantum ran-dom access memory,” Phys. Rev. A78, 052310 (2008).12
+
 
