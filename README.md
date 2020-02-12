@@ -23,7 +23,9 @@ Email: xpclove@gmail.com
 Project website: http://qblas.site
 
 References:
+
 QBLAS (Quantum machine learning, 2017, https://www.nature.com/articles/nature23474)
+
 [1]	Jacob Biamonte, Peter Wittek, Nicola Pancotti, Patrick Rebentrost, Nathan Wiebe, and Seth Lloyd, “Quantum machine learning,” Nature (London) 549, 195–202 (2017), arXiv:1611.09347 [quant-ph].
 
 [2]	S. Lloyd, M. Mohseni, and P. Rebentrost, “Quantum principal component analysis,” Nature
