@@ -22,11 +22,11 @@ Email: xpclove@gmail.com
 
 Project website: http://qblas.site
 
-QBLAS Structure:
+QBLAS structure:
 
 ![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_structure.jpg)
 
-QBLAS files Structure:
+QBLAS files structure:
 
 ![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_file_structure.jpg)
 
