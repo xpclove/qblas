@@ -13,10 +13,6 @@ The library help you run quantum basic linear algebra and quantum simulation alg
 The basic linear algebra contains vector inner product, HHL matrix eigenvalue decomposition, fourier transform, Quantum phase estimation and other algorithms.
 The quantum simulation contains sparse matrix quantum walk simulation, density matrix exponentiation simulation and Trotter decomposition simulation.
 
-QBLAS Structure:
-
-![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_structure.jpg)
-
 Authors：
 Xiaopeng Cui, Yu Shi. Department of Physics，Fudan University
 
@@ -25,6 +21,14 @@ Shanghai, China
 Email: xpclove@gmail.com
 
 Project website: http://qblas.site
+
+QBLAS Structure:
+
+![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_structure.jpg)
+
+QBLAS files Structure:
+
+![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_file_structure.jpg)
 
 References:
 
