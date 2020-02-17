@@ -18,7 +18,7 @@ Xiaopeng Cui, Yu Shi. Department of Physics，Fudan University
 
 Shanghai, China
 
-Email: xpclove@gmail.com
+Email: xpclove@gmail.com, yushi@fudan.edu.cn
 
 Project website: http://qblas.site
 
