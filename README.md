@@ -32,7 +32,7 @@ QBLAS files structure:
 
 How to use it:
 
-    1. Setup ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
+    1. Install ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
         For Ubuntu:
 
@@ -42,14 +42,13 @@ How to use it:
 
             export PATH=$PATH:$HOME/dotnet
 
-    2. Setup Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview;    Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
 
             dotnet add package Microsoft.Quantum.Development.Kit --version 0.3.1811.203-preview
-
             dotnet add package Microsoft.Quantum.Canon --version 0.3.1811.203-preview
 
     3. Test, cd into test directory:
-    
+
             dotnet run 
 
 
