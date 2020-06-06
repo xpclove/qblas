@@ -37,9 +37,9 @@ How to use it:
         For Ubuntu x64 : 
             Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
             Then run shell command:
-            mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
-            export DOTNET_ROOT=$HOME/dotnet
-            export PATH=$PATH:$HOME/dotnet
+                mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+                export DOTNET_ROOT=$HOME/dotnet
+                export PATH=$PATH:$HOME/dotnet
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
 
