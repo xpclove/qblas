@@ -30,6 +30,19 @@ QBLAS files structure:
 
 ![QBLAS Structure](https://github.com/xpclove/qblas/blob/master/doc/fig/qblas_file_structure.jpg)
 
+How to use it:
+    1. Setup ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
+        For Ubuntu:
+            mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+            export DOTNET_ROOT=$HOME/dotnet
+            export PATH=$PATH:$HOME/dotnet
+    2. Setup Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview;    Microsoft.Quantum.Canon 0.3.1811.203-preview
+            dotnet add package Microsoft.Quantum.Development.Kit --version 0.3.1811.203-preview
+            dotnet add package Microsoft.Quantum.Canon --version 0.3.1811.203-preview
+    3. Test, cd into test directory:
+            dotnet run 
+
+
 References:
 
 Review(Quantum machine learning, 2017, https://www.nature.com/articles/nature23474)
