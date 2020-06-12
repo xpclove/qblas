@@ -1,9 +1,8 @@
 # QBLAS
 Quantum BLAS.    License: GPL v3.   Version: v_0.1 
 
-QBLAS is the first open source quantum basic linear algebra and quantum simulation library 
-released on GitHub from 2019.11.15.
-
+QBLAS is the first open source quantum basic linear algebra and quantum simulation library.
+Released on GitHub from 2019-11-15.
 Developed with Q#.
 
 Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
