@@ -1,20 +1,22 @@
 # QBLAS
-Quantum BLAS.    License: GPL v3.   Version: v_0.1 
+Quantum BLAS.   License: GPL v3.
 
 An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Released on GitHub from 11.15 2019.
+Version: v_0.1 
+
+Released on GitHub from 11.15, 2019.
 
 
 Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
 [Introduction]
 
-Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
-The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra contains vector inner product, HHL matrix eigenvalue decomposition, fourier transform, Quantum phase estimation and other algorithms.
-The quantum simulation contains sparse matrix quantum walk simulation, density matrix exponentiation simulation and Trotter decomposition simulation.
+Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks[1].
+The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra part contains vector inner product[10,5], HHL matrix eigenvalue decomposition[4,6], fourier transform[8], Quantum phase estimation and other algorithms.
+The quantum simulation part contains sparse matrix quantum walk simulation[7], density matrix exponentiation simulation[2,6] and Trotter decomposition simulation[3].
 
 [Motivation]
 
@@ -45,18 +47,19 @@ How to use it:
     1. Install ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
         For Ubuntu x64 : 
-            Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
-            Then run shell command:
-                mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
-                export DOTNET_ROOT=$HOME/dotnet
-                export PATH=$PATH:$HOME/dotnet
+            1) Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
+            2) Then run shell command to install dotnet-sdk:
+                    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+            3) Set environment variable: 
+                    export DOTNET_ROOT=$HOME/dotnet
+                    export PATH=$PATH:$HOME/dotnet
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
 
             dotnet add package Microsoft.Quantum.Development.Kit --version 0.3.1811.203-preview
             dotnet add package Microsoft.Quantum.Canon --version 0.3.1811.203-preview
 
-    3. Test, cd into test directory:
+    3. Test it, cd into test directory:
 
             dotnet run 
 
