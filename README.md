@@ -1,19 +1,24 @@
 # QBLAS
 Quantum BLAS.    License: GPL v3.   Version: v_0.1 
 
-QBLAS is the first open source quantum basic linear algebra and quantum simulation library.
-
-Released on GitHub from 11.15 2019.
+A open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
+Released on GitHub from 11.15 2019.
+
+
 Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
-[Introduction]	Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
+[Introduction]
+
+Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
 The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra contains vector inner product, HHL matrix eigenvalue decomposition, fourier transform, Quantum phase estimation and other algorithms.
 The quantum simulation contains sparse matrix quantum walk simulation, density matrix exponentiation simulation and Trotter decomposition simulation.
 
-[Motivation] Inspired by the rapid development of quantum machine learning algorithms[1] in recent years and the calls for open source quantum software[13], we started the project in the Spring of 2018 and completed the preliminary version in the Summer of 2019.
+[Motivation]
+
+Inspired by the rapid development of quantum machine learning algorithms[1] in recent years and the calls for open source quantum software[13], we started the project in the Spring of 2018 and completed the preliminary version in the Summer of 2019.
 Then, we decided to release it on Github to facilitate the communication of quantum open source software.
 To our knowledge, this is the first open-source library to focus on quantum linear algebra and quantum simulation.
 We hope it will promote the development of quantum machine learning and quantum open source software ecology.
