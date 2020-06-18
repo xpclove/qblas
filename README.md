@@ -1,5 +1,5 @@
 # QBLAS
-Quantum BLAS.    License: GPL v3.   Version: v_0.1 
+Quantum BLAS.    License: GPL v3.   Version: v_0.1.1
 
 QBLAS is the first open source quantum basic linear algebra and quantum simulation library.
 
@@ -47,7 +47,7 @@ How to use it:
                 export PATH=$PATH:$HOME/dotnet
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit ; Microsoft.Quantum.Canon
-
+	
 			dotnet add package Microsoft.Quantum.Development.Kit --version 0.5.1904.1302
             dotnet add package Microsoft.Quantum.Canon --version 0.5.1904.1302
 		or
