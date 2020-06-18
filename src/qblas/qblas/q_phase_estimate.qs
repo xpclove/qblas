@@ -2,6 +2,7 @@
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Oracles;
 
     //  LittleEndian Qubits
     //  U: 

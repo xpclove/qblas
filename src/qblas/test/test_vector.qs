@@ -2,9 +2,9 @@ namespace Quantum.test
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
-	open Microsoft.Quantum.Extensions.Diagnostics;
-	open Microsoft.Quantum.Extensions.Math;
+	open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Diagnostics;
+	open Microsoft.Quantum.Math;
 	open qblas;
 
 	// 测试 qs_creat

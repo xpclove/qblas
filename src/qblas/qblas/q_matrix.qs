@@ -1,16 +1,13 @@
 ﻿namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
-    
     open Microsoft.Quantum.Canon;
-    
-    open Microsoft.Quantum.Extensions.Math;
 
 
     //1 sparse matrix oracle, input Qubit[]: address, Qubit[]: data, |a>|c>
     // 1-稀疏矩阵如何存储： 只保存非0矩阵元，|x>|y>|element>形式
     // |vertex>|0>|0>   ->  |vertex>|netxt-vertex>|weight>
-    newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[])=>Unit: Adjoint, Controlled );
+    newtype q_matrix_1_sparse_oracle = ( (Qubit[], Qubit[], Qubit[])=>Unit is Adj+Ctl );
     // newtype QBLAS_M_Weight = (Int. Int);
 
 

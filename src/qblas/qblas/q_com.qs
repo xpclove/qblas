@@ -5,18 +5,17 @@ namespace qblas_com_pkg
     open Microsoft.Quantum.Arithmetic;
     open Microsoft.Quantum.Preparation;
     open Microsoft.Quantum.Simulation;
-	open Microsoft.Quantum.Extensions.Convert;
-	open Microsoft.Quantum.Extensions.Math;
-	open Microsoft.Quantum.Extensions.Diagnostics;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
 }
 
 namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
-    open qblas_com_pkg;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Diagnostics;
 
     operation q_com_real_nbit_float( ) : Int
     {
@@ -93,7 +92,7 @@ namespace qblas
         for(i in 0..n-1)
         {
             // set newdata[i]=ComplexPolar(ToDouble( data[i] ), 0.0);
-            set newdata w/= i <-ComplexPolar(ToDouble( data[i] ), 0.0);
+            set newdata w/= i <-ComplexPolar(IntAsDouble( data[i] ), 0.0);
         }
         return(newdata);
     }
@@ -164,7 +163,7 @@ namespace qblas
         }
         return (qs);
     }
-    operation q_com_apply ( op: (Qubit => Unit: Adjoint, Controlled), qs: Qubit[]): Unit
+    operation q_com_apply ( op: (Qubit => Unit is Adj+Ctl), qs: Qubit[]): Unit
     {
         body(...)
         {

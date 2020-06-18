@@ -2,9 +2,9 @@
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
-	open Microsoft.Quantum.Extensions.Math;
-	open Microsoft.Quantum.Extensions.Diagnostics;
+	open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Math;
+	open Microsoft.Quantum.Diagnostics;
 
     operation q_walk_op_W (qs_a: Qubit[], qs_b: Qubit[]) : Unit
     {
@@ -124,8 +124,8 @@
 			let nbit = Length(qs_weight);
 			for(i in 0..nbit-1)
 			{
-				let fi = ToDouble(i);
-				let ff = ToDouble(n_bits_float);
+				let fi = IntAsDouble(i);
+				let ff = IntAsDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
 				let angle = ( t * g );
 				Rz (angle, qs_weight[i]);
@@ -142,8 +142,8 @@
 			let nbit = Length(qs_weight);
 			for(i in 0..nbit-1)
 			{
-				let fi = ToDouble(i);
-				let ff = ToDouble(n_bits_float);
+				let fi = IntAsDouble(i);
+				let ff = IntAsDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
 				let angle =0.0 - ( t * g );  //负数
 				Rz (angle, qs_weight[i]);
@@ -176,8 +176,8 @@
 			let qs_sign = qs_weight[nbit-1];// sign=1 t为负数，exp( -i t), 因此旋转相位为正； sign=0 为正数
 			for(i in 0..nbit-2)
 			{
-				let fi = ToDouble(i);
-				let ff = ToDouble(n_bits_float);
+				let fi = IntAsDouble(i);
+				let ff = IntAsDouble(n_bits_float);
 				let g = PowD(2.0, fi-ff);
 				let angle = 2.0 * ( t * g ); // exp(-i sigma t) 因此两倍t
 				(Controlled R) ( [qs_weight[i]], (Rp, angle, qs_sign) );
@@ -316,7 +316,7 @@
 		body(...)
 		{
 			let nbit=Length(qs_state);
-			let dt = t / ToDouble(N);
+			let dt = t / IntAsDouble(N);
 			for( i in 0..N-1)
 			{
 				q_walk_simulation_matrix_1_sparse_real(matrix_A_real, qs_state, dt);

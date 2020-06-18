@@ -46,7 +46,7 @@ How to use it:
                 export DOTNET_ROOT=$HOME/dotnet
                 export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit ; Microsoft.Quantum.Canon
 
             dotnet add package Microsoft.Quantum.Development.Kit --version 0.3.1811.203-preview
             dotnet add package Microsoft.Quantum.Canon --version 0.3.1811.203-preview
@@ -57,6 +57,7 @@ How to use it:
 
 
 References:
+
 
 Review(Quantum machine learning, 2017, https://www.nature.com/articles/nature23474)
 

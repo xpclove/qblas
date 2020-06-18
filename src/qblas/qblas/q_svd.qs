@@ -2,6 +2,8 @@
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
+	open Microsoft.Quantum.Oracles;
+
 	//Ref: PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
 		
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |0> +(1-1/lamda) |1>

@@ -2,9 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
-    open qblas_com_pkg;
-
+	open Microsoft.Quantum.Convert;
+    
 	function q_print_s(item:String ):Unit
     {
             Message(item);
@@ -16,7 +15,7 @@ namespace qblas
         for(i in 0..N-1)
         {
             let p = item[i];
-            Message( ToStringI(p) );
+            Message( IntAsString(p) );
         }
         Message("___________");
     }
@@ -26,7 +25,7 @@ namespace qblas
             for(i in 0..N-1)
             {
                 let p = item[i];
-                Message( ToStringD(p) );
+                Message( DoubleAsString(p) );
             }
             Message("___________");
     }
