@@ -47,9 +47,9 @@ How to use it:
                 export PATH=$PATH:$HOME/dotnet
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit ; Microsoft.Quantum.Canon
-	
+			
 			dotnet add package Microsoft.Quantum.Development.Kit --version 0.5.1904.1302
-            dotnet add package Microsoft.Quantum.Canon --version 0.5.1904.1302
+			dotnet add package Microsoft.Quantum.Canon --version 0.5.1904.1302
 		or
 			cd into test directory, run "dotnet clean"
 
