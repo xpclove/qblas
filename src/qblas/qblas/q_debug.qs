@@ -1,8 +1,9 @@
 namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 	open Microsoft.Quantum.Extensions.Convert;
+    open qblas_com_pkg;
 
 	function q_print_s(item:String ):Unit
     {

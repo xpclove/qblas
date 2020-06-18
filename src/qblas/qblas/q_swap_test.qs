@@ -1,6 +1,6 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 
     operation q_swap_test_core (control:Qubit, u:Qubit[], v:Qubit[]) : Unit

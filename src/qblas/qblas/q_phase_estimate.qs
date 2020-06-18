@@ -1,6 +1,6 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 
     //  LittleEndian Qubits

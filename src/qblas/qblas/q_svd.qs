@@ -1,6 +1,6 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 	//Ref: PhysRevA.97.012327_Quantum singular-value decomposition of nonsparse low-rank matrices
 		

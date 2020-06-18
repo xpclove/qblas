@@ -1,6 +1,6 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 
 	operation q_bell_state_creat( qs:Qubit[]) : Unit

@@ -1,6 +1,6 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     
     open Microsoft.Quantum.Canon;
     
@@ -22,7 +22,7 @@
         for(i in 0..n-1)
         {
             let (v,next_v,w) = ram[i];
-            set RAM[i] = QBLAS_M_Weight(v,next_v,w);
+            set RAM w/= i <- QBLAS_M_Weight(v,next_v,w);
         }
         return RAM;
     }
