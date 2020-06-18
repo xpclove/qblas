@@ -1,9 +1,21 @@
+namespace qblas_com_pkg
+{
+    open Microsoft.Quantum.Intrinsic;
+    open Microsoft.Quantum.Canon;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Preparation;
+    open Microsoft.Quantum.Simulation;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+}
+
 namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Diagnostics;
 
     operation q_com_real_nbit_float( ) : Int
     {
@@ -36,7 +48,7 @@ namespace qblas
         mutable newdata = new ComplexPolar[n];
         for(i in 0..n-1)
         {
-            set newdata[i]=ComplexPolar(data[i]);
+            set newdata w/= i <- ComplexPolar(data[i]);
         }
         return(newdata);
     }
@@ -51,9 +63,10 @@ namespace qblas
            mutable newdata_i = new (ComplexPolar)[n2];
             for(j in 0..n2-1)
             {
-                set newdata_i[j]=ComplexPolar(data[i][j]);
+                set newdata_i w/= j<-ComplexPolar(data[i][j]);
             }
-            set newdata[i] = newdata_i;
+            // set newdata[i] = newdata_i;
+            set newdata  w/= i <- newdata_i;
         }
         return(newdata);
     }
@@ -65,7 +78,9 @@ namespace qblas
         mutable newdata = new ComplexPolar[n];
         for(i in 0..n-1)
         {
-            set newdata[i]=ComplexPolar(data[i], 0.0);
+            // set newdata[i]=ComplexPolar(data[i], 0.0);
+            set newdata w/= i<-ComplexPolar(data[i], 0.0);
+
         }
         return(newdata);
     }
@@ -76,7 +91,8 @@ namespace qblas
         mutable newdata = new ComplexPolar[n];
         for(i in 0..n-1)
         {
-            set newdata[i]=ComplexPolar(ToDouble( data[i] ), 0.0);
+            // set newdata[i]=ComplexPolar(ToDouble( data[i] ), 0.0);
+            set newdata w/= i <-ComplexPolar(IntAsDouble( data[i] ), 0.0);
         }
         return(newdata);
     }
@@ -91,9 +107,12 @@ namespace qblas
            mutable newdata_i = new (ComplexPolar)[n2];
             for(j in 0..n2-1)
             {
-                set newdata_i[j]=ComplexPolar(data[i][j], 0.0);
+                // set newdata_i[j]=ComplexPolar(data[i][j], 0.0);
+                set newdata_i w/= j<-ComplexPolar(data[i][j], 0.0);
             }
-            set newdata[i] = newdata_i;
+            // set newdata[i] = newdata_i;
+            set newdata w/= i<- newdata_i;
+
         }
         return(newdata);
     }
@@ -105,7 +124,8 @@ namespace qblas
         mutable newdata = new Int[n];
         for(i in 0..n-1)
         {
-            set newdata[i]= Floor( 2.0*ArcSin(data[i])/PI()*128.0 );
+            // set newdata[i]= Floor( 2.0*ArcSin(data[i])/PI()*128.0 );
+            set newdata w/=  i<-Floor( 2.0*ArcSin(data[i])/PI()*128.0 );
         }
         return(newdata);
     }
@@ -119,7 +139,8 @@ namespace qblas
             let (data_r, data_i) = data[i];
             let angle_r = Floor( 2.0*ArcSin( data_r )/PI()*128.0 );
             let angle_i = Floor( data_i/PI()*128.0 );
-            set newdata[i]= (angle_r, angle_i);
+            // set newdata[i]= (angle_r, angle_i);
+            set newdata w/=  i <- (angle_r, angle_i);
         }
         return(newdata);
     }
@@ -132,15 +153,17 @@ namespace qblas
         mutable qs = new Qubit[n];
         for( i in 0..na-1)
         {
-            set qs[i] = qa[i];
+            // set qs[i] = qa[i];
+            set qs w/= i<- qa[i];
         }
         for( i in 0..nb-1)
         {
-            set qs[ na+i ] = qb[i];
+            // set qs[ na+i ] = qb[i];
+            set qs w/= (na+i) <- qb[i];
         }
         return (qs);
     }
-    operation q_com_apply ( op: (Qubit => Unit: Adjoint, Controlled), qs: Qubit[]): Unit
+    operation q_com_apply ( op: (Qubit => Unit is Adj+Ctl), qs: Qubit[]): Unit
     {
         body(...)
         {

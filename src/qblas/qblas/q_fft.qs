@@ -1,8 +1,7 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
 	
 	//LitteEndian Qubits
     operation q_fft_core (qs:Qubit[]) : Unit

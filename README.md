@@ -48,8 +48,8 @@ How to use it:
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit ; Microsoft.Quantum.Canon
 			
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.5.1904.1302
-			dotnet add package Microsoft.Quantum.Canon --version 0.5.1904.1302
+			dotnet add package Microsoft.Quantum.Development.Kit --version 0.6.1905.301
+			dotnet add package Microsoft.Quantum.Canon --version 0.6.1905.301
 		or
 			cd into test directory, run "dotnet clean"
 

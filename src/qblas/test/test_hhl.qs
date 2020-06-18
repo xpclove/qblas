@@ -1,10 +1,12 @@
 namespace Quantum.test
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
-	open Microsoft.Quantum.Extensions.Diagnostics;
-	open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Arithmetic;
+    open Microsoft.Quantum.Oracles;
+	open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Diagnostics;
+	open Microsoft.Quantum.Math;
 	open qblas;
 	
 	//Discrete Oracle：U = exp( i*sigma_z*dt)
@@ -13,7 +15,7 @@ namespace Quantum.test
 		body(...)
 		{
 			let dt = -1.0;
-			let angle = 2.0*dt*ToDouble(n);
+			let angle = 2.0*dt*IntAsDouble(n);
 			Rz (angle, qs_u[0]);
 		}
 		adjoint auto;
@@ -25,7 +27,7 @@ namespace Quantum.test
 		body(...)
 		{
 			let dt = 3.0;
-			let angle = dt*ToDouble(n);
+			let angle = dt*IntAsDouble(n);
 			Rx(angle, u[0]);
 		}
 		adjoint auto;
@@ -48,8 +50,8 @@ namespace Quantum.test
 				q_phase_estimate(U, [qs[0]], qs[1..10]) ;
 				DumpRegister( "phase.txt", qs );
 
-				let phase_base 	= 	2.0*PI() / ToDouble( 2^10 );
-				let result_int 	= 	ToDouble( MeasureInteger(mq) );
+				let phase_base 	= 	2.0*PI() / IntAsDouble( 2^10 );
+				let result_int 	= 	IntAsDouble( MeasureInteger(mq) );
 				set phase		= 	result_int * phase_base;
 				ResetAll(qs);
 			}
@@ -78,7 +80,7 @@ namespace Quantum.test
 				let r = MeasureInteger( LittleEndian( [qs_r] ) );
 				DumpRegister( "phase_1.txt", [qs_u] );
 				let result_u = MeasureInteger( LittleEndian( [qs_u] ) );
-				set res = ToDouble(r);
+				set res = IntAsDouble(r);
 
 				q_print( [r, result_u] ); //|r>=|1>,代表HHL成功
 				ResetAll(qs);
@@ -106,7 +108,8 @@ namespace Quantum.test
 					for( i in 0..17)
 					{
 						H(qs[2+i]); //制备 |rho>
-						set qs_rhos[i]=[qs[2+i]];
+						// set qs_rhos[i]=[qs[2+i]];
+						set qs_rhos  w/= i <- [qs[2+i]];
 					}
 					X(qs_control);
 					let time = PI()/3.0;
@@ -114,7 +117,7 @@ namespace Quantum.test
 					DumpRegister("dm.txt", qs_sigma);
 					DumpRegister("dump.txt", qs);
 					let r = M(qs_sigma[0]);
-					if(r == One) {set res = res + 1.0/ToDouble(N);}
+					if(r == One) {set res = res + 1.0/IntAsDouble(N);}
 					ResetAll(qs);
 				}
 			}
@@ -221,7 +224,8 @@ namespace Quantum.test
 					mutable qs_rhos= new (Qubit[])[18];
 					for( i in 0..17)
 					{
-						set qs_rhos[i]=[qs[1+i]];
+						// set qs_rhos[i]=[qs[1+i]];
+						set qs_rhos w/= i <- [qs[1+i]];
 					}
 					let qs_control = qs[19];
 					X(qs_control);
@@ -231,7 +235,7 @@ namespace Quantum.test
 					DumpRegister("swapa.txt", qs_u);
 					DumpRegister("dump.txt", qs);
 					let r = M(qs_u[0]);
-					if( r == One) { set res = res + 1.0/ToDouble(N); }
+					if( r == One) { set res = res + 1.0/IntAsDouble(N); }
 					ResetAll(qs);
 				}
 			}

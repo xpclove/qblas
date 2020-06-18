@@ -1,6 +1,6 @@
 ﻿namespace Quantum.test
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
 	open qblas;
 
