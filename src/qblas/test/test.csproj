@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Quantum.Canon" Version="0.5.1904.1302" />
-    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.5.1904.1302" />
+    <PackageReference Include="Microsoft.Quantum.Development.Kit" Version="0.9.1909.3002" />
+    <PackageReference Include="Microsoft.Quantum.Standard" Version="0.9.1909.3002" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.1.1
+Version: v_0.2.1,      Release note: (./Release.md)
 
 Released on GitHub from 11.15, 2019.
 
@@ -54,12 +54,12 @@ How to use it:
                     export DOTNET_ROOT=$HOME/dotnet
                     export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Standard
 
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.5.1904.1302
-			dotnet add package Microsoft.Quantum.Canon --version 0.5.1904.1302
+			dotnet add package Microsoft.Quantum.Development.Kit --version 0.9.1909.3002
+			dotnet add package Microsoft.Quantum.Standard --version 0.9.1909.3002
 		or
-			cd into test directory, run "dotnet clean"
+			cd into test directory, run "dotnet clean && dotnet restore"
 
     3. Test it, cd into test directory:
 

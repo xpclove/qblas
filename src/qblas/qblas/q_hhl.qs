@@ -1,9 +1,10 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
-	open Microsoft.Quantum.Extensions.Math; 
+    open Microsoft.Quantum.Oracles;
+	open Microsoft.Quantum.Convert;
+	open Microsoft.Quantum.Math; 
 	
 	//qs_phase: LitteEndian Qubits, qs_r rotation to 1/lamda |1> +(1-1/lamda) |0>
 	operation q_hhl_rotation_lamda_rcp( qs_phase:Qubit[], qs_r:Qubit ):Unit
@@ -11,7 +12,7 @@
 		body(...)
 		{
 			let nbit =Length ( qs_phase );
-			let lamda_div = 2.0*PI()/ToDouble( (2^nbit) -1) ;
+			let lamda_div = 2.0*PI()/IntAsDouble( (2^nbit) -1) ;
 			q_ram_call_lamda_rcp(qs_phase, [qs_r], lamda_div);
 		}
 		adjoint auto;

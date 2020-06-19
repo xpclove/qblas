@@ -1,9 +1,10 @@
 namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
+
 
     
     newtype QBLAS_M_Weight  = (Int, Int, Int) ;
@@ -263,7 +264,7 @@ namespace qblas
                         //补码 负数部分
                         if ( address >= 2^(n_a-1) )
                         {
-                            let lamda = ToDouble(phase-2^n_a)*lamda_div;
+                            let lamda = IntAsDouble(phase-2^n_a)*lamda_div;
                             if(lamda <= -1.0) 
                             {
                                 let angle = 2.0*ArcSin( 1.0/lamda );
@@ -273,7 +274,7 @@ namespace qblas
                         //补码 正数部分
                         else
                         {
-                            let lamda = ToDouble(phase)*lamda_div;
+                            let lamda = IntAsDouble(phase)*lamda_div;
                             if(lamda >= 1.0)
                             {  
                                 let angle = 2.0*ArcSin( 1.0/lamda );

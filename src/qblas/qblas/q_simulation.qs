@@ -1,9 +1,9 @@
 ﻿namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Extensions.Math;
-    open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Math;
+    open Microsoft.Quantum.Convert;
 
     //CSWAP 模拟
     operation q_simulation_C_swap (qs_controls:Qubit[], qs_a: Qubit[], qs_b:Qubit[], time: Double) : Unit
@@ -21,7 +21,7 @@
             // let N_D = t*t / err;
             // let dt = t/N_D;
             // let N = Ceiling(N_D);
-            let dt =t/ToDouble(N);
+            let dt =t/IntAsDouble(N);
             for ( i in 0..1..N-1 )
             {
                 //每模拟一步消耗一个 |rho>
@@ -49,7 +49,7 @@
     {
         body(...)
         {
-            let dt =t/ToDouble(N);
+            let dt =t/IntAsDouble(N);
             for ( i in 0..1..(Length(matrixs)-1) )
             {
                 q_simulation_matrix_1_sparse_type (matrixs_type[i], matrixs[i], qs_u, t );
@@ -60,7 +60,7 @@
     { // 受控版本 Trotter
         body(...)
         {
-            let dt =t/ToDouble(N);
+            let dt =t/IntAsDouble(N);
             for ( i in 0..1..(Length(matrixs)-1) )
             {
                 q_simulation_C_matrix_1_sparse_type (  qs_controls, matrixs_type[i], matrixs[i], qs_u, t );
@@ -77,7 +77,7 @@
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
-            let t = ToDouble(2^nbit) * dt;
+            let t = IntAsDouble(2^nbit) * dt;
             // q_walk_simulation_matrix_1_sparse_complex (qs_SA_real, qs_SA_image, qs_u, t, 1000);
             q_simulation_C_Trotter(qs_controls, [qs_SA_real, qs_SA_image], [2, 5], qs_u, t, 1000);
         }
@@ -90,7 +90,7 @@
     {
         body(...)
         {
-            let dt =  t/ToDouble(N);
+            let dt =  t/IntAsDouble(N);
             for( i in 0..1..N-1)
             {
                 ResetAll(qs_rhos[i]);
@@ -106,7 +106,7 @@
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
-            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
+            let t = IntAsDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数
             q_simulation_C_matrix_1_sparse_type (qs_controls, type, qs_SA,  qs_u, t);
         }
     }
@@ -114,7 +114,7 @@
     {
         body(...)
         {
-            let dt =  t/ToDouble(N);
+            let dt =  t/IntAsDouble(N);
             for( i in 0..1..N-1 )
             {
                 q_print([i]);
@@ -133,7 +133,7 @@
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
-            let t = ToDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数, 由于该模拟模拟dt实际模拟的是dt/N,故此处先乘以N来模拟真实dt
+            let t = IntAsDouble(2^nbit) * dt; // t=N*dt, N=矩阵A维数, 由于该模拟模拟dt实际模拟的是dt/N,故此处先乘以N来模拟真实dt
             q_simulation_matrix_1_sparse_type (type, qs_SA,  qs_u, t);
         }
     }
@@ -143,7 +143,7 @@
     {
         body(...)
         {
-            let dt =  t/ToDouble(N);
+            let dt =  t/IntAsDouble(N);
             for( i in 0..1..N-1 )
             {
                 q_print([i]);
@@ -161,7 +161,7 @@
         body(...)
         {
             let nbit = Length(qs_u) /2 ;
-            let t = ToDouble(2^nbit) * dt;
+            let t = IntAsDouble(2^nbit) * dt;
             q_walk_simulation_matrix_1_sparse_complex (qs_SA_real, qs_SA_image, qs_u, t, 1000);
         }
     }
@@ -173,7 +173,7 @@
     {
         body(...)
         {
-            let dt =  t/ToDouble(N);
+            let dt =  t/IntAsDouble(N);
             for( i in 0..1..N-1)
             {
                 ResetAll(qs_rhos[i]);
@@ -192,7 +192,7 @@
             // let N_D = t*t / err;
             // let dt = t/N_D;
             // let N = Ceiling(N_D);
-            let dt =t/ToDouble(N);
+            let dt =t/IntAsDouble(N);
             for ( i in 0..1..N-1 )
             {
                 //每模拟一步消耗一个 |rho>

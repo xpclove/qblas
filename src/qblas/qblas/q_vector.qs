@@ -1,10 +1,13 @@
 ﻿namespace qblas
 {
-		open Microsoft.Quantum.Primitive;
+		open Microsoft.Quantum.Intrinsic;
 		open Microsoft.Quantum.Canon;
-		open Microsoft.Quantum.Extensions.Convert;
-		open Microsoft.Quantum.Extensions.Math;
-		open Microsoft.Quantum.Extensions.Diagnostics;
+		open Microsoft.Quantum.Preparation;
+		open Microsoft.Quantum.Arithmetic;
+		open Microsoft.Quantum.Math;
+		open Microsoft.Quantum.Convert;
+		open Microsoft.Quantum.Diagnostics;
+		open qblas_com_pkg;
 
 		//use Q# Library to creat vector, ComplexPolar[] -> |qs_v>
 		operation q_vector_creat (vector:ComplexPolar[], qs_v:Qubit[]) : Unit
@@ -12,7 +15,7 @@
 			body(...)
 			{
 				// us Q# Library, PrepareArbitraryState()
-				PrepareArbitraryState( vector, BigEndian(qs_v) );
+				PrepareArbitraryState( vector, LittleEndian(qs_v) );
 				
 			}
 			controlled auto;
@@ -29,7 +32,7 @@
 				{
 					let vector = vs[address];
 					q_ram_addressing(qs_address, address);
-					(Controlled PrepareArbitraryState) (qs_address, ( vector, BigEndian(qs_v) ) ) ; 
+					(Controlled PrepareArbitraryState) (qs_address, ( vector, LittleEndian(qs_v) ) ) ; 
 					(Adjoint q_ram_addressing) (qs_address, address);
 				}
 				
@@ -40,7 +43,7 @@
 		}
 
 		// ram_call 方式制备实数向量
-		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit_real:Int): Unit
+		operation q_vector_prepare(ram_call:((Qubit[], Qubit[])=>Unit is Adj), qs_address:Qubit[], nbit_real:Int): Unit
 		{
 			body(...)
 			{
@@ -59,8 +62,8 @@
 						let n_v =Length(qs_vector);
 						for(i in 0..n_v-1)
 						{
-							let angle_base = 2.0*PI() / (ToDouble(2^n_v)) ;
-							let angle = ToDouble(2^i)*angle_base;
+							let angle_base = 2.0*PI() / (IntAsDouble(2^n_v)) ;
+							let angle = IntAsDouble(2^i)*angle_base;
 							(Controlled Ry) ( [qs_vector[i]], (angle, qs_r) ); //受控旋转 Ry 制备振幅
 						}
 						let result = M(qs_r); //通过测量制备向量
@@ -74,7 +77,7 @@
 		}
 
 		//ram_call 方式制备复数向量
-		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit: Adjoint), qs_address:Qubit[], nbit:Int): Unit
+		operation q_vector_complex_prepare(ram_call:((Qubit[], Qubit[], Qubit[])=>Unit is Adj), qs_address:Qubit[], nbit:Int): Unit
 		{
 			body(...)
 			{
@@ -95,16 +98,16 @@
 						let n_r =Length(qs_vector_real);
 						for(i in 0..n_r-1)
 						{
-							let angle_base = 2.0*PI() / (ToDouble(2^n_r)) ;
-							let angle = ToDouble(2^i)*angle_base;
+							let angle_base = 2.0*PI() / (IntAsDouble(2^n_r)) ;
+							let angle = IntAsDouble(2^i)*angle_base;
 							(Controlled Ry) ( [qs_vector_real[i]], (angle, qs_r) ); //受控旋转 Ry 制备振幅
 						}
 
 						let n_i =Length(qs_vector_image);
 						for(i in 0..n_i-1)
 						{
-							let angle_base = 2.0*PI() / (ToDouble(2^n_i)) ;
-							let angle = ToDouble(2^i)*angle_base;
+							let angle_base = 2.0*PI() / (IntAsDouble(2^n_i)) ;
+							let angle = IntAsDouble(2^i)*angle_base;
 							(Controlled Rz) ( [qs_vector_image[i]], (2.0*angle, qs_r) ); //受控旋转 Rz 制备相位
 						}
 
@@ -146,7 +149,7 @@
 						}
 						ResetAll(qs);
 					}
-					set p = ToDouble(num_ones)*1.0/ToDouble(N);
+					set p = IntAsDouble(num_ones)*1.0/IntAsDouble(N);
 					if( p< 0.5)
 					{
 						set p =0.5;
@@ -180,8 +183,9 @@
 					for( i in 0..n_vector-1 )
 					{
 						let (c, t ) = norms[i]!;
-						set gnorms[i] = ComplexPolar( c, t+PI()*ToDouble(vectors_group[i]) );
-						// q_print_D( [ c, t+PI()*ToDouble(vectors_group[i]) ] );
+						// set gnorms[i] = ComplexPolar( c, t+PI()*ToDouble(vectors_group[i]) );
+						set gnorms  w/= i <- ComplexPolar( c, t+PI()*IntAsDouble(vectors_group[i]) );
+						// q_print_D( [ c, t+PI()*IntAsDouble(vectors_group[i]) ] );
 					}
 					q_vector_creat (gnorms, qs_address);
 				}
@@ -244,7 +248,7 @@
 						}
 						ResetAll(qs);
 					}
-					set p = ToDouble(num_ones)*1.0/ToDouble(N) ;
+					set p = IntAsDouble(num_ones)*1.0/IntAsDouble(N) ;
 					if( p< 0.5)
 					{
 						set p =0.5;
@@ -278,8 +282,8 @@
 			body(...)
 			{
 				let A_p =q_vector_s_inner(swaptest_state_prepare, nbit_address, nbit_vector, acc);
-				let Z_s = ToDouble(2^nbit_address);	// 向量总模数
-				let M_s = ToDouble(2^nbit_address); // 向量总个数
+				let Z_s = IntAsDouble(2^nbit_address);	// 向量总模数
+				let M_s = IntAsDouble(2^nbit_address); // 向量总个数
 				let distance = Sqrt( Z_s*M_s*A_p*A_p );
 				return (distance);	
 			}
