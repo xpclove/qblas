@@ -5,7 +5,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.0
+Version: v_0.2.0,      Release note: (Release.md)
 
 Released on GitHub from 11.15, 2019.
 
