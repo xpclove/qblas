@@ -1,19 +1,26 @@
 # QBLAS
-Quantum BLAS.    License: GPL v3.   Version: v_0.2.0
+Quantum BLAS.   License: GPL v3.
 
-QBLAS is the first open source quantum basic linear algebra and quantum simulation library.
-
-Released on GitHub from 11.15 2019.
+An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
+Version: v_0.2.0
+
+Released on GitHub from 11.15, 2019.
+
+
 Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
-[Introduction]	Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks.
-The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra contains vector inner product, HHL matrix eigenvalue decomposition, fourier transform, Quantum phase estimation and other algorithms.
-The quantum simulation contains sparse matrix quantum walk simulation, density matrix exponentiation simulation and Trotter decomposition simulation.
+[Introduction]
 
-[Motivation] Inspired by the rapid development of quantum machine learning algorithms[1] in recent years and the calls for open source quantum software[13], we started the project in the spring of 2018 and completed the preliminary version in the summer of 2019.
+Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks[1].
+The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra part contains vector inner product[10,5], HHL matrix eigenvalue decomposition[4,6], fourier transform[8], Quantum phase estimation and other algorithms.
+The quantum simulation part contains sparse matrix quantum walk simulation[7], density matrix exponentiation simulation[2,6] and Trotter decomposition simulation[3].
+
+[Motivation]
+
+Inspired by the rapid development of quantum machine learning algorithms[1] in recent years and the calls for open source quantum software[13], we started the project in the Spring of 2018 and completed the preliminary version in the Summer of 2019.
 Then, we decided to release it on Github to facilitate the communication of quantum open source software.
 To our knowledge, this is the first open-source library to focus on quantum linear algebra and quantum simulation.
 We hope it will promote the development of quantum machine learning and quantum open source software ecology.
@@ -40,26 +47,26 @@ How to use it:
     1. Install ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
 
         For Ubuntu x64 : 
-            Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
-            Then run shell command:
-                mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
-                export DOTNET_ROOT=$HOME/dotnet
-                export PATH=$PATH:$HOME/dotnet
+            1) Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
+            2) Then run shell command to install dotnet-sdk:
+                    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+            3) Set environment variable: 
+                    export DOTNET_ROOT=$HOME/dotnet
+                    export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit ; Microsoft.Quantum.Canon
-			
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+
 			dotnet add package Microsoft.Quantum.Development.Kit --version 0.6.1905.301
 			dotnet add package Microsoft.Quantum.Canon --version 0.6.1905.301
 		or
 			cd into test directory, run "dotnet clean"
 
-    3. Test, cd into test directory:
+    3. Test it, cd into test directory:
 
             dotnet run 
 
 
 References:
-
 
 Review(Quantum machine learning, 2017, https://www.nature.com/articles/nature23474)
 
