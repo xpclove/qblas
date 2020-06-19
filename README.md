@@ -61,7 +61,7 @@ How to use it:
 		or
 			cd into test directory, run "dotnet clean && dotnet restore"
 
-    3. Test it, cd into test directory:
+    3. Test it, cd into test directory(src/qblas/test), test entry: Driver.cs (Host C# + Q#):
 
             dotnet run 
 
