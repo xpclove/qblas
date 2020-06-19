@@ -59,7 +59,7 @@ How to use it:
 			dotnet add package Microsoft.Quantum.Development.Kit --version 0.6.1905.301
 			dotnet add package Microsoft.Quantum.Canon --version 0.6.1905.301
 		or
-			cd into test directory, run "dotnet clean"
+			cd into test directory, run "dotnet clean && dotnet restore"
 
     3. Test it, cd into test directory:
 
