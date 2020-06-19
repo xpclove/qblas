@@ -54,14 +54,18 @@ How to use it:
                     export DOTNET_ROOT=$HOME/dotnet
                     export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Canon 
 
             dotnet add package Microsoft.Quantum.Development.Kit --version 0.3.1811.203-preview
             dotnet add package Microsoft.Quantum.Canon --version 0.3.1811.203-preview
 
-    3. Test it, cd into test directory:
+    3. Test it, cd into test directory(src/qblas/test), test entry: Driver.cs (Host C# + Q#):
 
             dotnet run 
+
+[Branch]
+
+master: stable branch, dev: more recent development branch, next: Unstable latest branch
 
 
 References:
