@@ -64,7 +64,8 @@ How to use it:
             dotnet run 
 
 [Branch]
-        master: stable branch,    dev: more recent development branch,    next: Unstable latest branch
+
+        master: stable branch,    dev: more recent development branch,    next: unstable latest branch
 
 
 References:
