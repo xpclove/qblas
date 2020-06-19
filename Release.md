@@ -1,5 +1,9 @@
 # QBLAS Release Log
 
+v_0.2.1
+
+	update to Q# SDK 0.9.1909.3002
+
 v_0.2.0
 
 	update to Q# SDK 0.6.1905.301
