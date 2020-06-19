@@ -59,8 +59,8 @@ How to use it:
 
     2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Standard
 
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.10.2002.2610
-			dotnet add package Microsoft.Quantum.Standard --version 0.10.2002.2610
+			dotnet add package Microsoft.Quantum.Development.Kit --version 0.11.2003.2506
+			dotnet add package Microsoft.Quantum.Standard --version 0.11.2003.2506
 		or
 			cd into test directory, run "dotnet clean && dotnet restore"
 
