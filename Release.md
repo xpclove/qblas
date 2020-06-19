@@ -2,6 +2,17 @@
 
 v_0.2.1
 
+	update to Q# SDK 0.10.2002.2610
+
+		donet-sdk upgrade to donet-sdk-3.1
+
+		test.csproj <TargetFramework> upgrade from netcoreapp2.0 to netcoreapp3.1
+
+		qblas.csproj <TargetFramework> upgrade from netstandard2.0 to netstandard2.1
+
+
+v_0.2.1
+
 	update to Q# SDK 0.9.1909.3002
 
 v_0.2.0

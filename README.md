@@ -44,20 +44,23 @@ QBLAS files structure:
 
 How to use it:
 
-    1. Install ".Net Core SDK 2.1" (https://dotnet.microsoft.com/download/dotnet-core/2.1)
+    1. Install ".Net Core SDK" (https://dotnet.microsoft.com/download/dotnet-core)
 
         For Ubuntu x64 : 
-            1) Firstly download from (https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
+            1) Firstly download from 
+                (donet-sdk 2.1 https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
+                (donet-sdk 3.1 https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.301-linux-x64-binaries)
             2) Then run shell command to install dotnet-sdk:
-                    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+                For 2.1 :    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
+                For 3.1 :    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-3.1.301-linux-x64.tar.gz -C $HOME/dotnet
             3) Set environment variable: 
                     export DOTNET_ROOT=$HOME/dotnet
                     export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Standard
 
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.6.1905.301
-			dotnet add package Microsoft.Quantum.Canon --version 0.6.1905.301
+			dotnet add package Microsoft.Quantum.Development.Kit --version 0.10.2002.2610
+			dotnet add package Microsoft.Quantum.Standard --version 0.10.2002.2610
 		or
 			cd into test directory, run "dotnet clean && dotnet restore"
 
