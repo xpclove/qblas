@@ -5,7 +5,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.3,      Release note: (./Release.md)
+Version: v_0.3.0,      Release note: (./Release.md)
 
 Released on GitHub from 11.15, 2019.
 
@@ -48,21 +48,19 @@ How to use it:
 
         For Ubuntu x64 : 
             1) Firstly download from 
-                (donet-sdk 2.1 https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-2.1.806-linux-x64-binaries)
                 (donet-sdk 3.1 https://dotnet.microsoft.com/download/dotnet-core/thank-you/sdk-3.1.301-linux-x64-binaries)
             2) Then run shell command to install dotnet-sdk:
-                For 2.1 :    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-2.1.806-linux-x64.tar.gz -C $HOME/dotnet
-                For 3.1 :    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-3.1.301-linux-x64.tar.gz -C $HOME/dotnet
+                    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-3.1.301-linux-x64.tar.gz -C $HOME/dotnet
             3) Set environment variable: 
                     export DOTNET_ROOT=$HOME/dotnet
                     export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Standard
+    2. Install Q# Library: Microsoft.Quantum.SDK; Microsoft.Quantum.Standard
 
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.11.2003.2506
-			dotnet add package Microsoft.Quantum.Standard --version 0.11.2003.2506
+			dotnet add package Microsoft.Quantum.SDK --version 0.11.2004.2825
+			dotnet add package Microsoft.Quantum.Standard --version 0.11.2004.2825
 		or
-			cd into test directory, run "dotnet clean && dotnet restore"
+			cd into test directory(src/qblas/test), run "dotnet clean && dotnet restore && dotnet build"
 
     3. Test it, cd into test directory:
 

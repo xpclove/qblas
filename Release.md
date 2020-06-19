@@ -1,5 +1,13 @@
 # QBLAS Release Log
 
+v_0.3.0
+
+	update to Q# SDK 0.11.2004.2825
+		update csproj file to new format
+		use: <TargetFramework>netcoreapp3.1</TargetFramework>
+		Remove the reference to package Microsoft.Quantum.Development.Kit, replace it with <Project Sdk="Microsoft.Quantum.Sdk/0.11....">
+
+
 v_0.2.3
 
 	update to Q# SDK 0.11.2003.2506
