@@ -1,5 +1,5 @@
 # QBLAS
-Quantum BLAS.    License: GPL v3.   Version: v_0.1.1
+Quantum BLAS.    License: GPL v3.   Version: v_0.2.0
 
 QBLAS is the first open source quantum basic linear algebra and quantum simulation library.
 
