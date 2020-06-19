@@ -54,10 +54,10 @@ How to use it:
                     export DOTNET_ROOT=$HOME/dotnet
                     export PATH=$PATH:$HOME/dotnet
 
-    2. Install Q# Library: Microsoft.Quantum.Development.Kit 0.3.1811.203-preview; Microsoft.Quantum.Canon 0.3.1811.203-preview
+    2. Install Q# Library: Microsoft.Quantum.Development.Kit; Microsoft.Quantum.Standard
 
-			dotnet add package Microsoft.Quantum.Development.Kit --version 0.6.1905.301
-			dotnet add package Microsoft.Quantum.Canon --version 0.6.1905.301
+			dotnet add package Microsoft.Quantum.Development.Kit --version 0.9.1909.3002
+			dotnet add package Microsoft.Quantum.Standard --version 0.9.1909.3002
 		or
 			cd into test directory, run "dotnet clean && dotnet restore"
 
