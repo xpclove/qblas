@@ -10,3 +10,4 @@ v_0.1.1
 	update to Q# SDK 0.5.1904.1302
 	
 v_0.1 
+	Q# SDK 0.3.1811.203-preview
