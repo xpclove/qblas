@@ -11,13 +11,15 @@ Version: v_0.1
 Released on GitHub from 11.15, 2019.
 
 
-Q# is a new high-level quantum-focused programming language developed by Microsoft. Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
+Q# is a new high-level quantum-focused programming language developed by Microsoft. 
+Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
 [Introduction]
 
 Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks[1].
 The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra part contains vector inner product[10,5], HHL matrix eigenvalue decomposition[4,6], fourier transform[8], Quantum phase estimation and other algorithms.
-The quantum simulation part contains sparse matrix quantum walk simulation[7], density matrix exponentiation simulation[2,6] and Trotter decomposition simulation[3].
+The quantum simulation part contains sparse matrix quantum walk simulation[7], density matrix exponentiation simulation[2,6] and Trotter decomposition simulation[3]. 
+[Details: /doc/qblas.pdf](https://github.com/xpclove/qblas/blob/master/doc/qblas.pdf)
 
 [Motivation]
 
