@@ -12,7 +12,7 @@ Released on GitHub from 11.15, 2019.
 
 
 Q# is a new high-level quantum-focused programming language developed by Microsoft. 
-Ref https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
+Ref: https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
 [Introduction]
 
