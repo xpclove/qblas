@@ -48,7 +48,8 @@ namespace qblas
         controlled adjoint auto;
     }
 
-    // V operator: placeholder/stub for matrix application
+    // V operator: DEPRECATED placeholder/stub for matrix application
+    // Note: This operation is not used in current implementations
     operation q_walk_op_V(matrix_A : q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : Unit {
         body { }
         adjoint auto;
