@@ -40,6 +40,38 @@ cd src/qblas/test && dotnet run
 
 ## Code Conventions
 
+### Code Quality Requirements
+- **简洁准确**: Code should be concise and precise, no redundancy
+- **注释充分**: Every module, operation, and function must have detailed comments explaining:
+  - Purpose and functionality
+  - Input/output parameters
+  - Algorithm description
+  - Complexity analysis (time/space)
+- **可读性高**: Clear naming, consistent formatting, logical structure
+- **参考文献**: Every module must include:
+  - Reference citation (paper title, venue, year)
+  - URL link to the original paper/source
+  - Brief explanation of how the algorithm is implemented
+
+**Example module header:**
+```qsharp
+// ============================================================
+// Module Name: Quantum Singular Value Transformation (QSVT)
+//
+// Purpose: Provides unified framework for quantum linear algebra
+// through polynomial transformations of singular values.
+//
+// Algorithm: Implements the QSVT framework from Gilyén et al.
+// Transforms singular values by applying polynomials via
+// controlled rotations on ancilla qubits.
+//
+// Complexity: O(poly(log(1/ε))) for polynomial degree p
+//
+// Reference: Gilyén et al., "Quantum Singular Value Transformation"
+// STOC 2019. https://arxiv.org/abs/1806.01838
+// ============================================================
+```
+
 ### File Organization
 - **Library files**: `src/qblas/qblas/*.qs`
 - **Test files**: `src/qblas/test/test*.qs` + `Driver.cs`
