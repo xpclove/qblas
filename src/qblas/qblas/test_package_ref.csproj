@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Quantum.Sdk" Version="0.28.302812" />
+  </ItemGroup>
+  <ItemGroup>
+    <QSharpCompile Include="*.qs" />
+  </ItemGroup>
+</Project>

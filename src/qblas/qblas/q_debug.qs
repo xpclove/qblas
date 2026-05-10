@@ -1,32 +1,35 @@
 namespace qblas
 {
-    open Microsoft.Quantum.Primitive;
+    open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-	open Microsoft.Quantum.Extensions.Convert;
+    open Microsoft.Quantum.Convert;
 
-	function q_print_s(item:String ):Unit
-    {
-            Message(item);
+    // ============================================================
+    // Debug and diagnostic operations
+    // ============================================================
+
+    // Print a string message
+    function q_print_s(item : String) : Unit {
+        Message(item);
     }
 
-	function q_print(item:Int[] ):Unit
-    {
+    // Print integer array
+    function q_print(item : Int[]) : Unit {
         let N = Length(item);
-        for(i in 0..N-1)
-        {
+        for (i in 0 .. N - 1) {
             let p = item[i];
-            Message( ToStringI(p) );
+            Message(IntAsString(p));
         }
         Message("___________");
     }
-    function q_print_D (item:Double[] ):Unit
-    {
-            let N = Length(item);
-            for(i in 0..N-1)
-            {
-                let p = item[i];
-                Message( ToStringD(p) );
-            }
-            Message("___________");
+
+    // Print double array
+    function q_print_D(item : Double[]) : Unit {
+        let N = Length(item);
+        for (i in 0 .. N - 1) {
+            let p = item[i];
+            Message(DoubleAsString(p));
+        }
+        Message("___________");
     }
 }
