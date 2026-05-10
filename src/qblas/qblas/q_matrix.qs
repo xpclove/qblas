@@ -62,6 +62,7 @@ namespace qblas
         controlled adjoint auto;
     }
 
+    // DEPRECATED: Empty placeholder operation, not used in current implementation
     operation q_matrix() : Unit {
         body { }
     }
