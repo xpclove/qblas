@@ -272,10 +272,15 @@ qblas/
 
 ### Git Workflow
 ```bash
+# Version bump (auto-increment patch version on every commit)
+# Current: v0.2.4 -> next: v0.2.5
+# Update version in README.md before committing
+
 # Stage files
 git add src/qblas/qblas/q_newmodule.qs
 git add src/qblas/test/test_newmodule.qs
 git add src/qblas/test/Driver.cs
+git add README.md  # version bump
 
 # Commit with descriptive message
 git commit -m "feat: add q_newmodule with operations..."
