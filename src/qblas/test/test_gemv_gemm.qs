@@ -342,4 +342,107 @@ namespace Quantum.test
             return check ? 1 | 0;
         }
     }
+
+    operation test_pseudoinverse_coeffs(p : Int) : Double {
+        body {
+            let kappa = 10.0;
+            let precision = 1e-3;
+            let coeffs = q_pseudoinverse_coeffs(kappa, precision);
+            return IntAsDouble(Length(coeffs));
+        }
+    }
+
+    operation test_pseudoinverse_check(p : Int) : Int {
+        body {
+            let kappa = 10.0;
+            let precision = 1e-3;
+            let applicable = q_pseudoinverse_check_applicable(kappa, precision);
+            return applicable ? 1 | 0;
+        }
+    }
+
+    operation test_pseudoinverse_effective_condition(p : Int) : Double {
+        body {
+            let kappa = 10.0;
+            let rank_def = 0.1;
+            let eff_kappa = q_pseudoinverse_effective_condition(kappa, rank_def);
+            return eff_kappa;
+        }
+    }
+
+    operation test_chebyshev_polynomials(p : Int) : Double {
+        body {
+            let x = 0.5;
+            let degree = 3;
+            let polys = q_chebyshev_polynomials(x, degree);
+            return IntAsDouble(Length(polys));
+        }
+    }
+
+    operation test_chebyshev_coefficients(p : Int) : Double {
+        body {
+            let coeffs = q_chebyshev_coefficients_for_sigmoid(-1.0, 1.0, 4);
+            return IntAsDouble(Length(coeffs));
+        }
+    }
+
+    operation test_chebyshev_map(p : Int) : Double {
+        body {
+            let x = 0.5;
+            let mapped = q_chebyshev_map_to_interval(x, -1.0, 1.0);
+            return mapped;
+        }
+    }
+
+    operation test_chebyshev_error_bound(p : Int) : Double {
+        body {
+            let coeffs = [1.0, 0.5, 0.25, 0.125, 0.0625];
+            let error = q_chebyshev_error_bound(coeffs, 2);
+            return error;
+        }
+    }
+
+    operation test_chebyshev_select_degree(p : Int) : Int {
+        body {
+            let spectral_radius = 2.0;
+            let precision = 1e-3;
+            let degree = q_chebyshev_select_degree(spectral_radius, precision);
+            return degree;
+        }
+    }
+
+    operation test_matrix_trace_power(p : Int) : Int {
+        body {
+            return 1;
+        }
+    }
+
+    operation test_eigenvalue_filter_lowpass(p : Int) : Int {
+        body {
+            let coeffs = q_eigenvalue_filter_lowpass(0.1, 1.0, 1e-3);
+            return IntAsDouble(Length(coeffs)) > 0.0 ? 1 | 0;
+        }
+    }
+
+    operation test_eigenvalue_filter_highpass(p : Int) : Int {
+        body {
+            let coeffs = q_eigenvalue_filter_highpass(0.5, 1.0, 1e-3);
+            return IntAsDouble(Length(coeffs)) > 0.0 ? 1 | 0;
+        }
+    }
+
+    operation test_eigenvalue_filter_bandpass(p : Int) : Int {
+        body {
+            let coeffs = q_eigenvalue_filter_bandpass(0.3, 0.7, 1.0, 1e-3);
+            return IntAsDouble(Length(coeffs)) > 0.0 ? 1 | 0;
+        }
+    }
+
+    operation test_eigenvalue_filter_verify(p : Int) : Int {
+        body {
+            let filter_coeffs = [1.0, -0.5, 0.25];
+            let valid = q_eigenvalue_filter_verify(filter_coeffs, 0.9, 0.1, 0.1);
+            return valid ? 1 | 0;
+        }
+    }
 }

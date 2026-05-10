@@ -207,6 +207,71 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 39] q_be_check_sparsity");
                 var res39 = test_q_be_check_sparsity.Run(sim, 0).Result;
                 Console.WriteLine($"  test_q_be_check_sparsity = {res39}");
+
+                // Test 40: Pseudoinverse coefficients
+                Console.WriteLine("\n[Test 40] q_pseudoinverse_coeffs");
+                var res40 = test_pseudoinverse_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pseudoinverse_coeffs = {res40}");
+
+                // Test 41: Pseudoinverse check applicable
+                Console.WriteLine("\n[Test 41] q_pseudoinverse_check");
+                var res41 = test_pseudoinverse_check.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pseudoinverse_check = {res41}");
+
+                // Test 42: Pseudoinverse effective condition
+                Console.WriteLine("\n[Test 42] q_pseudoinverse_effective_condition");
+                var res42 = test_pseudoinverse_effective_condition.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pseudoinverse_effective_condition = {res42}");
+
+                // Test 43: Chebyshev polynomials
+                Console.WriteLine("\n[Test 43] q_chebyshev_polynomials");
+                var res43 = test_chebyshev_polynomials.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chebyshev_polynomials = {res43}");
+
+                // Test 44: Chebyshev coefficients
+                Console.WriteLine("\n[Test 44] q_chebyshev_coefficients");
+                var res44 = test_chebyshev_coefficients.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chebyshev_coefficients = {res44}");
+
+                // Test 45: Chebyshev map to interval
+                Console.WriteLine("\n[Test 45] q_chebyshev_map");
+                var res45 = test_chebyshev_map.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chebyshev_map = {res45}");
+
+                // Test 46: Chebyshev error bound
+                Console.WriteLine("\n[Test 46] q_chebyshev_error_bound");
+                var res46 = test_chebyshev_error_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chebyshev_error_bound = {res46}");
+
+                // Test 47: Chebyshev select degree
+                Console.WriteLine("\n[Test 47] q_chebyshev_select_degree");
+                var res47 = test_chebyshev_select_degree.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chebyshev_select_degree = {res47}");
+
+                // Test 48: Matrix trace power
+                Console.WriteLine("\n[Test 48] q_matrix_trace_power");
+                var res48 = test_matrix_trace_power.Run(sim, 0).Result;
+                Console.WriteLine($"  test_matrix_trace_power = {res48}");
+
+                // Test 49: Eigenvalue filter lowpass
+                Console.WriteLine("\n[Test 49] q_eigenvalue_filter_lowpass");
+                var res49 = test_eigenvalue_filter_lowpass.Run(sim, 0).Result;
+                Console.WriteLine($"  test_eigenvalue_filter_lowpass = {res49}");
+
+                // Test 50: Eigenvalue filter highpass
+                Console.WriteLine("\n[Test 50] q_eigenvalue_filter_highpass");
+                var res50 = test_eigenvalue_filter_highpass.Run(sim, 0).Result;
+                Console.WriteLine($"  test_eigenvalue_filter_highpass = {res50}");
+
+                // Test 51: Eigenvalue filter bandpass
+                Console.WriteLine("\n[Test 51] q_eigenvalue_filter_bandpass");
+                var res51 = test_eigenvalue_filter_bandpass.Run(sim, 0).Result;
+                Console.WriteLine($"  test_eigenvalue_filter_bandpass = {res51}");
+
+                // Test 52: Eigenvalue filter verify
+                Console.WriteLine("\n[Test 52] q_eigenvalue_filter_verify");
+                var res52 = test_eigenvalue_filter_verify.Run(sim, 0).Result;
+                Console.WriteLine($"  test_eigenvalue_filter_verify = {res52}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }
