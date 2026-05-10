@@ -223,4 +223,123 @@ namespace Quantum.test
             return 0;
         }
     }
+
+    // ============================================================
+    // QSVT Tests
+    // ============================================================
+
+    operation test_qsvt_apply_diagonal(p : Int) : Double {
+        body {
+            use qs = Qubit[4];
+            let diag = [1.0, 0.5, 0.25, 0.125];
+            q_qsvt_apply_diagonal(diag, qs);
+            ResetAll(qs);
+            return 1.0;
+        }
+    }
+
+    operation test_qsvt_amplitude_encode(p : Int) : Double {
+        body {
+            use qs = Qubit[4];
+            let data = [1.0, 0.5, 0.25, 0.125];
+            q_qsvt_amplitude_encode(data, qs);
+            ResetAll(qs);
+            return 1.0;
+        }
+    }
+
+    operation test_qsvt_normalize_vector(p : Int) : Int {
+        body {
+            let v = [1.0, 2.0, 2.0, 1.0];
+            let norm_v = q_qsvt_normalize_vector(v);
+            return Length(norm_v);
+        }
+    }
+
+    operation test_qsvt_check_dims(p : Int) : Int {
+        body {
+            let check1 = q_qsvt_check_dims(8, 4);
+            let check2 = q_qsvt_check_dims(16, 5);
+            return check1 and check2 ? 1 | 0;
+        }
+    }
+
+    // ============================================================
+    // QRLS Tests (function tests only, no oracle needed)
+    // ============================================================
+
+    operation test_q_rls_lambda_cv(p : Int) : Double {
+        body {
+            let lambda = q_rls_lambda_cv(100, 50.0, 0.001);
+            return lambda;
+        }
+    }
+
+    operation test_q_rls_check_lambda(p : Int) : Int {
+        body {
+            let check = q_rls_check_lambda(0.1, 0.001);
+            return check ? 1 | 0;
+        }
+    }
+
+    operation test_q_rls_effective_condition(p : Int) : Double {
+        body {
+            let cond = q_rls_effective_condition(50.0, 0.1);
+            return cond;
+        }
+    }
+
+    // ============================================================
+    // Block Encoding Tests
+    // ============================================================
+
+    operation test_q_be_diagonal(p : Int) : Int {
+        body {
+            use qs_data = Qubit[4];
+            use qs_ancilla = Qubit[1];
+            let diag = [1.0, 0.5, 0.25, 0.125];
+            q_be_diagonal(diag, qs_data, qs_ancilla[0]);
+            ResetAll(qs_data);
+            ResetAll(qs_ancilla);
+            return 1;
+        }
+    }
+
+    operation test_q_be_householder(p : Int) : Int {
+        body {
+            use qs_data = Qubit[3];
+            let vector = [1.0, 0.5, 0.25];
+            q_be_householder(vector, qs_data);
+            ResetAll(qs_data);
+            return 1;
+        }
+    }
+
+    operation test_q_be_tridiagonal(p : Int) : Int {
+        body {
+            use qs_data = Qubit[3];
+            let diag = [1.0, 0.5, 0.25];
+            let sub = [0.1, 0.05];
+            let super = [0.2, 0.1];
+            q_be_tridiagonal(diag, sub, super, qs_data);
+            ResetAll(qs_data);
+            return 1;
+        }
+    }
+
+    operation test_q_be_compute_scaling(p : Int) : Double {
+        body {
+            let matrix = [[1.0, 0.5], [0.5, 0.25]];
+            let scaling = q_be_compute_scaling(matrix);
+            return scaling;
+        }
+    }
+
+    operation test_q_be_check_sparsity(p : Int) : Int {
+        body {
+            let entries = [(0, 0, 1.0), (0, 1, 0.5), (1, 0, 0.5), (1, 1, 0.25)];
+            let check = q_be_check_sparsity(entries, 2);
+            return check ? 1 | 0;
+        }
+    }
 }

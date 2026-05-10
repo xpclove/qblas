@@ -147,6 +147,66 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 27] q_simulation_SwapA");
                 var res27 = test_SwapA.Run(sim, 0).Result;
                 Console.WriteLine($"  test_SwapA = {res27}");
+
+                // Test 28: QSVT apply diagonal
+                Console.WriteLine("\n[Test 28] q_qsvt_apply_diagonal");
+                var res28 = test_qsvt_apply_diagonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsvt_apply_diagonal = {res28}");
+
+                // Test 29: QSVT amplitude encode
+                Console.WriteLine("\n[Test 29] q_qsvt_amplitude_encode");
+                var res29 = test_qsvt_amplitude_encode.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsvt_amplitude_encode = {res29}");
+
+                // Test 30: QSVT normalize vector
+                Console.WriteLine("\n[Test 30] q_qsvt_normalize_vector");
+                var res30 = test_qsvt_normalize_vector.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsvt_normalize_vector count = {res30}");
+
+                // Test 31: QSVT check dims
+                Console.WriteLine("\n[Test 31] q_qsvt_check_dims");
+                var res31 = test_qsvt_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsvt_check_dims = {res31}");
+
+                // Test 32: QRLS lambda CV
+                Console.WriteLine("\n[Test 32] q_rls_lambda_cv");
+                var res32 = test_q_rls_lambda_cv.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_rls_lambda_cv = {res32}");
+
+                // Test 33: QRLS check lambda
+                Console.WriteLine("\n[Test 33] q_rls_check_lambda");
+                var res33 = test_q_rls_check_lambda.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_rls_check_lambda = {res33}");
+
+                // Test 34: QRLS effective condition
+                Console.WriteLine("\n[Test 34] q_rls_effective_condition");
+                var res34 = test_q_rls_effective_condition.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_rls_effective_condition = {res34}");
+
+                // Test 35: Block encoding diagonal
+                Console.WriteLine("\n[Test 35] q_be_diagonal");
+                var res35 = test_q_be_diagonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_diagonal = {res35}");
+
+                // Test 36: Block encoding Householder
+                Console.WriteLine("\n[Test 36] q_be_householder");
+                var res36 = test_q_be_householder.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_householder = {res36}");
+
+                // Test 37: Block encoding tridiagonal
+                Console.WriteLine("\n[Test 37] q_be_tridiagonal");
+                var res37 = test_q_be_tridiagonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_tridiagonal = {res37}");
+
+                // Test 38: Block encoding compute scaling
+                Console.WriteLine("\n[Test 38] q_be_compute_scaling");
+                var res38 = test_q_be_compute_scaling.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_compute_scaling = {res38}");
+
+                // Test 39: Block encoding check sparsity
+                Console.WriteLine("\n[Test 39] q_be_check_sparsity");
+                var res39 = test_q_be_check_sparsity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_check_sparsity = {res39}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }
