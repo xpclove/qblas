@@ -6,7 +6,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.8
+Version: v_0.2.9
 
 Released on GitHub from 11.15, 2019.
 
@@ -93,6 +93,109 @@ How to use it:
         Enhanced quantum linear system solver with preconditioning,
         multi-precision rotation, eigenvalue filtering, amplitude amplification,
         and dynamic decoupling.
+
+[new features - v0.2.9]
+
+    QBLAS v0.2.9 adds 17 new quantum algorithm modules for advanced
+    linear algebra and quantum simulation:
+
+    === Krylov Subspace Methods ===
+
+    Conjugate Gradient (q_cg.qs):
+        Quantum implementation of CG for solving linear systems Ax = b.
+        Includes residual norm computation, convergence checking,
+        beta and alpha calculations.
+
+    Lanczos Algorithm (q_lanczos.qs):
+        Tridiagonalization for Krylov subspace construction.
+        Supports norm computation, eigenvector estimation, eigenvalue sums.
+
+    GMRES (q_gmres.qs):
+        Generalized Minimal Residual method for non-symmetric systems.
+        Includes Hessenberg matrix construction and restart support.
+
+    === Optimization Methods ===
+
+    Gradient Descent (q_gradient_descent.qs):
+        Quantum-accelerated gradient descent optimization.
+        Norm computation, convergence checking, momentum support.
+
+    Newton Method (q_newton.qs):
+        Second-order optimization using Hessian information.
+        Diagonal Hessian estimation for quantum natural gradient.
+
+    === Dimensionality Reduction ===
+
+    Quantum PCA (q_pca.qs):
+        Quantum principal component analysis for dimensionality reduction.
+        Eigenvalue ordering, explained variance computation, projection matrices.
+
+    Ridge Regression (q_ridge.qs):
+        Regularized least squares with Tikhonov regularization.
+        Effective condition number estimation, optimal lambda selection.
+
+    === Linear Solvers ===
+
+    Tridiagonal Solver (q_trisol.qs):
+        Efficient solver for tridiagonal systems common in PDEs.
+        Triangular checks, diagonal non-zero validation.
+
+    === Quantum Signal Processing ===
+
+    QSP (q_qsp.qs):
+        Quantum Signal Processing framework for eigenvalue transformation.
+        Implements polynomial transformations via phase angle sequences.
+        Supports symmetric phase sequences and Chebyshev polynomials.
+
+    === Hamiltonian Simulation ===
+
+    Trotter-Suzuki (q_trotter_suzuki.qs):
+        High-order Trotter-Suzuki decomposition for Hamiltonian simulation.
+        Supports orders 1, 2, 4 with optimal step size computation.
+        Error bounds and decomposition length calculation.
+
+    2-Sparse Simulation (q_2sparse.qs):
+        Quantum walk simulation for matrices with at most 2 non-zero
+        entries per row/column. Efficient stride-based encoding.
+
+    === Amplitude Amplification ===
+
+    QAA (q_amplitude_amplification.qs):
+        Quantum Amplitude Amplification for quadratic speedup.
+        Optimal iteration computation, fixed-point amplification,
+        state reflection operators.
+
+    === Phase Estimation ===
+
+    Modern QPE (q_qpe_modern.qs):
+        Bayesian-inspired phase estimation with adaptive precision.
+        Includes variance reduction, optimal bit allocation,
+        and eigenstate validation.
+
+    === Gradient Estimation ===
+
+    Quantum Gradient Estimation (q_gradient_estimation.qs):
+        Parameter shift rule for evaluating analytic gradients of
+        parameterized quantum circuits. Supports quantum natural gradient,
+        Hessian estimation, and Adam optimization.
+
+    === Block Encoding ===
+
+    Enhanced Block Encoding v2 (q_block_encoding_v2.qs):
+        Advanced block encoding primitives combining QROM (Quantum RAM),
+        LCU (Linear Combination of Unitaries), and OAA (Oblivious
+        Amplitude Amplification) for improved efficiency.
+
+    === Variational Algorithms ===
+
+    VQE Components (q_vqe.qs):
+        Variational Quantum Eigensolver building blocks:
+        - Hardware-Efficient Ansatz (HEA)
+        - QAOA-style ansatz
+        - SU(2) entangling ansatz
+        - Parameter shift rule for gradients
+        - Adam optimizer integration
+        - Shot allocation for measurement
 
 [References]
 

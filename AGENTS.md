@@ -4,7 +4,7 @@
 
 **QBLAS** (Quantum Basic Linear Algebra Subprograms) is an open-source quantum computing library for quantum linear algebra and quantum simulation.
 
-- **Version**: v0.2.4
+- **Version**: v0.2.9
 - **Tech Stack**: Microsoft Q# 0.28.x + .NET 6.0
 - **License**: GPL v3
 - **Location**: `src/qblas/`
@@ -295,6 +295,17 @@ qblas/
 - `q_qsvt.qs`: Quantum Singular Value Transformation
 - `q_regularized_ls.qs`: Regularized least squares
 - `q_block_encoding.qs`: Block encoding primitives
+- `q_cg.qs`, `q_lanczos.qs`, `q_krylov.qs`, `q_gmres.qs`: Krylov methods
+- `q_gradient_descent.qs`, `q_newton.qs`: Optimization
+- `q_pca.qs`, `q_ridge.qs`: Dimensionality reduction
+- `q_trisol.qs`: Tridiagonal solver
+- `q_qsp.qs`: Quantum Signal Processing
+- `q_trotter_suzuki.qs`, `q_2sparse.qs`: Hamiltonian simulation
+- `q_amplitude_amplification.qs`: Amplitude amplification
+- `q_qpe_modern.qs`: Modern phase estimation
+- `q_gradient_estimation.qs`: Gradient estimation
+- `q_block_encoding_v2.qs`: Enhanced block encoding
+- `q_vqe.qs`: VQE components
 
 ### Critical Constants
 - Precision threshold: `1e-10`
@@ -305,7 +316,7 @@ qblas/
 ### Git Workflow
 ```bash
 # Version bump (auto-increment patch version on every commit)
-# Current: v0.2.4 -> next: v0.2.5
+# Current: v0.2.9 -> next: v0.2.10
 # Update version in README.md before committing
 
 # Stage files
@@ -317,3 +328,46 @@ git add README.md  # version bump
 # Commit with descriptive message
 git commit -m "feat: add q_newmodule with operations..."
 ```
+
+## Completed Modules
+
+### v0.2.9 - 17 New Quantum Algorithm Modules
+
+**Krylov Subspace Methods:**
+- `q_cg.qs`: Conjugate Gradient for linear systems
+- `q_lanczos.qs`: Lanczos tridiagonalization
+- `q_gmres.qs`: Generalized Minimal Residual
+- `q_krylov.qs`: Krylov subspace operations
+
+**Optimization:**
+- `q_gradient_descent.qs`: Gradient descent optimization
+- `q_newton.qs`: Second-order Newton method
+
+**Dimensionality Reduction:**
+- `q_pca.qs`: Quantum PCA
+- `q_ridge.qs`: Ridge regression (Tikhonov regularization)
+
+**Linear Solvers:**
+- `q_trisol.qs`: Tridiagonal system solver
+
+**Quantum Signal Processing:**
+- `q_qsp.qs`: QSP framework for eigenvalue transformation
+
+**Hamiltonian Simulation:**
+- `q_trotter_suzuki.qs`: High-order Trotter-Suzuki decomposition
+- `q_2sparse.qs`: 2-sparse Hamiltonian simulation
+
+**Amplitude Amplification:**
+- `q_amplitude_amplification.qs`: QAA with optimal iterations
+
+**Phase Estimation:**
+- `q_qpe_modern.qs`: Bayesian-inspired phase estimation
+
+**Gradient Estimation:**
+- `q_gradient_estimation.qs`: Parameter shift rule, quantum natural gradient
+
+**Block Encoding:**
+- `q_block_encoding_v2.qs`: QROM, LCU, OAA primitives
+
+**Variational Algorithms:**
+- `q_vqe.qs`: VQE components (HEA, QAOA, SU2, optimizers)
