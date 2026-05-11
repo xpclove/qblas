@@ -285,9 +285,11 @@ Note: PDF references available in doc/ref/ directory.
 
 **Amplitude Amplification:**
 
-[r13] Brassard, Høyer. "Quantum Amplitude Amplification." arXiv:0002056 (2000).
+[r13] Brassard, Høyer, Mosca, Tapp. "Quantum Amplitude Amplification and Estimation." arXiv:quant-ph/0005055 (2000).
+      PDF: doc/ref/arXiv_0005055_Brassard_QAA.pdf
 
-[r14] Brassard, et al. "Quantum Amplitude Estimation." arXiv:0503052 (2005).
+[r14] Brassard, Høyer, Tapp. "Quantum Counting." arXiv:quant-ph/9805082 (1998).
+      PDF: doc/ref/arXiv_9805082_Brassard_QuantumCounting.pdf
 
 **Phase Estimation:**
 
@@ -296,18 +298,20 @@ Note: PDF references available in doc/ref/ directory.
 
 **Gradient Estimation:**
 
-[r16] Gilyén, et al. "Quantum Gradient Estimation." arXiv:1704.09283 (2017).
+[r16] Gilyén, Arunachalam, Wiebe. "Optimizing Quantum Optimization Algorithms." arXiv:1711.00465 (2017).
+      PDF: doc/ref/arXiv_1711.00465_Gilyen_QuantumGradient.pdf
 
-[r17] Schuld, et al. "Evaluating Analytic Gradients." arXiv:1704.09283 (2018).
+[r17] Schuld, et al. "Evaluating Analytic Gradients on Quantum Computers." arXiv:1811.11184 (2018).
 
-[r18] Stokes, et al. "Quantum Natural Gradient." arXiv:1704.09283 (2019).
+[r18] Stokes, Izaac, Killoran, Carleo. "Quantum Natural Gradient." arXiv:1909.02108 (2019).
+      PDF: doc/ref/arXiv_1909.02108_QuantumNaturalGradient.pdf
 
 **Block Encoding & LCU:**
 
 [r19] Gilyén, et al. "Quantum Singular Value Transformation." STOC 2019.
       arXiv:1806.01838 (Referenced in q_block_encoding_v2.qs)
 
-[r20] Berry, et al. "Exponential Improvement." arXiv:1304.0741 (Referenced in q_block_encoding_v2.qs)
+[r20] Berry, et al. "Exponential Improvement in Precision." arXiv:1304.0741 (Referenced in q_block_encoding_v2.qs)
 
 [r21] Giovannetti, et al. "Quantum RAM." Phys. Rev. Lett. 100, 160501 (2008).
 
@@ -317,7 +321,7 @@ Note: PDF references available in doc/ref/ directory.
 
 [r23] Kandala, et al. "Hardware-efficient VQE." Nature 549, 242 (2017).
 
-[r24] Farhi, et al. "QAOA." arXiv:1411.4028 (2014).
+[r24] Farhi, Goldstone, Gutmann. "QAOA." arXiv:1411.4028 (2014).
 
 [r25] Kingma, Ba. "Adam Optimizer." arXiv:1412.6980 (2014).
 
@@ -328,11 +332,15 @@ Note: PDF references available in doc/ref/ directory.
 - Matrix Function: arXiv:2308.01551
 
 PDF files in doc/ref/:
+- arXiv_0005055_Brassard_QAA.pdf
+- arXiv_9805082_Brassard_QuantumCounting.pdf
 - arXiv_1012.5112_Childs_SparseHamiltonians.pdf
 - arXiv_1304.0741_Higgins_QPE.pdf
 - arXiv_1606.02685_Low_QSP.pdf
 - arXiv_1612.00605_Rossi_TrotterSuzuki.pdf
+- arXiv_1711.00465_Gilyen_QuantumGradient.pdf
 - arXiv_1807.04431_QuantumGradientDescent.pdf
+- arXiv_1909.02108_QuantumNaturalGradient.pdf
 - arXiv_2112.00778_Lanczos.pdf
 - arXiv_2112.01803_QuantumNewton.pdf
 - arXiv_2208.07125_QuantumPCA.pdf
