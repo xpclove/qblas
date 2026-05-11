@@ -272,6 +272,161 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 52] q_eigenvalue_filter_verify");
                 var res52 = test_eigenvalue_filter_verify.Run(sim, 0).Result;
                 Console.WriteLine($"  test_eigenvalue_filter_verify = {res52}");
+
+                // Test 53: CG residual norm
+                Console.WriteLine("\n[Test 53] q_cg_residual_norm");
+                var res53 = test_cg_residual_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cg_residual_norm = {res53}");
+
+                // Test 54: CG converged
+                Console.WriteLine("\n[Test 54] q_cg_converged");
+                var res54 = test_cg_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cg_converged = {res54}");
+
+                // Test 55: CG compute beta
+                Console.WriteLine("\n[Test 55] q_cg_compute_beta");
+                var res55 = test_cg_compute_beta.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cg_compute_beta = {res55}");
+
+                // Test 56: CG compute alpha
+                Console.WriteLine("\n[Test 56] q_cg_compute_alpha");
+                var res56 = test_cg_compute_alpha.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cg_compute_alpha = {res56}");
+
+                // Test 57: Lanczos norm
+                Console.WriteLine("\n[Test 57] q_lanczos_norm");
+                var res57 = test_lanczos_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_norm = {res57}");
+
+                // Test 58: Lanczos normalize
+                Console.WriteLine("\n[Test 58] q_lanczos_normalize");
+                var res58 = test_lanczos_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_normalize = {res58}");
+
+                // Test 59: Lanczos alpha compute
+                Console.WriteLine("\n[Test 59] q_lanczos_alpha_compute");
+                var res59 = test_lanczos_alpha_compute.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_alpha_compute = {res59}");
+
+                // Test 60: Lanczos beta compute
+                Console.WriteLine("\n[Test 60] q_lanczos_beta_compute");
+                var res60 = test_lanczos_beta_compute.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_beta_compute = {res60}");
+
+                // Test 61: Lanczos tridiag
+                Console.WriteLine("\n[Test 61] q_lanczos_tridiag");
+                var res61 = test_lanczos_tridiag.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_tridiag = {res61}");
+
+                // Test 62: Lanczos eigenvalue sum
+                Console.WriteLine("\n[Test 62] q_lanczos_eigenvalue_sum");
+                var res62 = test_lanczos_eigenvalue_sum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_eigenvalue_sum = {res62}");
+
+                // Test 63: Krylov residual norm
+                Console.WriteLine("\n[Test 63] q_krylov_residual_norm");
+                var res63 = test_krylov_residual_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_residual_norm = {res63}");
+
+                // Test 64: Krylov converged
+                Console.WriteLine("\n[Test 64] q_krylov_converged");
+                var res64 = test_krylov_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_converged = {res64}");
+
+                // Test 65: Krylov norm sq
+                Console.WriteLine("\n[Test 65] q_krylov_norm_sq");
+                var res65 = test_krylov_norm_sq.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_norm_sq = {res65}");
+
+                // Test 66: Krylov inner product
+                Console.WriteLine("\n[Test 66] q_krylov_inner_product");
+                var res66 = test_krylov_inner_product.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_inner_product = {res66}");
+
+                // Test 67: GMRES norm
+                Console.WriteLine("\n[Test 67] q_gmres_norm");
+                var res67 = test_gmres_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gmres_norm = {res67}");
+
+                // Test 68: GMRES converged
+                Console.WriteLine("\n[Test 68] q_gmres_converged");
+                var res68 = test_gmres_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gmres_converged = {res68}");
+
+                // Test 69: GMRES hessenberg size
+                Console.WriteLine("\n[Test 69] q_gmres_hessenberg_size");
+                var res69 = test_gmres_hessenberg_size.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gmres_hessenberg_size = {res69}");
+
+                // Test 70: GD norm
+                Console.WriteLine("\n[Test 70] q_gd_norm");
+                var res70 = test_gd_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gd_norm = {res70}");
+
+                // Test 71: GD converged
+                Console.WriteLine("\n[Test 71] q_gd_converged");
+                var res71 = test_gd_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gd_converged = {res71}");
+
+                // Test 72: GD norm sq
+                Console.WriteLine("\n[Test 72] q_gd_norm_sq");
+                var res72 = test_gd_norm_sq.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gd_norm_sq = {res72}");
+
+                // Test 73: Newton norm
+                Console.WriteLine("\n[Test 73] q_newton_norm");
+                var res73 = test_newton_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_newton_norm = {res73}");
+
+                // Test 74: Newton converged
+                Console.WriteLine("\n[Test 74] q_newton_converged");
+                var res74 = test_newton_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_newton_converged = {res74}");
+
+                // Test 75: PCA eigenvalue norm
+                Console.WriteLine("\n[Test 75] q_pca_eigenvalue_norm");
+                var res75 = test_pca_eigenvalue_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_eigenvalue_norm = {res75}");
+
+                // Test 76: PCA explained var
+                Console.WriteLine("\n[Test 76] q_pca_explained_var");
+                var res76 = test_pca_explained_var.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_explained_var = {res76}");
+
+                // Test 77: PCA projection matrix
+                Console.WriteLine("\n[Test 77] q_pca_projection_matrix");
+                var res77 = test_pca_projection_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_projection_matrix = {res77}");
+
+                // Test 78: Ridge effective cond
+                Console.WriteLine("\n[Test 78] q_ridge_effective_cond");
+                var res78 = test_ridge_effective_cond.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_effective_cond = {res78}");
+
+                // Test 79: Ridge lambda opt
+                Console.WriteLine("\n[Test 79] q_ridge_lambda_opt");
+                var res79 = test_ridge_lambda_opt.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_lambda_opt = {res79}");
+
+                // Test 80: Ridge matrix dim
+                Console.WriteLine("\n[Test 80] q_ridge_matrix_dim");
+                var res80 = test_ridge_matrix_dim.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_matrix_dim = {res80}");
+
+                // Test 81: Trisol is triangular
+                Console.WriteLine("\n[Test 81] q_trisol_is_triangular");
+                var res81 = test_trisol_is_triangular.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_is_triangular = {res81}");
+
+                // Test 82: Trisol diagonal nonzero
+                Console.WriteLine("\n[Test 82] q_trisol_diagonal_nonzero");
+                var res82 = test_trisol_diagonal_nonzero.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_diagonal_nonzero = {res82}");
+
+                // Test 83: Trisol norm
+                Console.WriteLine("\n[Test 83] q_trisol_norm");
+                var res83 = test_trisol_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_norm = {res83}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }
