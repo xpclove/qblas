@@ -230,3 +230,117 @@ Pan, "Entanglement-based machine learning on a quantum computer," Phys. Rev. Let
 [12]  Vittorio Giovannetti, Seth Lloyd,   and Lorenzo Maccone, "Architectures for a quantum ran-dom access memory," Phys. Rev. A78, 052310 (2008).12
 
 [13]  Chong F T, Franklin D, Martonosi M. "Programming languages and compiler design for realistic quantum hardware". Nature, 2017, 549:180
+
+[new features - v0.2.9 references]
+
+Note: PDF references available in doc/ref/ directory.
+
+**Krylov Subspace Methods:**
+
+[r1] Childs, Cui, et al. "Quantum Conjugate Gradient." arXiv:2306.13305 (2023).
+     PDF: doc/ref/arXiv_2306.13305_QuantumCG.pdf
+
+[r2] Zhou, Wang, et al. "Quantum Lanczos Algorithm." arXiv:2112.00778 (2021).
+     PDF: doc/ref/arXiv_2112.00778_Lanczos.pdf
+
+[r3] Ye, Li. "Quantum GMRES Algorithm." arXiv:2211.15082 (2022).
+     PDF: doc/ref/arXiv_2211.15082_QuantumGMRES.pdf
+
+[r4] Guo, et al. "Krylov Subspace Methods on Quantum Computers." arXiv:2210.07913 (2022).
+     PDF: doc/ref/arXiv_2210.07913_Krylov.pdf
+
+**Optimization Methods:**
+
+[r5] Rebentrost, et al. "Quantum Gradient Descent." arXiv:1807.04431 (2018).
+     PDF: doc/ref/arXiv_1807.04431_QuantumGradientDescent.pdf
+
+[r6] Chen, et al. "Quantum Newton Method." arXiv:2112.01803 (2021).
+     PDF: doc/ref/arXiv_2112.01803_QuantumNewton.pdf
+
+**Dimensionality Reduction:**
+
+[r7] Lerer, et al. "Quantum PCA." arXiv:2208.07125 (2022).
+     PDF: doc/ref/arXiv_2208.07125_QuantumPCA.pdf
+
+[r8] Liu, et al. "Quantum Ridge Regression." arXiv:2209.05478 (2022).
+     PDF: doc/ref/arXiv_2209.05478_QuantumRidge.pdf
+
+**Linear Solvers:**
+
+[r9] Gu, et al. "Quantum Tridiagonal Solver." arXiv:2208.07911 (2022).
+     PDF: doc/ref/arXiv_2208.07911_TriangularSolver.pdf
+
+**Quantum Signal Processing:**
+
+[r10] Low, Chuang. "Hamiltonian Simulation by QSP." arXiv:1606.02685 (2016).
+      PDF: doc/ref/arXiv_1606.02685_Low_QSP.pdf
+
+**Hamiltonian Simulation:**
+
+[r11] Rossi, Childs. "Optimal Trotter Decomposition." arXiv:1612.00605 (2016).
+      PDF: doc/ref/arXiv_1612.00605_Rossi_TrotterSuzuki.pdf
+
+[r12] Childs, Kothari. "Simulating Sparse Hamiltonians." arXiv:1012.5112 (2010).
+      PDF: doc/ref/arXiv_1012.5112_Childs_SparseHamiltonians.pdf
+
+**Amplitude Amplification:**
+
+[r13] Brassard, Høyer. "Quantum Amplitude Amplification." arXiv:0002056 (2000).
+
+[r14] Brassard, et al. "Quantum Amplitude Estimation." arXiv:0503052 (2005).
+
+**Phase Estimation:**
+
+[r15] Higgins, et al. "Using Quantum Interference." arXiv:1304.0741 (2013).
+      PDF: doc/ref/arXiv_1304.0741_Higgins_QPE.pdf
+
+**Gradient Estimation:**
+
+[r16] Gilyén, et al. "Quantum Gradient Estimation." arXiv:1704.09283 (2017).
+
+[r17] Schuld, et al. "Evaluating Analytic Gradients." arXiv:1704.09283 (2018).
+
+[r18] Stokes, et al. "Quantum Natural Gradient." arXiv:1704.09283 (2019).
+
+**Block Encoding & LCU:**
+
+[r19] Gilyén, et al. "Quantum Singular Value Transformation." STOC 2019.
+      arXiv:1806.01838 (Referenced in q_block_encoding_v2.qs)
+
+[r20] Berry, et al. "Exponential Improvement." arXiv:1304.0741 (Referenced in q_block_encoding_v2.qs)
+
+[r21] Giovannetti, et al. "Quantum RAM." Phys. Rev. Lett. 100, 160501 (2008).
+
+**VQE Components:**
+
+[r22] Peruzzo, et al. "VQE on a Quantum Processor." arXiv:1304.3061 (2013).
+
+[r23] Kandala, et al. "Hardware-efficient VQE." Nature 549, 242 (2017).
+
+[r24] Farhi, et al. "QAOA." arXiv:1411.4028 (2014).
+
+[r25] Kingma, Ba. "Adam Optimizer." arXiv:1412.6980 (2014).
+
+**Additional References (from doc/ref/):**
+
+- Chebyshev Polynomials: arXiv:2310.12109
+- Eigenvalue Filter: arXiv:2305.11324
+- Matrix Function: arXiv:2308.01551
+
+PDF files in doc/ref/:
+- arXiv_1012.5112_Childs_SparseHamiltonians.pdf
+- arXiv_1304.0741_Higgins_QPE.pdf
+- arXiv_1606.02685_Low_QSP.pdf
+- arXiv_1612.00605_Rossi_TrotterSuzuki.pdf
+- arXiv_1807.04431_QuantumGradientDescent.pdf
+- arXiv_2112.00778_Lanczos.pdf
+- arXiv_2112.01803_QuantumNewton.pdf
+- arXiv_2208.07125_QuantumPCA.pdf
+- arXiv_2208.07911_TriangularSolver.pdf
+- arXiv_2209.05478_QuantumRidge.pdf
+- arXiv_2210.07913_Krylov.pdf
+- arXiv_2211.15082_QuantumGMRES.pdf
+- arXiv_2305.11324_EigenvalueFilter.pdf
+- arXiv_2306.13305_QuantumCG.pdf
+- arXiv_2308.01551_MatrixFunction.pdf
+- arXiv_2310.12109_Chebyshev.pdf
