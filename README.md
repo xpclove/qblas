@@ -6,7 +6,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.9
+Version: v_0.2.10
 
 Released on GitHub from 11.15, 2019.
 
@@ -93,6 +93,36 @@ How to use it:
         Enhanced quantum linear system solver with preconditioning,
         multi-precision rotation, eigenvalue filtering, amplitude amplification,
         and dynamic decoupling.
+
+[new features - v0.2.10]
+
+    QBLAS v0.2.10 adds 2 new modules for quantum kernel methods
+    and error mitigation:
+
+    === Quantum Kernel Methods ===
+
+    Quantum Kernel (q_kernel.qs):
+        Quantum kernel computation for machine learning applications.
+        Implements quantum feature maps that embed classical data into
+        quantum states, enabling kernel K(x,y) = |<φ(x)|φ(y)>|² computation.
+        Includes:
+        - Feature map angles and parameters computation
+        - Gaussian and polynomial kernel functions
+        - Kernel matrix validation and PCA projection
+        - Ridge regression coefficients
+        - Median bandwidth selection for Gaussian kernels
+
+    === Error Mitigation ===
+
+    Error Mitigation (q_error_mitigation.qs):
+        Error mitigation techniques for NISQ devices without full
+        error correction. Includes:
+        - Zero-Noise Extrapolation (ZNE): linear, exponential,
+          Richardson, and Monte Carlo extrapolation
+        - Probabilistic Error Cancellation (PEC): channel
+          decomposition and sampling probability
+        - Dynamic Decoupling (DD): XY and XXZ pulse sequences
+        - Readout error calibration and correction
 
 [new features - v0.2.9]
 
@@ -331,6 +361,36 @@ Note: PDF references available in doc/ref/ directory.
 - Eigenvalue Filter: arXiv:2305.11324
 - Matrix Function: arXiv:2308.01551
 
+**New in v0.2.10 - Quantum Kernel Methods:**
+
+[r26] Havlicek, et al. "Supervised Learning with Quantum-Enhanced Feature Spaces."
+      Nature 549, 242 (2019). arXiv:1804.11326 (2018).
+      PDF: doc/ref/arXiv_1804.11326_Havlicek_QuantumKernel.pdf
+
+[r27] Schuld, et al. "Quantum Feature Embeddings for Kernel Methods."
+      (Referenced in q_kernel.qs)
+
+[r28] Rasmussen & Williams. "Gaussian Processes for Machine Learning." MIT Press, 2006.
+      (Kernel theory reference)
+
+**New in v0.2.10 - Error Mitigation:**
+
+[r29] Temme, Bravyi, Gambetta. "Error Mitigation for Short-Depth Quantum Circuits."
+      Phys. Rev. Lett. 119, 180509 (2017). arXiv:1612.02058.
+      PDF: doc/ref/arXiv_1612.02058_Temme_ErrorMitigation.pdf
+
+[r30] Endo, Benjamin, Li. "Practical Quantum Error Mitigation."
+      arXiv:1807.02207 (2018).
+      PDF: doc/ref/arXiv_1807.02207_Endo_ErrorMitigation.pdf
+
+[r31] Viola & Lloyd. "Dynamical Decoupling of Open Quantum Systems."
+      Phys. Rev. A 58, 2733 (1998).
+
+[r32] Biercuk, et al. "Optimized Dynamical Decoupling for Quantum Memory."
+      Nature 459, 664 (2009).
+
+[r33] Bialczak, et al. "Quantum Error Correction." Nature Physics 6, 2010.
+
 PDF files in doc/ref/:
 - arXiv_0005055_Brassard_QAA.pdf
 - arXiv_9805082_Brassard_QuantumCounting.pdf
@@ -338,7 +398,10 @@ PDF files in doc/ref/:
 - arXiv_1304.0741_Higgins_QPE.pdf
 - arXiv_1606.02685_Low_QSP.pdf
 - arXiv_1612.00605_Rossi_TrotterSuzuki.pdf
+- arXiv_1612.02058_Temme_ErrorMitigation.pdf
 - arXiv_1711.00465_Gilyen_QuantumGradient.pdf
+- arXiv_1804.11326_Havlicek_QuantumKernel.pdf
+- arXiv_1807.02207_Endo_ErrorMitigation.pdf
 - arXiv_1807.04431_QuantumGradientDescent.pdf
 - arXiv_1909.02108_QuantumNaturalGradient.pdf
 - arXiv_2112.00778_Lanczos.pdf

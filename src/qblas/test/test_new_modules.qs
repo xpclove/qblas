@@ -1185,4 +1185,201 @@ operation test_qge_adam_step(p : Int) : Int {
             return valid ? 1 | 0;
         }
     }
+
+    // ============================================================
+    // Tests for Quantum Kernel Methods
+    // ============================================================
+
+    operation test_kernel_feature_angles(p : Int) : Int {
+        body {
+            let features = [1.0, 2.0, 3.0];
+            let angles = q_kernel_feature_angles(features, 3);
+            return Length(angles) == 3 ? 1 | 0;
+        }
+    }
+
+    operation test_kernel_apply_feature_map(p : Int) : Int {
+        body {
+            mutable result = 0;
+
+            using (qs = Qubit[3]) {
+                let features = [0.5, 0.5, 0.0];
+                q_kernel_apply_feature_map(features, qs, 1);
+                set result = 1;
+
+                ResetAll(qs);
+            }
+
+            return result;
+        }
+    }
+
+    operation test_kernel_matrix(p : Int) : Int {
+        body {
+            let features = [[1.0, 0.0], [0.0, 1.0]];
+            let K = q_kernel_matrix(features);
+            return Length(K) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_kernel_dot(p : Int) : Double {
+        body {
+            let a = [1.0, 2.0, 3.0];
+            let b = [0.5, 1.0, 1.5];
+            return q_kernel_dot(a, b);
+        }
+    }
+
+    operation test_kernel_validate(p : Int) : Int {
+        body {
+            let K = [[1.0, 0.0], [0.0, 1.0]];
+            return q_kernel_validate(K) ? 1 | 0;
+        }
+    }
+
+    operation test_kernel_gaussian(p : Int) : Double {
+        body {
+            let x = [0.0, 0.0];
+            let y = [1.0, 0.0];
+            let sigma = 1.0;
+            return q_kernel_gaussian(x, y, sigma);
+        }
+    }
+
+    operation test_kernel_polynomial(p : Int) : Double {
+        body {
+            let x = [1.0, 0.0];
+            let y = [1.0, 0.0];
+            return q_kernel_polynomial(x, y, 2, 0.0);
+        }
+    }
+
+    operation test_kernel_normalize(p : Int) : Double {
+        body {
+            let features = [3.0, 4.0];
+            let normalized = q_kernel_normalize(features);
+            return Sqrt(SquaredNorm(normalized));
+        }
+    }
+
+    // ============================================================
+    // Tests for Error Mitigation
+    // ============================================================
+
+    operation test_zne_extrapolate(p : Int) : Double {
+        body {
+            let values = [0.9, 0.8, 0.7];
+            let factors = [1.0, 2.0, 3.0];
+            return q_zne_extrapolate(values, factors);
+        }
+    }
+
+    operation test_zne_linear(p : Int) : Double {
+        body {
+            let values = [0.9, 0.85];
+            return q_zne_linear(values);
+        }
+    }
+
+    operation test_zne_noise_factors(p : Int) : Int {
+        body {
+            let factors = q_zne_noise_factors(0.01, [1, 2, 3]);
+            return Length(factors) == 3 ? 1 | 0;
+        }
+    }
+
+    operation test_zne_optimal_factors(p : Int) : Int {
+        body {
+            let factors = q_zne_optimal_factors(1.0, 3.0, 3);
+            return Length(factors) == 3 ? 1 | 0;
+        }
+    }
+
+    operation test_pec_coefficients(p : Int) : Int {
+        body {
+            let fidelities = [0.99, 0.98, 0.97];
+            let coeffs = q_pec_coefficients(fidelities, 3);
+            return Length(coeffs) == 3 ? 1 | 0;
+        }
+    }
+
+    operation test_pec_validate(p : Int) : Int {
+        body {
+            let coeffs = [0.5, 0.3, 0.2];
+            return q_pec_validate(coeffs) ? 1 | 0;
+        }
+    }
+
+    operation test_pec_sampling_prob(p : Int) : Double {
+        body {
+            let coeffs = [0.5, -0.3, 0.2];
+            return q_pec_sampling_prob(coeffs);
+        }
+    }
+
+    operation test_dd_xy_sequence(p : Int) : Int {
+        body {
+            let seq = q_dd_xy_sequence(4, 0.1);
+            return Length(seq) == 4 ? 1 | 0;
+        }
+    }
+
+    operation test_dd_padding_interval(p : Int) : Double {
+        body {
+            return q_dd_padding_interval(1.0, 4);
+        }
+    }
+
+    operation test_dd_validate_sequence(p : Int) : Int {
+        body {
+            let seq = ["X", "Y", "X", "Y"];
+            return q_dd_validate_sequence(seq) ? 1 | 0;
+        }
+    }
+
+    operation test_readout_calibration(p : Int) : Int {
+        body {
+            let probs = [[0.95, 0.05], [0.05, 0.95]];
+            let inv = q_readout_calibration(probs);
+            return Length(inv) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_readout_correct(p : Int) : Int {
+        body {
+            let measured = [0.5, 0.5];
+            let cal_inv = [[2.0, 0.0], [0.0, 2.0]];
+            let corrected = q_readout_correct(measured, cal_inv);
+            return Length(corrected) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_dd_fidelity_improvement(p : Int) : Double {
+        body {
+            return q_dd_fidelity_improvement(10.0, 4, 0.1);
+        }
+    }
+
+    operation test_zne_verify(p : Int) : Int {
+        body {
+            let values = [0.9, 0.8, 0.7];
+            let factors = [1.0, 2.0, 3.0];
+            return q_zne_verify(values, factors, 0.1) ? 1 | 0;
+        }
+    }
+
+    operation test_pec_normalize(p : Int) : Double {
+        body {
+            let coeffs = [0.5, 0.3, 0.2];
+            let normalized = q_pec_normalize(coeffs);
+            return Length(normalized) == 3 ? normalized[0] | 0.0;
+        }
+    }
+
+    operation test_dd_pulse_timing(p : Int) : Int {
+        body {
+            let times = q_dd_pulse_timing(1.0, 4);
+            return Length(times) == 4 ? 1 | 0;
+        }
+    }
 }

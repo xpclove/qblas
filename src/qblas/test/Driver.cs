@@ -922,6 +922,126 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 182] vqe_validate_params");
                 var res182 = test_vqe_validate_params.Run(sim, 0).Result;
                 Console.WriteLine($"  test_vqe_validate_params = {res182}");
+
+                // Test 183: Kernel feature angles
+                Console.WriteLine("\n[Test 183] kernel_feature_angles");
+                var res183 = test_kernel_feature_angles.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_feature_angles = {res183}");
+
+                // Test 184: Kernel apply feature map
+                Console.WriteLine("\n[Test 184] kernel_apply_feature_map");
+                var res184 = test_kernel_apply_feature_map.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_apply_feature_map = {res184}");
+
+                // Test 185: Kernel matrix
+                Console.WriteLine("\n[Test 185] kernel_matrix");
+                var res185 = test_kernel_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_matrix = {res185}");
+
+                // Test 186: Kernel dot
+                Console.WriteLine("\n[Test 186] kernel_dot");
+                var res186 = test_kernel_dot.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_dot = {res186}");
+
+                // Test 187: Kernel validate
+                Console.WriteLine("\n[Test 187] kernel_validate");
+                var res187 = test_kernel_validate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_validate = {res187}");
+
+                // Test 188: Kernel gaussian
+                Console.WriteLine("\n[Test 188] kernel_gaussian");
+                var res188 = test_kernel_gaussian.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_gaussian = {res188}");
+
+                // Test 189: Kernel polynomial
+                Console.WriteLine("\n[Test 189] kernel_polynomial");
+                var res189 = test_kernel_polynomial.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_polynomial = {res189}");
+
+                // Test 190: Kernel normalize
+                Console.WriteLine("\n[Test 190] kernel_normalize");
+                var res190 = test_kernel_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_normalize = {res190}");
+
+                // Test 191: ZNE extrapolate
+                Console.WriteLine("\n[Test 191] zne_extrapolate");
+                var res191 = test_zne_extrapolate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_extrapolate = {res191}");
+
+                // Test 192: ZNE linear
+                Console.WriteLine("\n[Test 192] zne_linear");
+                var res192 = test_zne_linear.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_linear = {res192}");
+
+                // Test 193: ZNE noise factors
+                Console.WriteLine("\n[Test 193] zne_noise_factors");
+                var res193 = test_zne_noise_factors.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_noise_factors = {res193}");
+
+                // Test 194: ZNE optimal factors
+                Console.WriteLine("\n[Test 194] zne_optimal_factors");
+                var res194 = test_zne_optimal_factors.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_optimal_factors = {res194}");
+
+                // Test 195: PEC coefficients
+                Console.WriteLine("\n[Test 195] pec_coefficients");
+                var res195 = test_pec_coefficients.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_coefficients = {res195}");
+
+                // Test 196: PEC validate
+                Console.WriteLine("\n[Test 196] pec_validate");
+                var res196 = test_pec_validate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_validate = {res196}");
+
+                // Test 197: PEC sampling prob
+                Console.WriteLine("\n[Test 197] pec_sampling_prob");
+                var res197 = test_pec_sampling_prob.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_sampling_prob = {res197}");
+
+                // Test 198: DD XY sequence
+                Console.WriteLine("\n[Test 198] dd_xy_sequence");
+                var res198 = test_dd_xy_sequence.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_xy_sequence = {res198}");
+
+                // Test 199: DD padding interval
+                Console.WriteLine("\n[Test 199] dd_padding_interval");
+                var res199 = test_dd_padding_interval.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_padding_interval = {res199}");
+
+                // Test 200: DD validate sequence
+                Console.WriteLine("\n[Test 200] dd_validate_sequence");
+                var res200 = test_dd_validate_sequence.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_validate_sequence = {res200}");
+
+                // Test 201: Readout calibration
+                Console.WriteLine("\n[Test 201] readout_calibration");
+                var res201 = test_readout_calibration.Run(sim, 0).Result;
+                Console.WriteLine($"  test_readout_calibration = {res201}");
+
+                // Test 202: Readout correct
+                Console.WriteLine("\n[Test 202] readout_correct");
+                var res202 = test_readout_correct.Run(sim, 0).Result;
+                Console.WriteLine($"  test_readout_correct = {res202}");
+
+                // Test 203: DD fidelity improvement
+                Console.WriteLine("\n[Test 203] dd_fidelity_improvement");
+                var res203 = test_dd_fidelity_improvement.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_fidelity_improvement = {res203}");
+
+                // Test 204: ZNE verify
+                Console.WriteLine("\n[Test 204] zne_verify");
+                var res204 = test_zne_verify.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_verify = {res204}");
+
+                // Test 205: PEC normalize
+                Console.WriteLine("\n[Test 205] pec_normalize");
+                var res205 = test_pec_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_normalize = {res205}");
+
+                // Test 206: DD pulse timing
+                Console.WriteLine("\n[Test 206] dd_pulse_timing");
+                var res206 = test_dd_pulse_timing.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_pulse_timing = {res206}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }
