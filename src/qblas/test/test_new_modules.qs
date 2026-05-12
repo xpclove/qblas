@@ -1382,4 +1382,356 @@ operation test_qge_adam_step(p : Int) : Int {
             return Length(times) == 4 ? 1 | 0;
         }
     }
+
+    // ============================================================
+    // Tests for LU Decomposition
+    // ============================================================
+
+    operation test_lu_is_square(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            return q_lu_is_square(A) ? 1 | 0;
+        }
+    }
+
+    operation test_lu_diagonal_nonzero(p : Int) : Int {
+        body {
+            let A = [[1.0, 0.0], [0.0, 1.0]];
+            return q_lu_diagonal_nonzero(A, true) ? 1 | 0;
+        }
+    }
+
+    operation test_lu_extract_l(p : Int) : Int {
+        body {
+            let LU = [[1.0, 2.0], [0.5, 3.0]];
+            let L = q_lu_extract_l(LU, 2);
+            return Length(L) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_lu_extract_u(p : Int) : Int {
+        body {
+            let LU = [[1.0, 2.0], [0.5, 3.0]];
+            let U = q_lu_extract_u(LU, 2);
+            return Length(U[0]) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_lu_check_dims(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            return q_lu_check_dims(A, 2) ? 1 | 0;
+        }
+    }
+
+    operation test_lu_pivot_indices(p : Int) : Int {
+        body {
+            let pivots = q_lu_pivot_indices([[1.0, 0.0], [0.0, 1.0]], 2);
+            return Length(pivots) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_lu_solve(p : Int) : Int {
+        body {
+            let L = [[1.0, 0.0], [0.5, 1.0]];
+            let U = [[1.0, 2.0], [0.0, 3.0]];
+            let pivots = [0, 1];
+            let b = [1.0, 1.0];
+            let x = q_lu_solve(L, U, pivots, b);
+            return Length(x) == 2 ? 1 | 0;
+        }
+    }
+
+    // ============================================================
+    // Tests for QR Decomposition
+    // ============================================================
+
+    operation test_qr_check_dims(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]];
+            return q_qr_check_dims(A) ? 1 | 0;
+        }
+    }
+
+    operation test_qr_column_norms(p : Int) : Int {
+        body {
+            let A = [[1.0, 0.0], [0.0, 1.0]];
+            let norms = q_qr_column_norms(A);
+            return Length(norms) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_qr_extract_r(p : Int) : Int {
+        body {
+            let Rfull = [[1.0, 2.0], [0.0, 3.0], [0.0, 0.0]];
+            let Rmat = q_qr_extract_r(Rfull, 2);
+            return Length(Rmat) == 2 and Length(Rmat[0]) == 2 ? 1 | 0;
+        }
+    }
+
+    operation test_qr_check_orthogonal(p : Int) : Int {
+        body {
+            let Q = [[1.0, 0.0], [0.0, 1.0]];
+            return q_qr_check_orthogonal(Q, 1e-6) ? 1 | 0;
+        }
+    }
+
+    operation test_qr_rank_estimate(p : Int) : Int {
+        body {
+            let Rmat = [[2.0, 0.0], [0.0, 1.0]];
+            let rank = q_qr_rank_estimate(Rmat, 1e-6);
+            return rank == 2 ? 1 | 0;
+        }
+    }
+
+    // ============================================================
+    // Tests for Cholesky Decomposition
+    // ============================================================
+
+    operation test_chol_is_symmetric(p : Int) : Int {
+        body {
+            let A = [[2.0, 1.0], [1.0, 2.0]];
+            return q_chol_is_symmetric(A, 1e-6) ? 1 | 0;
+        }
+    }
+
+    operation test_chol_matrix_norm(p : Int) : Double {
+        body {
+            let A = [[3.0, 1.0], [1.0, 3.0]];
+            return q_chol_matrix_norm(A);
+        }
+    }
+
+    operation test_chol_check_positive_diagonal(p : Int) : Int {
+        body {
+            let L = [[1.0, 0.0], [0.5, 1.0]];
+            return q_chol_check_positive_diagonal(L, 1e-10) ? 1 | 0;
+        }
+    }
+
+    operation test_chol_ldlt(p : Int) : Int {
+        body {
+            let A = [[4.0, 2.0], [2.0, 5.0]];
+            let (L, D) = q_chol_ldlt(A);
+            return Length(L) == 2 and Length(D) == 2 ? 1 | 0;
+        }
+    }
+
+    // ============================================================
+    // Tests for Matrix Addition
+    // ============================================================
+
+    operation test_add_check_dims(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = [[5.0, 6.0], [7.0, 8.0]];
+            return q_add_check_dims(A, B) ? 1 | 0;
+        }
+    }
+
+    operation test_add_matrix_add(p : Int) : Double {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = [[1.0, 1.0], [1.0, 1.0]];
+            let C = q_add_matrix_add(A, B);
+            return C[0][0];
+        }
+    }
+
+    operation test_add_matrix_subtract(p : Int) : Double {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = [[1.0, 1.0], [1.0, 1.0]];
+            let C = q_add_matrix_subtract(A, B);
+            return C[1][1];
+        }
+    }
+
+    operation test_add_scalar_mult(p : Int) : Double {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = q_add_scalar_mult(A, 2.0);
+            return B[0][0];
+        }
+    }
+
+    operation test_add_negate(p : Int) : Double {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = q_add_negate(A);
+            return B[0][0] + B[1][1];
+        }
+    }
+
+    operation test_add_linear_combo(p : Int) : Double {
+        body {
+            let A = [[1.0, 0.0], [0.0, 1.0]];
+            let B = [[1.0, 0.0], [0.0, 1.0]];
+            let C = q_add_linear_combo(A, B, 2.0, 3.0);
+            return C[0][0];
+        }
+    }
+
+    operation test_add_hadamard(p : Int) : Double {
+        body {
+            let A = [[2.0, 3.0], [4.0, 5.0]];
+            let B = [[1.0, 2.0], [3.0, 4.0]];
+            let C = q_add_hadamard(A, B);
+            return C[0][0];
+        }
+    }
+
+    // ============================================================
+    // Tests for Vector Norm
+    // ============================================================
+
+    operation test_vnorm_l2(p : Int) : Double {
+        body {
+            let v = [3.0, 4.0];
+            return q_vnorm_l2(v);
+        }
+    }
+
+    operation test_vnorm_l1(p : Int) : Double {
+        body {
+            let v = [1.0, -2.0, 3.0];
+            return q_vnorm_l1(v);
+        }
+    }
+
+    operation test_vnorm_linf(p : Int) : Double {
+        body {
+            let v = [1.0, -5.0, 3.0];
+            return q_vnorm_linf(v);
+        }
+    }
+
+    operation test_vnorm_ratio(p : Int) : Double {
+        body {
+            let v = [1.0, 0.0];
+            let w = [2.0, 0.0];
+            return q_vnorm_ratio(v, w);
+        }
+    }
+
+    operation test_vnorm_normalize(p : Int) : Double {
+        body {
+            let v = [3.0, 4.0];
+            let n = q_vnorm_normalize(v, false);
+            return q_vnorm_l2(n);
+        }
+    }
+
+    operation test_vnorm_is_unit(p : Int) : Int {
+        body {
+            let v = [1.0, 0.0];
+            return q_vnorm_is_unit(v, 1e-6) ? 1 | 0;
+        }
+    }
+
+    operation test_vnorm_distance(p : Int) : Double {
+        body {
+            let v = [1.0, 0.0];
+            let w = [0.0, 1.0];
+            return q_vnorm_distance(v, w);
+        }
+    }
+
+    // ============================================================
+    // Tests for Inner Product
+    // ============================================================
+
+    operation test_ip_dot(p : Int) : Double {
+        body {
+            let v = [1.0, 2.0, 3.0];
+            let w = [1.0, 1.0, 1.0];
+            return q_ip_dot(v, w);
+        }
+    }
+
+    operation test_ip_fidelity(p : Int) : Double {
+        body {
+            let v = [1.0, 0.0];
+            let w = [1.0, 0.0];
+            return q_ip_fidelity(v, w);
+        }
+    }
+
+    operation test_ip_normalize(p : Int) : Double {
+        body {
+            let v = [2.0, 0.0];
+            let w = [2.0, 0.0];
+            return q_ip_normalize(v, w, 4.0);
+        }
+    }
+
+    operation test_ip_angle(p : Int) : Double {
+        body {
+            let v = [1.0, 0.0];
+            let w = [1.0, 0.0];
+            return q_ip_angle(v, w);
+        }
+    }
+
+    operation test_ip_is_orthogonal(p : Int) : Int {
+        body {
+            let v = [1.0, 0.0];
+            let w = [0.0, 1.0];
+            return q_ip_is_orthogonal(v, w, 1e-6) ? 1 | 0;
+        }
+    }
+
+    // ============================================================
+    // Tests for Kronecker/Tensor Product
+    // ============================================================
+
+    operation test_tk_check_dims(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = [[5.0, 6.0], [7.0, 8.0]];
+            return q_tk_check_dims(A, B) ? 1 | 0;
+        }
+    }
+
+    operation test_tk_kronecker(p : Int) : Int {
+        body {
+            let A = [[1.0, 0.0], [0.0, 1.0]];
+            let B = [[2.0, 0.0], [0.0, 2.0]];
+            let C = q_tk_kronecker(A, B);
+            return Length(C) == 4 and Length(C[0]) == 4 ? 1 | 0;
+        }
+    }
+
+    operation test_tk_vector_kronecker(p : Int) : Int {
+        body {
+            let v = [1.0, 2.0];
+            let w = [3.0, 4.0];
+            let r = q_tk_vector_kronecker(v, w);
+            return Length(r) == 4 ? 1 | 0;
+        }
+    }
+
+    operation test_tk_identity(p : Int) : Double {
+        body {
+            let Idmat = q_tk_identity(3);
+            return Idmat[0][0] + Idmat[1][1] + Idmat[2][2];
+        }
+    }
+
+    operation test_tk_hadamard(p : Int) : Double {
+        body {
+            let A = [[2.0, 3.0], [4.0, 5.0]];
+            let B = [[1.0, 2.0], [3.0, 4.0]];
+            let C = q_tk_hadamard(A, B);
+            return C[0][0];
+        }
+    }
+
+    operation test_tk_verify(p : Int) : Int {
+        body {
+            let A = [[1.0, 2.0], [3.0, 4.0]];
+            let B = [[5.0, 6.0], [7.0, 8.0]];
+            return q_tk_verify(A, B) ? 1 | 0;
+        }
+    }
 }

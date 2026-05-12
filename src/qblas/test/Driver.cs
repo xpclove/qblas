@@ -1042,6 +1042,211 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 206] dd_pulse_timing");
                 var res206 = test_dd_pulse_timing.Run(sim, 0).Result;
                 Console.WriteLine($"  test_dd_pulse_timing = {res206}");
+
+                // Test 207: LU is square
+                Console.WriteLine("\n[Test 207] lu_is_square");
+                var res207 = test_lu_is_square.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_is_square = {res207}");
+
+                // Test 208: LU diagonal nonzero
+                Console.WriteLine("\n[Test 208] lu_diagonal_nonzero");
+                var res208 = test_lu_diagonal_nonzero.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_diagonal_nonzero = {res208}");
+
+                // Test 209: LU extract L
+                Console.WriteLine("\n[Test 209] lu_extract_l");
+                var res209 = test_lu_extract_l.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_extract_l = {res209}");
+
+                // Test 210: LU extract U
+                Console.WriteLine("\n[Test 210] lu_extract_u");
+                var res210 = test_lu_extract_u.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_extract_u = {res210}");
+
+                // Test 211: LU check dims
+                Console.WriteLine("\n[Test 211] lu_check_dims");
+                var res211 = test_lu_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_check_dims = {res211}");
+
+                // Test 212: LU pivot indices
+                Console.WriteLine("\n[Test 212] lu_pivot_indices");
+                var res212 = test_lu_pivot_indices.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_pivot_indices = {res212}");
+
+                // Test 213: LU solve
+                Console.WriteLine("\n[Test 213] lu_solve");
+                var res213 = test_lu_solve.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_solve = {res213}");
+
+                // Test 214: QR check dims
+                Console.WriteLine("\n[Test 214] qr_check_dims");
+                var res214 = test_qr_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_check_dims = {res214}");
+
+                // Test 215: QR column norms
+                Console.WriteLine("\n[Test 215] qr_column_norms");
+                var res215 = test_qr_column_norms.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_column_norms = {res215}");
+
+                // Test 216: QR extract R
+                Console.WriteLine("\n[Test 216] qr_extract_r");
+                var res216 = test_qr_extract_r.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_extract_r = {res216}");
+
+                // Test 217: QR check orthogonal
+                Console.WriteLine("\n[Test 217] qr_check_orthogonal");
+                var res217 = test_qr_check_orthogonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_check_orthogonal = {res217}");
+
+                // Test 218: QR rank estimate
+                Console.WriteLine("\n[Test 218] qr_rank_estimate");
+                var res218 = test_qr_rank_estimate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_rank_estimate = {res218}");
+
+                // Test 219: Chol is symmetric
+                Console.WriteLine("\n[Test 219] chol_is_symmetric");
+                var res219 = test_chol_is_symmetric.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_is_symmetric = {res219}");
+
+                // Test 220: Chol matrix norm
+                Console.WriteLine("\n[Test 220] chol_matrix_norm");
+                var res220 = test_chol_matrix_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_matrix_norm = {res220}");
+
+                // Test 221: Chol positive diagonal
+                Console.WriteLine("\n[Test 221] chol_check_positive_diagonal");
+                var res221 = test_chol_check_positive_diagonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_check_positive_diagonal = {res221}");
+
+                // Test 222: Chol LDLT
+                Console.WriteLine("\n[Test 222] chol_ldlt");
+                var res222 = test_chol_ldlt.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_ldlt = {res222}");
+
+                // Test 223: Add check dims
+                Console.WriteLine("\n[Test 223] add_check_dims");
+                var res223 = test_add_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_check_dims = {res223}");
+
+                // Test 224: Add matrix add
+                Console.WriteLine("\n[Test 224] add_matrix_add");
+                var res224 = test_add_matrix_add.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_matrix_add = {res224}");
+
+                // Test 225: Add matrix subtract
+                Console.WriteLine("\n[Test 225] add_matrix_subtract");
+                var res225 = test_add_matrix_subtract.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_matrix_subtract = {res225}");
+
+                // Test 226: Add scalar mult
+                Console.WriteLine("\n[Test 226] add_scalar_mult");
+                var res226 = test_add_scalar_mult.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_scalar_mult = {res226}");
+
+                // Test 227: Add negate
+                Console.WriteLine("\n[Test 227] add_negate");
+                var res227 = test_add_negate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_negate = {res227}");
+
+                // Test 228: Add linear combo
+                Console.WriteLine("\n[Test 228] add_linear_combo");
+                var res228 = test_add_linear_combo.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_linear_combo = {res228}");
+
+                // Test 229: Add Hadamard
+                Console.WriteLine("\n[Test 229] add_hadamard");
+                var res229 = test_add_hadamard.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_hadamard = {res229}");
+
+                // Test 230: Vnorm L2
+                Console.WriteLine("\n[Test 230] vnorm_l2");
+                var res230 = test_vnorm_l2.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_l2 = {res230}");
+
+                // Test 231: Vnorm L1
+                Console.WriteLine("\n[Test 231] vnorm_l1");
+                var res231 = test_vnorm_l1.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_l1 = {res231}");
+
+                // Test 232: Vnorm Linf
+                Console.WriteLine("\n[Test 232] vnorm_linf");
+                var res232 = test_vnorm_linf.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_linf = {res232}");
+
+                // Test 233: Vnorm ratio
+                Console.WriteLine("\n[Test 233] vnorm_ratio");
+                var res233 = test_vnorm_ratio.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_ratio = {res233}");
+
+                // Test 234: Vnorm normalize
+                Console.WriteLine("\n[Test 234] vnorm_normalize");
+                var res234 = test_vnorm_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_normalize = {res234}");
+
+                // Test 235: Vnorm is unit
+                Console.WriteLine("\n[Test 235] vnorm_is_unit");
+                var res235 = test_vnorm_is_unit.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_is_unit = {res235}");
+
+                // Test 236: Vnorm distance
+                Console.WriteLine("\n[Test 236] vnorm_distance");
+                var res236 = test_vnorm_distance.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_distance = {res236}");
+
+                // Test 237: IP dot
+                Console.WriteLine("\n[Test 237] ip_dot");
+                var res237 = test_ip_dot.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_dot = {res237}");
+
+                // Test 238: IP fidelity
+                Console.WriteLine("\n[Test 238] ip_fidelity");
+                var res238 = test_ip_fidelity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_fidelity = {res238}");
+
+                // Test 239: IP normalize
+                Console.WriteLine("\n[Test 239] ip_normalize");
+                var res239 = test_ip_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_normalize = {res239}");
+
+                // Test 240: IP angle
+                Console.WriteLine("\n[Test 240] ip_angle");
+                var res240 = test_ip_angle.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_angle = {res240}");
+
+                // Test 241: IP is orthogonal
+                Console.WriteLine("\n[Test 241] ip_is_orthogonal");
+                var res241 = test_ip_is_orthogonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_is_orthogonal = {res241}");
+
+                // Test 242: TK check dims
+                Console.WriteLine("\n[Test 242] tk_check_dims");
+                var res242 = test_tk_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_check_dims = {res242}");
+
+                // Test 243: TK Kronecker
+                Console.WriteLine("\n[Test 243] tk_kronecker");
+                var res243 = test_tk_kronecker.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_kronecker = {res243}");
+
+                // Test 244: TK vector Kronecker
+                Console.WriteLine("\n[Test 244] tk_vector_kronecker");
+                var res244 = test_tk_vector_kronecker.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_vector_kronecker = {res244}");
+
+                // Test 245: TK identity
+                Console.WriteLine("\n[Test 245] tk_identity");
+                var res245 = test_tk_identity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_identity = {res245}");
+
+                // Test 246: TK Hadamard
+                Console.WriteLine("\n[Test 246] tk_hadamard");
+                var res246 = test_tk_hadamard.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_hadamard = {res246}");
+
+                // Test 247: TK verify
+                Console.WriteLine("\n[Test 247] tk_verify");
+                var res247 = test_tk_verify.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_verify = {res247}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }

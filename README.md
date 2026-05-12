@@ -6,7 +6,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.10
+Version: v_0.2.11
 
 Released on GitHub from 11.15, 2019.
 
@@ -93,6 +93,52 @@ How to use it:
         Enhanced quantum linear system solver with preconditioning,
         multi-precision rotation, eigenvalue filtering, amplitude amplification,
         and dynamic decoupling.
+
+[new features - v0.2.11]
+
+    QBLAS v0.2.11 adds 7 new modules for dense linear algebra
+    operations:
+
+    === Dense Linear Algebra ===
+
+    LU Decomposition (q_lu.qs):
+        LU decomposition for dense matrices without pivoting.
+        Computes lower and upper triangular matrices L and U such that
+        A = L * U. Supports determinant computation.
+
+    QR Decomposition (q_qr.qs):
+        QR decomposition using Gram-Schmidt orthonormalization.
+        Computes orthogonal matrix Q and upper triangular R such that
+        A = Q * R. Includes orthonormality verification.
+
+    Cholesky Decomposition (q_cholesky.qs):
+        Cholesky decomposition for symmetric positive definite matrices.
+        Computes lower triangular matrix L such that A = L * L^T.
+        Includes LDL^T variant and matrix inverse via Cholesky.
+
+    === Matrix Operations ===
+
+    Matrix Addition (q_matrix_add.qs):
+        Dense matrix addition with Hadamard product variants.
+        Supports row/column scaling, matrix-vector sum, and
+        strided operations for efficient block updates.
+
+    Kronecker Product (q_kronecker.qs):
+        Tensor product operation for matrices. Computes the Kronecker
+        product A ⊗ B for efficient block-diagonal constructions.
+        Includes Kronecker sum for matrix exponentiation.
+
+    === Vector Operations ===
+
+    Vector Norm (q_vector_norm.qs):
+        L1, L2, and L-infinity vector norms with condition number
+        estimation. Supports norm ratio computation for iterative
+        refinement and convergence analysis.
+
+    Inner Product (q_inner_product.qs):
+        Quantum inner product computation using SWAP test and
+        its variants. Includes fidelity estimation and overlaps
+        for state comparison.
 
 [new features - v0.2.10]
 
