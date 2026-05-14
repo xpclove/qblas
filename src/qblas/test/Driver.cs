@@ -1247,6 +1247,195 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 247] tk_verify");
                 var res247 = test_tk_verify.Run(sim, 0).Result;
                 Console.WriteLine($"  test_tk_verify = {res247}");
+
+                // ============ Qubitization Tests ============
+                // Test 248: qubitization phases
+                Console.WriteLine("\n[Test 248] qubitization_phases");
+                var res248 = test_qubitization_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_phases = {res248}");
+
+                // Test 249: qubitization query complexity
+                Console.WriteLine("\n[Test 249] qubitization_query_complexity");
+                var res249 = test_qubitization_query_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_query_complexity = {res249}");
+
+                // Test 250: qubitization chebyshev
+                Console.WriteLine("\n[Test 250] qubitization_chebyshev");
+                var res250 = test_qubitization_chebyshev.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_chebyshev = {res250}");
+
+                // Test 251: qubitization compute phases
+                Console.WriteLine("\n[Test 251] qubitization_compute_phases");
+                var res251 = test_qubitization_compute_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_compute_phases = {res251}");
+
+                // Test 252: qubitization accuracy
+                Console.WriteLine("\n[Test 252] qubitization_accuracy");
+                var res252 = test_qubitization_accuracy.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_accuracy = {res252}");
+
+                // Test 253: qubitization spectral gap
+                Console.WriteLine("\n[Test 253] qubitization_spectral_gap");
+                var res253 = test_qubitization_spectral_gap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_spectral_gap = {res253}");
+
+                // Test 254: qubitization timestep
+                Console.WriteLine("\n[Test 254] qubitization_timestep");
+                var res254 = test_qubitization_timestep.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_timestep = {res254}");
+
+                // Test 255: qubitization qsp phases
+                Console.WriteLine("\n[Test 255] qubitization_qsp_phases");
+                var res255 = test_qubitization_qsp_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_qsp_phases = {res255}");
+
+                // Test 256: qubitization estimate queries
+                Console.WriteLine("\n[Test 256] qubitization_estimate_queries");
+                var res256 = test_qubitization_estimate_queries.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_estimate_queries = {res256}");
+
+                // ============ LCU Optimized Tests ============
+                // Test 257: lcu ancilla bits
+                Console.WriteLine("\n[Test 257] lcu_ancilla_bits");
+                var res257 = test_lcu_ancilla_bits.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_ancilla_bits = {res257}");
+
+                // Test 258: lcu gate count
+                Console.WriteLine("\n[Test 258] lcu_gate_count");
+                var res258 = test_lcu_gate_count.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_gate_count = {res258}");
+
+                // Test 259: lcu coefficient norm
+                Console.WriteLine("\n[Test 259] lcu_coefficient_norm");
+                var res259 = test_lcu_coefficient_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_coefficient_norm = {res259}");
+
+                // Test 260: lcu check coeffs
+                Console.WriteLine("\n[Test 260] lcu_check_coeffs");
+                var res260 = test_lcu_check_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_check_coeffs = {res260}");
+
+                // Test 261: lcu amplitudes
+                Console.WriteLine("\n[Test 261] lcu_amplitudes");
+                var res261 = test_lcu_amplitudes.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_amplitudes = {res261}");
+
+                // Test 262: lcu success prob
+                Console.WriteLine("\n[Test 262] lcu_success_prob");
+                var res262 = test_lcu_success_prob.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_success_prob = {res262}");
+
+                // Test 263: lcu is power of two
+                Console.WriteLine("\n[Test 263] lcu_is_power_of_two");
+                var res263 = test_lcu_is_power_of_two.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_is_power_of_two = {res263}");
+
+                // Test 264: lcu pad coeffs
+                Console.WriteLine("\n[Test 264] lcu_pad_coeffs");
+                var res264 = test_lcu_pad_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_pad_coeffs = {res264}");
+
+                // Test 265: lcu query complexity
+                Console.WriteLine("\n[Test 265] lcu_query_complexity");
+                var res265 = test_lcu_query_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_query_complexity = {res265}");
+
+                // Test 266: lcu csd angles
+                Console.WriteLine("\n[Test 266] lcu_csd_angles");
+                var res266 = test_lcu_csd_angles.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_csd_angles = {res266}");
+
+                // ============ Gibbs Tests ============
+                // Test 267: gibbs compute beta
+                Console.WriteLine("\n[Test 267] gibbs_compute_beta");
+                var res267 = test_gibbs_compute_beta.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_compute_beta = {res267}");
+
+                // Test 268: gibbs partition bound
+                Console.WriteLine("\n[Test 268] gibbs_partition_bound");
+                var res268 = test_gibbs_partition_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_partition_bound = {res268}");
+
+                // Test 269: gibbs spectral gap
+                Console.WriteLine("\n[Test 269] gibbs_spectral_gap");
+                var res269 = test_gibbs_spectral_gap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_spectral_gap = {res269}");
+
+                // Test 270: gibbs verify state
+                Console.WriteLine("\n[Test 270] gibbs_verify_state");
+                var res270 = test_gibbs_verify_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_verify_state = {res270}");
+
+                // Test 271: gibbs free energy
+                Console.WriteLine("\n[Test 271] gibbs_free_energy");
+                var res271 = test_gibbs_free_energy.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_free_energy = {res271}");
+
+                // Test 272: gibbs estimate temp
+                Console.WriteLine("\n[Test 272] gibbs_estimate_temp");
+                var res272 = test_gibbs_estimate_temp.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_estimate_temp = {res272}");
+
+                // Test 273: gibbs partition function
+                Console.WriteLine("\n[Test 273] gibbs_partition_function");
+                var res273 = test_gibbs_partition_function.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_partition_function = {res273}");
+
+                // Test 274: gibbs probabilities
+                Console.WriteLine("\n[Test 274] gibbs_probabilities");
+                var res274 = test_gibbs_probabilities.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_probabilities = {res274}");
+
+                // Test 275: gibbs valid temp
+                Console.WriteLine("\n[Test 275] gibbs_valid_temp");
+                var res275 = test_gibbs_valid_temp.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_valid_temp = {res275}");
+
+                // Test 276: gibbs complexity
+                Console.WriteLine("\n[Test 276] gibbs_complexity");
+                var res276 = test_gibbs_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_complexity = {res276}");
+
+                // ============ Time-Dependent Tests ============
+                // Test 277: timedep discretize steps
+                Console.WriteLine("\n[Test 277] timedep_discretize_steps");
+                var res277 = test_timedep_discretize_steps.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_discretize_steps = {res277}");
+
+                // Test 278: timedep step size
+                Console.WriteLine("\n[Test 278] timedep_step_size");
+                var res278 = test_timedep_step_size.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_step_size = {res278}");
+
+                // Test 279: timedep evaluate
+                Console.WriteLine("\n[Test 279] timedep_evaluate");
+                var res279 = test_timedep_evaluate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_evaluate = {res279}");
+
+                // Test 280: timedep error bound
+                Console.WriteLine("\n[Test 280] timedep_error_bound");
+                var res280 = test_timedep_error_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_error_bound = {res280}");
+
+                // Test 281: timedep norm variation
+                Console.WriteLine("\n[Test 281] timedep_norm_variation");
+                var res281 = test_timedep_norm_variation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_norm_variation = {res281}");
+
+                // Test 282: timedep verify evolution
+                Console.WriteLine("\n[Test 282] timedep_verify_evolution");
+                var res282 = test_timedep_verify_evolution.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_verify_evolution = {res282}");
+
+                // Test 283: timedep optimal order
+                Console.WriteLine("\n[Test 283] timedep_optimal_order");
+                var res283 = test_timedep_optimal_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_optimal_order = {res283}");
+
+                // Test 284: timedep query count
+                Console.WriteLine("\n[Test 284] timedep_query_count");
+                var res284 = test_timedep_query_count.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_query_count = {res284}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }

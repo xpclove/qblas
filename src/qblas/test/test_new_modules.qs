@@ -1734,4 +1734,285 @@ operation test_qge_adam_step(p : Int) : Int {
             return q_tk_verify(A, B) ? 1 | 0;
         }
     }
+
+    // ============================================================
+    // Qubitization Tests
+    // ============================================================
+
+    operation test_qubitization_phases(p : Int) : Double {
+        body {
+            let phases = q_qubitization_prepare_phases(1.0, 1.0, 0.01);
+            return IntAsDouble(Length(phases));
+        }
+    }
+
+    operation test_qubitization_query_complexity(p : Int) : Int {
+        body {
+            let q = q_qubitization_query_complexity(2, 1.0, 1.0, 0.01);
+            return q > 0 ? q | 0;
+        }
+    }
+
+    operation test_qubitization_chebyshev(p : Int) : Double {
+        body {
+            let val = q_qubitization_chebyshev_value(3, 0.5);
+            return val;
+        }
+    }
+
+    operation test_qubitization_compute_phases(p : Int) : Double {
+        body {
+            let phases = q_qubitization_compute_phases(1.0, 1.0, 5);
+            return IntAsDouble(Length(phases));
+        }
+    }
+
+    operation test_qubitization_accuracy(p : Int) : Double {
+        body {
+            let err = q_qubitization_verify_accuracy(0.9, 1.0, 1.0);
+            return err;
+        }
+    }
+
+    operation test_qubitization_spectral_gap(p : Int) : Double {
+        body {
+            let Hmat = [[1.0, 0.0], [0.0, 2.0]];
+            let gap = q_qubitization_spectral_gap(Hmat);
+            return gap;
+        }
+    }
+
+    operation test_qubitization_timestep(p : Int) : Double {
+        body {
+            let dt = q_qubitization_compute_timestep(2.0, 4);
+            return dt;
+        }
+    }
+
+    operation test_qubitization_qsp_phases(p : Int) : Double {
+        body {
+            let q_phases = q_qubitization_compute_phases(1.0, 1.0, 3);
+            let qsp = q_qubitization_to_qsp_phases(q_phases);
+            return IntAsDouble(Length(qsp));
+        }
+    }
+
+    operation test_qubitization_estimate_queries(p : Int) : Int {
+        body {
+            let q = q_qubitization_estimate_queries(2, 1.0, 1.0, 0.01);
+            return q > 0 ? q | 0;
+        }
+    }
+
+    // ============================================================
+    // LCU Optimized Tests
+    // ============================================================
+
+    operation test_lcu_ancilla_bits(p : Int) : Int {
+        body {
+            let bits = q_lcu_single_ancilla_bits(8);
+            return bits == 3 ? 1 | 0;
+        }
+    }
+
+    operation test_lcu_gate_count(p : Int) : Int {
+        body {
+            let gc = q_lcu_gate_count(4, 3);
+            return gc > 0 ? gc | 0;
+        }
+    }
+
+    operation test_lcu_coefficient_norm(p : Int) : Double {
+        body {
+            let norm = q_lcu_coefficient_norm([1.0, 2.0, 3.0]);
+            return norm;
+        }
+    }
+
+    operation test_lcu_check_coeffs(p : Int) : Int {
+        body {
+            let ok = q_lcu_check_coefficients([1.0, 2.0, 3.0]);
+            return ok ? 1 | 0;
+        }
+    }
+
+    operation test_lcu_amplitudes(p : Int) : Double {
+        body {
+            let (amps, alpha) = q_lcu_compute_amplitudes([1.0, 2.0]);
+            return alpha;
+        }
+    }
+
+    operation test_lcu_success_prob(p : Int) : Double {
+        body {
+            let prob = q_lcu_success_probability([1.0, 1.0]);
+            return prob;
+        }
+    }
+
+    operation test_lcu_is_power_of_two(p : Int) : Int {
+        body {
+            let ok = q_lcu_is_power_of_two(8);
+            return ok ? 1 | 0;
+        }
+    }
+
+    operation test_lcu_pad_coeffs(p : Int) : Int {
+        body {
+            let padded = q_lcu_pad_coefficients([1.0, 2.0, 3.0]);
+            return Length(padded);
+        }
+    }
+
+    operation test_lcu_query_complexity(p : Int) : Int {
+        body {
+            let q = q_lcu_query_complexity(4, 2.0, 1.0, 0.01);
+            return q > 0 ? q | 0;
+        }
+    }
+
+    operation test_lcu_csd_angles(p : Int) : Double {
+        body {
+            let angles = q_lcu_csd_angles(4);
+            return IntAsDouble(Length(angles));
+        }
+    }
+
+    // ============================================================
+    // Gibbs Tests
+    // ============================================================
+
+    operation test_gibbs_compute_beta(p : Int) : Double {
+        body {
+            let beta = q_gibbs_compute_beta(1.0, 0.5);
+            return beta;
+        }
+    }
+
+    operation test_gibbs_partition_bound(p : Int) : Double {
+        body {
+            let bound = q_gibbs_partition_bound([1.0, 2.0, 3.0], 0.5);
+            return bound;
+        }
+    }
+
+    operation test_gibbs_spectral_gap(p : Int) : Double {
+        body {
+            let Hmat = [[1.0, 0.0], [0.0, 2.0]];
+            let gap = q_gibbs_spectral_gap(Hmat);
+            return gap;
+        }
+    }
+
+    operation test_gibbs_verify_state(p : Int) : Double {
+        body {
+            let dist = q_gibbs_verify_state([0.5, 0.5], [0.6, 0.4]);
+            return dist;
+        }
+    }
+
+    operation test_gibbs_free_energy(p : Int) : Double {
+        body {
+            let F = q_gibbs_free_energy(2.0, 300.0);
+            return F;
+        }
+    }
+
+    operation test_gibbs_estimate_temp(p : Int) : Double {
+        body {
+            let TempVal = q_gibbs_estimate_temperature(1.0, 1.5);
+            return TempVal;
+        }
+    }
+
+    operation test_gibbs_partition_function(p : Int) : Double {
+        body {
+            let z = q_gibbs_partition_function([1.0, 2.0], 0.5);
+            return z;
+        }
+    }
+
+    operation test_gibbs_probabilities(p : Int) : Int {
+        body {
+            let probs = q_gibbs_probabilities([1.0, 2.0], 0.5);
+            return Length(probs);
+        }
+    }
+
+    operation test_gibbs_valid_temp(p : Int) : Int {
+        body {
+            let ok = q_gibbs_is_valid_temperature(300.0);
+            return ok ? 1 | 0;
+        }
+    }
+
+    operation test_gibbs_complexity(p : Int) : Int {
+        body {
+            let c = q_gibbs_complexity(0.1, 1.0, 0.01);
+            return c > 0 ? c | 0;
+        }
+    }
+
+    // ============================================================
+    // Time-Dependent Hamiltonian Tests
+    // ============================================================
+
+    operation test_timedep_discretize_steps(p : Int) : Int {
+        body {
+            let steps = q_timedep_discretize_steps(1.0, 1.0, 0.01);
+            return steps > 0 ? steps | 0;
+        }
+    }
+
+    operation test_timedep_step_size(p : Int) : Double {
+        body {
+            let dt = q_timedep_step_size(2.0, 4);
+            return dt;
+        }
+    }
+
+    operation test_timedep_evaluate(p : Int) : Int {
+        body {
+            let H0mat = [[1.0, 0.0], [0.0, 1.0]];
+            let H1mat = [[0.0, 1.0], [1.0, 0.0]];
+            let Ht = q_timedep_evaluate(0.5, H0mat, H1mat);
+            return Length(Ht);
+        }
+    }
+
+    operation test_timedep_error_bound(p : Int) : Double {
+        body {
+            let err = q_timedep_error_bound(1.0, 4);
+            return err;
+        }
+    }
+
+    operation test_timedep_norm_variation(p : Int) : Double {
+        body {
+            let Hs = [[[1.0, 0.0], [0.0, 1.0]], [[2.0, 0.0], [0.0, 2.0]]];
+            let var = q_timedep_norm_variation(Hs);
+            return var;
+        }
+    }
+
+    operation test_timedep_verify_evolution(p : Int) : Int {
+        body {
+            let ok = q_timedep_verify_evolution(0.0, 1.0, 0.5);
+            return ok ? 1 | 0;
+        }
+    }
+
+    operation test_timedep_optimal_order(p : Int) : Int {
+        body {
+            let order = q_timedep_optimal_order(1e-6, 1.0);
+            return order;
+        }
+    }
+
+    operation test_timedep_query_count(p : Int) : Int {
+        body {
+            let q = q_timedep_query_count(10, 2, 1.0, 0.01);
+            return q > 0 ? q | 0;
+        }
+    }
 }

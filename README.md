@@ -6,7 +6,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Q#.
 
-Version: v_0.2.11
+Version: v_0.2.12
 
 Released on GitHub from 11.15, 2019.
 
@@ -93,6 +93,45 @@ How to use it:
         Enhanced quantum linear system solver with preconditioning,
         multi-precision rotation, eigenvalue filtering, amplitude amplification,
         and dynamic decoupling.
+
+[new features - v0.2.12]
+
+    QBLAS v0.2.12 adds 4 new modules for advanced Hamiltonian simulation
+    and thermal state preparation:
+
+    === Qubitization-Based Hamiltonian Simulation ===
+
+    Qubitization (q_qubitization.qs):
+        Optimal Hamiltonian simulation using qubitization technique.
+        Combines block encoding with quantum signal processing (QSP)
+        to achieve O(d ||H||_max t + log(1/ε)) query complexity.
+        Includes: phase preparation, query complexity estimation,
+        Chebyshev polynomials, spectral gap computation.
+
+    === Optimized LCU ===
+
+    Optimized LCU (q_lcu_optimized.qs):
+        Efficient linear combination of unitaries using single-ancilla
+        qubit optimization with reduced gate complexity.
+        Implements: single-ancilla preparation, SELECT operation,
+        cosine-sine decomposition, gate count optimization.
+        Complexity: O(2^(ceil(log2(L)))(2n+1)-n-2 two-qubit gates.
+
+    === Thermal State Preparation ===
+
+    Gibbs State (q_gibbs.qs):
+        Thermal state (Gibbs state) preparation ρ = e^{-βH}/Tr(e^{-βH}).
+        Includes: partition function estimation, spectral gap computation,
+        temperature estimation, free energy calculation.
+        Complexity: O(κ/ε) where κ is condition number.
+
+    === Time-Dependent Hamiltonian Simulation ===
+
+    Time-Dependent (q_timedependent.qs):
+        Simulation of time-dependent Hamiltonians H(t) using piecewise
+        constant approximation with optimal order selection.
+        Includes: discretization, error bounds, norm variation,
+        evolution verification.
 
 [new features - v0.2.11]
 
