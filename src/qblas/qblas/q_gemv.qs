@@ -12,6 +12,11 @@ namespace qblas
     // Uses quantum walk-based approach for d-sparse matrices.
     // ============================================================
 
+//
+// Reference: Childs et al., "Exponential Algorithmic Speedup by Quantum Walk"
+// STOC 2003. https://arxiv.org/abs/quant-ph/0209131
+// ============================================================
+
     // Oracle type for d-sparse matrix
     newtype q_matrix_d_sparse_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 

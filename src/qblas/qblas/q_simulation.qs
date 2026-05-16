@@ -9,6 +9,12 @@ namespace qblas
     // Quantum simulation: Trotter decomposition and density matrix evolution
     // ============================================================
 
+//
+// Reference: Lloyd, "Universal Quantum Simulators"
+// Science 273, 1073 (1996). https://arxiv.org/abs/quant-ph/9607003
+// Trotter decomposition: Trotter, Proc. Amer. Math. Soc. 10, 545 (1959).
+// ============================================================
+
     // Controlled SWAP simulation via quantum walk
     operation q_simulation_C_swap(qs_controls : Qubit[], qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit {
         q_walk_simulation_C_SWAP(qs_controls, qs_a, qs_b, t);

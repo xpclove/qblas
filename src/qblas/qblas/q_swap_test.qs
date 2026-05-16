@@ -9,6 +9,12 @@ namespace qblas
     // SWAP test and related distance/inner product estimation
     // ============================================================
 
+//
+// Reference: Buhrman, Cleve, Watrous & de Wolf, "Quantum Fingerprinting"
+// Phys. Rev. Lett. 87, 167902 (2001).
+// https://arxiv.org/abs/quant-ph/0102001
+// ============================================================
+
     // Core SWAP test: estimates overlap between two quantum states
     // control: ancilla qubit, u/v: quantum states to compare
     operation q_swap_test_core(control : Qubit, u : Qubit[], v : Qubit[]) : Unit is Adj + Ctl {

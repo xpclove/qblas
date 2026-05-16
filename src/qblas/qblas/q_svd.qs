@@ -10,6 +10,12 @@ namespace qblas
     // Uses QPE for matrix eigendecomposition
     // ============================================================
 
+//
+// Reference: Lloyd, Mohseni & Rebentrost, "Quantum Singular Value Decomposition"
+// (2014). https://arxiv.org/abs/1804.03915
+// Uses QPE-based eigenvalue estimation from Harrow et al. (2009).
+// ============================================================
+
     // Lambda reciprocal rotation for SVD (same as HHL)
     operation q_md_rotation_lamda_rcp(qs_phase : Qubit[], qs_r : Qubit) : Unit is Adj + Ctl {
         q_hhl_rotation_lamda_rcp(qs_phase, qs_r);

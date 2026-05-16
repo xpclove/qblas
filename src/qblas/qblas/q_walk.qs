@@ -9,6 +9,13 @@ namespace qblas
     // Quantum walk operators and simulation
     // ============================================================
 
+//
+// Reference: Childs, "Quantum Walk Algorithm for Element Distinctness"
+// SIAM J. Comput. 41, 463 (2012). https://arxiv.org/abs/quant-ph/0111136
+// Walk simulation: Brun, "Quantum Walks in Higher Dimensions"
+// J. Phys. A 39, 14917 (2006).
+// ============================================================
+
     // Hadamard + S gate = Hy (approximation of Y rotation)
     operation Hy(qs : Qubit) : Unit is Adj + Ctl {
         H(qs);

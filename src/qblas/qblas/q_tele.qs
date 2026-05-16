@@ -8,6 +8,13 @@ namespace qblas
     // Quantum teleportation and dense coding
     // ============================================================
 
+//
+// Reference: Bennett et al., "Teleporting an Unknown Quantum State via Dual
+// Classical and Einstein-Podolsky-Rosen Channels"
+// Phys. Rev. Lett. 70, 1895 (1993).
+// https://journals.aps.org/prl/abstract/10.1103/PhysRevLett.70.1895
+// ============================================================
+
     // Create Bell state ( maximally entangled pair )
     operation q_bell_state_creat(qs : Qubit[]) : Unit is Adj + Ctl {
         H(qs[1]);

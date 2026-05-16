@@ -9,7 +9,29 @@ namespace qblas
     // HHL Algorithm for solving linear systems
     // ============================================================
 
+//
+// Reference: Harrow, Hassidim & Lloyd, "Quantum Algorithm for Linear Systems
+// of Equations" Phys. Rev. Lett. 103, 150502 (2009).
+// https://arxiv.org/abs/0811.3171
+// ============================================================
+
     // Rotation to 1/lambda eigenstate: qs_r rotates to 1/lambda |1> + (1-1/lambda) |0>
+    // ============================================================
+    // HHL Algorithm for Linear Systems of Equations
+    //
+    // Solves Ax = b for Hermitian matrix A using quantum phase estimation
+    // followed by eigenvalue-dependent rotation and inverse QPE.
+    //
+    // Operations:
+    //   q_hhl_rotation_lamda_rcp: Rotation angle 1/lambda for controlled rotation
+    //   q_hhl_core: Core HHL: QPE + eigenvalue rotation + inverse QPE
+    //   q_hhl: Full HHL algorithm returning measurement result
+    //   q_hhl_until_OK: Repeat-until-success variant
+    //
+    // Complexity: O(kappa^2 log(N) / epsilon) for condition number kappa
+    //
+    // Reference: Harrow, Hassidim & Lloyd, Phys. Rev. Lett. 103, 150502 (2009)
+
     operation q_hhl_rotation_lamda_rcp(qs_phase : Qubit[], qs_r : Qubit) : Unit is Adj + Ctl {
         let nbit = Length(qs_phase);
         let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ nbit) - 1);

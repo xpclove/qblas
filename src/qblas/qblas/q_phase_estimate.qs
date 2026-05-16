@@ -7,6 +7,12 @@ namespace qblas
     // Quantum Phase Estimation (QPE)
     // ============================================================
 
+//
+// Reference: Kitaev, "Quantum Measurements and the Abelian Stabilizer Problem"
+// (1995). https://arxiv.org/abs/quant-ph/9511026
+// See also: Nielsen & Chuang, Section 5.2.
+// ============================================================
+
     // Core QPE: estimates phase of unitary U_A applied to state qs_u
     // qs_phase: LittleEndian register for phase bits
     // U_A: callable representing unitary operation

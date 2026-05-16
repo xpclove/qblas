@@ -15,6 +15,14 @@ namespace qblas
     // for well-conditioned matrices.
     // ============================================================
 
+//
+// Reference: Kerenidis & Prakash, "Quantum Recommendation Systems"
+// ITCS 2017. https://arxiv.org/abs/1603.08675
+// Variable-time amplitude estimation: Childs et al.,
+// "Quantum Algorithm for Systems of Linear Equations with Exponentially
+// Improved Dependence on Precision" SIAM J. Comput. 46, 1920 (2017).
+// ============================================================
+
     // ============================================================
     // Core VT-QSVD: Adaptive singular value estimation
     // ============================================================

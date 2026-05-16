@@ -12,9 +12,29 @@ namespace qblas
     // Enhanced HHL: Improved with condition number awareness
     // ============================================================
 
+//
+// Reference: Harrow, Hassidim & Lloyd, "Quantum Algorithm for Linear Systems
+// of Equations" (base HHL). Enhanced with condition number optimization
+// from Childs et al., "Quantum Algorithm for Systems of Linear Equations
+// with Exponentially Improved Dependence on Precision"
+// SIAM J. Comput. 46, 1920 (2017). https://arxiv.org/abs/1511.02306
+// ============================================================
+
     // ============================================================
     // Enhanced Rotation with Condition Number Adjustment
     // ============================================================
+    // ============================================================
+    // Enhanced HHL Algorithm with Condition Number Optimization
+    //
+    // Extends standard HHL with:
+    //   - Condition number awareness for rotation angle optimization
+    //   - Preconditioning support for ill-conditioned matrices
+    //   - Multi-precision rotation for large/small eigenvalues
+    //   - Eigenvalue filtering to skip problematic eigenvalues
+    //   - Amplitude amplification (QAA) for higher success probability
+    //   - Dynamic decoupling for error mitigation
+    //
+    // Complexity: O(kappa * log(1/epsilon)) with preconditioning
 
     operation q_hhl_enhanced_rotation(
         qs_phase : Qubit[],

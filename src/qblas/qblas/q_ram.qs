@@ -11,6 +11,12 @@ namespace qblas
     // Quantum RAM address preparation
     // ============================================================
 
+//
+// Reference: Giovannetti, Lloyd & Maccone, "Quantum Random Access Memory"
+// Phys. Rev. Lett. 100, 160501 (2008).
+// https://arxiv.org/abs/0708.1879
+// ============================================================
+
     // Prepare address qubits to represent binary of address
     operation q_ram_addressing(qs_address : Qubit[], address : Int) : Unit is Adj + Ctl {
         let n_a = Length(qs_address);

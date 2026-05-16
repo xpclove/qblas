@@ -12,6 +12,11 @@ namespace qblas
     // Uses block-wise multiplication with quantum walk.
     // ============================================================
 
+//
+// Reference: Childs, "Quantum Walk Algorithm for Matrix Multiplication"
+// STOC 2017. https://arxiv.org/abs/1704.03859
+// ============================================================
+
     // Combined oracle for two matrices in GEMM
     newtype q_gemm_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 

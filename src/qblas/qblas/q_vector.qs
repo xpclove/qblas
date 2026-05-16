@@ -9,6 +9,13 @@ namespace qblas
     // Quantum state preparation
     // ============================================================
 
+//
+// Reference: Long & Sun, "Efficient Quantum State Preparation"
+// Phys. Rev. A 64, 014303 (2001).
+// Amplitude encoding: Schuld & Petruccione, "Supervised Learning with
+// Quantum Computers" Springer (2018), Chapter 4.
+// ============================================================
+
     // Prepare computational basis state |k>
     operation q_vector_prepare_basis(k : Int, qs : Qubit[]) : Unit is Adj + Ctl {
         for i in 0 .. Length(qs) - 1 {

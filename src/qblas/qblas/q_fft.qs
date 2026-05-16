@@ -8,6 +8,12 @@ namespace qblas
     // Quantum Fourier Transform (QFT)
     // ============================================================
 
+//
+// Reference: Nielsen & Chuang, "Quantum Computation and Quantum Information"
+// Cambridge University Press, 2010, Chapter 5.
+// https://arxiv.org/abs/1603.01900
+// ============================================================
+
     // Core QFT: performs Fourier transform on qubit register
     // Input qubits are in LittleEndian format
     operation q_fft_core(qs : Qubit[]) : Unit is Adj + Ctl {
