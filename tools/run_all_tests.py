@@ -68,6 +68,19 @@ def parse_tests():
                         ))
                     break
 
+    # Auto-discover tests from .qs files not covered by Driver.cs
+    known_ops = {t[1] for t in tests}
+    test_dir = os.path.join(repo, 'src', 'qblas', 'test')
+    for f in sorted(os.listdir(test_dir)):
+        if not f.endswith('.qs'):
+            continue
+        content = open(os.path.join(test_dir, f)).read()
+        for m in re.finditer(r'operation (test_\w+)\(', content):
+            op = m.group(1)
+            if op not in known_ops:
+                tests.append((f"Auto ({f}): {op}", op, 0))
+                known_ops.add(op)
+
     return tests
 
 
