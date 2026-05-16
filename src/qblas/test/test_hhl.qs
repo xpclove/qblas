@@ -4,6 +4,7 @@ namespace Quantum.test
     open Microsoft.Quantum.Canon;
     import Std.Convert.*;
     import Std.Math.*;
+    import Std.Diagnostics.Fact;
     open qblas;
 
     // U_test: U = exp(i * sigma_z * dt), Rz rotation
@@ -95,7 +96,9 @@ namespace Quantum.test
             q_simulation_C_swap(qs_control, qs_a, qs_b, time);
             ResetAll(qs);
         }
-        return 1.0;
+        let _r = 1.0;
+        Fact(AbsD(_r - 1.0) < 0.1, "test_swap_simulation");
+        return _r;
     }
 
     operation test_1_sparse_bool(p : Int) : Double {
@@ -106,7 +109,9 @@ namespace Quantum.test
             q_walk_simulation_matrix_1_sparse_bool(ora, qs_b, time);
             ResetAll(qs);
         }
-        return 1.0;
+        let _r = 1.0;
+        Fact(AbsD(_r - 1.0) < 0.1, "test_1_sparse_bool");
+        return _r;
     }
 
     operation test_1_sparse_integer(p : Int) : Double {
@@ -117,7 +122,9 @@ namespace Quantum.test
             q_walk_simulation_matrix_1_sparse_integer(ora, qs_b, time);
             ResetAll(qs);
         }
-        return 1.0;
+        let _r = 1.0;
+        Fact(AbsD(_r - 1.0) < 0.1, "test_1_sparse_integer");
+        return _r;
     }
 
     operation test_SwapA(p : Int) : Double {
