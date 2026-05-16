@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum GMRES (QGMRES)
@@ -81,13 +81,8 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            q_gemv(oracle, qs_state, qs_work, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_gemv(oracle, qs_state, qs_work, time);
     }
 
     // ============================================================
@@ -114,7 +109,7 @@ namespace qblas
 
     function q_gmres_build_row(row_vals : Double[], m_steps : Int, col_idx : Int, val : Double) : Double[] {
         mutable new_row = [];
-        for (k in 0 .. m_steps - 1) {
+        for k in 0 .. m_steps - 1 {
             let entry = (k == col_idx) ? val | row_vals[k];
             set new_row += [entry];
         }
@@ -152,48 +147,46 @@ namespace qblas
         n_measure : Int,
         time : Double
     ) : Double[][] {
-        body {
-            mutable H_rows = [];
-            for (i in 0 .. m_steps) {
-                mutable row = [];
-                for (j in 0 .. m_steps - 1) {
-                    set row += [0.0];
-                }
-                set H_rows += [row];
+        mutable H_rows = [];
+        for i in 0 .. m_steps {
+            mutable row = [];
+            for j in 0 .. m_steps - 1 {
+                set row += [0.0];
             }
-
-            for (j in 0 .. m_steps - 1) {
-                let start_vj = j * n_qubits;
-                use qs_avj = Qubit[n_qubits];
-
-                for (q in 0 .. n_qubits - 1) {
-                    CNOT(qs_basis[start_vj + q], qs_avj[q]);
-                }
-                q_gmres_apply_matrix(oracle, qs_avj, qs_work, time);
-
-                for (i in 0 .. j) {
-                    let start_vi = i * n_qubits;
-                    let h_ij = q_krylov_estimate_overlap(
-                        qs_basis[start_vi .. start_vi + n_qubits - 1],
-                        qs_avj[0 .. n_qubits - 1],
-                        n_measure
-                    );
-                    let updated_row = q_gmres_build_row(H_rows[i], m_steps, j, h_ij);
-                    set H_rows = H_rows w/ i <- updated_row;
-                }
-
-                if (j < m_steps - 1) {
-                    let start_vjp1 = (j + 1) * n_qubits;
-                    for (q in 0 .. n_qubits - 1) {
-                        CNOT(qs_avj[q], qs_basis[start_vjp1 + q]);
-                    }
-                }
-
-                ResetAll(qs_avj);
-            }
-
-            return H_rows;
+            set H_rows += [row];
         }
+
+        for j in 0 .. m_steps - 1 {
+            let start_vj = j * n_qubits;
+            use qs_avj = Qubit[n_qubits];
+
+            for q in 0 .. n_qubits - 1 {
+                CNOT(qs_basis[start_vj + q], qs_avj[q]);
+            }
+            q_gmres_apply_matrix(oracle, qs_avj, qs_work, time);
+
+            for i in 0 .. j {
+                let start_vi = i * n_qubits;
+                let h_ij = q_krylov_estimate_overlap(
+                    qs_basis[start_vi .. start_vi + n_qubits - 1],
+                    qs_avj[0 .. n_qubits - 1],
+                    n_measure
+                );
+                let updated_row = q_gmres_build_row(H_rows[i], m_steps, j, h_ij);
+                set H_rows = H_rows w/ i <- updated_row;
+            }
+
+            if (j < m_steps - 1) {
+                let start_vjp1 = (j + 1) * n_qubits;
+                for q in 0 .. n_qubits - 1 {
+                    CNOT(qs_avj[q], qs_basis[start_vjp1 + q]);
+                }
+            }
+
+            ResetAll(qs_avj);
+        }
+
+        return H_rows;
     }
 
     // ============================================================
@@ -221,15 +214,10 @@ namespace qblas
         s : Double,
         i : Int,
         j : Int
-    ) : Unit {
-        body {
-            let theta = ArcTan2(s, c);
-            Ry(2.0 * theta, qs_h[i]);
-            Ry(2.0 * theta, qs_h[j]);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        let theta = ArcTan2(s, c);
+        Ry(2.0 * theta, qs_h[i]);
+        Ry(2.0 * theta, qs_h[j]);
     }
 
     // ============================================================
@@ -264,30 +252,28 @@ namespace qblas
         time : Double,
         eps : Double
     ) : Unit {
-        body {
-            let n_qubits = Length(qs_b);
-            let n_measure = 10;
-            let m_steps = max_iter;
+        let n_qubits = Length(qs_b);
+        let n_measure = 10;
+        let m_steps = max_iter;
 
-            use qs_basis = Qubit[n_qubits * m_steps];
+        use qs_basis = Qubit[n_qubits * m_steps];
 
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_b[q], qs_basis[q]);
-            }
-
-            let H_matrix = q_gmres_arnoldi(
-                oracle, qs_basis, qs_work, n_qubits, m_steps, n_measure, time
-            );
-
-            let beta = q_krylov_estimate_overlap(
-                qs_b, qs_basis[0 .. n_qubits - 1], n_measure
-            );
-
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_basis[q], qs_x[q]);
-            }
-
-            ResetAll(qs_basis);
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_b[q], qs_basis[q]);
         }
+
+        let H_matrix = q_gmres_arnoldi(
+            oracle, qs_basis, qs_work, n_qubits, m_steps, n_measure, time
+        );
+
+        let beta = q_krylov_estimate_overlap(
+            qs_b, qs_basis[0 .. n_qubits - 1], n_measure
+        );
+
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_basis[q], qs_x[q]);
+        }
+
+        ResetAll(qs_basis);
     }
 }

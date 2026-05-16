@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Conjugate Gradient Method (QCG)
@@ -108,13 +108,8 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            q_gemv(oracle, qs_state, qs_work, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_gemv(oracle, qs_state, qs_work, time);
     }
 
     // ============================================================
@@ -148,21 +143,19 @@ namespace qblas
         beta : Double,
         time : Double
     ) : Unit {
-        body {
-            let n = Length(qs_x);
+        let n = Length(qs_x);
 
-            use qs_ap = Qubit[n];
+        use qs_ap = Qubit[n];
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_p[q], qs_ap[q]);
-            }
-            q_cg_apply_matrix(oracle, qs_ap, qs_work, time);
-
-            for (q in 0 .. n - 1) {
-                CNOT(qs_ap[q], qs_r[q]);
-            }
-            ResetAll(qs_ap);
+        for q in 0 .. n - 1 {
+            CNOT(qs_p[q], qs_ap[q]);
         }
+        q_cg_apply_matrix(oracle, qs_ap, qs_work, time);
+
+        for q in 0 .. n - 1 {
+            CNOT(qs_ap[q], qs_r[q]);
+        }
+        ResetAll(qs_ap);
     }
 
     // ============================================================
@@ -196,44 +189,42 @@ namespace qblas
         time : Double,
         eps : Double
     ) : Unit {
-        body {
-            let n = Length(qs_x);
-            let n_measure = 10;
+        let n = Length(qs_x);
+        let n_measure = 10;
 
-            use qs_r = Qubit[n];
-            use qs_p = Qubit[n];
+        use qs_r = Qubit[n];
+        use qs_p = Qubit[n];
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_r[q]);
-            }
-            for (q in 0 .. n - 1) {
-                CNOT(qs_r[q], qs_p[q]);
-            }
-
-            for (_ in 0 .. max_iter - 1) {
-                let r_norm_sq = 0.5;
-
-                use qs_ap = Qubit[n];
-                for (q in 0 .. n - 1) {
-                    CNOT(qs_p[q], qs_ap[q]);
-                }
-                q_cg_apply_matrix(oracle, qs_ap, qs_work, time);
-
-                let pAp = q_krylov_estimate_overlap(
-                    qs_p, qs_ap, n_measure
-                );
-
-                let alpha = q_cg_compute_alpha(r_norm_sq, pAp);
-
-                for (q in 0 .. n - 1) {
-                    CNOT(qs_ap[q], qs_x[q]);
-                }
-
-                ResetAll(qs_ap);
-            }
-
-            ResetAll(qs_r);
-            ResetAll(qs_p);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_r[q]);
         }
+        for q in 0 .. n - 1 {
+            CNOT(qs_r[q], qs_p[q]);
+        }
+
+        for _ in 0 .. max_iter - 1 {
+            let r_norm_sq = 0.5;
+
+            use qs_ap = Qubit[n];
+            for q in 0 .. n - 1 {
+                CNOT(qs_p[q], qs_ap[q]);
+            }
+            q_cg_apply_matrix(oracle, qs_ap, qs_work, time);
+
+            let pAp = q_krylov_estimate_overlap(
+                qs_p, qs_ap, n_measure
+            );
+
+            let alpha = q_cg_compute_alpha(r_norm_sq, pAp);
+
+            for q in 0 .. n - 1 {
+                CNOT(qs_ap[q], qs_x[q]);
+            }
+
+            ResetAll(qs_ap);
+        }
+
+        ResetAll(qs_r);
+        ResetAll(qs_p);
     }
 }

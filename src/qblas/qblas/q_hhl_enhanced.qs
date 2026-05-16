@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Enhanced HHL Algorithm with Condition Number Optimization
@@ -22,16 +22,14 @@ namespace qblas
         condition_number : Double,
         n_bits : Int
     ) : Unit {
-        body (...) {
-            let kappa = MinD(condition_number, 100.0);
-            let base_scale = 1.0 / kappa;
+        let kappa = MinD(condition_number, 100.0);
+        let base_scale = 1.0 / kappa;
 
-            let n_bit = Length(qs_phase);
-            let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bit) - 1);
-            let adjusted_scale = lambda_div * base_scale;
+        let n_bit = Length(qs_phase);
+        let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bit) - 1);
+        let adjusted_scale = lambda_div * base_scale;
 
-            q_ram_call_lamda_rcp(qs_phase, [qs_r], adjusted_scale);
-        }
+        q_ram_call_lamda_rcp(qs_phase, [qs_r], adjusted_scale);
     }
 
     // ============================================================
@@ -47,17 +45,15 @@ namespace qblas
         n_bits : Int,
         condition_number : Double
     ) : Unit {
-        body (...) {
-            use qs_work = Qubit[Length(qs_u)];
+        use qs_work = Qubit[Length(qs_u)];
 
-            U_P(qs_u, qs_work);
+        U_P(qs_u, qs_work);
 
-            q_phase_estimate_core(U_A, qs_work, qs_phase);
-            q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
-            (Adjoint q_phase_estimate_core)(U_A, qs_work, qs_phase);
+        q_phase_estimate_core(U_A, qs_work, qs_phase);
+        q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
+        (Adjoint q_phase_estimate_core)(U_A, qs_work, qs_phase);
 
-            (Adjoint U_P)(qs_work, qs_u);
-        }
+        (Adjoint U_P)(qs_work, qs_u);
     }
 
     // ============================================================
@@ -74,28 +70,26 @@ namespace qblas
         n_bits_small : Int,
         threshold : Double
     ) : Unit {
-        body (...) {
-            q_phase_estimate_core(U_A, qs_u, qs_phase);
+        q_phase_estimate_core(U_A, qs_u, qs_phase);
 
-            mutable est_int = 0;
-            let n_bit = Length(qs_phase);
-            for i in 0 .. n_bit - 1 {
-                if (M(qs_phase[i]) == One) {
-                    set est_int = est_int + (2 ^ i);
-                }
+        mutable est_int = 0;
+        let n_bit = Length(qs_phase);
+        for i in 0 .. n_bit - 1 {
+            if (M(qs_phase[i]) == One) {
+                set est_int = est_int + (2 ^ i);
             }
-            let est_lambda = IntAsDouble(est_int) / IntAsDouble(2 ^ n_bit);
-
-            if (est_lambda > threshold) {
-                let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits_large) - 1);
-                q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
-            } else {
-                let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits_small) - 1);
-                q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
-            }
-
-            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
         }
+        let est_lambda = IntAsDouble(est_int) / IntAsDouble(2 ^ n_bit);
+
+        if (est_lambda > threshold) {
+            let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits_large) - 1);
+            q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
+        } else {
+            let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits_small) - 1);
+            q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
+        }
+
+        (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
     }
 
     // ============================================================
@@ -111,28 +105,26 @@ namespace qblas
         lambda_min : Double,
         lambda_max : Double
     ) : Result {
-        body (...) {
-            q_phase_estimate_core(U_A, qs_u, qs_phase);
+        q_phase_estimate_core(U_A, qs_u, qs_phase);
 
-            mutable est_int = 0;
-            for i in 0 .. n_bits - 1 {
-                if (M(qs_phase[i]) == One) {
-                    set est_int = est_int + (2 ^ i);
-                }
+        mutable est_int = 0;
+        for i in 0 .. n_bits - 1 {
+            if (M(qs_phase[i]) == One) {
+                set est_int = est_int + (2 ^ i);
             }
-            let est_lambda = IntAsDouble(est_int) / IntAsDouble(2 ^ n_bits);
-
-            if (est_lambda < lambda_min or est_lambda > lambda_max) {
-                ResetAll(qs_phase);
-                return Zero;
-            }
-
-            let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits) - 1);
-            q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
-
-            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
-            return M(qs_r);
         }
+        let est_lambda = IntAsDouble(est_int) / IntAsDouble(2 ^ n_bits);
+
+        if (est_lambda < lambda_min or est_lambda > lambda_max) {
+            ResetAll(qs_phase);
+            return Zero;
+        }
+
+        let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bits) - 1);
+        q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div);
+
+        (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
+        return M(qs_r);
     }
 
     // ============================================================
@@ -146,17 +138,15 @@ namespace qblas
         n_bits : Int,
         n_iter : Int
     ) : Unit {
-        body (...) {
-            for iter in 0 .. n_iter - 1 {
-                use qs_phase = Qubit[n_bits];
-                use qs_r = Qubit[1];
+        for iter in 0 .. n_iter - 1 {
+            use qs_phase = Qubit[n_bits];
+            use qs_r = Qubit[1];
 
-                prepare_oracle(qs_u);
+            prepare_oracle(qs_u);
 
-                q_phase_estimate_core(U_A, qs_u, qs_phase);
-                q_hhl_rotation_lamda_rcp(qs_phase, qs_r[0]);
-                (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
-            }
+            q_phase_estimate_core(U_A, qs_u, qs_phase);
+            q_hhl_rotation_lamda_rcp(qs_phase, qs_r[0]);
+            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
         }
     }
 
@@ -173,28 +163,26 @@ namespace qblas
         n_bits : Int,
         n_amp_iter : Int
     ) : Result {
-        body (...) {
-            mutable success = Zero;
+        mutable success = Zero;
 
-            for amp_iter in 0 .. n_amp_iter - 1 {
-                ResetAll(qs_u);
-                ResetAll(qs_phase);
-                Reset(qs_r);
+        for amp_iter in 0 .. n_amp_iter - 1 {
+            ResetAll(qs_u);
+            ResetAll(qs_phase);
+            Reset(qs_r);
 
-                prepare_oracle(qs_u);
+            prepare_oracle(qs_u);
 
-                q_phase_estimate_core(U_A, qs_u, qs_phase);
-                q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
-                (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
+            q_phase_estimate_core(U_A, qs_u, qs_phase);
+            q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
+            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
 
-                set success = M(qs_r);
-                if (success == One) {
-                    return success;
-                }
+            set success = M(qs_r);
+            if (success == One) {
+                return success;
             }
-
-            return success;
         }
+
+        return success;
     }
 
     // ============================================================
@@ -209,27 +197,25 @@ namespace qblas
         n_bits : Int,
         dd_pulses : Int
     ) : Unit {
-        body (...) {
-            q_phase_estimate_core(U_A, qs_u, qs_phase);
+        q_phase_estimate_core(U_A, qs_u, qs_phase);
 
-            for dd in 0 .. dd_pulses - 1 {
-                for i in 0 .. n_bits - 1 {
-                    H(qs_phase[i]);
-                    H(qs_phase[i]);
-                }
+        for dd in 0 .. dd_pulses - 1 {
+            for i in 0 .. n_bits - 1 {
+                H(qs_phase[i]);
+                H(qs_phase[i]);
             }
-
-            q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
-
-            for dd in 0 .. dd_pulses - 1 {
-                for i in 0 .. n_bits - 1 {
-                    H(qs_phase[i]);
-                    H(qs_phase[i]);
-                }
-            }
-
-            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
         }
+
+        q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
+
+        for dd in 0 .. dd_pulses - 1 {
+            for i in 0 .. n_bits - 1 {
+                H(qs_phase[i]);
+                H(qs_phase[i]);
+            }
+        }
+
+        (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
     }
 
     // ============================================================
@@ -246,29 +232,27 @@ namespace qblas
         use_preconditioner : Bool,
         use_amp_amp : Bool
     ) : Result {
-        body (...) {
-            use qs_phase = Qubit[n_bits];
+        use qs_phase = Qubit[n_bits];
 
-            prepare_oracle(qs_u);
+        prepare_oracle(qs_u);
 
-            if (use_preconditioner) {
-                use qs_work = Qubit[Length(qs_u)];
-                q_phase_estimate_core(U_A, qs_work, qs_phase);
-                q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
-                (Adjoint q_phase_estimate_core)(U_A, qs_work, qs_phase);
-            } elif (use_amp_amp) {
-                q_phase_estimate_core(U_A, qs_u, qs_phase);
-                q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
-                (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
-            } else {
-                q_phase_estimate_core(U_A, qs_u, qs_phase);
-                q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
-                (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
-            }
-
-            ResetAll(qs_phase);
-            return M(qs_r);
+        if (use_preconditioner) {
+            use qs_work = Qubit[Length(qs_u)];
+            q_phase_estimate_core(U_A, qs_work, qs_phase);
+            q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
+            (Adjoint q_phase_estimate_core)(U_A, qs_work, qs_phase);
+        } elif (use_amp_amp) {
+            q_phase_estimate_core(U_A, qs_u, qs_phase);
+            q_hhl_rotation_lamda_rcp(qs_phase, qs_r);
+            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
+        } else {
+            q_phase_estimate_core(U_A, qs_u, qs_phase);
+            q_hhl_enhanced_rotation(qs_phase, qs_r, condition_number, n_bits);
+            (Adjoint q_phase_estimate_core)(U_A, qs_u, qs_phase);
         }
+
+        ResetAll(qs_phase);
+        return M(qs_r);
     }
 
     // ============================================================
@@ -280,27 +264,25 @@ namespace qblas
         qs_state : Qubit[],
         n_samples : Int
     ) : Double {
-        body (...) {
-            mutable max_est = 0.0;
-            mutable min_est = 1.0;
+        mutable max_est = 0.0;
+        mutable min_est = 1.0;
 
-            for s in 0 .. n_samples - 1 {
-                let power = 2 ^ (s % 8);
-                (U_A)(power, qs_state);
+        for s in 0 .. n_samples - 1 {
+            let power = 2 ^ (s % 8);
+            (U_A)(power, qs_state);
 
-                let m = M(qs_state[0]);
-                if (m == One) {
-                    set max_est = MaxD(max_est, IntAsDouble(power) / 256.0);
-                } else {
-                    set min_est = MinD(min_est, IntAsDouble(power) / 256.0);
-                }
+            let m = M(qs_state[0]);
+            if (m == One) {
+                set max_est = MaxD(max_est, IntAsDouble(power) / 256.0);
+            } else {
+                set min_est = MinD(min_est, IntAsDouble(power) / 256.0);
             }
-
-            if (min_est > 0.0) {
-                return max_est / min_est;
-            }
-            return 1.0 / 1e-10;
         }
+
+        if (min_est > 0.0) {
+            return max_est / min_est;
+        }
+        return 1.0 / 1e-10;
     }
 
     // ============================================================
@@ -314,23 +296,21 @@ namespace qblas
         n_bits : Int,
         tolerance : Double
     ) : Bool {
-        body (...) {
-            use qs_work = Qubit[Length(qs_x)];
+        use qs_work = Qubit[Length(qs_x)];
 
-            for i in 0 .. Length(qs_x) - 1 {
-                CNOT(qs_x[i], qs_work[i]);
-            }
-            (U_A)(1, qs_work);
-
-            mutable error = 0.0;
-            for i in 0 .. n_bits - 1 {
-                if (M(qs_work[i]) != M(qs_b[i])) {
-                    set error = error + 1.0;
-                }
-            }
-
-            let residual_norm = error / IntAsDouble(n_bits);
-            return residual_norm < tolerance;
+        for i in 0 .. Length(qs_x) - 1 {
+            CNOT(qs_x[i], qs_work[i]);
         }
+        (U_A)(1, qs_work);
+
+        mutable error = 0.0;
+        for i in 0 .. n_bits - 1 {
+            if (M(qs_work[i]) != M(qs_b[i])) {
+                set error = error + 1.0;
+            }
+        }
+
+        let residual_norm = error / IntAsDouble(n_bits);
+        return residual_norm < tolerance;
     }
 }

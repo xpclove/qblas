@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Matrix Functions (QMF)
@@ -47,26 +47,24 @@ namespace qblas
         qs_ancilla : Qubit[],
         n_bits : Int
     ) : Double {
-        body (...) {
-            mutable trace_sum = 0.0;
-            let n_samples = 1;
+        mutable trace_sum = 0.0;
+        let n_samples = 1;
 
-            for (sample in 0 .. n_samples - 1) {
-                oracle(qs_data, qs_ancilla);
+        for sample in 0 .. n_samples - 1 {
+            oracle(qs_data, qs_ancilla);
 
-                mutable angle = 0.0;
-                for (bit in 0 .. n_bits - 1) {
-                    let n_iter = 1 <<< bit;
-                    let phase_contribution = PI() / IntAsDouble(n_iter);
-                    set angle += phase_contribution;
-                }
-
-                (Adjoint oracle)(qs_data, qs_ancilla);
-                set trace_sum += Cos(angle);
+            mutable angle = 0.0;
+            for bit in 0 .. n_bits - 1 {
+                let n_iter = 1 <<< bit;
+                let phase_contribution = PI() / IntAsDouble(n_iter);
+                set angle += phase_contribution;
             }
 
-            return trace_sum / IntAsDouble(n_samples);
+            (Adjoint oracle)(qs_data, qs_ancilla);
+            set trace_sum += Cos(angle);
         }
+
+        return trace_sum / IntAsDouble(n_samples);
     }
 
     // ============================================================
@@ -94,25 +92,23 @@ namespace qblas
         qs_ancilla : Qubit[],
         k : Int
     ) : Double {
-        body (...) {
-            if (k < 0) {
-                fail "q_matrix_trace_power requires non-negative exponent";
-            }
-
-            if (k == 0) {
-                let dim = Length(qs_data);
-                return IntAsDouble(dim);
-            }
-
-            mutable trace_val = 0.0;
-
-            oracle(qs_data, qs_ancilla);
-            for (iter in 1 .. k - 1) {
-                oracle(qs_data, qs_ancilla);
-            }
-
-            return trace_val;
+        if (k < 0) {
+            fail "q_matrix_trace_power requires non-negative exponent";
         }
+
+        if (k == 0) {
+            let dim = Length(qs_data);
+            return IntAsDouble(dim);
+        }
+
+        mutable trace_val = 0.0;
+
+        oracle(qs_data, qs_ancilla);
+        for iter in 1 .. k - 1 {
+            oracle(qs_data, qs_ancilla);
+        }
+
+        return trace_val;
     }
 
     // ============================================================
@@ -141,22 +137,20 @@ namespace qblas
         qs_ancilla : Qubit[],
         precision : Double
     ) : Unit {
-        body (...) {
-            let max_iter = 100;
-            let rate = 0.5;
+        let max_iter = 100;
+        let rate = 0.5;
 
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            for (iter in 0 .. max_iter - 1) {
-                let coef = rate / IntAsDouble(iter + 1);
-                if (AbsD(coef) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(coef));
-                    Ry(angle, qs_ancilla[0]);
-                }
+        for iter in 0 .. max_iter - 1 {
+            let coef = rate / IntAsDouble(iter + 1);
+            if (AbsD(coef) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(coef));
+                Ry(angle, qs_ancilla[0]);
             }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
         }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -184,22 +178,20 @@ namespace qblas
         qs_ancilla : Qubit[],
         n_bits : Int
     ) : Double {
-        body (...) {
-            mutable log_det_sum = 0.0;
+        mutable log_det_sum = 0.0;
 
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            for (bit in 0 .. n_bits - 1) {
-                let n_iter = 1 <<< bit;
-                let power_of_2 = 1 <<< n_bits;
-                let phase_contribution = PI() * IntAsDouble(n_iter) / IntAsDouble(power_of_2);
-                let eigenvalue_contribution = Log(1.0 + Cos(phase_contribution));
-                set log_det_sum += eigenvalue_contribution;
-            }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
-            return log_det_sum;
+        for bit in 0 .. n_bits - 1 {
+            let n_iter = 1 <<< bit;
+            let power_of_2 = 1 <<< n_bits;
+            let phase_contribution = PI() * IntAsDouble(n_iter) / IntAsDouble(power_of_2);
+            let eigenvalue_contribution = Log(1.0 + Cos(phase_contribution));
+            set log_det_sum += eigenvalue_contribution;
         }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
+        return log_det_sum;
     }
 
     // ============================================================
@@ -227,19 +219,17 @@ namespace qblas
         qs_ancilla : Qubit[],
         k : Int
     ) : Unit {
-        body (...) {
-            if (k == 0) {
-                return ();
-            }
+        if (k == 0) {
+            return ();
+        }
 
-            if (k > 0) {
-                for (iter in 0 .. k - 1) {
-                    oracle(qs_data, qs_ancilla);
-                }
-            } else {
-                for (iter in 0 .. -k - 1) {
-                    (Adjoint oracle)(qs_data, qs_ancilla);
-                }
+        if (k > 0) {
+            for iter in 0 .. k - 1 {
+                oracle(qs_data, qs_ancilla);
+            }
+        } else {
+            for iter in 0 .. -k - 1 {
+                (Adjoint oracle)(qs_data, qs_ancilla);
             }
         }
     }
@@ -269,19 +259,17 @@ namespace qblas
         qs_ancilla : Qubit[],
         precision : Double
     ) : Bool {
-        body (...) {
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            let trace_before = q_matrix_trace(oracle, qs_data, qs_ancilla, 10);
+        let trace_before = q_matrix_trace(oracle, qs_data, qs_ancilla, 10);
 
-            (Adjoint oracle)(qs_data, qs_ancilla);
-            oracle(qs_data, qs_ancilla);
+        (Adjoint oracle)(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            let trace_after = q_matrix_trace(oracle, qs_data, qs_ancilla, 10);
+        let trace_after = q_matrix_trace(oracle, qs_data, qs_ancilla, 10);
 
-            (Adjoint oracle)(qs_data, qs_ancilla);
+        (Adjoint oracle)(qs_data, qs_ancilla);
 
-            return AbsD(trace_before - trace_after) < precision;
-        }
+        return AbsD(trace_before - trace_after) < precision;
     }
 }

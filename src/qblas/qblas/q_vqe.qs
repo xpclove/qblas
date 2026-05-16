@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Variational Quantum Eigensolver (VQE) Components
@@ -49,37 +49,35 @@ namespace qblas
         qs : Qubit[],
         nlayers : Int
     ) : Unit {
-        body (...) {
-            let n = Length(qs);
+        let n = Length(qs);
 
-            if (n < 1 or n != nqubits) {
-                return ();
-            }
+        if (n < 1 or n != nqubits) {
+            return ();
+        }
 
-            mutable pidx = 0;
+        mutable pidx = 0;
 
-            for (layer in 0 .. nlayers - 1) {
-                for (i in 0 .. n - 1) {
-                    if (pidx < Length(theta)) {
-                        let ang = theta[pidx];
-                        Ry(ang, qs[i]);
-                        set pidx = pidx + 1;
-                    }
-
-                    if (pidx < Length(theta)) {
-                        let ang = theta[pidx];
-                        Rz(ang, qs[i]);
-                        set pidx = pidx + 1;
-                    }
+        for layer in 0 .. nlayers - 1 {
+            for i in 0 .. n - 1 {
+                if (pidx < Length(theta)) {
+                    let ang = theta[pidx];
+                    Ry(ang, qs[i]);
+                    set pidx = pidx + 1;
                 }
 
-                if (layer < nlayers - 1) {
-                    for (i in 0 .. n - 2) {
-                        CNOT(qs[i], qs[i + 1]);
-                    }
-                    if (n > 2) {
-                        CNOT(qs[n - 1], qs[0]);
-                    }
+                if (pidx < Length(theta)) {
+                    let ang = theta[pidx];
+                    Rz(ang, qs[i]);
+                    set pidx = pidx + 1;
+                }
+            }
+
+            if (layer < nlayers - 1) {
+                for i in 0 .. n - 2 {
+                    CNOT(qs[i], qs[i + 1]);
+                }
+                if (n > 2) {
+                    CNOT(qs[n - 1], qs[0]);
                 }
             }
         }
@@ -110,30 +108,28 @@ namespace qblas
         qs : Qubit[],
         nlayers : Int
     ) : Unit {
-        body (...) {
-            let n = Length(qs);
+        let n = Length(qs);
 
-            for (i in 0 .. n - 1) {
-                H(qs[i]);
+        for i in 0 .. n - 1 {
+            H(qs[i]);
+        }
+
+        for layer in 0 .. nlayers - 1 {
+            if (layer < Length(gamma)) {
+                let g = gamma[layer];
+
+                for i in 0 .. n - 2 {
+                    CNOT(qs[i], qs[i + 1]);
+                    (Controlled Rz)([qs[i + 1]], (g, qs[i]));
+                    CNOT(qs[i], qs[i + 1]);
+                }
             }
 
-            for (layer in 0 .. nlayers - 1) {
-                if (layer < Length(gamma)) {
-                    let g = gamma[layer];
+            if (layer < Length(beta)) {
+                let b = beta[layer];
 
-                    for (i in 0 .. n - 2) {
-                        CNOT(qs[i], qs[i + 1]);
-                        (Controlled Rz)([qs[i + 1]], (g, qs[i]));
-                        CNOT(qs[i], qs[i + 1]);
-                    }
-                }
-
-                if (layer < Length(beta)) {
-                    let b = beta[layer];
-
-                    for (i in 0 .. n - 1) {
-                        Rx(2.0 * b, qs[i]);
-                    }
+                for i in 0 .. n - 1 {
+                    Rx(2.0 * b, qs[i]);
                 }
             }
         }
@@ -161,34 +157,32 @@ namespace qblas
         qs : Qubit[],
         nlayers : Int
     ) : Unit {
-        body (...) {
-            let n = Length(qs);
+        let n = Length(qs);
 
-            if (n < 1) {
-                return ();
+        if (n < 1) {
+            return ();
+        }
+
+        mutable idx = 0;
+
+        for layer in 0 .. nlayers - 1 {
+            for i in 0 .. n - 1 {
+                if (idx < Length(theta_arr)) {
+                    let t = theta_arr[idx];
+                    Ry(t, qs[i]);
+                    set idx = idx + 1;
+                }
             }
 
-            mutable idx = 0;
-
-            for (layer in 0 .. nlayers - 1) {
-                for (i in 0 .. n - 1) {
-                    if (idx < Length(theta_arr)) {
-                        let t = theta_arr[idx];
-                        Ry(t, qs[i]);
-                        set idx = idx + 1;
-                    }
-                }
-
-                for (i in 0 .. n - 2) {
-                    if (idx + 1 < Length(theta_arr)) {
-                        let t = theta_arr[idx];
-                        let phi = theta_arr[idx + 1];
-                        CNOT(qs[i], qs[i + 1]);
-                        (Controlled Ry)([qs[i + 1]], (t, qs[i]));
-                        Rz(phi, qs[i + 1]);
-                        CNOT(qs[i], qs[i + 1]);
-                        set idx = idx + 2;
-                    }
+            for i in 0 .. n - 2 {
+                if (idx + 1 < Length(theta_arr)) {
+                    let t = theta_arr[idx];
+                    let phi = theta_arr[idx + 1];
+                    CNOT(qs[i], qs[i + 1]);
+                    (Controlled Ry)([qs[i + 1]], (t, qs[i]));
+                    Rz(phi, qs[i + 1]);
+                    CNOT(qs[i], qs[i + 1]);
+                    set idx = idx + 2;
                 }
             }
         }
@@ -214,7 +208,7 @@ namespace qblas
     function q_vqe_param_shift_plus(p : Double[], shift : Double) : Double[] {
         mutable shifted = [];
 
-        for (i in 0 .. Length(p) - 1) {
+        for i in 0 .. Length(p) - 1 {
             let orig = p[i];
             set shifted += [orig + shift];
         }
@@ -225,7 +219,7 @@ namespace qblas
     function q_vqe_param_shift_minus(p : Double[], shift : Double) : Double[] {
         mutable shifted = [];
 
-        for (i in 0 .. Length(p) - 1) {
+        for i in 0 .. Length(p) - 1 {
             let orig = p[i];
             set shifted += [orig - shift];
         }
@@ -275,7 +269,7 @@ namespace qblas
         mutable sum = 0.0;
         let n = Length(weights);
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (i < Length(exps)) {
                 set sum = sum + weights[i] * exps[i];
             }
@@ -324,7 +318,7 @@ namespace qblas
         mutable upd = [];
         let n = Length(p);
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (i < Length(grad)) {
                 let new_val = p[i] - lr * grad[i];
                 set upd += [new_val];
@@ -374,11 +368,11 @@ namespace qblas
         mutable new_v = [];
         mutable new_p = [];
 
-        let b1_t = PowD(b1, IntAsDouble(t));
-        let b2_t = PowD(b2, IntAsDouble(t));
+        let b1_t = b1 ^ IntAsDouble(t);
+        let b2_t = b2 ^ IntAsDouble(t);
         let lr_t = lr * Sqrt(1.0 - b2_t) / (1.0 - b1_t);
 
-        for (i in 0 .. Length(p) - 1) {
+        for i in 0 .. Length(p) - 1 {
             let g_i = i < Length(grad) ? grad[i] | 0.0;
             let m_i = i < Length(m) ? m[i] | 0.0;
             let v_i = i < Length(v) ? v[i] | 0.0;
@@ -418,7 +412,7 @@ namespace qblas
     function q_vqe_converged(grad : Double[], tol : Double) : Bool {
         mutable norm_sq = 0.0;
 
-        for (g in grad) {
+        for g in grad {
             set norm_sq = norm_sq + g * g;
         }
 
@@ -466,7 +460,7 @@ namespace qblas
         mutable m = [];
         mutable v = [];
 
-        for (i in 0 .. n_params - 1) {
+        for i in 0 .. n_params - 1 {
             set m += [0.0];
             set v += [0.0];
         }
@@ -636,7 +630,7 @@ namespace qblas
     function q_vqe_hessian_diag(p : Double[], exp_p : Double[], exp_m : Double[], exp_z : Double[]) : Double[] {
         mutable hess = [];
 
-        for (i in 0 .. Length(p) - 1) {
+        for i in 0 .. Length(p) - 1 {
             let ep = i < Length(exp_p) ? exp_p[i] | 0.0;
             let em = i < Length(exp_m) ? exp_m[i] | 0.0;
             let ez = i < Length(exp_z) ? exp_z[i] | 0.0;
@@ -672,7 +666,7 @@ namespace qblas
         mutable sum = 0.0;
         mutable sum_sq = 0.0;
 
-        for (exp_val in exps) {
+        for exp_val in exps {
             set sum = sum + exp_val;
             set sum_sq = sum_sq + exp_val * exp_val;
         }
@@ -746,20 +740,20 @@ namespace qblas
 
     function q_vqe_shot_allocation(weights : Double[], total_shots : Int) : Int[] {
         mutable sum_w = 0.0;
-        for (w in weights) {
+        for w in weights {
             set sum_w = sum_w + AbsD(w);
         }
 
         mutable shots = [];
 
         if (sum_w < 1e-10) {
-            for (w in weights) {
+            for w in weights {
                 set shots += [0];
             }
             return shots;
         }
 
-        for (w in weights) {
+        for w in weights {
             let allocated = Floor(IntAsDouble(total_shots) * AbsD(w) / sum_w);
             set shots += [allocated];
         }
@@ -784,34 +778,32 @@ namespace qblas
     // ============================================================
 
     operation q_vqe_init_state(vec : Double[], qs : Qubit[]) : Unit {
-        body (...) {
-            let n = Length(qs);
-            let N = 2 ^ n;
-            let norm = Sqrt(SquaredNorm(vec));
+        let n = Length(qs);
+        let N = 2 ^ n;
+        let norm = Sqrt(SquaredNorm(vec));
 
-            if (norm < 1e-10) {
-                return ();
-            }
+        if (norm < 1e-10) {
+            return ();
+        }
 
-            for (idx in 0 .. N - 1) {
-                if (idx < Length(vec)) {
-                    let amp = vec[idx] / norm;
+        for idx in 0 .. N - 1 {
+            if (idx < Length(vec)) {
+                let amp = vec[idx] / norm;
 
-                    if (AbsD(amp) > 1e-10) {
-                        let angle = 2.0 * ArcSin(AbsD(amp));
+                if (AbsD(amp) > 1e-10) {
+                    let angle = 2.0 * ArcSin(AbsD(amp));
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs[bit]);
                         }
+                    }
 
-                        Ry(angle, qs[0]);
+                    Ry(angle, qs[0]);
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs[bit]);
                         }
                     }
                 }

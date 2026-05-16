@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Math;
-    open Microsoft.Quantum.Convert;
+    import Std.Math.*;
+    import Std.Convert.*;
 
     function q_com_real_nbit_float() : Int {
         // Set the number of bits for real floating-point representation
@@ -12,25 +12,20 @@ namespace qblas
     }
 
     // Reverse all qubit orderings in the array
-    operation q_com_swap_all(qs : Qubit[]) : Unit {
-        body {
-            let nbit = Length(qs);
-            for (i in 0 .. (nbit - 1) / 2) {
-                if (i != nbit - 1 - i) {
-                    SWAP(qs[i], qs[nbit - 1 - i]);
-                }
+    operation q_com_swap_all(qs : Qubit[]) : Unit is Adj + Ctl {
+        let nbit = Length(qs);
+        for i in 0 .. (nbit - 1) / 2 {
+            if (i != nbit - 1 - i) {
+                SWAP(qs[i], qs[nbit - 1 - i]);
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     function q_com_convert_tuples_to_complexpolars(data : (Double, Double)[]) : ComplexPolar[] {
         // DoubleTuple[] to ComplexPolar[]
         let n = Length(data);
         mutable newdata = [ComplexPolar(0.0, 0.0), size = n];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let (r, im) = data[i];
             set newdata w/= i <- ComplexPolar(r, im);
         }
@@ -42,9 +37,9 @@ namespace qblas
         let n1 = Length(data);
         let n2 = Length(data[0]);
         mutable newdata = [[ComplexPolar(0.0, 0.0), size = n2], size = n1];
-        for (i in 0 .. n1 - 1) {
+        for i in 0 .. n1 - 1 {
             mutable newdata_i = [ComplexPolar(0.0, 0.0), size = n2];
-            for (j in 0 .. n2 - 1) {
+            for j in 0 .. n2 - 1 {
                 let (r, im) = data[i][j];
                 set newdata_i w/= j <- ComplexPolar(r, im);
             }
@@ -57,7 +52,7 @@ namespace qblas
         // Double[] to ComplexPolar[] - real values have zero imaginary part
         let n = Length(data);
         mutable newdata = [ComplexPolar(0.0, 0.0), size = n];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set newdata w/= i <- ComplexPolar(data[i], 0.0);
         }
         return newdata;
@@ -67,7 +62,7 @@ namespace qblas
         // Int[] to ComplexPolar[]
         let n = Length(data);
         mutable newdata = [ComplexPolar(0.0, 0.0), size = n];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set newdata w/= i <- ComplexPolar(IntAsDouble(data[i]), 0.0);
         }
         return newdata;
@@ -78,9 +73,9 @@ namespace qblas
         let n1 = Length(data);
         let n2 = Length(data[0]);
         mutable newdata = [[ComplexPolar(0.0, 0.0), size = n2], size = n1];
-        for (i in 0 .. n1 - 1) {
+        for i in 0 .. n1 - 1 {
             mutable newdata_i = [ComplexPolar(0.0, 0.0), size = n2];
-            for (j in 0 .. n2 - 1) {
+            for j in 0 .. n2 - 1 {
                 set newdata_i w/= j <- ComplexPolar(data[i][j], 0.0);
             }
             set newdata w/= i <- newdata_i;
@@ -92,7 +87,7 @@ namespace qblas
         // Double to rotation angle for rotation
         let n = Length(data);
         mutable newdata = [0, size = n];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set newdata w/= i <- Floor(2.0 * ArcSin(data[i]) / PI() * 128.0);
         }
         return newdata;
@@ -102,7 +97,7 @@ namespace qblas
         // Polar (double, double) to rotation (angle, angle) for rotation
         let n = Length(data);
         mutable newdata = [(0, 0), size = n];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let (data_r, data_i) = data[i];
             let angle_r = Floor(2.0 * ArcSin(data_r) / PI() * 128.0);
             let angle_i = Floor(data_i / PI() * 128.0);
@@ -112,27 +107,12 @@ namespace qblas
     }
 
     function q_com_array_join(qa : Qubit[], qb : Qubit[]) : Qubit[] {
-        let na = Length(qa);
-        let nb = Length(qb);
-        let n = na + nb;
-        mutable qs = new Qubit[n];
-        for (i in 0 .. na - 1) {
-            set qs w/= i <- qa[i];
-        }
-        for (i in 0 .. nb - 1) {
-            set qs w/= na + i <- qb[i];
-        }
-        return qs;
+        return qa + qb;
     }
 
     operation q_com_apply(op : (Qubit => Unit is Adj + Ctl), qs : Qubit[]) : Unit {
-        body {
-            for (i in 0 .. Length(qs) - 1) {
-                op(qs[i]);
-            }
+        for i in 0 .. Length(qs) - 1 {
+            op(qs[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

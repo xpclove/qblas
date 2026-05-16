@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Matrix-Matrix Multiplication (GEMM)
@@ -13,7 +13,7 @@ namespace qblas
     // ============================================================
 
     // Combined oracle for two matrices in GEMM
-    newtype q_gemm_oracle = ((Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl);
+    newtype q_gemm_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 
     // ============================================================
     // Core GEMM: C = A * B using quantum walk
@@ -26,18 +26,13 @@ namespace qblas
         qs_b : Qubit[],
         qs_c : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            // Simplified GEMM: apply both matrices sequentially
-            // For actual multiplication, we need tensor product structure
-            // This is a placeholder showing the structure
+    ) : Unit is Adj + Ctl {
+        // Simplified GEMM: apply both matrices sequentially
+        // For actual multiplication, we need tensor product structure
+        // This is a placeholder showing the structure
 
-            q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
-            q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
     }
 
     // ============================================================
@@ -52,16 +47,11 @@ namespace qblas
         qs_c : Qubit[],
         time : Double,
         n_iter : Int
-    ) : Unit {
-        body {
-            let dt = time / IntAsDouble(n_iter);
-            for i in 0 .. n_iter - 1 {
-                q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, dt);
-            }
+    ) : Unit is Adj + Ctl {
+        let dt = time / IntAsDouble(n_iter);
+        for i in 0 .. n_iter - 1 {
+            q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, dt);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -75,24 +65,19 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(qs_a);
-            let n_block = n / block_size;
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_a);
+        let n_block = n / block_size;
 
-            for bi in 0 .. n_block - 1 {
-                for bj in 0 .. n_block - 1 {
-                    for bk in 0 .. n_block - 1 {
-                        let time = PI() / 8.0;
-                        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
-                        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
-                    }
+        for bi in 0 .. n_block - 1 {
+            for bj in 0 .. n_block - 1 {
+                for bk in 0 .. n_block - 1 {
+                    let time = PI() / 8.0;
+                    q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
+                    q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
                 }
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -105,21 +90,16 @@ namespace qblas
         qs_diag : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(diag);
-            for i in 0 .. n - 1 {
-                let norm_d = Sqrt(SquaredNorm(diag));
-                if (norm_d > 0.0) {
-                    let angle = 2.0 * ArcSin(diag[i] / norm_d);
-                    (Controlled Ry)(qs_diag, (angle, qs_c[i]));
-                }
+    ) : Unit is Adj + Ctl {
+        let n = Length(diag);
+        for i in 0 .. n - 1 {
+            let norm_d = Sqrt(SquaredNorm(diag));
+            if (norm_d > 0.0) {
+                let angle = 2.0 * ArcSin(diag[i] / norm_d);
+                (Controlled Ry)(qs_diag, (angle, qs_c[i]));
             }
-            q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
     }
 
     // ============================================================
@@ -132,21 +112,16 @@ namespace qblas
         qs_a : Qubit[],
         qs_diag : Qubit[],
         qs_c : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(diag);
-            q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
-            for i in 0 .. n - 1 {
-                let norm_d = Sqrt(SquaredNorm(diag));
-                if (norm_d > 0.0) {
-                    let angle = 2.0 * ArcSin(diag[i] / norm_d);
-                    (Controlled Ry)(qs_diag, (angle, qs_c[i]));
-                }
+    ) : Unit is Adj + Ctl {
+        let n = Length(diag);
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
+        for i in 0 .. n - 1 {
+            let norm_d = Sqrt(SquaredNorm(diag));
+            if (norm_d > 0.0) {
+                let angle = 2.0 * ArcSin(diag[i] / norm_d);
+                (Controlled Ry)(qs_diag, (angle, qs_c[i]));
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -159,15 +134,10 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit {
-        body {
-            // Swapped addressing simulates transpose
-            q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
-            q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        // Swapped addressing simulates transpose
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
     }
 
     // ============================================================
@@ -180,14 +150,9 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit {
-        body {
-            q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
-            q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
     }
 
     // ============================================================
@@ -199,16 +164,11 @@ namespace qblas
         oracle_B : q_matrix_1_sparse_oracle,
         qs_pairs : (Qubit[], Qubit[], Qubit[])[],
         time : Double
-    ) : Unit {
-        body {
-            for pair in qs_pairs {
-                let (qs_a, qs_b, qs_c) = pair;
-                q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, time);
-            }
+    ) : Unit is Adj + Ctl {
+        for pair in qs_pairs {
+            let (qs_a, qs_b, qs_c) = pair;
+            q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, time);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================

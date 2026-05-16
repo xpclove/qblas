@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Tensor and Kronecker Product
@@ -45,11 +45,11 @@ namespace qblas
 
         mutable result = [];
 
-        for (i1 in 0 .. m1 - 1) {
-            for (i2 in 0 .. m2 - 1) {
+        for i1 in 0 .. m1 - 1 {
+            for i2 in 0 .. m2 - 1 {
                 mutable row = [];
-                for (j1 in 0 .. n1 - 1) {
-                    for (j2 in 0 .. n2 - 1) {
+                for j1 in 0 .. n1 - 1 {
+                    for j2 in 0 .. n2 - 1 {
                         set row += [A[i1][j1] * B[i2][j2]];
                     }
                 }
@@ -86,7 +86,7 @@ namespace qblas
         }
 
         mutable result = A;
-        for (idx in 1 .. k - 1) {
+        for idx in 1 .. k - 1 {
             set result = q_tk_kronecker(result, A);
         }
 
@@ -117,8 +117,8 @@ namespace qblas
 
         mutable result = [];
 
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. n - 1 {
                 set result += [v[i] * w[j]];
             }
         }
@@ -175,10 +175,10 @@ namespace qblas
 
         mutable result = [];
 
-        for (i1 in 0 .. m1 - 1) {
-            for (i2 in 0 .. m2 - 1) {
+        for i1 in 0 .. m1 - 1 {
+            for i2 in 0 .. m2 - 1 {
                 mutable row = [];
-                for (j in 0 .. n - 1) {
+                for j in 0 .. n - 1 {
                     set row += [A[i1][j] * B[i2][j]];
                 }
                 set result += [row];
@@ -212,9 +212,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable result = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [A[i][j] * B[i][j]];
             }
             set result += [row];
@@ -252,9 +252,9 @@ namespace qblas
         let n1 = Length(kron1[0]);
         mutable result = [];
 
-        for (i in 0 .. m1 - 1) {
+        for i in 0 .. m1 - 1 {
             mutable row = [];
-            for (j in 0 .. n1 - 1) {
+            for j in 0 .. n1 - 1 {
                 set row += [kron1[i][j] + kron2[i][j]];
             }
             set result += [row];
@@ -282,9 +282,9 @@ namespace qblas
 
         mutable IdMat = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [i == j ? 1.0 | 0.0];
             }
             set IdMat += [row];
@@ -319,14 +319,14 @@ namespace qblas
 
         mutable P = [];
 
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. p - 1) {
-                for (k in 0 .. n - 1) {
-                    for (l in 0 .. q - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. p - 1 {
+                for k in 0 .. n - 1 {
+                    for l in 0 .. q - 1 {
                         let row_idx = i * p + j;
                         let col_idx = k * q + l;
                         mutable row = [];
-                        for (c in 0 .. cols - 1) {
+                        for c in 0 .. cols - 1 {
                             set row += [c == col_idx ? 1.0 | 0.0];
                         }
                         set P += [row];
@@ -396,9 +396,9 @@ namespace qblas
         let n = Length(kron[0]);
         mutable result = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [alpha * kron[i][j]];
             }
             set result += [row];
@@ -432,11 +432,11 @@ namespace qblas
         mutable trA = 0.0;
         mutable trB = 0.0;
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set trA = trA + A[i][i];
         }
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             set trB = trB + B[i][i];
         }
 
@@ -468,21 +468,21 @@ namespace qblas
         mutable detA = 1.0;
         mutable detB = 1.0;
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set detA = detA * A[i][i];
         }
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             set detB = detB * B[i][i];
         }
 
         mutable powerA = 1.0;
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             set powerA = powerA * detA;
         }
 
         mutable powerB = 1.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set powerB = powerB * detB;
         }
 
@@ -510,14 +510,14 @@ namespace qblas
 
         mutable result = [];
 
-        for (idx in 0 .. k - 1) {
+        for idx in 0 .. k - 1 {
             let mat = matrices[idx];
             let m = Length(mat);
             let n = Length(mat[0]);
 
-            for (i in 0 .. m - 1) {
+            for i in 0 .. m - 1 {
                 mutable row = [];
-                for (j in 0 .. n - 1) {
+                for j in 0 .. n - 1 {
                     set row += [mat[i][j]];
                 }
                 set result += [row];
@@ -553,13 +553,8 @@ namespace qblas
         qs_state_b : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            q_gemv(oracle_A, qs_state_a, qs_work, time);
-            q_gemv(oracle_B, qs_state_b, qs_work, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_gemv(oracle_A, qs_state_a, qs_work, time);
+        q_gemv(oracle_B, qs_state_b, qs_work, time);
     }
 }

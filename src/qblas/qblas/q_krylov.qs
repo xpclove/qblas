@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Krylov Subspace Methods (QKRY)
@@ -79,7 +79,7 @@ namespace qblas
 
     function q_krylov_inner_product(v : Double[], w : Double[]) : Double {
         mutable s = 0.0;
-        for (i in 0 .. Length(v) - 1) {
+        for i in 0 .. Length(v) - 1 {
             set s += v[i] * w[i];
         }
         return s;
@@ -106,10 +106,8 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[]
     ) : Result {
-        body {
-            q_swap_test_core(ctrl, qs_a, qs_b);
-            return M(ctrl);
-        }
+        q_swap_test_core(ctrl, qs_a, qs_b);
+        return M(ctrl);
     }
 
     // ============================================================
@@ -136,31 +134,29 @@ namespace qblas
         qs_b : Qubit[],
         n_measure : Int
     ) : Double {
-        body {
-            let n = Length(qs_a);
-            mutable count_zero = 0;
-            for (_ in 0 .. n_measure - 1) {
-                use qs_ctrl = Qubit[1];
-                use qs_a_copy = Qubit[n];
-                use qs_b_copy = Qubit[n];
-                let ctrl = qs_ctrl[0];
-                for (q in 0 .. n - 1) {
-                    CNOT(qs_a[q], qs_a_copy[q]);
-                    CNOT(qs_b[q], qs_b_copy[q]);
-                }
-                q_swap_test_core(ctrl, qs_a_copy, qs_b_copy);
-                let m = M(ctrl);
-                if (m == Zero) {
-                    set count_zero += 1;
-                }
-                ResetAll(qs_a_copy);
-                ResetAll(qs_b_copy);
-                Reset(ctrl);
+        let n = Length(qs_a);
+        mutable count_zero = 0;
+        for _ in 0 .. n_measure - 1 {
+            use qs_ctrl = Qubit[1];
+            use qs_a_copy = Qubit[n];
+            use qs_b_copy = Qubit[n];
+            let ctrl = qs_ctrl[0];
+            for q in 0 .. n - 1 {
+                CNOT(qs_a[q], qs_a_copy[q]);
+                CNOT(qs_b[q], qs_b_copy[q]);
             }
-            let prob_zero = IntAsDouble(count_zero) / IntAsDouble(n_measure);
-            let overlap_sq = 2.0 * prob_zero - 1.0;
-            return overlap_sq < 0.0 ? 0.0 | Sqrt(overlap_sq);
+            q_swap_test_core(ctrl, qs_a_copy, qs_b_copy);
+            let m = M(ctrl);
+            if (m == Zero) {
+                set count_zero += 1;
+            }
+            ResetAll(qs_a_copy);
+            ResetAll(qs_b_copy);
+            Reset(ctrl);
         }
+        let prob_zero = IntAsDouble(count_zero) / IntAsDouble(n_measure);
+        let overlap_sq = 2.0 * prob_zero - 1.0;
+        return overlap_sq < 0.0 ? 0.0 | Sqrt(overlap_sq);
     }
 
     // ============================================================
@@ -186,13 +182,8 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            q_gemv(oracle, qs_state, qs_work, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_gemv(oracle, qs_state, qs_work, time);
     }
 
     // ============================================================
@@ -222,29 +213,24 @@ namespace qblas
         n_qubits : Int,
         m_steps : Int,
         time : Double
-    ) : Unit {
-        body {
-            let total_qs = Length(qs_basis);
-            if (total_qs < n_qubits * m_steps) {
-                fail $"Insufficient qubits for Krylov basis. Need {n_qubits * m_steps}.";
-            }
-            for (k in 1 .. m_steps - 1) {
-                let src = (k - 1) * n_qubits;
-                let tgt = k * n_qubits;
-                for (q in 0 .. n_qubits - 1) {
-                    CNOT(qs_basis[src + q], qs_basis[tgt + q]);
-                }
-                q_krylov_apply_matrix(
-                    oracle,
-                    qs_basis[tgt .. tgt + n_qubits - 1],
-                    qs_work,
-                    time
-                );
-            }
+    ) : Unit is Adj + Ctl {
+        let total_qs = Length(qs_basis);
+        if (total_qs < n_qubits * m_steps) {
+            fail $"Insufficient qubits for Krylov basis. Need {n_qubits * m_steps}.";
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        for k in 1 .. m_steps - 1 {
+            let src = (k - 1) * n_qubits;
+            let tgt = k * n_qubits;
+            for q in 0 .. n_qubits - 1 {
+                CNOT(qs_basis[src + q], qs_basis[tgt + q]);
+            }
+            q_krylov_apply_matrix(
+                oracle,
+                qs_basis[tgt .. tgt + n_qubits - 1],
+                qs_work,
+                time
+            );
+        }
     }
 
     // ============================================================
@@ -278,28 +264,26 @@ namespace qblas
         n_measure : Int,
         time : Double
     ) : Double[] {
-        body {
-            let start_vj = j_idx * n_qubits;
-            use qs_avj = Qubit[n_qubits];
+        let start_vj = j_idx * n_qubits;
+        use qs_avj = Qubit[n_qubits];
 
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_basis[start_vj + q], qs_avj[q]);
-            }
-            q_krylov_apply_matrix(oracle, qs_avj, qs_work, time);
-
-            mutable overlaps = [];
-            for (i_idx in 0 .. j_idx - 1) {
-                let start_vi = i_idx * n_qubits;
-                let h_ij = q_krylov_estimate_overlap(
-                    qs_basis[start_vi .. start_vi + n_qubits - 1],
-                    qs_avj[0 .. n_qubits - 1],
-                    n_measure
-                );
-                set overlaps += [h_ij];
-            }
-            ResetAll(qs_avj);
-            return overlaps;
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_basis[start_vj + q], qs_avj[q]);
         }
+        q_krylov_apply_matrix(oracle, qs_avj, qs_work, time);
+
+        mutable overlaps = [];
+        for i_idx in 0 .. j_idx - 1 {
+            let start_vi = i_idx * n_qubits;
+            let h_ij = q_krylov_estimate_overlap(
+                qs_basis[start_vi .. start_vi + n_qubits - 1],
+                qs_avj[0 .. n_qubits - 1],
+                n_measure
+            );
+            set overlaps += [h_ij];
+        }
+        ResetAll(qs_avj);
+        return overlaps;
     }
 
     // ============================================================
@@ -326,23 +310,21 @@ namespace qblas
         m_steps : Int,
         n_measure : Int
     ) : Double[][] {
-        body {
-            mutable G = [];
-            for (i in 0 .. m_steps - 1) {
-                mutable row = [];
-                let si = i * n_qubits;
-                for (j in 0 .. m_steps - 1) {
-                    let sj = j * n_qubits;
-                    let gij = q_krylov_estimate_overlap(
-                        qs_basis[si .. si + n_qubits - 1],
-                        qs_basis[sj .. sj + n_qubits - 1],
-                        n_measure
-                    );
-                    set row += [gij];
-                }
-                set G += [row];
+        mutable G = [];
+        for i in 0 .. m_steps - 1 {
+            mutable row = [];
+            let si = i * n_qubits;
+            for j in 0 .. m_steps - 1 {
+                let sj = j * n_qubits;
+                let gij = q_krylov_estimate_overlap(
+                    qs_basis[si .. si + n_qubits - 1],
+                    qs_basis[sj .. sj + n_qubits - 1],
+                    n_measure
+                );
+                set row += [gij];
             }
-            return G;
+            set G += [row];
         }
+        return G;
     }
 }

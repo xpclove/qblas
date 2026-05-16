@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Gradient Estimation (QGE)
@@ -73,7 +73,7 @@ namespace qblas
 
     function q_qge_gradient_magnitude(gradients : Double[]) : Double {
         mutable sum_sq = 0.0;
-        for (g in gradients) {
+        for g in gradients {
             set sum_sq = sum_sq + g * g;
         }
         return Sqrt(sum_sq);
@@ -99,7 +99,7 @@ namespace qblas
     function q_qge_quantum_natural_gradient(gradients : Double[], fisher_info : Double[]) : Double[] {
         let n = Length(gradients);
         mutable qng = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let fi = fisher_info[i];
             if (AbsD(fi) > 1e-10) {
                 set qng += [gradients[i] / fi];
@@ -177,7 +177,7 @@ namespace qblas
     function q_qge_gradient_descent_step(p : Double[], grads : Double[], lr : Double) : Double[] {
         let n = Length(p);
         mutable new_params = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let upd = p[i] - lr * grads[i];
             set new_params += [upd];
         }
@@ -252,12 +252,12 @@ namespace qblas
             return 0.0;
         }
         mutable mean = 0.0;
-        for (s in samples) {
+        for s in samples {
             set mean = mean + s;
         }
         set mean = mean / IntAsDouble(Length(samples));
         mutable var_sum = 0.0;
-        for (s in samples) {
+        for s in samples {
             let diff = s - mean;
             set var_sum = var_sum + diff * diff;
         }
@@ -294,8 +294,8 @@ namespace qblas
     ) : (Double, Double, Double) {
         let m_new = beta1 * m + (1.0 - beta1) * gradient;
         let v_new = beta2 * v + (1.0 - beta2) * gradient * gradient;
-        let m_hat = m_new / (1.0 - PowD(beta1, IntAsDouble(t)));
-        let v_hat = v_new / (1.0 - PowD(beta2, IntAsDouble(t)));
+        let m_hat = m_new / (1.0 - beta1 ^ IntAsDouble(t));
+        let v_hat = v_new / (1.0 - beta2 ^ IntAsDouble(t));
         let update = m_hat / (Sqrt(v_hat) + 1e-8);
         return (m_new, v_new, update);
     }
@@ -322,10 +322,8 @@ namespace qblas
         shift_angle : Double,
         idx : Int
     ) : Unit {
-        body {
-            if (idx >= 0 and idx < Length(qs_params)) {
-                (Controlled Ry)(qs_shift, (shift_angle, qs_params[idx]));
-            }
+        if (idx >= 0 and idx < Length(qs_params)) {
+            (Controlled Ry)(qs_shift, (shift_angle, qs_params[idx]));
         }
     }
 }

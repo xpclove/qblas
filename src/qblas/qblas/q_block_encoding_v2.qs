@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Enhanced Block Encoding Primitives (Version 2)
@@ -48,35 +48,33 @@ namespace qblas
         qs_addr : Qubit[],
         qs_data : Qubit
     ) : Unit {
-        body (...) {
-            let n = Length(qs_addr);
-            let N = 2 ^ n;
-            let norm = Sqrt(SquaredNorm(data));
+        let n = Length(qs_addr);
+        let N = 2 ^ n;
+        let norm = Sqrt(SquaredNorm(data));
 
-            if (norm < 1e-10) {
-                return ();
-            }
+        if (norm < 1e-10) {
+            return ();
+        }
 
-            for (idx in 0 .. N - 1) {
-                if (idx < Length(data)) {
-                    let val = data[idx];
-                    let amp = AbsD(val) / norm;
+        for idx in 0 .. N - 1 {
+            if (idx < Length(data)) {
+                let val = data[idx];
+                let amp = AbsD(val) / norm;
 
-                    if (amp > 1e-10) {
-                        let angle = 2.0 * ArcSin(amp);
+                if (amp > 1e-10) {
+                    let angle = 2.0 * ArcSin(amp);
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
+                    }
 
-                        (Controlled Ry)(qs_addr, (angle, qs_data));
+                    (Controlled Ry)(qs_addr, (angle, qs_data));
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
                     }
                 }
@@ -107,36 +105,34 @@ namespace qblas
         qs_addr : Qubit[],
         qs_data : Qubit[]
     ) : Unit {
-        body (...) {
-            let n = Length(qs_addr);
-            let N = 2 ^ n;
-            let k = Length(qs_data);
-            let norm = Sqrt(SquaredNorm(data));
+        let n = Length(qs_addr);
+        let N = 2 ^ n;
+        let k = Length(qs_data);
+        let norm = Sqrt(SquaredNorm(data));
 
-            if (norm < 1e-10) {
-                return ();
-            }
+        if (norm < 1e-10) {
+            return ();
+        }
 
-            for (idx in 0 .. N - 1) {
-                if (idx < Length(data)) {
-                    let val = data[idx];
-                    let amp = AbsD(val) / norm;
+        for idx in 0 .. N - 1 {
+            if (idx < Length(data)) {
+                let val = data[idx];
+                let amp = AbsD(val) / norm;
 
-                    if (amp > 1e-10) {
-                        let angle = 2.0 * ArcSin(amp);
+                if (amp > 1e-10) {
+                    let angle = 2.0 * ArcSin(amp);
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
+                    }
 
-                        (Controlled Ry)(qs_addr, (angle, qs_data[0]));
+                    (Controlled Ry)(qs_addr, (angle, qs_data[0]));
 
-                        for (bit in 0 .. n - 1) {
-                            if (((idx >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((idx >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
                     }
                 }
@@ -174,24 +170,22 @@ namespace qblas
         qs_sys : Qubit[],
         qs_anc : Qubit
     ) : Unit {
-        body (...) {
-            let k = Length(coeffs);
+        let k = Length(coeffs);
 
-            if (k == 0) {
-                return ();
-            }
+        if (k == 0) {
+            return ();
+        }
 
-            if (alpha < 1e-10) {
-                X(qs_anc);
-                return ();
-            }
+        if (alpha < 1e-10) {
+            X(qs_anc);
+            return ();
+        }
 
-            for (i in 0 .. k - 1) {
-                let c_i = coeffs[i];
-                let angle = 2.0 * ArcSin(AbsD(c_i) / alpha);
+        for i in 0 .. k - 1 {
+            let c_i = coeffs[i];
+            let angle = 2.0 * ArcSin(AbsD(c_i) / alpha);
 
-                Ry(angle, qs_anc);
-            }
+            Ry(angle, qs_anc);
         }
     }
 
@@ -220,34 +214,32 @@ namespace qblas
         qs_addr : Qubit[],
         qs_anc : Qubit
     ) : Unit {
-        body (...) {
-            let k = Length(coeffs);
-            let n = Length(qs_addr);
+        let k = Length(coeffs);
+        let n = Length(qs_addr);
 
-            if (alpha < 1e-10) {
-                return ();
-            }
+        if (alpha < 1e-10) {
+            return ();
+        }
 
-            for (i in 0 .. k - 1) {
-                if (i < Length(coeffs)) {
-                    let c_i = coeffs[i];
-                    let amp = AbsD(c_i) / alpha;
+        for i in 0 .. k - 1 {
+            if (i < Length(coeffs)) {
+                let c_i = coeffs[i];
+                let amp = AbsD(c_i) / alpha;
 
-                    if (amp > 1e-10) {
-                        let angle = 2.0 * ArcSin(amp);
+                if (amp > 1e-10) {
+                    let angle = 2.0 * ArcSin(amp);
 
-                        for (bit in 0 .. n - 1) {
-                            if (((i >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((i >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
+                    }
 
-                        (Controlled Ry)(qs_addr, (angle, qs_anc));
+                    (Controlled Ry)(qs_addr, (angle, qs_anc));
 
-                        for (bit in 0 .. n - 1) {
-                            if (((i >>> bit) &&& 1) == 1) {
-                                X(qs_addr[bit]);
-                            }
+                    for bit in 0 .. n - 1 {
+                        if (((i >>> bit) &&& 1) == 1) {
+                            X(qs_addr[bit]);
                         }
                     }
                 }
@@ -278,27 +270,25 @@ namespace qblas
         qs_sys : Qubit[],
         qs_anc : Qubit
     ) : Unit {
-        body (...) {
-            for (q in qs_sys) {
-                X(q);
-            }
-            (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
-            for (q in qs_sys) {
-                X(q);
-            }
-
-            U(qs_sys, qs_anc);
-
-            for (q in qs_sys) {
-                X(q);
-            }
-            (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
-            for (q in qs_sys) {
-                X(q);
-            }
-
-            (Adjoint U)(qs_sys, qs_anc);
+        for q in qs_sys {
+            X(q);
         }
+        (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
+        for q in qs_sys {
+            X(q);
+        }
+
+        U(qs_sys, qs_anc);
+
+        for q in qs_sys {
+            X(q);
+        }
+        (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
+        for q in qs_sys {
+            X(q);
+        }
+
+        (Adjoint U)(qs_sys, qs_anc);
     }
 
     // ============================================================
@@ -325,28 +315,26 @@ namespace qblas
         qs_anc : Qubit,
         iterations : Int
     ) : Unit {
-        body (...) {
-            for (iter in 0 .. iterations - 1) {
-                for (q in qs_sys) {
-                    X(q);
-                }
-                (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
-                for (q in qs_sys) {
-                    X(q);
-                }
-
-                U(qs_sys, qs_anc);
-
-                for (q in qs_sys) {
-                    X(q);
-                }
-                (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
-                for (q in qs_sys) {
-                    X(q);
-                }
-
-                (Adjoint U)(qs_sys, qs_anc);
+        for iter in 0 .. iterations - 1 {
+            for q in qs_sys {
+                X(q);
             }
+            (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
+            for q in qs_sys {
+                X(q);
+            }
+
+            U(qs_sys, qs_anc);
+
+            for q in qs_sys {
+                X(q);
+            }
+            (Controlled Z)(qs_sys[0 .. Length(qs_sys) - 2], qs_anc);
+            for q in qs_sys {
+                X(q);
+            }
+
+            (Adjoint U)(qs_sys, qs_anc);
         }
     }
 
@@ -375,26 +363,24 @@ namespace qblas
         qs_data : Qubit[],
         qs_anc : Qubit
     ) : Unit {
-        body (...) {
-            let n = Length(qs_data);
-            let N = 2 ^ n;
+        let n = Length(qs_data);
+        let N = 2 ^ n;
 
-            if (alpha < 1e-10) {
-                X(qs_anc);
-                return ();
-            }
+        if (alpha < 1e-10) {
+            X(qs_anc);
+            return ();
+        }
 
-            let norm = Sqrt(SquaredNorm(matrix[0]));
+        let norm = Sqrt(SquaredNorm(matrix[0]));
 
-            for (i in 0 .. N - 1) {
-                if (i < Length(matrix) and i < Length(matrix[0])) {
-                    let val = matrix[i][i];
-                    let amp = AbsD(val) / (alpha * norm);
+        for i in 0 .. N - 1 {
+            if (i < Length(matrix) and i < Length(matrix[0])) {
+                let val = matrix[i][i];
+                let amp = AbsD(val) / (alpha * norm);
 
-                    if (amp > 1e-10) {
-                        let angle = 2.0 * ArcSin(amp);
-                        Ry(angle, qs_data[i]);
-                    }
+                if (amp > 1e-10) {
+                    let angle = 2.0 * ArcSin(amp);
+                    Ry(angle, qs_data[i]);
                 }
             }
         }
@@ -425,36 +411,34 @@ namespace qblas
         qs_addr : Qubit[],
         qs_val : Qubit
     ) : Unit {
-        body (...) {
-            mutable total_norm = 0.0;
-            for (entry in entries) {
-                let (_, val) = entry;
-                set total_norm = total_norm + AbsD(val);
-            }
+        mutable total_norm = 0.0;
+        for entry in entries {
+            let (_, val) = entry;
+            set total_norm = total_norm + AbsD(val);
+        }
 
-            if (total_norm < 1e-10) {
-                return ();
-            }
+        if (total_norm < 1e-10) {
+            return ();
+        }
 
-            for (entry in entries) {
-                let (addr, val) = entry;
-                let prob = AbsD(val) / total_norm;
+        for entry in entries {
+            let (addr, val) = entry;
+            let prob = AbsD(val) / total_norm;
 
-                if (prob > 1e-10) {
-                    let angle = 2.0 * ArcSin(Sqrt(prob));
+            if (prob > 1e-10) {
+                let angle = 2.0 * ArcSin(Sqrt(prob));
 
-                    for (bit in 0 .. n_addr - 1) {
-                        if (((addr >>> bit) &&& 1) == 1) {
-                            X(qs_addr[bit]);
-                        }
+                for bit in 0 .. n_addr - 1 {
+                    if (((addr >>> bit) &&& 1) == 1) {
+                        X(qs_addr[bit]);
                     }
+                }
 
-                    (Controlled Ry)(qs_addr, (angle, qs_val));
+                (Controlled Ry)(qs_addr, (angle, qs_val));
 
-                    for (bit in 0 .. n_addr - 1) {
-                        if (((addr >>> bit) &&& 1) == 1) {
-                            X(qs_addr[bit]);
-                        }
+                for bit in 0 .. n_addr - 1 {
+                    if (((addr >>> bit) &&& 1) == 1) {
+                        X(qs_addr[bit]);
                     }
                 }
             }
@@ -476,7 +460,7 @@ namespace qblas
 
     function q_lcu_compute_alpha(coeffs : Double[]) : Double {
         mutable sum = 0.0;
-        for (c in coeffs) {
+        for c in coeffs {
             set sum = sum + AbsD(c);
         }
         return sum;
@@ -504,7 +488,7 @@ namespace qblas
         check_sum : Bool
     ) : Bool {
         mutable sum = 0.0;
-        for (c in coeffs) {
+        for c in coeffs {
             if (c < 0.0) {
                 return false;
             }
@@ -650,8 +634,8 @@ namespace qblas
     function q_be_frobenius_norm(matrix : Double[][]) : Double {
         mutable sum_sq = 0.0;
 
-        for (row in matrix) {
-            for (val in row) {
+        for row in matrix {
+            for val in row {
                 set sum_sq = sum_sq + val * val;
             }
         }
@@ -712,7 +696,7 @@ namespace qblas
         let scale = target_alpha / current_alpha;
         mutable scaled = [];
 
-        for (c in coeffs) {
+        for c in coeffs {
             set scaled += [c * scale];
         }
 
@@ -771,14 +755,12 @@ namespace qblas
         qs_sys : Qubit[],
         qs_anc : Qubit
     ) : Bool {
-        body (...) {
-            let n = Length(qs_sys);
+        let n = Length(qs_sys);
 
-            if (n < 1) {
-                return false;
-            }
-
-            return true;
+        if (n < 1) {
+            return false;
         }
+
+        return true;
     }
 }

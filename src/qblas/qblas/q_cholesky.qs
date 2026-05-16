@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Cholesky Decomposition
@@ -42,8 +42,8 @@ namespace qblas
             return false;
         }
 
-        for (i in 0 .. n - 1) {
-            for (j in i + 1 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in i + 1 .. n - 1 {
                 if (AbsD(A[i][j] - A[j][i]) > tol) {
                     return false;
                 }
@@ -75,10 +75,10 @@ namespace qblas
         }
 
         mutable det = 1.0;
-        for (k in 0 .. n - 1) {
+        for k in 0 .. n - 1 {
             mutable sub_det = 1.0;
-            for (i in 0 .. k) {
-                for (j in 0 .. k) {
+            for i in 0 .. k {
+                for j in 0 .. k {
                     if (i == k and j == k) {
                         set sub_det = sub_det * A[i][j];
                     }
@@ -116,7 +116,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (j in 0 .. k - 1) {
+        for j in 0 .. k - 1 {
             set sum = sum + L[k][j] * L[k][j];
         }
 
@@ -157,7 +157,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (k in 0 .. j - 1) {
+        for k in 0 .. j - 1 {
             set sum = sum + L[i][k] * L[j][k];
         }
 
@@ -187,10 +187,10 @@ namespace qblas
         }
 
         mutable max_error = 0.0;
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 mutable sum = 0.0;
-                for (k in 0 .. n - 1) {
+                for k in 0 .. n - 1 {
                     set sum = sum + L[i][k] * L[j][k];
                 }
                 let diff = AbsD(A[i][j] - sum);
@@ -226,16 +226,16 @@ namespace qblas
         }
 
         mutable y = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set y += [0.0];
         }
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (AbsD(L[i][i]) < 1e-10) {
                 set y w/= i <- 0.0;
             } else {
                 mutable sum = 0.0;
-                for (j in 0 .. i - 1) {
+                for j in 0 .. i - 1 {
                     set sum = sum + L[i][j] * y[j];
                 }
                 let new_val = (b[i] - sum) / L[i][i];
@@ -244,16 +244,16 @@ namespace qblas
         }
 
         mutable x = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set x += [0.0];
         }
 
-        for (i in n - 1 .. -1 .. 0) {
+        for i in n - 1 .. -1 .. 0 {
             if (AbsD(L[i][i]) < 1e-10) {
                 set x w/= i <- 0.0;
             } else {
                 mutable sum = 0.0;
-                for (j in i + 1 .. n - 1) {
+                for j in i + 1 .. n - 1 {
                     set sum = sum + L[j][i] * x[j];
                 }
                 let new_val = (y[i] - sum) / L[i][i];
@@ -284,8 +284,8 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 set sum = sum + A[i][j] * A[i][j];
             }
         }
@@ -316,26 +316,26 @@ namespace qblas
         mutable L = [];
         mutable D = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable Lrow = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set Lrow += [j < i ? 0.0 | j == i ? 1.0 | 0.0];
             }
             set L += [Lrow];
             set D += [0.0];
         }
 
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             mutable sum = 0.0;
-            for (k in 0 .. j - 1) {
+            for k in 0 .. j - 1 {
                 set sum = sum + D[k] * L[j][k] * L[j][k];
             }
             let newDj = A[j][j] - sum;
             set D w/= j <- (AbsD(newDj) < 1e-10 ? 1e-10 | newDj);
 
-            for (i in j + 1 .. n - 1) {
+            for i in j + 1 .. n - 1 {
                 mutable s = 0.0;
-                for (k in 0 .. j - 1) {
+                for k in 0 .. j - 1 {
                     set s = s + D[k] * L[i][k] * L[j][k];
                 }
                 let newLij = (A[i][j] - s) / D[j];
@@ -361,7 +361,7 @@ namespace qblas
     function q_chol_check_positive_diagonal(L : Double[][], tol : Double) : Bool {
         let n = Length(L);
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (L[i][i] <= tol) {
                 return false;
             }
@@ -391,21 +391,21 @@ namespace qblas
 
         mutable Linv = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [0.0];
             }
             set Linv += [row];
         }
 
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             let inv_diag = 1.0 / L[j][j];
             set Linv w/= j <- (Linv[j] w/ j <- inv_diag);
 
-            for (i in j + 1 .. n - 1) {
+            for i in j + 1 .. n - 1 {
                 mutable sum = 0.0;
-                for (k in j .. i - 1) {
+                for k in j .. i - 1 {
                     set sum = sum + L[i][k] * Linv[k][j];
                 }
                 let new_val = -sum / L[i][i];
@@ -414,11 +414,11 @@ namespace qblas
         }
 
         mutable Ainv = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 mutable sum = 0.0;
-                for (k in 0 .. n - 1) {
+                for k in 0 .. n - 1 {
                     set sum = sum + Linv[k][i] * Linv[k][j];
                 }
                 set row += [sum];
@@ -452,7 +452,7 @@ namespace qblas
         mutable max_d = 0.0;
         mutable min_d = 1e100;
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let d = L[i][i];
             if (d > max_d) {
                 set max_d = d;
@@ -494,16 +494,11 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_b);
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_x[q]);
-            }
-            q_gemv(oracle, qs_x, qs_work, time);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_b);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_x[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_gemv(oracle, qs_x, qs_work, time);
     }
 }

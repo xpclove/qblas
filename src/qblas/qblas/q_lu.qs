@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum LU Decomposition
@@ -65,7 +65,7 @@ namespace qblas
             return false;
         }
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let diag = A[i][i];
             if (AbsD(diag) < 1e-10) {
                 return false;
@@ -92,9 +92,9 @@ namespace qblas
     function q_lu_extract_l(LU : Double[][], n : Int) : Double[][] {
         mutable L = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (j > i) {
                     set row += [0.0];
                 } elif (j == i) {
@@ -126,9 +126,9 @@ namespace qblas
     function q_lu_extract_u(LU : Double[][], n : Int) : Double[][] {
         mutable U = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (j < i) {
                     set row += [0.0];
                 } else {
@@ -157,7 +157,7 @@ namespace qblas
     function q_lu_pivot_indices(A : Double[][], n : Int) : Int[] {
         mutable pivots = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set pivots += [i];
         }
 
@@ -187,7 +187,7 @@ namespace qblas
 
         mutable permuted = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set permuted += [A[pivots[i]]];
         }
 
@@ -228,8 +228,8 @@ namespace qblas
         let product = q_lu_matrix_multiply(L, U, n);
 
         mutable max_error = 0.0;
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let diff = AbsD(permuted[i][j] - product[i][j]);
                 if (diff > max_error) {
                     set max_error = diff;
@@ -255,11 +255,11 @@ namespace qblas
     function q_lu_matrix_multiply(A : Double[][], B : Double[][], n : Int) : Double[][] {
         mutable C = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 mutable sum = 0.0;
-                for (k in 0 .. n - 1) {
+                for k in 0 .. n - 1 {
                     set sum = sum + A[i][k] * B[k][j];
                 }
                 set row += [sum];
@@ -292,12 +292,12 @@ namespace qblas
         }
 
         mutable det = 1.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set det = det * U[i][i];
         }
 
         mutable sign = 1.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (pivots[i] != i) {
                 set sign = -sign;
             }
@@ -329,9 +329,9 @@ namespace qblas
         }
 
         mutable norm_inf = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row_sum = 0.0;
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row_sum = row_sum + AbsD(A[i][j]);
             }
             if (row_sum > norm_inf) {
@@ -372,13 +372,13 @@ namespace qblas
         }
 
         mutable y = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set y += [0.0];
         }
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable sum = 0.0;
-            for (j in 0 .. i - 1) {
+            for j in 0 .. i - 1 {
                 set sum = sum + L[i][j] * y[j];
             }
             let new_val = b[pivots[i]] - sum;
@@ -386,13 +386,13 @@ namespace qblas
         }
 
         mutable x = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set x += [0.0];
         }
 
-        for (i in n - 1 .. -1 .. 0) {
+        for i in n - 1 .. -1 .. 0 {
             mutable sum = 0.0;
-            for (j in i + 1 .. n - 1) {
+            for j in i + 1 .. n - 1 {
                 set sum = sum + U[i][j] * x[j];
             }
             if (AbsD(U[i][i]) < 1e-10) {
@@ -447,9 +447,9 @@ namespace qblas
     function q_lu_forward_matrix(factors : Double[][], n : Int) : Double[][] {
         mutable L = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (j > i) {
                     set row += [0.0];
                 } elif (j == i) {
@@ -485,11 +485,11 @@ namespace qblas
         let n = Length(A);
         mutable U = A;
 
-        for (k in 0 .. n - 2) {
-            for (i in k + 1 .. n - 1) {
+        for k in 0 .. n - 2 {
+            for i in k + 1 .. n - 1 {
                 if (AbsD(U[k][k]) > 1e-10) {
                     let mult = factors[i][k];
-                    for (j in k .. n - 1) {
+                    for j in k .. n - 1 {
                         let new_val = U[i][j] - mult * U[k][j];
                         set U w/= i <- (U[i] w/ j <- new_val);
                     }
@@ -525,16 +525,11 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_b);
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_x[q]);
-            }
-            q_gemv(oracle, qs_x, qs_work, time);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_b);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_x[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_gemv(oracle, qs_x, qs_work, time);
     }
 }

@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Vector Norm Estimation
@@ -41,7 +41,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set sum = sum + v[i] * v[i];
         }
 
@@ -68,7 +68,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set sum = sum + AbsD(v[i]);
         }
 
@@ -95,7 +95,7 @@ namespace qblas
         }
 
         mutable max_val = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let abs_val = AbsD(v[i]);
             if (abs_val > max_val) {
                 set max_val = abs_val;
@@ -157,7 +157,7 @@ namespace qblas
         }
 
         mutable normalized = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set normalized += [v[i] / norm];
         }
 
@@ -211,12 +211,12 @@ namespace qblas
         }
 
         mutable amp_sq_sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set amp_sq_sum = amp_sq_sum + coeffs[i] * coeffs[i];
         }
 
         let base_est = Sqrt(amp_sq_sum);
-        let two_pow = PowD(2.0, IntAsDouble(n_bits));
+        let two_pow = 2.0 ^ IntAsDouble(n_bits);
         let precision = 1.0 / two_pow;
 
         let lower = base_est - precision;
@@ -244,12 +244,12 @@ namespace qblas
             return AbsD(amp);
         }
 
-        let two_n = PowD(2.0, IntAsDouble(n_iters));
+        let two_n = 2.0 ^ IntAsDouble(n_iters);
         let phases = [PI() / two_n, 0.0, PI() / 4.0];
         mutable est = AbsD(amp);
 
-        for (k in 1 .. n_iters) {
-            let two_k = PowD(2.0, IntAsDouble(k));
+        for k in 1 .. n_iters {
+            let two_k = 2.0 ^ IntAsDouble(k);
             let step = PI() / two_k;
             let idx = k < Length(phases) ? k | 0;
             set est = est + step * phases[idx];
@@ -278,7 +278,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set sum = sum + v[i] * v[i];
         }
 
@@ -305,7 +305,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let diff = v[i] - w[i];
             set sum = sum + diff * diff;
         }
@@ -334,7 +334,7 @@ namespace qblas
         }
 
         mutable dot = 0.0;
-        for (i in 0 .. Length(v) - 1) {
+        for i in 0 .. Length(v) - 1 {
             set dot = dot + v[i] * w[i];
         }
 
@@ -414,24 +414,22 @@ namespace qblas
         qs_state : Qubit[],
         n_measure : Int
     ) : Double {
-        body {
-            let n = Length(qs_state);
-            mutable sum = 0.0;
-            for (_ in 0 .. n_measure - 1) {
-                use qs_copy = Qubit[n];
-                for (q in 0 .. n - 1) {
-                    CNOT(qs_state[q], qs_copy[q]);
-                }
-                for (q in 0 .. n - 1) {
-                    let m = M(qs_copy[q]);
-                    if (m == Zero) {
-                        set sum = sum + 1.0;
-                    }
-                }
-                ResetAll(qs_copy);
+        let n = Length(qs_state);
+        mutable sum = 0.0;
+        for _ in 0 .. n_measure - 1 {
+            use qs_copy = Qubit[n];
+            for q in 0 .. n - 1 {
+                CNOT(qs_state[q], qs_copy[q]);
             }
-            let prob_zero = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
-            return Sqrt(prob_zero);
+            for q in 0 .. n - 1 {
+                let m = M(qs_copy[q]);
+                if (m == Zero) {
+                    set sum = sum + 1.0;
+                }
+            }
+            ResetAll(qs_copy);
         }
+        let prob_zero = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
+        return Sqrt(prob_zero);
     }
 }

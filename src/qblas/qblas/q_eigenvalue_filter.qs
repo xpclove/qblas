@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Eigenvalue Filtering (QEF)
@@ -56,7 +56,7 @@ namespace qblas
 
         mutable coeffs = [];
         mutable ratio_power = 1.0;
-        for (k in 0 .. degree) {
+        for k in 0 .. degree {
             let sign = (k % 2 == 0) ? 1.0 | -1.0;
             let coeff = sign * ratio_power;
             set coeffs += [coeff];
@@ -101,7 +101,7 @@ namespace qblas
         mutable coeffs = [];
         mutable center_power = 1.0;
         mutable width_power = 1.0;
-        for (k in 0 .. degree) {
+        for k in 0 .. degree {
             let sign = (k % 2 == 0) ? 1.0 | -1.0;
             let norm_factor = 1.0 / (1.0 + width_power);
             let coeff = sign * norm_factor * center_power;
@@ -145,7 +145,7 @@ namespace qblas
 
         mutable coeffs = [];
         mutable ratio_power = 1.0;
-        for (k in 0 .. degree) {
+        for k in 0 .. degree {
             let sign = (k % 2 == 0) ? 1.0 | -1.0;
             let coeff = sign * ratio_power;
             set coeffs += [coeff];
@@ -153,7 +153,7 @@ namespace qblas
         }
 
         mutable highpass = [1.0];
-        for (c in coeffs) {
+        for c in coeffs {
             set highpass += [c];
         }
 
@@ -187,47 +187,45 @@ namespace qblas
         filter_coeffs : Double[],
         precision : Double
     ) : Unit {
-        body (...) {
-            for (qs in qs_phase) {
-                H(qs);
-            }
+        for qs in qs_phase {
+            H(qs);
+        }
 
-            for (idx in 0 .. Length(qs_phase) - 1) {
-                let ctrl_qubit = qs_phase[idx];
-                let n_iter = 1 <<< idx;
-                for (iter in 0 .. n_iter - 1) {
-                    (Controlled U)([ctrl_qubit], (qs_state, qs_phase));
-                }
+        for idx in 0 .. Length(qs_phase) - 1 {
+            let ctrl_qubit = qs_phase[idx];
+            let n_iter = 1 <<< idx;
+            for iter in 0 .. n_iter - 1 {
+                (Controlled U)([ctrl_qubit], (qs_state, qs_phase));
             }
+        }
 
-            for (qs in qs_phase) {
-                Ry(PI() / 2.0, qs);
-            }
+        for qs in qs_phase {
+            Ry(PI() / 2.0, qs);
+        }
 
-            let norm = Sqrt(SquaredNorm(filter_coeffs));
-            for (k in 0 .. Length(filter_coeffs) - 1) {
-                let scaled_coeff = filter_coeffs[k] / norm;
-                if (AbsD(scaled_coeff) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(scaled_coeff));
-                    Ry(angle, qs_phase[0]);
-                }
+        let norm = Sqrt(SquaredNorm(filter_coeffs));
+        for k in 0 .. Length(filter_coeffs) - 1 {
+            let scaled_coeff = filter_coeffs[k] / norm;
+            if (AbsD(scaled_coeff) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(scaled_coeff));
+                Ry(angle, qs_phase[0]);
             }
+        }
 
-            for (qs in qs_phase) {
-                (Adjoint Ry)(PI() / 2.0, qs);
-            }
+        for qs in qs_phase {
+            (Adjoint Ry)(PI() / 2.0, qs);
+        }
 
-            for (idx in 0 .. Length(qs_phase) - 1) {
-                let ctrl_qubit = qs_phase[idx];
-                let n_iter2 = 1 <<< idx;
-                for (iter in 0 .. n_iter2 - 1) {
-                    (Controlled (Adjoint U))([ctrl_qubit], (qs_state, qs_phase));
-                }
+        for idx in 0 .. Length(qs_phase) - 1 {
+            let ctrl_qubit = qs_phase[idx];
+            let n_iter2 = 1 <<< idx;
+            for iter in 0 .. n_iter2 - 1 {
+                (Controlled (Adjoint U))([ctrl_qubit], (qs_state, qs_phase));
             }
+        }
 
-            for (qs in qs_phase) {
-                H(qs);
-            }
+        for qs in qs_phase {
+            H(qs);
         }
     }
 
@@ -258,15 +256,13 @@ namespace qblas
         target_eigenvalue : Double,
         precision : Double
     ) : Double {
-        body (...) {
-            let lambda_min = target_eigenvalue - precision;
-            let lambda_max = target_eigenvalue + precision;
+        let lambda_min = target_eigenvalue - precision;
+        let lambda_max = target_eigenvalue + precision;
 
-            let filter_coeffs = q_eigenvalue_filter_bandpass(lambda_min, lambda_max, lambda_max, precision);
-            q_eigenvalue_filter_apply(U, qs_state, qs_phase, filter_coeffs, precision);
+        let filter_coeffs = q_eigenvalue_filter_bandpass(lambda_min, lambda_max, lambda_max, precision);
+        q_eigenvalue_filter_apply(U, qs_state, qs_phase, filter_coeffs, precision);
 
-            return target_eigenvalue;
-        }
+        return target_eigenvalue;
     }
 
     // ============================================================
@@ -294,24 +290,22 @@ namespace qblas
         qs_phase : Qubit[],
         precision : Double
     ) : Double[] {
-        body (...) {
-            mutable gaps = [];
+        mutable gaps = [];
 
-            let dim = Length(qs_state);
-            let n_eigenvalues = Min([dim, 8]);
+        let dim = Length(qs_state);
+        let n_eigenvalues = Min([dim, 8]);
 
-            for (idx in 0 .. n_eigenvalues - 2) {
-                let lambda_i = IntAsDouble(idx + 1) / IntAsDouble(n_eigenvalues);
-                let filter_coeffs = q_eigenvalue_filter_lowpass(lambda_i, 1.0, precision);
+        for idx in 0 .. n_eigenvalues - 2 {
+            let lambda_i = IntAsDouble(idx + 1) / IntAsDouble(n_eigenvalues);
+            let filter_coeffs = q_eigenvalue_filter_lowpass(lambda_i, 1.0, precision);
 
-                q_eigenvalue_filter_apply(U, qs_state, qs_phase, filter_coeffs, precision);
+            q_eigenvalue_filter_apply(U, qs_state, qs_phase, filter_coeffs, precision);
 
-                let gap = 1.0 / IntAsDouble(n_eigenvalues);
-                set gaps += [gap];
-            }
-
-            return gaps;
+            let gap = 1.0 / IntAsDouble(n_eigenvalues);
+            set gaps += [gap];
         }
+
+        return gaps;
     }
 
     // ============================================================
@@ -344,7 +338,7 @@ namespace qblas
 
         mutable lambda_pass_power = 1.0;
         mutable lambda_stop_power = 1.0;
-        for (k in 0 .. Length(filter_coeffs) - 1) {
+        for k in 0 .. Length(filter_coeffs) - 1 {
             set pass_value += filter_coeffs[k] * lambda_pass_power;
             set stop_value += filter_coeffs[k] * lambda_stop_power;
             set lambda_pass_power = lambda_pass_power * lambda_pass;

@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Ridge Regression (QRIDGE)
@@ -109,30 +109,28 @@ namespace qblas
         lambda : Double,
         time : Double
     ) : Unit {
-        body {
-            let n = Length(qs_state);
+        let n = Length(qs_state);
 
-            use qs_temp = Qubit[n];
+        use qs_temp = Qubit[n];
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_state[q], qs_temp[q]);
-            }
-
-            q_gemv(oracle, qs_temp, qs_work, time);
-
-            q_gemv(oracle, qs_state, qs_work, time);
-
-            for (q in 0 .. n - 1) {
-                CNOT(qs_temp[q], qs_state[q]);
-            }
-
-            let reg_angle = 2.0 * ArcSin(lambda / (1.0 + lambda));
-            for (q in 0 .. n - 1) {
-                Ry(reg_angle, qs_state[q]);
-            }
-
-            ResetAll(qs_temp);
+        for q in 0 .. n - 1 {
+            CNOT(qs_state[q], qs_temp[q]);
         }
+
+        q_gemv(oracle, qs_temp, qs_work, time);
+
+        q_gemv(oracle, qs_state, qs_work, time);
+
+        for q in 0 .. n - 1 {
+            CNOT(qs_temp[q], qs_state[q]);
+        }
+
+        let reg_angle = 2.0 * ArcSin(lambda / (1.0 + lambda));
+        for q in 0 .. n - 1 {
+            Ry(reg_angle, qs_state[q]);
+        }
+
+        ResetAll(qs_temp);
     }
 
     // ============================================================
@@ -164,14 +162,12 @@ namespace qblas
         lambda : Double,
         time : Double
     ) : Unit {
-        body {
-            let n = Length(qs_x);
+        let n = Length(qs_x);
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_x[q]);
-            }
-
-            q_ridge_apply_regularized(oracle, qs_x, qs_work, lambda, time);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_x[q]);
         }
+
+        q_ridge_apply_regularized(oracle, qs_x, qs_work, lambda, time);
     }
 }

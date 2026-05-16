@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Optimized Linear Combination of Unitaries (LCU)
@@ -68,7 +68,7 @@ namespace qblas
 
     function q_lcu_coefficient_norm(coeffs : Double[]) : Double {
         mutable total = 0.0;
-        for (idx in 0 .. Length(coeffs) - 1) {
+        for idx in 0 .. Length(coeffs) - 1 {
             set total += AbsD(coeffs[idx]);
         }
         return total;
@@ -86,7 +86,7 @@ namespace qblas
     // ============================================================
 
     function q_lcu_check_coefficients(coeffs : Double[]) : Bool {
-        for (idx in 0 .. Length(coeffs) - 1) {
+        for idx in 0 .. Length(coeffs) - 1 {
             if (coeffs[idx] < 0.0) {
                 return false;
             }
@@ -109,7 +109,7 @@ namespace qblas
         let alpha = q_lcu_coefficient_norm(coeffs);
         mutable amplitudes = [];
 
-        for (idx in 0 .. Length(coeffs) - 1) {
+        for idx in 0 .. Length(coeffs) - 1 {
             let amp = coeffs[idx] / alpha;
             set amplitudes += [amp];
         }
@@ -181,7 +181,7 @@ namespace qblas
         }
 
         mutable padded = coeffs;
-        for (idx in L .. padded_size - 1) {
+        for idx in L .. padded_size - 1 {
             set padded += [0.0];
         }
 
@@ -228,7 +228,7 @@ namespace qblas
         let size = 1 <<< m;
         mutable angles = [];
 
-        for (i in 0 .. size - 1) {
+        for i in 0 .. size - 1 {
             let angle = PI() * IntAsDouble(i) / IntAsDouble(size);
             set angles += [angle];
         }
@@ -262,18 +262,13 @@ namespace qblas
         amplitudes : Double[],
         qs_anc : Qubit[],
         alpha : Double
-    ) : Unit {
-        body {
-            let n = Length(amplitudes);
-            for (i in 0 .. n - 1) {
-                let amp = amplitudes[i] / alpha;
-                let angle = 2.0 * ArcSin(amp);
-                Ry(angle, qs_anc[i]);
-            }
+    ) : Unit is Adj + Ctl {
+        let n = Length(amplitudes);
+        for i in 0 .. n - 1 {
+            let amp = amplitudes[i] / alpha;
+            let angle = 2.0 * ArcSin(amp);
+            Ry(angle, qs_anc[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -306,18 +301,13 @@ namespace qblas
         amplitudes : Double[],
         qs_sys : Qubit[],
         qs_anc : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(unitaries);
-            let alpha = 1.0;
-            q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
-            for (i in 0 .. n - 1) {
-                (Controlled unitaries[i])([qs_anc[i]], qs_sys);
-            }
-            Adjoint q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
+    ) : Unit is Adj + Ctl {
+        let n = Length(unitaries);
+        let alpha = 1.0;
+        q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
+        for i in 0 .. n - 1 {
+            (Controlled unitaries[i])([qs_anc[i]], qs_sys);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        Adjoint q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
     }
 }

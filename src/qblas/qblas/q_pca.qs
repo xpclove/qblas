@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum PCA (QPCA)
@@ -37,7 +37,7 @@ namespace qblas
 
     function q_pca_eigenvalue_norm(eigenvalues : Double[]) : Double {
         mutable s = 0.0;
-        for (lambda in eigenvalues) {
+        for lambda in eigenvalues {
             set s += AbsD(lambda);
         }
         return s;
@@ -58,7 +58,7 @@ namespace qblas
     function q_pca_explained_var(eigenvalues : Double[]) : Double[] {
         let total = q_pca_eigenvalue_norm(eigenvalues);
         mutable ratios = [];
-        for (lambda in eigenvalues) {
+        for lambda in eigenvalues {
             let ratio = (total > 1e-10) ? lambda / total | 0.0;
             set ratios += [ratio];
         }
@@ -84,9 +84,9 @@ namespace qblas
     function q_pca_projection_matrix(k : Int, eigenvalues : Double[], threshold : Double) : Double[][] {
         let n = Length(eigenvalues);
         mutable P = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (i == j and i < k and eigenvalues[i] > threshold) {
                     set row += [1.0];
                 } else {
@@ -124,29 +124,27 @@ namespace qblas
         qs_phase : Qubit[],
         n_bits : Int
     ) : Unit {
-        body {
-            let n = Length(qs_phase);
-            let time_step = PI() / 4.0;
+        let n = Length(qs_phase);
+        let time_step = PI() / 4.0;
 
-            use qs_work = Qubit[Length(qs_state) + 1];
+        use qs_work = Qubit[Length(qs_state) + 1];
 
-            for (i in 0 .. n - 1) {
-                H(qs_phase[i]);
-            }
-
-            for (i in 0 .. n - 1) {
-                let power = 1 <<< i;
-                for (_ in 1 .. power) {
-                    q_gemv(oracle, qs_state, qs_work, time_step);
-                }
-            }
-
-            for (i in 0 .. n - 1) {
-                H(qs_phase[i]);
-            }
-
-            ResetAll(qs_work);
+        for i in 0 .. n - 1 {
+            H(qs_phase[i]);
         }
+
+        for i in 0 .. n - 1 {
+            let power = 1 <<< i;
+            for _ in 1 .. power {
+                q_gemv(oracle, qs_state, qs_work, time_step);
+            }
+        }
+
+        for i in 0 .. n - 1 {
+            H(qs_phase[i]);
+        }
+
+        ResetAll(qs_work);
     }
 
     // ============================================================
@@ -170,20 +168,15 @@ namespace qblas
         qs_state : Qubit[],
         qs_eigenvalues : Qubit[],
         threshold : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_state);
-            let angle = 2.0 * ArcSin(threshold);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_state);
+        let angle = 2.0 * ArcSin(threshold);
 
-            for (i in 0 .. n - 1) {
-                Ry(angle, qs_state[i]);
-                CNOT(qs_eigenvalues[i % Length(qs_eigenvalues)], qs_state[i]);
-                Ry(-angle, qs_state[i]);
-                CNOT(qs_eigenvalues[i % Length(qs_eigenvalues)], qs_state[i]);
-            }
+        for i in 0 .. n - 1 {
+            Ry(angle, qs_state[i]);
+            CNOT(qs_eigenvalues[i % Length(qs_eigenvalues)], qs_state[i]);
+            Ry(-angle, qs_state[i]);
+            CNOT(qs_eigenvalues[i % Length(qs_eigenvalues)], qs_state[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

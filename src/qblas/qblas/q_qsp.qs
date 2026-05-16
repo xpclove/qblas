@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Signal Processing (QSP)
@@ -51,7 +51,7 @@ namespace qblas
             return false;
         }
         mutable sum = phase_seq[0];
-        for (i in 1 .. m - 1) {
+        for i in 1 .. m - 1 {
             set sum += phase_seq[i];
         }
         return AbsD(sum) > 1e-10;
@@ -78,7 +78,7 @@ namespace qblas
         let d = Length(poly_coeffs) - 1;
         mutable result = 0.0;
         mutable x_pow = 1.0;
-        for (k in 0 .. d) {
+        for k in 0 .. d {
             set result += poly_coeffs[k] * x_pow;
             set x_pow *= x;
         }
@@ -120,11 +120,11 @@ namespace qblas
 
     function q_qsp_symmetric_phase_seq(m : Int) : Double[] {
         mutable seq = [];
-        for (i in 0 .. m) {
+        for i in 0 .. m {
             let phi = q_qsp_phase_from_degree(i);
             set seq += [phi];
         }
-        for (i in m - 1 .. -1 .. 0) {
+        for i in m - 1 .. -1 .. 0 {
             set seq += [-q_qsp_phase_from_degree(i)];
         }
         return seq;
@@ -154,21 +154,16 @@ namespace qblas
         qs_ancilla : Qubit[],
         phase_seq : Double[],
         angle : Double
-    ) : Unit {
-        body (...) {
-            let m = Length(phase_seq);
-            Rz(angle, qs_target);
-            for (i in 0 .. m - 1) {
-                let phi = phase_seq[i];
-                Rz(phi, qs_ancilla[0]);
-                CNOT(qs_target, qs_ancilla[0]);
-                Rz(phase_seq[i], qs_target);
-                CNOT(qs_target, qs_ancilla[0]);
-            }
+    ) : Unit is Adj + Ctl {
+        let m = Length(phase_seq);
+        Rz(angle, qs_target);
+        for i in 0 .. m - 1 {
+            let phi = phase_seq[i];
+            Rz(phi, qs_ancilla[0]);
+            CNOT(qs_target, qs_ancilla[0]);
+            Rz(phase_seq[i], qs_target);
+            CNOT(qs_target, qs_ancilla[0]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -196,20 +191,15 @@ namespace qblas
         qs_ancilla : Qubit[],
         phase_seq : Double[],
         precision : Double
-    ) : Unit {
-        body (...) {
-            let m = Length(phase_seq);
-            for (i in 0 .. m - 1) {
-                let abs_phase = AbsD(phase_seq[i]);
-                if (abs_phase > precision) {
-                    let angle = 2.0 * ArcSin(abs_phase);
-                    Ry(angle, qs_ancilla[0]);
-                }
+    ) : Unit is Adj + Ctl {
+        let m = Length(phase_seq);
+        for i in 0 .. m - 1 {
+            let abs_phase = AbsD(phase_seq[i]);
+            if (abs_phase > precision) {
+                let angle = 2.0 * ArcSin(abs_phase);
+                Ry(angle, qs_ancilla[0]);
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -236,19 +226,14 @@ namespace qblas
         qs_target : Qubit,
         phase_seq : Double[],
         eigenvalue : Double
-    ) : Unit {
-        body (...) {
-            let angle = eigenvalue;
-            Rz(angle, qs_target);
-            for (idx in 0 .. Length(phase_seq) - 1) {
-                let phi = phase_seq[idx];
-                Rz(phi, qs_phase[0]);
-                CNOT(qs_target, qs_phase[0]);
-            }
+    ) : Unit is Adj + Ctl {
+        let angle = eigenvalue;
+        Rz(angle, qs_target);
+        for idx in 0 .. Length(phase_seq) - 1 {
+            let phi = phase_seq[idx];
+            Rz(phi, qs_phase[0]);
+            CNOT(qs_target, qs_phase[0]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -267,7 +252,7 @@ namespace qblas
 
     function q_qsp_chebyshev_phase(k : Int) : Double[] {
         mutable phases = [];
-        for (i in 0 .. k) {
+        for i in 0 .. k {
             let phi = PI() * IntAsDouble(i) / IntAsDouble(k + 1);
             set phases += [phi];
         }
@@ -298,21 +283,16 @@ namespace qblas
         qs_ancilla : Qubit[],
         phase_seq : Double[],
         poly_coeffs : Double[]
-    ) : Unit {
-        body (...) {
-            let n = Length(qs_signal);
-            let m = Length(phase_seq);
-            for (i in 0 .. n - 1) {
-                let angle = 2.0 * ArcSin(poly_coeffs[i % Length(poly_coeffs)]);
-                Ry(angle, qs_signal[i]);
-            }
-            for (j in 0 .. m - 1) {
-                (Controlled Rz)(qs_signal, (phase_seq[j], qs_ancilla[0]));
-            }
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_signal);
+        let m = Length(phase_seq);
+        for i in 0 .. n - 1 {
+            let angle = 2.0 * ArcSin(poly_coeffs[i % Length(poly_coeffs)]);
+            Ry(angle, qs_signal[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        for j in 0 .. m - 1 {
+            (Controlled Rz)(qs_signal, (phase_seq[j], qs_ancilla[0]));
+        }
     }
 
     // ============================================================
@@ -340,7 +320,7 @@ namespace qblas
             return false;
         }
         mutable max_phase = 0.0;
-        for (phi in phase_seq) {
+        for phi in phase_seq {
             if (AbsD(phi) > max_phase) {
                 set max_phase = AbsD(phi);
             }
@@ -372,20 +352,15 @@ namespace qblas
         qs_ancilla : Qubit[],
         coeffs : Double[],
         base_angle : Double
-    ) : Unit {
-        body (...) {
-            let k = Length(coeffs);
-            for (i in 0 .. k - 1) {
-                let angle = base_angle * IntAsDouble(i);
-                let coef = coeffs[i];
-                if (AbsD(coef) > 1e-10) {
-                    Rz(angle, qs_target);
-                    (Controlled Ry)(qs_ancilla, (2.0 * ArcSin(AbsD(coef)), qs_target));
-                }
+    ) : Unit is Adj + Ctl {
+        let k = Length(coeffs);
+        for i in 0 .. k - 1 {
+            let angle = base_angle * IntAsDouble(i);
+            let coef = coeffs[i];
+            if (AbsD(coef) > 1e-10) {
+                Rz(angle, qs_target);
+                (Controlled Ry)(qs_ancilla, (2.0 * ArcSin(AbsD(coef)), qs_target));
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

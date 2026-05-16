@@ -2,7 +2,7 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
+    import Std.Convert.*;
 
     // ============================================================
     // Debug and diagnostic operations
@@ -16,9 +16,9 @@ namespace qblas
     // Print integer array
     function q_print(item : Int[]) : Unit {
         let N = Length(item);
-        for (i in 0 .. N - 1) {
+        for i in 0 .. N - 1 {
             let p = item[i];
-            Message(IntAsString(p));
+            Message($"{p}");
         }
         Message("___________");
     }
@@ -26,9 +26,9 @@ namespace qblas
     // Print double array
     function q_print_D(item : Double[]) : Unit {
         let N = Length(item);
-        for (i in 0 .. N - 1) {
+        for i in 0 .. N - 1 {
             let p = item[i];
-            Message(DoubleAsString(p));
+            Message($"{p}");
         }
         Message("___________");
     }

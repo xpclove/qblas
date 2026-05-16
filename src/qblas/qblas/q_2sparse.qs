@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // 2-Sparse Hamiltonian Simulation
@@ -29,7 +29,7 @@ namespace qblas
     // where at most 2 entries in row i are non-zero.
     // ============================================================
 
-    newtype q_matrix_2_sparse_oracle = ((Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl);
+    newtype q_matrix_2_sparse_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 
     // ============================================================
     // 2SP: Check if matrix is 2-sparse
@@ -53,9 +53,9 @@ namespace qblas
         if (n == 0) {
             return false;
         }
-        for (row_idx in 0 .. n - 1) {
+        for row_idx in 0 .. n - 1 {
             mutable count = 0;
-            for (col_idx in 0 .. n - 1) {
+            for col_idx in 0 .. n - 1 {
                 if (AbsD(matrix[row_idx][col_idx]) > threshold) {
                     set count = count + 1;
                     if (count > 2) {
@@ -88,7 +88,7 @@ namespace qblas
     function q_2sparse_check_row_sparsity(matrix : Double[][], row : Int, k : Int, threshold : Double) : Bool {
         let n = Length(matrix[row]);
         mutable count = 0;
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             if (AbsD(matrix[row][j]) > threshold) {
                 set count = count + 1;
                 if (count > k) {
@@ -120,7 +120,7 @@ namespace qblas
     function q_2sparse_row_norm(matrix : Double[][], row : Int, threshold : Double) : Double {
         let n = Length(matrix[row]);
         mutable sum_sq = 0.0;
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             let val = matrix[row][j];
             if (AbsD(val) > threshold) {
                 set sum_sq = sum_sq + val * val;
@@ -149,7 +149,7 @@ namespace qblas
     function q_2sparse_find_nonzero(matrix : Double[][], row : Int, threshold : Double) : (Int, Double)[] {
         let n = Length(matrix[row]);
         mutable entries = [];
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             let val = matrix[row][j];
             if (AbsD(val) > threshold) {
                 set entries += [(j, val)];
@@ -178,10 +178,10 @@ namespace qblas
         let n = Length(matrix);
         mutable H1 = [];
         mutable H2 = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row1 = [];
             mutable row2 = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row1 += [0.0];
                 set row2 += [0.0];
             }
@@ -204,7 +204,7 @@ namespace qblas
     // Helper function to set entry in array by index
     function q_2sparse_set_entry(arr : Double[], idx : Int, val : Double) : Double[] {
         mutable new_arr = [];
-        for (i in 0 .. Length(arr) - 1) {
+        for i in 0 .. Length(arr) - 1 {
             if (i == idx) {
                 set new_arr += [val];
             } else {
@@ -233,7 +233,7 @@ namespace qblas
             return 0.0;
         }
         mutable max_norm = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let combined = norms1[i] + norms2[i];
             if (combined > max_norm) {
                 set max_norm = combined;
@@ -268,18 +268,13 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         t : Double
-    ) : Unit {
-        body (...) {
-            let nbit = Length(qs_state);
-            let dt = t / 10.0;
-            for (step in 0 .. 9) {
-                q_walk_simulation_matrix_1_sparse_core(2, oracle1, qs_state, dt);
-                q_walk_simulation_matrix_1_sparse_core(2, oracle2, qs_state, dt);
-            }
+    ) : Unit is Adj + Ctl {
+        let nbit = Length(qs_state);
+        let dt = t / 10.0;
+        for step in 0 .. 9 {
+            q_walk_simulation_matrix_1_sparse_core(2, oracle1, qs_state, dt);
+            q_walk_simulation_matrix_1_sparse_core(2, oracle2, qs_state, dt);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -309,18 +304,13 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         t : Double
-    ) : Unit {
-        body (...) {
-            let nbit = Length(qs_state);
-            let dt = t / 10.0;
-            for (step in 0 .. 9) {
-                q_walk_simulation_C_matrix_1_sparse_core(qs_controls, 2, oracle1, qs_state, dt);
-                q_walk_simulation_C_matrix_1_sparse_core(qs_controls, 2, oracle2, qs_state, dt);
-            }
+    ) : Unit is Adj + Ctl {
+        let nbit = Length(qs_state);
+        let dt = t / 10.0;
+        for step in 0 .. 9 {
+            q_walk_simulation_C_matrix_1_sparse_core(qs_controls, 2, oracle1, qs_state, dt);
+            q_walk_simulation_C_matrix_1_sparse_core(qs_controls, 2, oracle2, qs_state, dt);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -372,7 +362,7 @@ namespace qblas
     // ============================================================
 
     function q_2sparse_estimate_norm(oracle1 : q_matrix_1_sparse_oracle, oracle2 : q_matrix_1_sparse_oracle, n_qubits : Int) : Double {
-        let n = Floor(PowD(2.0, IntAsDouble(n_qubits)));
+        let n = Floor(2.0 ^ IntAsDouble(n_qubits));
         let max_val = IntAsDouble(n);
         return max_val;
     }
@@ -401,8 +391,8 @@ namespace qblas
         if (n != Length(H1) or n != Length(H2)) {
             return false;
         }
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let sum = H1[i][j] + H2[i][j];
                 let diff = AbsD(matrix[i][j] - sum);
                 if (diff > threshold) {
@@ -510,9 +500,9 @@ namespace qblas
     function q_2sparse_eigenvalue_bound(matrix : Double[][]) : Double {
         let n = Length(matrix);
         mutable max_sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row_sum = 0.0;
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row_sum = row_sum + AbsD(matrix[i][j]);
             }
             if (row_sum > max_sum) {

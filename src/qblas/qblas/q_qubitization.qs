@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Qubitization-Based Hamiltonian Simulation
@@ -37,7 +37,7 @@ namespace qblas
     function q_qubitization_prepare_phases(t : Double, h_max : Double, precision : Double) : Double[] {
         let num_steps = 10;
         mutable phases = [];
-        for (i in 0 .. num_steps - 1) {
+        for i in 0 .. num_steps - 1 {
             let angle = -t * h_max * 2.0 * PI() * IntAsDouble(i) / IntAsDouble(num_steps);
             set phases += [angle];
         }
@@ -83,14 +83,14 @@ namespace qblas
         mutable max_norm = 0.0;
         mutable max_sparsity = 0;
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let row_len = Length(hamiltonian[i]);
             if (row_len != n) {
                 set is_d_sparse = false;
             }
 
             mutable count = 0;
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (j < row_len) {
                     let abs_val = AbsD(hamiltonian[i][j]);
                     if (abs_val > threshold) {
@@ -136,7 +136,7 @@ namespace qblas
 
         mutable t_prev = 1.0;
         mutable t_curr = x;
-        for (i in 2 .. degree) {
+        for i in 2 .. degree {
             let t_next = 2.0 * x * t_curr - t_prev;
             set t_prev = t_curr;
             set t_curr = t_next;
@@ -159,7 +159,7 @@ namespace qblas
 
     function q_qubitization_compute_phases(time : Double, h_max : Double, num_phases : Int) : Double[] {
         mutable phases = [];
-        for (i in 0 .. num_phases - 1) {
+        for i in 0 .. num_phases - 1 {
             let phase = -time * h_max * PI() * IntAsDouble(i) / IntAsDouble(num_phases);
             set phases += [phase];
         }
@@ -201,8 +201,8 @@ namespace qblas
         mutable max_eig = 0.0;
         mutable min_eig = 0.0;
 
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let val = hamiltonian[i][j];
                 if (val > max_eig) {
                     set max_eig = val;
@@ -230,8 +230,8 @@ namespace qblas
         let n = Length(matrix);
         mutable max_entry = 0.0;
 
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let abs_val = AbsD(matrix[i][j]);
                 if (abs_val > max_entry) {
                     set max_entry = abs_val;
@@ -256,7 +256,7 @@ namespace qblas
 
     function q_qubitization_to_qsp_phases(qubit_phases : Double[]) : Double[] {
         mutable qsp_phases = [];
-        for (i in 0 .. Length(qubit_phases) - 1) {
+        for i in 0 .. Length(qubit_phases) - 1 {
             let phase = 2.0 * qubit_phases[i];
             set qsp_phases += [phase];
         }
@@ -327,8 +327,8 @@ namespace qblas
         let n = Length(matrix);
         mutable max_error = 0.0;
 
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let expected = matrix[i][j] / alpha;
                 let actual = expected;
                 let error = AbsD(actual - expected);
@@ -372,19 +372,14 @@ namespace qblas
         qs_work : Qubit[],
         phases : Double[],
         time : Double
-    ) : Unit {
-        body {
-            let n_phases = Length(phases);
-            let dt = time / IntAsDouble(n_phases);
-            for (i in 0 .. n_phases - 1) {
-                q_gemv(oracle, qs_state, qs_work, dt);
-                for (j in 0 .. Length(qs_state) - 1) {
-                    Rz(phases[i], qs_state[j]);
-                }
+    ) : Unit is Adj + Ctl {
+        let n_phases = Length(phases);
+        let dt = time / IntAsDouble(n_phases);
+        for i in 0 .. n_phases - 1 {
+            q_gemv(oracle, qs_state, qs_work, dt);
+            for j in 0 .. Length(qs_state) - 1 {
+                Rz(phases[i], qs_state[j]);
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

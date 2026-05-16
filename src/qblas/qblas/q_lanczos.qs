@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Lanczos Algorithm (QLAN)
@@ -65,13 +65,13 @@ namespace qblas
         let n = q_lanczos_norm(v);
         if (n < 1e-10) {
             mutable zero_vec = [];
-            for (i in 0 .. Length(v) - 1) {
+            for i in 0 .. Length(v) - 1 {
                 set zero_vec += [0.0];
             }
             return zero_vec;
         }
         mutable result = [];
-        for (x in v) {
+        for x in v {
             set result += [x / n];
         }
         return result;
@@ -92,7 +92,7 @@ namespace qblas
 
     function q_lanczos_alpha_compute(v : Double[]) : Double {
         mutable s = 0.0;
-        for (x in v) {
+        for x in v {
             set s += x * x;
         }
         return s / IntAsDouble(Length(v));
@@ -134,9 +134,9 @@ namespace qblas
     function q_lanczos_tridiag(alphas : Double[], betas : Double[]) : Double[][] {
         let m = Length(alphas);
         mutable Mat = [];
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. m - 1) {
+            for j in 0 .. m - 1 {
                 if (i == j) {
                     set row += [alphas[i]];
                 } elif (j == i + 1) {
@@ -166,7 +166,7 @@ namespace qblas
 
     function q_lanczos_eigenvalue_sum(eigenvalues : Double[]) : Double {
         mutable s = 0.0;
-        for (lambda in eigenvalues) {
+        for lambda in eigenvalues {
             set s += lambda;
         }
         return s;
@@ -194,13 +194,8 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            q_gemv(oracle, qs_state, qs_work, time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        q_gemv(oracle, qs_state, qs_work, time);
     }
 
     // ============================================================
@@ -233,23 +228,21 @@ namespace qblas
         n_measure : Int,
         time : Double
     ) : Double {
-        body {
-            let start_vj = j_idx * n_qubits;
-            use qs_avj = Qubit[n_qubits];
+        let start_vj = j_idx * n_qubits;
+        use qs_avj = Qubit[n_qubits];
 
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_basis[start_vj + q], qs_avj[q]);
-            }
-            q_lanczos_apply_matrix(oracle, qs_avj, qs_work, time);
-
-            let alpha = q_krylov_estimate_overlap(
-                qs_basis[start_vj .. start_vj + n_qubits - 1],
-                qs_avj[0 .. n_qubits - 1],
-                n_measure
-            );
-            ResetAll(qs_avj);
-            return alpha;
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_basis[start_vj + q], qs_avj[q]);
         }
+        q_lanczos_apply_matrix(oracle, qs_avj, qs_work, time);
+
+        let alpha = q_krylov_estimate_overlap(
+            qs_basis[start_vj .. start_vj + n_qubits - 1],
+            qs_avj[0 .. n_qubits - 1],
+            n_measure
+        );
+        ResetAll(qs_avj);
+        return alpha;
     }
 
     // ============================================================
@@ -281,24 +274,22 @@ namespace qblas
         n_measure : Int,
         time : Double
     ) : (Double, Double) {
-        body {
-            let alpha = q_lanczos_estimate_alpha(
-                oracle, qs_basis, qs_work, n_qubits, j_idx, n_measure, time
-            );
+        let alpha = q_lanczos_estimate_alpha(
+            oracle, qs_basis, qs_work, n_qubits, j_idx, n_measure, time
+        );
 
-            use qs_avj = Qubit[n_qubits];
-            let start_vj = j_idx * n_qubits;
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_basis[start_vj + q], qs_avj[q]);
-            }
-            q_lanczos_apply_matrix(oracle, qs_avj, qs_work, time);
-
-            // Estimate ||A|vⱼ⟩|| via self-overlap on A|vⱼ⟩
-            // For a normalized state this should be 1.0
-            let beta = 0.0;
-            ResetAll(qs_avj);
-            return (alpha, 1.0);
+        use qs_avj = Qubit[n_qubits];
+        let start_vj = j_idx * n_qubits;
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_basis[start_vj + q], qs_avj[q]);
         }
+        q_lanczos_apply_matrix(oracle, qs_avj, qs_work, time);
+
+        // Estimate ||A|vⱼ⟩|| via self-overlap on A|vⱼ⟩
+        // For a normalized state this should be 1.0
+        let beta = 0.0;
+        ResetAll(qs_avj);
+        return (alpha, 1.0);
     }
 
     // ============================================================
@@ -330,19 +321,17 @@ namespace qblas
         n_measure : Int,
         time : Double
     ) : (Double[], Double[]) {
-        body {
-            mutable alphas = [];
-            mutable betas = [];
+        mutable alphas = [];
+        mutable betas = [];
 
-            for (j in 0 .. m_steps - 1) {
-                let (alpha_j, beta_j) = q_lanczos_iterate(
-                    oracle, qs_basis, qs_work, n_qubits, j, n_measure, time
-                );
-                set alphas += [alpha_j];
-                set betas += [beta_j];
-            }
-            return (alphas, betas);
+        for j in 0 .. m_steps - 1 {
+            let (alpha_j, beta_j) = q_lanczos_iterate(
+                oracle, qs_basis, qs_work, n_qubits, j, n_measure, time
+            );
+            set alphas += [alpha_j];
+            set betas += [beta_j];
         }
+        return (alphas, betas);
     }
 
     // ============================================================
@@ -372,17 +361,12 @@ namespace qblas
         n_qubits : Int,
         j_idx : Int,
         time : Double
-    ) : Unit {
-        body {
-            let start_vj = j_idx * n_qubits;
-            let start_vjp1 = (j_idx + 1) * n_qubits;
-            for (q in 0 .. n_qubits - 1) {
-                CNOT(qs_basis[start_vj + q], qs_basis[start_vjp1 + q]);
-            }
-            q_lanczos_apply_matrix(oracle, qs_basis[start_vjp1 .. start_vjp1 + n_qubits - 1], qs_work, time);
+    ) : Unit is Adj + Ctl {
+        let start_vj = j_idx * n_qubits;
+        let start_vjp1 = (j_idx + 1) * n_qubits;
+        for q in 0 .. n_qubits - 1 {
+            CNOT(qs_basis[start_vj + q], qs_basis[start_vjp1 + q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_lanczos_apply_matrix(oracle, qs_basis[start_vjp1 .. start_vjp1 + n_qubits - 1], qs_work, time);
     }
 }

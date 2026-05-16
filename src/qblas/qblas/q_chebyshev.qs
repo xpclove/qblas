@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Chebyshev Expansion (QCE)
@@ -55,7 +55,7 @@ namespace qblas
         mutable prev = x;
         mutable curr = x;
 
-        for (k in 1 .. degree - 1) {
+        for k in 1 .. degree - 1 {
             let next = 2.0 * x * curr - prev;
             set polys += [next];
             set prev = curr;
@@ -93,9 +93,9 @@ namespace qblas
         let n = degree + 1;
 
         mutable coeffs = [];
-        for (k in 0 .. degree) {
+        for k in 0 .. degree {
             mutable sum = 0.0;
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 let x_j = Cos(PI() * IntAsDouble(j) / IntAsDouble(n)) * interval_len + midpoint;
                 let T_k = Cos(PI() * IntAsDouble(k) * IntAsDouble(j) / IntAsDouble(n));
                 mutable sigmoid_val = x_j / (1.0 + AbsD(x_j));
@@ -152,7 +152,7 @@ namespace qblas
 
     function q_chebyshev_error_bound(coeffs : Double[], degree : Int) : Double {
         mutable error_sum = 0.0;
-        for (k in degree + 1 .. Length(coeffs) - 1) {
+        for k in degree + 1 .. Length(coeffs) - 1 {
             set error_sum += AbsD(coeffs[k]);
         }
         return error_sum;
@@ -213,25 +213,23 @@ namespace qblas
         coeffs : Double[],
         precision : Double
     ) : Unit {
-        body (...) {
-            let degree = Length(coeffs) - 1;
-            if (degree < 0) {
-                return ();
-            }
-
-            oracle(qs_data, qs_ancilla);
-
-            let norm = Sqrt(SquaredNorm(coeffs));
-            for (k in 0 .. degree) {
-                let scaled_coeff = coeffs[k] / norm;
-                if (AbsD(scaled_coeff) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(scaled_coeff));
-                    Ry(angle, qs_ancilla[0]);
-                }
-            }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
+        let degree = Length(coeffs) - 1;
+        if (degree < 0) {
+            return ();
         }
+
+        oracle(qs_data, qs_ancilla);
+
+        let norm = Sqrt(SquaredNorm(coeffs));
+        for k in 0 .. degree {
+            let scaled_coeff = coeffs[k] / norm;
+            if (AbsD(scaled_coeff) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(scaled_coeff));
+                Ry(angle, qs_ancilla[0]);
+            }
+        }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -265,17 +263,15 @@ namespace qblas
         degree : Int,
         precision : Double
     ) : Unit {
-        body (...) {
-            let mapped_x = q_chebyshev_map_to_interval(x, -1.0, 1.0);
-            let polynomials = q_chebyshev_polynomials(mapped_x, degree);
+        let mapped_x = q_chebyshev_map_to_interval(x, -1.0, 1.0);
+        let polynomials = q_chebyshev_polynomials(mapped_x, degree);
 
-            mutable exp_coeffs = [];
-            for (k in 0 .. degree) {
-                let c_k = (k == 0) ? 1.0 | 2.0;
-                set exp_coeffs += [c_k * polynomials[k]];
-            }
-
-            q_chebyshev_apply(oracle, qs_data, qs_ancilla, exp_coeffs, precision);
+        mutable exp_coeffs = [];
+        for k in 0 .. degree {
+            let c_k = (k == 0) ? 1.0 | 2.0;
+            set exp_coeffs += [c_k * polynomials[k]];
         }
+
+        q_chebyshev_apply(oracle, qs_data, qs_ancilla, exp_coeffs, precision);
     }
 }

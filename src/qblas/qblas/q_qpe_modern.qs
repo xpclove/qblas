@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Modern Quantum Phase Estimation (QPE)
@@ -44,15 +44,13 @@ namespace qblas
         qs_state : Qubit[],
         unitary_power : Int
     ) : Double {
-        body (...) {
-            use qs_ancilla = Qubit[1];
-            H(qs_ancilla[0]);
-            (Controlled U)(qs_ancilla, (qs_state));
-            H(qs_ancilla[0]);
-            let m = M(qs_ancilla[0]);
-            Reset(qs_ancilla[0]);
-            return m == One ? 1.0 | 0.0;
-        }
+        use qs_ancilla = Qubit[1];
+        H(qs_ancilla[0]);
+        (Controlled U)(qs_ancilla, (qs_state));
+        H(qs_ancilla[0]);
+        let m = M(qs_ancilla[0]);
+        Reset(qs_ancilla[0]);
+        return m == One ? 1.0 | 0.0;
     }
 
     // ============================================================
@@ -82,7 +80,7 @@ namespace qblas
     ) : Double {
         mutable sum = 0.0;
         mutable weight_sum = 0.0;
-        for (i in 0 .. n_measurements - 1) {
+        for i in 0 .. n_measurements - 1 {
             let theta_i = PI() / IntAsDouble(i + 1);
             let weight = theta_weights[i];
             set sum = sum + weight * theta_i;
@@ -194,7 +192,7 @@ namespace qblas
     // ============================================================
 
     function q_qpe_validate_eigenvalues(eigenvalues : Double[], threshold : Double) : Bool {
-        for (ev in eigenvalues) {
+        for ev in eigenvalues {
             let abs_ev = AbsD(ev);
             if (abs_ev > 1.0 + threshold) {
                 return false;
@@ -222,8 +220,8 @@ namespace qblas
 
     function q_qpe_iteration_schedule(n_bits : Int, start_power : Int) : Int[] {
         mutable schedule = [];
-        for (k in 0 .. n_bits - 1) {
-            let two_pow_k = Floor(PowD(2.0, IntAsDouble(k)));
+        for k in 0 .. n_bits - 1 {
+            let two_pow_k = Floor(2.0 ^ IntAsDouble(k));
             let power = start_power + two_pow_k;
             set schedule += [power];
         }
@@ -249,7 +247,7 @@ namespace qblas
 
     function q_qpe_success_probability(fidelity : Double, n_bits : Int) : Double {
         mutable prob = 1.0;
-        for (k in 0 .. n_bits - 1) {
+        for k in 0 .. n_bits - 1 {
             let p_k = 1.0 - (1.0 - fidelity) / IntAsDouble(k + 2);
             set prob = prob * p_k;
         }

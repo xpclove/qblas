@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Matrix-Vector Multiplication (GEMV)
@@ -13,7 +13,7 @@ namespace qblas
     // ============================================================
 
     // Oracle type for d-sparse matrix
-    newtype q_matrix_d_sparse_oracle = ((Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl);
+    newtype q_matrix_d_sparse_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 
     // Structure for d-sparse matrix entry: (row, col, value)
     newtype QBLAS_SparseEntry = ((Int, Int, Double));
@@ -27,21 +27,16 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_state);
-            let n_work = Length(qs_work);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_state);
+        let n_work = Length(qs_work);
 
-            if (n_work < n + 1) {
-                fail $"Workspace too small. Need at least {n + 1} qubits.";
-            }
-
-            // Use quantum walk simulation for matrix-vector product
-            q_walk_simulation_matrix_1_sparse_real(matrix_A, qs_state, time);
+        if (n_work < n + 1) {
+            fail $"Workspace too small. Need at least {n + 1} qubits.";
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+
+        // Use quantum walk simulation for matrix-vector product
+        q_walk_simulation_matrix_1_sparse_real(matrix_A, qs_state, time);
     }
 
     // ============================================================
@@ -54,16 +49,11 @@ namespace qblas
         qs_work : Qubit[],
         time : Double,
         n_iter : Int
-    ) : Unit {
-        body {
-            let dt = time / IntAsDouble(n_iter);
-            for i in 0 .. n_iter - 1 {
-                q_gemv(matrix_A, qs_state, qs_work, dt);
-            }
+    ) : Unit is Adj + Ctl {
+        let dt = time / IntAsDouble(n_iter);
+        for i in 0 .. n_iter - 1 {
+            q_gemv(matrix_A, qs_state, qs_work, dt);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -75,15 +65,10 @@ namespace qblas
         qs_vectors : Qubit[][],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            for idx in 0 .. Length(qs_vectors) - 1 {
-                q_gemv(matrix_A, qs_vectors[idx], qs_work, time);
-            }
+    ) : Unit is Adj + Ctl {
+        for idx in 0 .. Length(qs_vectors) - 1 {
+            q_gemv(matrix_A, qs_vectors[idx], qs_work, time);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -97,25 +82,20 @@ namespace qblas
         super : Double[],
         qs_state : Qubit[],
         qs_work : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(diag);
-            if (Length(qs_state) != n) {
-                fail $"Vector size mismatch: {n} vs {Length(qs_state)}";
-            }
+    ) : Unit is Adj + Ctl {
+        let n = Length(diag);
+        if (Length(qs_state) != n) {
+            fail $"Vector size mismatch: {n} vs {Length(qs_state)}";
+        }
 
-            // Apply diagonal
-            for i in 0 .. n - 1 {
-                let norm_v = Sqrt(SquaredNorm(diag));
-                if (norm_v > 0.0) {
-                    let angle = 2.0 * ArcSin(diag[i] / norm_v);
-                    Ry(angle, qs_state[i]);
-                }
+        // Apply diagonal
+        for i in 0 .. n - 1 {
+            let norm_v = Sqrt(SquaredNorm(diag));
+            if (norm_v > 0.0) {
+                let angle = 2.0 * ArcSin(diag[i] / norm_v);
+                Ry(angle, qs_state[i]);
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -125,21 +105,16 @@ namespace qblas
     operation q_gemv_diagonal(
         diag : Double[],
         qs_state : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(diag);
-            let norm_d = Sqrt(SquaredNorm(diag));
+    ) : Unit is Adj + Ctl {
+        let n = Length(diag);
+        let norm_d = Sqrt(SquaredNorm(diag));
 
-            for i in 0 .. n - 1 {
-                if (norm_d > 0.0) {
-                    let angle = 2.0 * ArcSin(diag[i] / norm_d);
-                    Ry(angle, qs_state[i]);
-                }
+        for i in 0 .. n - 1 {
+            if (norm_d > 0.0) {
+                let angle = 2.0 * ArcSin(diag[i] / norm_d);
+                Ry(angle, qs_state[i]);
             }
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -151,14 +126,9 @@ namespace qblas
         matrix_A : q_matrix_1_sparse_oracle,
         qs_state : Qubit[],
         qs_work : Qubit[]
-    ) : Unit {
-        body {
-            // Apply A
-            q_gemv(matrix_A, qs_state, qs_work, PI() / 4.0);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        // Apply A
+        q_gemv(matrix_A, qs_state, qs_work, PI() / 4.0);
     }
 
     // ============================================================

@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // High-Order Trotter-Suzuki Decomposition
@@ -27,7 +27,7 @@ namespace qblas
     // TSTYPE: Trotter-Suzuki decomposition type
     // ============================================================
 
-    newtype q_trotter_suzuki_oracle = ((Qubit[], Qubit[], Double) => Unit is Adj + Ctl);
+    newtype q_trotter_suzuki_oracle = (Qubit[], Qubit[], Double) => Unit is Adj + Ctl;
 
     // ============================================================
     // TS: Compute first-order decomposition parameters
@@ -52,7 +52,7 @@ namespace qblas
             return 0.0;
         }
         mutable max_norm = 0.0;
-        for (norm in norms) {
+        for norm in norms {
             if (norm > max_norm) {
                 set max_norm = norm;
             }
@@ -77,7 +77,7 @@ namespace qblas
 
     function q_trotter_suzuki_2_coeffs(num_terms : Int) : (Int, Double)[] {
         mutable coeffs = [];
-        for (i in 0 .. num_terms - 1) {
+        for i in 0 .. num_terms - 1 {
             if (i == 0) {
                 set coeffs += [(i, 0.5)];
             } else {
@@ -109,18 +109,18 @@ namespace qblas
         if (k == 1) {
             return q_trotter_suzuki_2_coeffs(num_terms);
         }
-        let p_k = 1.0 / (4.0 - PowD(4.0, 1.0 / IntAsDouble(2 * k - 1)));
+        let p_k = 1.0 / (4.0 - 4.0 ^ (1.0 / IntAsDouble(2 * k - 1)));
         mutable coeffs = [];
         let lower_coeffs = q_trotter_suzuki_high_order_coeffs(k - 1, num_terms);
-        for (idx in 0 .. Length(lower_coeffs) - 1) {
+        for idx in 0 .. Length(lower_coeffs) - 1 {
             let (term, coef) = lower_coeffs[idx];
             set coeffs += [(term, p_k * coef)];
         }
-        for (idx in 0 .. Length(lower_coeffs) - 1) {
+        for idx in 0 .. Length(lower_coeffs) - 1 {
             let (term, coef) = lower_coeffs[idx];
             set coeffs += [(term, (1.0 - 4.0 * p_k) * coef)];
         }
-        for (idx in 0 .. Length(lower_coeffs) - 1) {
+        for idx in 0 .. Length(lower_coeffs) - 1 {
             let (term, coef) = lower_coeffs[idx];
             set coeffs += [(term, p_k * coef)];
         }
@@ -158,7 +158,7 @@ namespace qblas
             set product = product * base_val;
             set idx = idx + 1;
         }
-        let r1 = Floor(PowD(product, exp_factor));
+        let r1 = Floor(product ^ exp_factor);
         let log_term = Log(1.0 / precision);
         mutable r2 = 1.0;
         mutable idx2 = 0;
@@ -166,7 +166,7 @@ namespace qblas
             set r2 = r2 * log_term;
             set idx2 = idx2 + 1;
         }
-        let r2_pow = PowD(r2, 1.0 / IntAsDouble(order));
+        let r2_pow = r2 ^ (1.0 / IntAsDouble(order));
         mutable v1 = 1;
         if (r1 > 1) {
             set v1 = r1;
@@ -207,16 +207,11 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
-        body (...) {
-            let num_terms = Length(oracles);
-            for (i in 0 .. num_terms - 1) {
-                q_walk_simulation_matrix_1_sparse_core(i, oracles[i], qs_state, delta);
-            }
+    ) : Unit is Adj + Ctl {
+        let num_terms = Length(oracles);
+        for i in 0 .. num_terms - 1 {
+            q_walk_simulation_matrix_1_sparse_core(i, oracles[i], qs_state, delta);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -242,18 +237,13 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
-        body (...) {
-            let num_terms = Length(oracles);
-            q_walk_simulation_matrix_1_sparse_core(0, oracles[0], qs_state, delta / 2.0);
-            for (i in 1 .. num_terms - 1) {
-                q_walk_simulation_matrix_1_sparse_core(i, oracles[i], qs_state, delta);
-            }
-            q_walk_simulation_matrix_1_sparse_core(0, oracles[0], qs_state, delta / 2.0);
+    ) : Unit is Adj + Ctl {
+        let num_terms = Length(oracles);
+        q_walk_simulation_matrix_1_sparse_core(0, oracles[0], qs_state, delta / 2.0);
+        for i in 1 .. num_terms - 1 {
+            q_walk_simulation_matrix_1_sparse_core(i, oracles[i], qs_state, delta);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_walk_simulation_matrix_1_sparse_core(0, oracles[0], qs_state, delta / 2.0);
     }
 
     // ============================================================
@@ -281,16 +271,11 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
-        body (...) {
-            let num_terms = Length(oracles);
-            for (i in 0 .. num_terms - 1) {
-                q_walk_simulation_C_matrix_1_sparse_core(qs_controls, i, oracles[i], qs_state, delta);
-            }
+    ) : Unit is Adj + Ctl {
+        let num_terms = Length(oracles);
+        for i in 0 .. num_terms - 1 {
+            q_walk_simulation_C_matrix_1_sparse_core(qs_controls, i, oracles[i], qs_state, delta);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -347,7 +332,7 @@ namespace qblas
             return 0.0;
         }
         mutable sum_norms = 0.0;
-        for (norm in norms) {
+        for norm in norms {
             set sum_norms += norm;
         }
         let dt = t / IntAsDouble(r);
@@ -358,14 +343,14 @@ namespace qblas
             return (1.0 / 24.0) * sum_norms * sum_norms * sum_norms * dt * dt * dt * IntAsDouble(r);
         }
         mutable prod_norms = 1.0;
-        for (i in 0 .. order - 1) {
+        for i in 0 .. order - 1 {
             set prod_norms *= sum_norms;
         }
         mutable fact_val = 1.0;
-        for (i in 2 .. order + 1) {
+        for i in 2 .. order + 1 {
             set fact_val *= IntAsDouble(i);
         }
-        let pow_factor = PowD(dt, IntAsDouble(order + 1));
+        let pow_factor = dt ^ (IntAsDouble(order + 1));
         let r_factor = IntAsDouble(r);
         return (1.0 / fact_val) * prod_norms * pow_factor * r_factor;
     }
@@ -392,7 +377,7 @@ namespace qblas
             return 2;
         }
         mutable length = 1;
-        for (k in 2 .. order) {
+        for k in 2 .. order {
             if (k % 2 == 0) {
                 set length = 5 * length;
             }
@@ -419,7 +404,7 @@ namespace qblas
             return false;
         }
         mutable all_positive = true;
-        for (norm in norms) {
+        for norm in norms {
             if (norm < 0.0) {
                 set all_positive = false;
             }

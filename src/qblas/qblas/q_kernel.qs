@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Kernel Methods
@@ -48,14 +48,14 @@ namespace qblas
 
         if (norm < 1e-10) {
             mutable zeros = [];
-            for (i in 0 .. n_qubits - 1) {
+            for i in 0 .. n_qubits - 1 {
                 set zeros += [0.0];
             }
             return zeros;
         }
 
         mutable angles = [];
-        for (i in 0 .. MinI(d, n_qubits) - 1) {
+        for i in 0 .. MinI(d, n_qubits) - 1 {
             let normalized = features[i] / norm;
             let angle = ArcCos(normalized);
             set angles += [angle];
@@ -87,32 +87,30 @@ namespace qblas
         qs : Qubit[],
         nlayers : Int
     ) : Unit {
-        body (...) {
-            let d = Length(features);
-            let n = Length(qs);
+        let d = Length(features);
+        let n = Length(qs);
 
-            if (d == 0 or n == 0 or nlayers < 1) {
-                return ();
+        if (d == 0 or n == 0 or nlayers < 1) {
+            return ();
+        }
+
+        let angles = q_kernel_feature_angles(features, n);
+
+        for layer in 0 .. nlayers - 1 {
+            for i in 0 .. n - 1 {
+                let idx = i < Length(angles) ? i | 0;
+                let angle = angles[idx];
+
+                Ry(angle, qs[i]);
+
+                if (i < n - 1) {
+                    CNOT(qs[i], qs[i + 1]);
+                }
             }
 
-            let angles = q_kernel_feature_angles(features, n);
-
-            for (layer in 0 .. nlayers - 1) {
-                for (i in 0 .. n - 1) {
-                    let idx = i < Length(angles) ? i | 0;
-                    let angle = angles[idx];
-
-                    Ry(angle, qs[i]);
-
-                    if (i < n - 1) {
-                        CNOT(qs[i], qs[i + 1]);
-                    }
-                }
-
-                if (layer < nlayers - 1) {
-                    for (i in n - 1 .. -1 .. 1) {
-                        CNOT(qs[i - 1], qs[i]);
-                    }
+            if (layer < nlayers - 1) {
+                for i in n - 1 .. -1 .. 1 {
+                    CNOT(qs[i - 1], qs[i]);
                 }
             }
         }
@@ -145,9 +143,9 @@ namespace qblas
 
         mutable K = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 let dot = q_kernel_dot(features[i], features[j]);
                 let norm_i = Sqrt(SquaredNorm(features[i]));
                 let norm_j = Sqrt(SquaredNorm(features[j]));
@@ -184,7 +182,7 @@ namespace qblas
             return 0.0;
         }
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set sum = sum + a[i] * b[i];
         }
 
@@ -211,7 +209,7 @@ namespace qblas
             return false;
         }
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (Length(K[i]) != n) {
                 return false;
             }
@@ -252,9 +250,9 @@ namespace qblas
 
         mutable projected = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. MinI(n_components, n) - 1) {
+            for j in 0 .. MinI(n_components, n) - 1 {
                 set row += [K[i][j]];
             }
             set projected += [row];
@@ -292,7 +290,7 @@ namespace qblas
         }
 
         mutable coeffs = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             let denom = K[i][i] + lambda_reg;
             if (AbsD(denom) < 1e-10) {
                 set coeffs += [0.0];
@@ -333,13 +331,13 @@ namespace qblas
         }
 
         mutable dist_sq = 0.0;
-        for (i in 0 .. d - 1) {
+        for i in 0 .. d - 1 {
             let diff = x[i] - y[i];
             set dist_sq = dist_sq + diff * diff;
         }
 
         let neg_factor = -dist_sq / (2.0 * sigma * sigma);
-        let K = ExpD(neg_factor);
+        let K = E() ^ neg_factor;
         return K;
     }
 
@@ -375,7 +373,7 @@ namespace qblas
         }
 
         mutable result = 1.0;
-        for (i in 0 .. degree - 1) {
+        for i in 0 .. degree - 1 {
             set result = result * value;
         }
 
@@ -408,7 +406,7 @@ namespace qblas
         let s = scale < 1e-10 ? 1.0 | scale;
 
         mutable prs = [];
-        for (i in 0 .. MinI(d, n_qubits) - 1) {
+        for i in 0 .. MinI(d, n_qubits) - 1 {
             let scaled = features[i] * s;
             let angle = ArcTan(scaled);
             set prs += [angle];
@@ -438,7 +436,7 @@ namespace qblas
         }
 
         mutable normalized = [];
-        for (f in features) {
+        for f in features {
             set normalized += [f / norm];
         }
 
@@ -461,7 +459,7 @@ namespace qblas
     function q_kernel_diagonal(features : Double[][]) : Double[] {
         mutable diag = [];
 
-        for (f in features) {
+        for f in features {
             let norm = Sqrt(SquaredNorm(f));
             if (norm > 1e-10) {
                 set diag += [1.0];
@@ -495,7 +493,7 @@ namespace qblas
 
         let d = Length(features[0]);
 
-        for (f in features) {
+        for f in features {
             if (Length(f) != d) {
                 return false;
             }
@@ -542,7 +540,7 @@ namespace qblas
 
             while (cnt < mx and j < n) {
                 mutable sum = 0.0;
-                for (k in 0 .. Length(features[i]) - 1) {
+                for k in 0 .. Length(features[i]) - 1 {
                     let d = features[i][k] - features[j][k];
                     set sum = sum + d * d;
                 }
@@ -586,9 +584,7 @@ namespace qblas
         qs_work : Qubit[],
         n_measure : Int
     ) : Double {
-        body {
-            let overlap = q_krylov_estimate_overlap(qs_x, qs_y, n_measure);
-            return overlap * overlap;
-        }
+        let overlap = q_krylov_estimate_overlap(qs_x, qs_y, n_measure);
+        return overlap * overlap;
     }
 }

@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Pseudoinverse (QPI)
@@ -51,10 +51,10 @@ namespace qblas
 
         mutable coeffs = [];
         mutable epsilon_power = 1.0;
-        for (k in 1 .. degree + 1) {
+        for k in 1 .. degree + 1 {
             let sign = (k % 2 == 1) ? 1.0 | -1.0;
             mutable term = 1.0;
-            for (p in 0 .. k - 2) {
+            for p in 0 .. k - 2 {
                 set term = term * epsilon_power;
             }
             let coeff = sign * IntAsDouble(k) * term;
@@ -63,13 +63,13 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (c in coeffs) {
+        for c in coeffs {
             set sum += c;
         }
         let normalization = sum;
 
         mutable normalized_coeffs = [];
-        for (c in coeffs) {
+        for c in coeffs {
             set normalized_coeffs += [c / normalization];
         }
 
@@ -150,26 +150,24 @@ namespace qblas
         kappa : Double,
         precision : Double
     ) : Unit {
-        body (...) {
-            if (not q_pseudoinverse_check_applicable(kappa, precision)) {
-                fail "Pseudoinverse not applicable: precision too high for given condition number";
-            }
-
-            let coeffs = q_pseudoinverse_coeffs(kappa, precision);
-            let poly_degree = Length(coeffs);
-
-            oracle(qs_data, qs_ancilla);
-
-            for (idx in 0 .. poly_degree - 1) {
-                let coef = coeffs[idx];
-                if (AbsD(coef) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(coef));
-                    Ry(angle, qs_ancilla[0]);
-                }
-            }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
+        if (not q_pseudoinverse_check_applicable(kappa, precision)) {
+            fail "Pseudoinverse not applicable: precision too high for given condition number";
         }
+
+        let coeffs = q_pseudoinverse_coeffs(kappa, precision);
+        let poly_degree = Length(coeffs);
+
+        oracle(qs_data, qs_ancilla);
+
+        for idx in 0 .. poly_degree - 1 {
+            let coef = coeffs[idx];
+            if (AbsD(coef) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(coef));
+                Ry(angle, qs_ancilla[0]);
+            }
+        }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -201,19 +199,17 @@ namespace qblas
         kappa : Double,
         precision : Double
     ) : Unit {
-        body (...) {
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            let coeffs = q_pseudoinverse_coeffs(kappa, precision);
-            for (coef in coeffs) {
-                if (AbsD(coef) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(coef));
-                    Ry(angle, qs_ancilla[0]);
-                }
+        let coeffs = q_pseudoinverse_coeffs(kappa, precision);
+        for coef in coeffs {
+            if (AbsD(coef) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(coef));
+                Ry(angle, qs_ancilla[0]);
             }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
         }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -245,21 +241,19 @@ namespace qblas
         kappa : Double,
         precision : Double
     ) : Bool {
-        body (...) {
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            for (idx in 0 .. 2) {
-                let coeffs = q_pseudoinverse_coeffs(kappa, precision);
-                for (coef in coeffs) {
-                    if (AbsD(coef) > precision) {
-                        let angle = 2.0 * ArcSin(AbsD(coef));
-                        Ry(angle, qs_ancilla[0]);
-                    }
+        for idx in 0 .. 2 {
+            let coeffs = q_pseudoinverse_coeffs(kappa, precision);
+            for coef in coeffs {
+                if (AbsD(coef) > precision) {
+                    let angle = 2.0 * ArcSin(AbsD(coef));
+                    Ry(angle, qs_ancilla[0]);
                 }
             }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
-            return true;
         }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
+        return true;
     }
 }

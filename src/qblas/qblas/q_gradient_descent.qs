@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Gradient Descent (QGD)
@@ -95,20 +95,15 @@ namespace qblas
         qs_x : Qubit[],
         qs_grad : Qubit[],
         learning_rate : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_x);
-            let angle = 2.0 * ArcSin(learning_rate);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_x);
+        let angle = 2.0 * ArcSin(learning_rate);
 
-            for (i in 0 .. n - 1) {
-                CNOT(qs_grad[i], qs_x[i]);
-                Ry(angle, qs_x[i]);
-                CNOT(qs_grad[i], qs_x[i]);
-            }
+        for i in 0 .. n - 1 {
+            CNOT(qs_grad[i], qs_x[i]);
+            Ry(angle, qs_x[i]);
+            CNOT(qs_grad[i], qs_x[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -144,19 +139,17 @@ namespace qblas
         time : Double,
         eps : Double
     ) : Unit {
-        body {
-            for (_ in 0 .. max_iter - 1) {
-                for (q in 0 .. Length(qs_x) - 1) {
-                    CNOT(qs_x[q], qs_grad[q]);
-                }
+        for _ in 0 .. max_iter - 1 {
+            for q in 0 .. Length(qs_x) - 1 {
+                CNOT(qs_x[q], qs_grad[q]);
+            }
 
-                q_gemv(oracle, qs_grad, qs_work, time);
+            q_gemv(oracle, qs_grad, qs_work, time);
 
-                q_gd_step(qs_x, qs_grad, learning_rate);
+            q_gd_step(qs_x, qs_grad, learning_rate);
 
-                for (q in 0 .. Length(qs_x) - 1) {
-                    Reset(qs_grad[q]);
-                }
+            for q in 0 .. Length(qs_x) - 1 {
+                Reset(qs_grad[q]);
             }
         }
     }

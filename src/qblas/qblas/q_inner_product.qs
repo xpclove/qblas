@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Inner Product Estimation
@@ -41,7 +41,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set sum = sum + v[i] * w[i];
         }
 
@@ -84,7 +84,7 @@ namespace qblas
             return 0.5;
         }
 
-        let two_pow = PowD(2.0, IntAsDouble(n_bits));
+        let two_pow = 2.0 ^ IntAsDouble(n_bits);
         let prob_zero = 0.5 + 0.5 / two_pow;
         return Sqrt(2.0 * prob_zero - 1.0);
     }
@@ -149,7 +149,7 @@ namespace qblas
             return 1.0;
         }
 
-        let two_pow = PowD(2.0, IntAsDouble(n_bits));
+        let two_pow = 2.0 ^ IntAsDouble(n_bits);
         let factor = 1.0 / two_pow;
         let corrected = base_overlap + factor * (1.0 - base_overlap);
 
@@ -252,7 +252,7 @@ namespace qblas
         mutable total = 0.0;
         let classical_ip = q_ip_dot(v, w);
 
-        for (r in 0 .. n_rounds - 1) {
+        for r in 0 .. n_rounds - 1 {
             set total = total + classical_ip;
         }
 
@@ -380,7 +380,7 @@ namespace qblas
         }
 
         mutable results = [];
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             set results += [q_ip_dot(v, ws[i])];
         }
 
@@ -407,9 +407,9 @@ namespace qblas
         }
 
         mutable G = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [q_ip_dot(vs[i], vs[j])];
             }
             set G += [row];
@@ -439,30 +439,28 @@ namespace qblas
         qs_b : Qubit[],
         n_measure : Int
     ) : Double {
-        body {
-            let n = Length(qs_a);
-            mutable count_zero = 0;
-            for (_ in 0 .. n_measure - 1) {
-                use qs_ctrl = Qubit[1];
-                use qs_a_copy = Qubit[n];
-                use qs_b_copy = Qubit[n];
-                let ctrl = qs_ctrl[0];
-                for (q in 0 .. n - 1) {
-                    CNOT(qs_a[q], qs_a_copy[q]);
-                    CNOT(qs_b[q], qs_b_copy[q]);
-                }
-                q_swap_test_core(ctrl, qs_a_copy, qs_b_copy);
-                let m = M(ctrl);
-                if (m == Zero) {
-                    set count_zero += 1;
-                }
-                ResetAll(qs_a_copy);
-                ResetAll(qs_b_copy);
-                Reset(ctrl);
+        let n = Length(qs_a);
+        mutable count_zero = 0;
+        for _ in 0 .. n_measure - 1 {
+            use qs_ctrl = Qubit[1];
+            use qs_a_copy = Qubit[n];
+            use qs_b_copy = Qubit[n];
+            let ctrl = qs_ctrl[0];
+            for q in 0 .. n - 1 {
+                CNOT(qs_a[q], qs_a_copy[q]);
+                CNOT(qs_b[q], qs_b_copy[q]);
             }
-            let prob_zero = IntAsDouble(count_zero) / IntAsDouble(n_measure);
-            let overlap_sq = 2.0 * prob_zero - 1.0;
-            return overlap_sq < 0.0 ? 0.0 | Sqrt(overlap_sq);
+            q_swap_test_core(ctrl, qs_a_copy, qs_b_copy);
+            let m = M(ctrl);
+            if (m == Zero) {
+                set count_zero += 1;
+            }
+            ResetAll(qs_a_copy);
+            ResetAll(qs_b_copy);
+            Reset(ctrl);
         }
+        let prob_zero = IntAsDouble(count_zero) / IntAsDouble(n_measure);
+        let overlap_sq = 2.0 * prob_zero - 1.0;
+        return overlap_sq < 0.0 ? 0.0 | Sqrt(overlap_sq);
     }
 }

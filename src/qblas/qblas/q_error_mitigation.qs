@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Error Mitigation
@@ -150,7 +150,7 @@ namespace qblas
 
         let decay_rate = (lambda1 * lambda0 * (y0 - y1)) / ((lambda1 - lambda0) * y1);
         let neg_decay = -decay_rate * lambda0;
-        let initial = y0 * ExpD(neg_decay);
+        let initial = y0 * E() ^ neg_decay;
 
         return initial;
     }
@@ -212,14 +212,14 @@ namespace qblas
 
         if (k == 0 or n_channels < 1) {
             mutable zeros = [];
-            for (i in 0 .. n_channels - 1) {
+            for i in 0 .. n_channels - 1 {
                 set zeros += [0.0];
             }
             return zeros;
         }
 
         mutable coeffs = [];
-        for (i in 0 .. MinI(k, n_channels) - 1) {
+        for i in 0 .. MinI(k, n_channels) - 1 {
             let f = channel_fidelities[i];
             let c_val = f > 1.0 ? 1.0 | f;
             let c_clamped = c_val < 0.0 ? 0.0 | c_val;
@@ -252,7 +252,7 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (c in coeffs) {
+        for c in coeffs {
             if (c < -1e-10) {
                 return false;
             }
@@ -278,7 +278,7 @@ namespace qblas
 
     function q_pec_sampling_prob(coeffs : Double[]) : Double {
         mutable sum = 0.0;
-        for (c in coeffs) {
+        for c in coeffs {
             set sum = sum + AbsD(c);
         }
         return sum;
@@ -306,7 +306,7 @@ namespace qblas
     ) : String[] {
         mutable sequence = [];
 
-        for (i in 0 .. n_pulses - 1) {
+        for i in 0 .. n_pulses - 1 {
             let gate = (i % 2) == 0 ? "X" | "Y";
             set sequence += [gate];
         }
@@ -332,7 +332,7 @@ namespace qblas
     function q_dd_xxz_sequence(n_pulses : Int) : String[] {
         mutable sequence = [];
 
-        for (i in 0 .. n_pulses - 1) {
+        for i in 0 .. n_pulses - 1 {
             let rem = i % 4;
             let gate = rem == 0 or rem == 1 ? "X" | "Y";
             set sequence += [gate];
@@ -391,7 +391,7 @@ namespace qblas
         }
 
         mutable net_pauli = 0;
-        for (g in sequence) {
+        for g in sequence {
             let p = g == "X" ? 1 | g == "Y" ? 2 | g == "Z" ? 3 | 0;
             set net_pauli = net_pauli ^^^ p;
         }
@@ -421,7 +421,7 @@ namespace qblas
     ) : Double[] {
         mutable factors = [];
 
-        for (n in n_gates) {
+        for n in n_gates {
             let factor = 1.0 + base_noise * IntAsDouble(n);
             set factors += [factor];
         }
@@ -485,14 +485,14 @@ namespace qblas
 
         if (total < 1e-10) {
             mutable zeros = [];
-            for (c in coeffs) {
+            for c in coeffs {
                 set zeros += [0.0];
             }
             return zeros;
         }
 
         mutable normalized = [];
-        for (c in coeffs) {
+        for c in coeffs {
             set normalized += [c / total];
         }
 
@@ -528,8 +528,8 @@ namespace qblas
         let total_time = IntAsDouble(n_pulses + 1) * pulse_interval;
         let neg_total = -total_time / T2;
         let neg_interval = -pulse_interval * pulse_interval / T2;
-        let coherence_factor = ExpD(neg_total);
-        let dd_factor = ExpD(neg_interval);
+        let coherence_factor = E() ^ neg_total;
+        let dd_factor = E() ^ neg_interval;
 
         if (coherence_factor < 1e-10) {
             return 1.0;
@@ -565,10 +565,10 @@ namespace qblas
         }
 
         mutable means = [];
-        for (i in 0 .. k - 1) {
+        for i in 0 .. k - 1 {
             let sample_set = samples[i];
             mutable sum = 0.0;
-            for (s in sample_set) {
+            for s in sample_set {
                 set sum = sum + s;
             }
             let mean = sum / IntAsDouble(Length(sample_set));
@@ -578,9 +578,9 @@ namespace qblas
         let extrapolated = q_zne_extrapolate(means, noise_factors);
 
         mutable var_sum = 0.0;
-        for (i in 0 .. k - 1) {
+        for i in 0 .. k - 1 {
             let sample_set = samples[i];
-            for (s in sample_set) {
+            for s in sample_set {
                 let diff = s - means[i];
                 set var_sum = var_sum + diff * diff;
             }
@@ -615,9 +615,9 @@ namespace qblas
         }
 
         mutable inverse = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 let prob = i == j ? calibration_probs[i][j] | 1.0 - calibration_probs[i][j];
                 set row += [prob > 1e-10 ? 1.0 / prob | 0.0];
             }
@@ -654,9 +654,9 @@ namespace qblas
         }
 
         mutable corrected = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable sum = 0.0;
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 let meas = j < Length(measured_probs) ? measured_probs[j] | 0.0;
                 let cal = i < Length(calibration_inv) and j < Length(calibration_inv[i]) ? calibration_inv[i][j] | 0.0;
                 set sum = sum + cal * meas;
@@ -700,7 +700,7 @@ namespace qblas
         mutable factors = [];
         let step = (max_factor - base_factor) / IntAsDouble(n_points - 1);
 
-        for (i in 0 .. n_points - 1) {
+        for i in 0 .. n_points - 1 {
             let factor = base_factor + step * IntAsDouble(i);
             set factors += [factor];
         }
@@ -735,7 +735,7 @@ namespace qblas
         let interval = total_time / IntAsDouble(n_pulses + 1);
         mutable times = [];
 
-        for (i in 0 .. n_pulses - 1) {
+        for i in 0 .. n_pulses - 1 {
             let t = interval * IntAsDouble(i + 1);
             set times += [t];
         }
@@ -766,35 +766,33 @@ namespace qblas
         noise_factors : Double[],
         n_measure : Int
     ) : Double {
-        body {
-            let nf = Length(noise_factors);
-            mutable expectation_values = [];
-            let n = Length(qs_state);
+        let nf = Length(noise_factors);
+        mutable expectation_values = [];
+        let n = Length(qs_state);
 
-            for (i in 0 .. nf - 1) {
-                let factor = noise_factors[i];
-                let n_repeat = Max([1, Floor(factor)]);
-                mutable sum = 0.0;
-                for (_ in 0 .. n_measure - 1) {
-                    use qs_copy = Qubit[n];
-                    for (q in 0 .. n - 1) {
-                        CNOT(qs_state[q], qs_copy[q]);
-                    }
-                    for (r in 0 .. n_repeat - 1) {
-                        for (q in 0 .. n - 1) {
-                            let m = M(qs_copy[q]);
-                            if (m == Zero) {
-                                set sum = sum + 1.0;
-                            }
+        for i in 0 .. nf - 1 {
+            let factor = noise_factors[i];
+            let n_repeat = Max([1, Floor(factor)]);
+            mutable sum = 0.0;
+            for _ in 0 .. n_measure - 1 {
+                use qs_copy = Qubit[n];
+                for q in 0 .. n - 1 {
+                    CNOT(qs_state[q], qs_copy[q]);
+                }
+                for r in 0 .. n_repeat - 1 {
+                    for q in 0 .. n - 1 {
+                        let m = M(qs_copy[q]);
+                        if (m == Zero) {
+                            set sum = sum + 1.0;
                         }
                     }
-                    ResetAll(qs_copy);
                 }
-                let avg = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
-                set expectation_values += [avg];
+                ResetAll(qs_copy);
             }
-
-            return q_zne_extrapolate(expectation_values, noise_factors);
+            let avg = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
+            set expectation_values += [avg];
         }
+
+        return q_zne_extrapolate(expectation_values, noise_factors);
     }
 }

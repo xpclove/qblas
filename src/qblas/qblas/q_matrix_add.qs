@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Matrix Addition and Subtraction
@@ -67,9 +67,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable C = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [A[i][j] + B[i][j]];
             }
             set C += [row];
@@ -102,9 +102,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable C = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [A[i][j] - B[i][j]];
             }
             set C += [row];
@@ -137,9 +137,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable B = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [alpha * A[i][j]];
             }
             set B += [row];
@@ -188,9 +188,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable B = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [-A[i][j]];
             }
             set B += [row];
@@ -230,9 +230,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable C = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [alpha * A[i][j] + beta * B[i][j]];
             }
             set C += [row];
@@ -261,8 +261,8 @@ namespace qblas
         }
 
         mutable total = 0.0;
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. Length(A[0]) - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. Length(A[0]) - 1 {
                 set total = total + A[i][j];
             }
         }
@@ -290,9 +290,9 @@ namespace qblas
         }
 
         mutable sums = [];
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row_sum = 0.0;
-            for (j in 0 .. Length(A[0]) - 1) {
+            for j in 0 .. Length(A[0]) - 1 {
                 set row_sum = row_sum + A[i][j];
             }
             set sums += [row_sum];
@@ -323,9 +323,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable sums = [];
 
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             mutable col_sum = 0.0;
-            for (i in 0 .. m - 1) {
+            for i in 0 .. m - 1 {
                 set col_sum = col_sum + A[i][j];
             }
             set sums += [col_sum];
@@ -356,7 +356,7 @@ namespace qblas
         }
 
         mutable tr = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set tr = tr + A[i][i] + B[i][i];
         }
 
@@ -385,8 +385,8 @@ namespace qblas
         }
 
         mutable sum = 0.0;
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. Length(A[0]) - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. Length(A[0]) - 1 {
                 let val = A[i][j] + B[i][j];
                 set sum = sum + val * val;
             }
@@ -415,8 +415,8 @@ namespace qblas
         }
 
         mutable max_val = 0.0;
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. Length(A[0]) - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. Length(A[0]) - 1 {
                 let abs_val = AbsD(A[i][j]);
                 if (abs_val > max_val) {
                     set max_val = abs_val;
@@ -451,9 +451,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable C = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 set row += [A[i][j] * B[i][j]];
             }
             set C += [row];
@@ -516,14 +516,9 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let half_time = time / 2.0;
-            q_gemv(oracle_A, qs_state, qs_work, half_time);
-            q_gemv(oracle_B, qs_state, qs_work, half_time);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        let half_time = time / 2.0;
+        q_gemv(oracle_A, qs_state, qs_work, half_time);
+        q_gemv(oracle_B, qs_state, qs_work, half_time);
     }
 }

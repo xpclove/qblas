@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Singular Value Transformation (QSVT)
@@ -46,20 +46,18 @@ namespace qblas
         poly_coeffs : Double[],
         precision : Double
     ) : Unit {
-        body (...) {
-            oracle(qs_data, qs_ancilla);
+        oracle(qs_data, qs_ancilla);
 
-            let poly_degree = Length(poly_coeffs);
-            for (idx in 0 .. poly_degree - 1) {
-                let coef = poly_coeffs[idx];
-                if (AbsD(coef) > precision) {
-                    let angle = 2.0 * ArcSin(AbsD(coef));
-                    Ry(angle, qs_ancilla[0]);
-                }
+        let poly_degree = Length(poly_coeffs);
+        for idx in 0 .. poly_degree - 1 {
+            let coef = poly_coeffs[idx];
+            if (AbsD(coef) > precision) {
+                let angle = 2.0 * ArcSin(AbsD(coef));
+                Ry(angle, qs_ancilla[0]);
             }
-
-            (Adjoint oracle)(qs_data, qs_ancilla);
         }
+
+        (Adjoint oracle)(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -89,18 +87,16 @@ namespace qblas
         condition_number : Double,
         precision : Double
     ) : Unit {
-        body (...) {
-            let epsilon = 1.0 / condition_number;
-            let degree = Floor(Log(1.0 / precision) / Log(2.0 / epsilon));
+        let epsilon = 1.0 / condition_number;
+        let degree = Floor(Log(1.0 / precision) / Log(2.0 / epsilon));
 
-            mutable coeffs = [];
-            for (k in 0 .. degree) {
-                mutable ck = 2.0 / IntAsDouble(k + 1);
-                set coeffs += [ck];
-            }
-
-            q_qsvt_polynomial_transform(oracle, qs_data, qs_ancilla, coeffs, precision);
+        mutable coeffs = [];
+        for k in 0 .. degree {
+            mutable ck = 2.0 / IntAsDouble(k + 1);
+            set coeffs += [ck];
         }
+
+        q_qsvt_polynomial_transform(oracle, qs_data, qs_ancilla, coeffs, precision);
     }
 
     // ============================================================
@@ -129,15 +125,13 @@ namespace qblas
         qs_ancilla : Qubit[],
         power : Int
     ) : Unit {
-        body (...) {
-            if (power > 0) {
-                for (p in 0 .. power - 1) {
-                    oracle(qs_data, qs_ancilla);
-                }
-            } elif (power < 0) {
-                for (p in 0 .. -power - 1) {
-                    (Adjoint oracle)(qs_data, qs_ancilla);
-                }
+        if (power > 0) {
+            for p in 0 .. power - 1 {
+                oracle(qs_data, qs_ancilla);
+            }
+        } elif (power < 0) {
+            for p in 0 .. -power - 1 {
+                (Adjoint oracle)(qs_data, qs_ancilla);
             }
         }
     }
@@ -163,18 +157,16 @@ namespace qblas
         diag : Double[],
         qs : Qubit[]
     ) : Unit {
-        body (...) {
-            let n = Length(diag);
-            let norm = Sqrt(SquaredNorm(diag));
+        let n = Length(diag);
+        let norm = Sqrt(SquaredNorm(diag));
 
-            if (norm < 1e-10) {
-                return ();
-            }
+        if (norm < 1e-10) {
+            return ();
+        }
 
-            for (i in 0 .. n - 1) {
-                let angle = 2.0 * ArcSin(AbsD(diag[i]) / norm);
-                Ry(angle, qs[i]);
-            }
+        for i in 0 .. n - 1 {
+            let angle = 2.0 * ArcSin(AbsD(diag[i]) / norm);
+            Ry(angle, qs[i]);
         }
     }
 
@@ -199,20 +191,18 @@ namespace qblas
         data : Double[],
         qs : Qubit[]
     ) : Unit {
-        body (...) {
-            let n = Length(data);
-            let norm = Sqrt(SquaredNorm(data));
+        let n = Length(data);
+        let norm = Sqrt(SquaredNorm(data));
 
-            if (norm < 1e-10) {
-                return ();
-            }
+        if (norm < 1e-10) {
+            return ();
+        }
 
-            for (i in 0 .. n - 1) {
-                let amp = data[i] / norm;
-                if (AbsD(amp) > 1e-10) {
-                    let angle = 2.0 * ArcSin(AbsD(amp));
-                    Ry(angle, qs[i]);
-                }
+        for i in 0 .. n - 1 {
+            let amp = data[i] / norm;
+            if (AbsD(amp) > 1e-10) {
+                let angle = 2.0 * ArcSin(AbsD(amp));
+                Ry(angle, qs[i]);
             }
         }
     }
@@ -239,7 +229,7 @@ namespace qblas
         }
 
         mutable result = [];
-        for (x in v) {
+        for x in v {
             set result += [x / norm];
         }
         return result;
@@ -265,7 +255,7 @@ namespace qblas
     function q_qsvt_estimate_norm(matrix : Double[][], precision : Double) : Double {
         mutable max_row_norm = 0.0;
 
-        for (row in matrix) {
+        for row in matrix {
             let row_norm = Sqrt(SquaredNorm(row));
             if (row_norm > max_row_norm) {
                 set max_row_norm = row_norm;
@@ -322,18 +312,16 @@ namespace qblas
         qs_phase : Qubit[],
         poly_coeffs : Double[]
     ) : Unit {
-        body (...) {
-            q_phase_estimate_core(U_A, qs_state, qs_phase);
+        q_phase_estimate_core(U_A, qs_state, qs_phase);
 
-            for (coef in poly_coeffs) {
-                if (AbsD(coef) > 1e-10) {
-                    let angle = 2.0 * ArcSin(AbsD(coef));
-                    Ry(angle, qs_phase[0]);
-                }
+        for coef in poly_coeffs {
+            if (AbsD(coef) > 1e-10) {
+                let angle = 2.0 * ArcSin(AbsD(coef));
+                Ry(angle, qs_phase[0]);
             }
-
-            (Adjoint q_phase_estimate_core)(U_A, qs_state, qs_phase);
         }
+
+        (Adjoint q_phase_estimate_core)(U_A, qs_state, qs_phase);
     }
 
     // ============================================================
@@ -352,7 +340,7 @@ namespace qblas
 
     function q_qsvt_sqrt_coeffs(degree : Int) : Double[] {
         mutable coeffs = [];
-        for (k in 0 .. degree) {
+        for k in 0 .. degree {
             mutable ck = 1.0;
             set coeffs += [ck];
         }

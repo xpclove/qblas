@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Variable-time Quantum Singular Value Decomposition (VT-QSVD)
@@ -25,30 +25,28 @@ namespace qblas
         n_bits : Int,
         epsilon : Double
     ) : Double {
-        body (...) {
-            mutable estimate = 0.0;
-            let target_bits = Floor(Log(1.0 / epsilon) / Log(2.0));
+        mutable estimate = 0.0;
+        let target_bits = Floor(Log(1.0 / epsilon) / Log(2.0));
 
-            use qs_phase = Qubit[n_bits];
+        use qs_phase = Qubit[n_bits];
 
-            for iter in 0 .. target_bits {
-                let precision = 1.0 / IntAsDouble(2 ^ iter);
+        for iter in 0 .. target_bits {
+            let precision = 1.0 / IntAsDouble(2 ^ iter);
 
-                q_phase_estimate_core(U_A, qs_state, qs_phase);
+            q_phase_estimate_core(U_A, qs_state, qs_phase);
 
-                mutable result_int = 0;
-                for i in 0 .. n_bits - 1 {
-                    if (M(qs_phase[i]) == One) {
-                        set result_int = result_int + (2 ^ i);
-                    }
+            mutable result_int = 0;
+            for i in 0 .. n_bits - 1 {
+                if (M(qs_phase[i]) == One) {
+                    set result_int = result_int + (2 ^ i);
                 }
-
-                set estimate = IntAsDouble(result_int) / IntAsDouble(2 ^ n_bits);
-                ResetAll(qs_phase);
             }
 
-            return estimate;
+            set estimate = IntAsDouble(result_int) / IntAsDouble(2 ^ n_bits);
+            ResetAll(qs_phase);
         }
+
+        return estimate;
     }
 
     // ============================================================
@@ -62,16 +60,14 @@ namespace qblas
         n_values : Int,
         epsilon : Double
     ) : Double[] {
-        body (...) {
-            mutable singular_values = [];
+        mutable singular_values = [];
 
-            for v in 0 .. n_values - 1 {
-                let sv = q_svd_vartime_core(U_A, qs_state, n_bits, epsilon);
-                set singular_values += [sv];
-            }
-
-            return singular_values;
+        for v in 0 .. n_values - 1 {
+            let sv = q_svd_vartime_core(U_A, qs_state, n_bits, epsilon);
+            set singular_values += [sv];
         }
+
+        return singular_values;
     }
 
     // ============================================================
@@ -84,13 +80,11 @@ namespace qblas
         qs_r : Qubit,
         condition_number : Double
     ) : Unit {
-        body (...) {
-            let n_bit = Length(qs_phase);
-            let kappa = MinD(condition_number, 100.0);
-            let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bit) - 1);
+        let n_bit = Length(qs_phase);
+        let kappa = MinD(condition_number, 100.0);
+        let lambda_div = 2.0 * PI() / IntAsDouble((2 ^ n_bit) - 1);
 
-            q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div / kappa);
-        }
+        q_ram_call_lamda_rcp(qs_phase, [qs_r], lambda_div / kappa);
     }
 
     // ============================================================
@@ -104,23 +98,21 @@ namespace qblas
         qs_phase : Qubit[],
         min_gap : Double
     ) : Double[] {
-        body (...) {
-            mutable values = [];
-            mutable last_value = 0.0;
-            let max_values = 16;
-            let n_bit = Length(qs_phase);
+        mutable values = [];
+        mutable last_value = 0.0;
+        let max_values = 16;
+        let n_bit = Length(qs_phase);
 
-            for v in 0 .. max_values - 1 {
-                let sv = q_svd_vartime_core(U_A, qs_state, n_bit, min_gap);
+        for v in 0 .. max_values - 1 {
+            let sv = q_svd_vartime_core(U_A, qs_state, n_bit, min_gap);
 
-                if (v == 0 or AbsD(sv - last_value) > min_gap) {
-                    set values += [sv];
-                    set last_value = sv;
-                }
+            if (v == 0 or AbsD(sv - last_value) > min_gap) {
+                set values += [sv];
+                set last_value = sv;
             }
-
-            return values;
         }
+
+        return values;
     }
 
     // ============================================================
@@ -134,18 +126,16 @@ namespace qblas
         epsilon : Double,
         condition_number : Double
     ) : (Double[], Double[]) {
-        body (...) {
-            mutable values = [];
+        mutable values = [];
 
-            use qs_phase = Qubit[n_bits];
+        use qs_phase = Qubit[n_bits];
 
-            set values = q_svd_vartime_full(U_A, qs_state, n_bits, 2 ^ n_bits, epsilon);
+        set values = q_svd_vartime_full(U_A, qs_state, n_bits, 2 ^ n_bits, epsilon);
 
-            use (qs_r,) = (Qubit[1],);
-            q_svd_vartime_rotation(qs_phase, qs_r[0], condition_number);
+        use (qs_r,) = (Qubit[1],);
+        q_svd_vartime_rotation(qs_phase, qs_r[0], condition_number);
 
-            return (values, []);
-        }
+        return (values, []);
     }
 
     // ============================================================

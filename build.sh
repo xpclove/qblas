@@ -1,38 +1,38 @@
 #!/bin/bash
-# QBLAS Build Script
-# Usage: ./build.sh [clean]
+# QBLAS Build & Test Script (QDK v1.28)
+# Usage: ./build.sh [clean|test]
 
 set -e
 
-# Set .NET environment
-export DOTNET_ROOT=~/.dotnet
-export PATH=$HOME/.dotnet:$PATH
-
 PROJECT_ROOT="$(cd "$(dirname "$0")" && pwd)"
-QBLAS_DIR="$PROJECT_ROOT/src/qblas/qblas"
-TEST_DIR="$PROJECT_ROOT/src/qblas/test"
+
+# Try Python 3.11 for QDK v1.28 compatibility
+PYTHON=""
+for p in python3.11 python3.10 python3; do
+    if command -v $p &>/dev/null; then
+        if $p -c "import qsharp" 2>/dev/null; then
+            PYTHON=$p
+            break
+        fi
+    fi
+done
+
+if [ -z "$PYTHON" ]; then
+    echo "Error: qsharp (QDK v1.28) Python package not found."
+    echo "Install: pip install qsharp"
+    exit 1
+fi
+
+echo "Using: $PYTHON ($($PYTHON -c 'import qsharp; print(qsharp.__version__)'))"
 
 if [ "$1" == "clean" ]; then
-    echo "Cleaning build artifacts..."
-    rm -rf "$QBLAS_DIR/bin" "$QBLAS_DIR/obj"
-    rm -rf "$TEST_DIR/bin" "$TEST_DIR/obj"
-    echo "Clean complete."
+    echo "Clean complete (no build artifacts to remove)."
     exit 0
 fi
 
-echo "=== Building QBLAS Library ==="
-cd "$QBLAS_DIR"
-dotnet build qblas.csproj -c Debug
-
 echo ""
-echo "=== Building Test Project ==="
-cd "$TEST_DIR"
-dotnet build test.csproj -c Debug
-
-echo ""
-echo "=== Running Tests ==="
-cd "$TEST_DIR"
-dotnet run
+echo "=== Compiling & Running QBLAS Tests ==="
+$PYTHON "$PROJECT_ROOT/tools/run_all_tests.py"
 
 echo ""
 echo "=== Build and Test Complete ==="

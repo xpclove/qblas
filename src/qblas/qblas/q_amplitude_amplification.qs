@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Amplitude Amplification (QAA)
@@ -156,13 +156,8 @@ namespace qblas
         oracle : ((Qubit[], Qubit[]) => Unit is Adj + Ctl),
         qs_data : Qubit[],
         qs_ancilla : Qubit[]
-    ) : Unit {
-        body (...) {
-            oracle(qs_data, qs_ancilla);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        oracle(qs_data, qs_ancilla);
     }
 
     // ============================================================
@@ -180,21 +175,16 @@ namespace qblas
     // Reference: Standard diffuser construction
     // ============================================================
 
-    operation q_qaa_state_reflection(qs_state : Qubit[]) : Unit {
-        body (...) {
-            for (q in qs_state) {
-                H(q);
-                X(q);
-            }
-            (Controlled Z)(qs_state[0 .. Length(qs_state) - 2], qs_state[Length(qs_state) - 1]);
-            for (q in qs_state) {
-                X(q);
-                H(q);
-            }
+    operation q_qaa_state_reflection(qs_state : Qubit[]) : Unit is Adj + Ctl {
+        for q in qs_state {
+            H(q);
+            X(q);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        (Controlled Z)(qs_state[0 .. Length(qs_state) - 2], qs_state[Length(qs_state) - 1]);
+        for q in qs_state {
+            X(q);
+            H(q);
+        }
     }
 
     // ============================================================
@@ -220,25 +210,20 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         m : Int
-    ) : Unit {
-        body (...) {
-            for (iter in 0 .. m - 1) {
-                oracle(qs_state, qs_ancilla);
-                for (q in qs_state) {
-                    H(q);
-                    X(q);
-                }
-                (Controlled Z)(qs_state[0 .. Length(qs_state) - 2], qs_state[Length(qs_state) - 1]);
-                for (q in qs_state) {
-                    X(q);
-                    H(q);
-                }
-                (Adjoint oracle)(qs_state, qs_ancilla);
+    ) : Unit is Adj + Ctl {
+        for iter in 0 .. m - 1 {
+            oracle(qs_state, qs_ancilla);
+            for q in qs_state {
+                H(q);
+                X(q);
             }
+            (Controlled Z)(qs_state[0 .. Length(qs_state) - 2], qs_state[Length(qs_state) - 1]);
+            for q in qs_state {
+                X(q);
+                H(q);
+            }
+            (Adjoint oracle)(qs_state, qs_ancilla);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 
     // ============================================================
@@ -265,15 +250,10 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         iterations : Int
-    ) : Unit {
-        body (...) {
-            for (iter in 0 .. iterations - 1) {
-                oracle(qs_state, qs_ancilla);
-                (Adjoint oracle)(qs_state, qs_ancilla);
-            }
+    ) : Unit is Adj + Ctl {
+        for iter in 0 .. iterations - 1 {
+            oracle(qs_state, qs_ancilla);
+            (Adjoint oracle)(qs_state, qs_ancilla);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

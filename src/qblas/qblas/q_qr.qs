@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum QR Decomposition
@@ -67,9 +67,9 @@ namespace qblas
         let n = Length(A[0]);
         mutable norms = [];
 
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             mutable sum = 0.0;
-            for (i in 0 .. m - 1) {
+            for i in 0 .. m - 1 {
                 let val = A[i][j];
                 set sum = sum + val * val;
             }
@@ -102,7 +102,7 @@ namespace qblas
         }
 
         mutable norm = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set norm = norm + v[i] * v[i];
         }
         set norm = Sqrt(norm);
@@ -115,7 +115,7 @@ namespace qblas
         let sign = v[0] >= 0.0 ? 1.0 | -1.0;
         let alpha = sign * norm;
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (i == 0) {
                 set u += [v[0] - alpha];
             } else {
@@ -124,7 +124,7 @@ namespace qblas
         }
 
         mutable u_norm_sq = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set u_norm_sq = u_norm_sq + u[i] * u[i];
         }
 
@@ -163,14 +163,14 @@ namespace qblas
 
         mutable Rmat = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (j < col_idx) {
                     set row += [A[i][j]];
                 } else {
                     mutable dot = 0.0;
-                    for (k in col_idx .. n - 1) {
+                    for k in col_idx .. n - 1 {
                         set dot = dot + u[k - col_idx] * A[i][k];
                     }
                     let factor = beta * dot;
@@ -208,26 +208,26 @@ namespace qblas
         let n = Length(householder_list);
         mutable Q = [];
 
-        for (i in 0 .. m - 1) {
+        for i in 0 .. m - 1 {
             mutable row = [];
-            for (j in 0 .. m - 1) {
+            for j in 0 .. m - 1 {
                 set row += [i == j ? 1.0 | 0.0];
             }
             set Q += [row];
         }
 
-        for (idx in 0 .. n - 1) {
+        for idx in 0 .. n - 1 {
             let (u, beta) = householder_list[idx];
             mutable P = [];
 
-            for (i in 0 .. m - 1) {
+            for i in 0 .. m - 1 {
                 mutable prow = [];
-                for (j in 0 .. m - 1) {
+                for j in 0 .. m - 1 {
                     if (i < idx or j < idx) {
                         set prow += [i == j ? 1.0 | 0.0];
                     } else {
                         mutable dot = 0.0;
-                        for (k in 0 .. m - 1) {
+                        for k in 0 .. m - 1 {
                             set dot = dot + u[k] * Q[k][j];
                         }
                         let val = Q[i][j] - beta * u[i - idx] * dot;
@@ -265,9 +265,9 @@ namespace qblas
 
         mutable Rout = [];
 
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 if (i > j) {
                     set row += [0.0];
                 } else {
@@ -309,10 +309,10 @@ namespace qblas
         }
 
         mutable max_error = 0.0;
-        for (i in 0 .. m - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. m - 1 {
+            for j in 0 .. n - 1 {
                 mutable sum = 0.0;
-                for (k in 0 .. n - 1) {
+                for k in 0 .. n - 1 {
                     set sum = sum + Q[i][k] * Rmat[k][j];
                 }
                 let diff = AbsD(A[i][j] - sum);
@@ -347,10 +347,10 @@ namespace qblas
 
         mutable is_orthogonal = true;
 
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 mutable dot = 0.0;
-                for (k in 0 .. n - 1) {
+                for k in 0 .. n - 1 {
                     set dot = dot + Q[k][i] * Q[k][j];
                 }
                 let expected = i == j ? 1.0 | 0.0;
@@ -391,23 +391,23 @@ namespace qblas
         }
 
         mutable qt_b = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable sum = 0.0;
-            for (j in 0 .. Length(b) - 1) {
+            for j in 0 .. Length(b) - 1 {
                 set sum = sum + Q[j][i] * b[j];
             }
             set qt_b += [sum];
         }
 
         mutable x = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set x += [0.0];
         }
 
-        for (i in n - 1 .. -1 .. 0) {
+        for i in n - 1 .. -1 .. 0 {
             if (AbsD(Rmat[i][i]) > 1e-10) {
                 mutable sum = 0.0;
-                for (j in i + 1 .. n - 1) {
+                for j in i + 1 .. n - 1 {
                     set sum = sum + Rmat[i][j] * x[j];
                 }
                 let new_val = (qt_b[i] - sum) / Rmat[i][i];
@@ -442,7 +442,7 @@ namespace qblas
         }
 
         mutable rank = 0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (AbsD(Rmat[i][i]) > tol) {
                 set rank = rank + 1;
             }
@@ -468,9 +468,9 @@ namespace qblas
 
         mutable Qt = [];
 
-        for (j in 0 .. n - 1) {
+        for j in 0 .. n - 1 {
             mutable row = [];
-            for (i in 0 .. n - 1) {
+            for i in 0 .. n - 1 {
                 set row += [Q[i][j]];
             }
             set Qt += [row];
@@ -501,12 +501,12 @@ namespace qblas
         }
 
         mutable dot = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set dot = dot + u[i] * v[i];
         }
 
         mutable u_norm_sq = 0.0;
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             set u_norm_sq = u_norm_sq + u[i] * u[i];
         }
 
@@ -538,16 +538,11 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_b);
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_x[q]);
-            }
-            q_gemv(oracle, qs_x, qs_work, time);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_b);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_x[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+        q_gemv(oracle, qs_x, qs_work, time);
     }
 }

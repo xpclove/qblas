@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Newton Method (QNEWTON)
@@ -87,23 +87,18 @@ namespace qblas
         qs_hessian : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_x);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_x);
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_x[q], qs_hessian[q]);
-            }
-
-            q_gemv(oracle, qs_hessian, qs_work, time);
-
-            for (q in 0 .. n - 1) {
-                CNOT(qs_x[q], qs_hessian[q]);
-            }
+        for q in 0 .. n - 1 {
+            CNOT(qs_x[q], qs_hessian[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+
+        q_gemv(oracle, qs_hessian, qs_work, time);
+
+        for q in 0 .. n - 1 {
+            CNOT(qs_x[q], qs_hessian[q]);
+        }
     }
 
     // ============================================================
@@ -128,21 +123,16 @@ namespace qblas
         qs_hessian : Qubit[],
         qs_grad : Qubit[],
         qs_delta : Qubit[]
-    ) : Unit {
-        body {
-            let n = Length(qs_delta);
-            let angle = PI() / 4.0;
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_delta);
+        let angle = PI() / 4.0;
 
-            for (i in 0 .. n - 1) {
-                CNOT(qs_grad[i], qs_delta[i]);
-                Ry(angle, qs_delta[i]);
-                CNOT(qs_hessian[i], qs_delta[i]);
-                Ry(-angle, qs_delta[i]);
-                CNOT(qs_hessian[i], qs_delta[i]);
-            }
+        for i in 0 .. n - 1 {
+            CNOT(qs_grad[i], qs_delta[i]);
+            Ry(angle, qs_delta[i]);
+            CNOT(qs_hessian[i], qs_delta[i]);
+            Ry(-angle, qs_delta[i]);
+            CNOT(qs_hessian[i], qs_delta[i]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

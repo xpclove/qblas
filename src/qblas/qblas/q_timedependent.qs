@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Time-Dependent Hamiltonian Simulation
@@ -75,9 +75,9 @@ namespace qblas
     function q_timedep_evaluate(time : Double, base_hamiltonian : Double[][], variation : Double[][]) : Double[][] {
         let n = Length(base_hamiltonian);
         mutable result = [];
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             mutable row = [];
-            for (j in 0 .. n - 1) {
+            for j in 0 .. n - 1 {
                 let val = base_hamiltonian[i][j] + time * variation[i][j];
                 set row += [val];
             }
@@ -124,11 +124,11 @@ namespace qblas
         mutable max_norm = 0.0;
         mutable min_norm = 1e20;
 
-        for (idx in 0 .. Length(hamiltonians) - 1) {
+        for idx in 0 .. Length(hamiltonians) - 1 {
             let n = Length(hamiltonians[idx]);
             mutable row_norm = 0.0;
-            for (i in 0 .. n - 1) {
-                for (j in 0 .. n - 1) {
+            for i in 0 .. n - 1 {
+                for j in 0 .. n - 1 {
                     set row_norm += AbsD(hamiltonians[idx][i][j]);
                 }
             }
@@ -234,14 +234,9 @@ namespace qblas
         qs_work : Qubit[],
         t_start : Double,
         dt : Double
-    ) : Unit {
-        body {
-            let time_step = t_start * dt;
-            q_gemv(oracle, qs_state, qs_work, time_step);
-        }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+    ) : Unit is Adj + Ctl {
+        let time_step = t_start * dt;
+        q_gemv(oracle, qs_state, qs_work, time_step);
     }
 
     // ============================================================
@@ -280,18 +275,13 @@ namespace qblas
         qs_work : Qubit[],
         t_span : Double,
         n_steps : Int
-    ) : Unit {
-        body {
-            let dt = t_span / IntAsDouble(n_steps);
-            for (k in 0 .. n_steps - 1) {
-                let t_k = IntAsDouble(k) * dt;
-                q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
-                q_gemv(h1_oracle, qs_state, qs_work, t_k * dt);
-                q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
-            }
+    ) : Unit is Adj + Ctl {
+        let dt = t_span / IntAsDouble(n_steps);
+        for k in 0 .. n_steps - 1 {
+            let t_k = IntAsDouble(k) * dt;
+            q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
+            q_gemv(h1_oracle, qs_state, qs_work, t_k * dt);
+            q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

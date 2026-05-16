@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Gibbs State Preparation via LCU
@@ -69,7 +69,7 @@ namespace qblas
 
     function q_gibbs_partition_bound(eigenvalues : Double[], beta : Double) : Double {
         mutable bound = 0.0;
-        for (idx in 0 .. Length(eigenvalues) - 1) {
+        for idx in 0 .. Length(eigenvalues) - 1 {
             let term = q_gibbs_exp_term(eigenvalues[idx], beta);
             set bound += term;
         }
@@ -91,8 +91,8 @@ namespace qblas
         let n = Length(hamiltonian);
         mutable eigenvalues = [];
 
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 if (i == j) {
                     set eigenvalues += [hamiltonian[i][j]];
                 }
@@ -100,8 +100,8 @@ namespace qblas
         }
 
         mutable sorted = eigenvalues;
-        for (i in 0 .. Length(sorted) - 1) {
-            for (j in i + 1 .. Length(sorted) - 1) {
+        for i in 0 .. Length(sorted) - 1 {
+            for j in i + 1 .. Length(sorted) - 1 {
                 if (sorted[j] < sorted[i]) {
                     let tmp = sorted[i];
                     set sorted w/= i <- sorted[j];
@@ -132,7 +132,7 @@ namespace qblas
         let n = Length(thermal_expected);
         mutable trace_dist = 0.0;
 
-        for (idx in 0 .. n - 1) {
+        for idx in 0 .. n - 1 {
             set trace_dist += AbsD(thermal_expected[idx] - thermal_actual[idx]);
         }
 
@@ -193,7 +193,7 @@ namespace qblas
 
     function q_gibbs_partition_function(eigenvalues : Double[], beta : Double) : Double {
         mutable z = 0.0;
-        for (idx in 0 .. Length(eigenvalues) - 1) {
+        for idx in 0 .. Length(eigenvalues) - 1 {
             let term = q_gibbs_exp_term(eigenvalues[idx], beta);
             set z += term;
         }
@@ -219,7 +219,7 @@ namespace qblas
         }
 
         mutable probs = [];
-        for (idx in 0 .. Length(eigenvalues) - 1) {
+        for idx in 0 .. Length(eigenvalues) - 1 {
             let p = q_gibbs_exp_term(eigenvalues[idx], beta) / z;
             set probs += [p];
         }
@@ -294,16 +294,11 @@ namespace qblas
         qs_work : Qubit[],
         beta : Double,
         time : Double
-    ) : Unit {
-        body {
-            let num_steps = 10;
-            let dt = time / IntAsDouble(num_steps);
-            for (i in 0 .. num_steps - 1) {
-                q_gemv(oracle, qs_state, qs_work, dt);
-            }
+    ) : Unit is Adj + Ctl {
+        let num_steps = 10;
+        let dt = time / IntAsDouble(num_steps);
+        for i in 0 .. num_steps - 1 {
+            q_gemv(oracle, qs_state, qs_work, dt);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }

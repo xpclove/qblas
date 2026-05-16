@@ -2,8 +2,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Quantum Triangular System Solver (QTRISOL)
@@ -39,8 +39,8 @@ namespace qblas
 
     function q_trisol_is_triangular(A : Double[][], is_lower : Bool) : Bool {
         let n = Length(A);
-        for (i in 0 .. n - 1) {
-            for (j in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
+            for j in 0 .. n - 1 {
                 let valid = is_lower ? (j <= i) | (j >= i);
                 if (not valid and AbsD(A[i][j]) > 1e-10) {
                     return false;
@@ -64,7 +64,7 @@ namespace qblas
 
     function q_trisol_diagonal_nonzero(A : Double[][]) : Bool {
         let n = Length(A);
-        for (i in 0 .. n - 1) {
+        for i in 0 .. n - 1 {
             if (AbsD(A[i][i]) < 1e-10) {
                 return false;
             }
@@ -98,19 +98,14 @@ namespace qblas
         qs_y : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_y);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_y);
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_b[q], qs_y[q]);
-            }
-
-            q_gemv(oracle, qs_y, qs_work, time);
+        for q in 0 .. n - 1 {
+            CNOT(qs_b[q], qs_y[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+
+        q_gemv(oracle, qs_y, qs_work, time);
     }
 
     // ============================================================
@@ -139,19 +134,14 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
-        body {
-            let n = Length(qs_x);
+    ) : Unit is Adj + Ctl {
+        let n = Length(qs_x);
 
-            for (q in 0 .. n - 1) {
-                CNOT(qs_y[q], qs_x[q]);
-            }
-
-            q_gemv(oracle, qs_x, qs_work, time);
+        for q in 0 .. n - 1 {
+            CNOT(qs_y[q], qs_x[q]);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
+
+        q_gemv(oracle, qs_x, qs_work, time);
     }
 
     // ============================================================
@@ -182,16 +172,11 @@ namespace qblas
         qs_work : Qubit[],
         is_lower : Bool,
         time : Double
-    ) : Unit {
-        body {
-            if (is_lower) {
-                q_trisol_forward_substitute(oracle, qs_b, qs_x, qs_work, time);
-            } else {
-                q_trisol_backward_substitute(oracle, qs_b, qs_x, qs_work, time);
-            }
+    ) : Unit is Adj + Ctl {
+        if (is_lower) {
+            q_trisol_forward_substitute(oracle, qs_b, qs_x, qs_work, time);
+        } else {
+            q_trisol_backward_substitute(oracle, qs_b, qs_x, qs_work, time);
         }
-        adjoint auto;
-        controlled auto;
-        controlled adjoint auto;
     }
 }
