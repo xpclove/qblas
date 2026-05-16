@@ -273,12 +273,7 @@ namespace Quantum.test
                 var res52 = test_eigenvalue_filter_verify.Run(sim, 0).Result;
                 Console.WriteLine($"  test_eigenvalue_filter_verify = {res52}");
 
-                // Test 53: CG residual norm
-                Console.WriteLine("\n[Test 53] q_cg_residual_norm");
-                var res53 = test_cg_residual_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_cg_residual_norm = {res53}");
-
-                // Test 54: CG converged
+                // Test 53: CG converged
                 Console.WriteLine("\n[Test 54] q_cg_converged");
                 var res54 = test_cg_converged.Run(sim, 0).Result;
                 Console.WriteLine($"  test_cg_converged = {res54}");
@@ -323,1119 +318,1200 @@ namespace Quantum.test
                 var res62 = test_lanczos_eigenvalue_sum.Run(sim, 0).Result;
                 Console.WriteLine($"  test_lanczos_eigenvalue_sum = {res62}");
 
-                // Test 63: Krylov residual norm
-                Console.WriteLine("\n[Test 63] q_krylov_residual_norm");
-                var res63 = test_krylov_residual_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_krylov_residual_norm = {res63}");
+                // ======= Lanczos Quantum Tests (63-67) =======
+                // Test 63: Lanczos apply matrix
+                Console.WriteLine("\n[Test 63] test_lanczos_apply_matrix");
+                var res_lan1 = test_lanczos_apply_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_apply_matrix = {res_lan1}");
 
-                // Test 64: Krylov converged
-                Console.WriteLine("\n[Test 64] q_krylov_converged");
-                var res64 = test_krylov_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_krylov_converged = {res64}");
+                // Test 64: Lanczos estimate alpha
+                Console.WriteLine("\n[Test 64] test_lanczos_estimate_alpha");
+                var res_lan2 = test_lanczos_estimate_alpha.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_estimate_alpha = {res_lan2}");
 
-                // Test 65: Krylov norm sq
-                Console.WriteLine("\n[Test 65] q_krylov_norm_sq");
-                var res65 = test_krylov_norm_sq.Run(sim, 0).Result;
-                Console.WriteLine($"  test_krylov_norm_sq = {res65}");
+                // Test 65: Lanczos iterate
+                Console.WriteLine("\n[Test 65] test_lanczos_iterate");
+                var res_lan3 = test_lanczos_iterate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_iterate = {res_lan3}");
 
-                // Test 66: Krylov inner product
-                Console.WriteLine("\n[Test 66] q_krylov_inner_product");
-                var res66 = test_krylov_inner_product.Run(sim, 0).Result;
-                Console.WriteLine($"  test_krylov_inner_product = {res66}");
+                // Test 66: Lanczos step
+                Console.WriteLine("\n[Test 66] test_lanczos_step");
+                var res_lan4 = test_lanczos_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_step = {res_lan4}");
 
-                // Test 67: GMRES norm
-                Console.WriteLine("\n[Test 67] q_gmres_norm");
-                var res67 = test_gmres_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gmres_norm = {res67}");
+                // Test 67: Lanczos tridiagonalization
+                Console.WriteLine("\n[Test 67] test_lanczos_compute_tridiag");
+                var res_lan5 = test_lanczos_compute_tridiag.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lanczos_compute_tridiag = {res_lan5}");
 
-                // Test 68: GMRES converged
-                Console.WriteLine("\n[Test 68] q_gmres_converged");
-                var res68 = test_gmres_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gmres_converged = {res68}");
+                // Test 68: Krylov SWAP test one shot
+                Console.WriteLine("\n[Test 63] test_krylov_swap_test_one_shot");
+                var t63 = test_krylov_swap_test_one_shot.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_swap_test_one_shot = {t63} (expected 1)");
 
-                // Test 69: GMRES hessenberg size
-                Console.WriteLine("\n[Test 69] q_gmres_hessenberg_size");
-                var res69 = test_gmres_hessenberg_size.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gmres_hessenberg_size = {res69}");
+                // Test 69: Krylov estimate overlap
+                Console.WriteLine("\n[Test 64] test_krylov_estimate_overlap");
+                var t64 = test_krylov_estimate_overlap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_estimate_overlap = {t64} (expected ~1.0)");
 
-                // Test 70: GD norm
-                Console.WriteLine("\n[Test 70] q_gd_norm");
-                var res70 = test_gd_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gd_norm = {res70}");
+                // Test 70: Krylov apply matrix
+                Console.WriteLine("\n[Test 65] test_krylov_apply_matrix");
+                var t65 = test_krylov_apply_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_apply_matrix = {t65}");
 
-                // Test 71: GD converged
-                Console.WriteLine("\n[Test 71] q_gd_converged");
-                var res71 = test_gd_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gd_converged = {res71}");
+                // Test 71: Krylov generate subspace
+                Console.WriteLine("\n[Test 66] test_krylov_generate_subspace");
+                var t66 = test_krylov_generate_subspace.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_generate_subspace = {t66}");
 
-                // Test 72: GD norm sq
-                Console.WriteLine("\n[Test 72] q_gd_norm_sq");
-                var res72 = test_gd_norm_sq.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gd_norm_sq = {res72}");
+                // Test 72: Krylov swap overlap (two identical states)
+                Console.WriteLine("\n[Test 67] test_krylov_swap_overlap");
+                var t67 = test_krylov_swap_overlap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_swap_overlap = {t67} (expected ~1.0)");
 
-                // Test 73: Newton norm
+                // Test 73: Krylov Gram matrix
+                Console.WriteLine("\n[Test 68] test_krylov_gram_matrix");
+                var t68 = test_krylov_gram_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_gram_matrix = {t68} (expected ~1.0)");
+
+                // Test 74: Krylov Arnoldi overlaps
+                Console.WriteLine("\n[Test 69] test_krylov_arnoldi_overlaps");
+                var t69 = test_krylov_arnoldi_overlaps.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_arnoldi_overlaps = {t69}");
+
+                // Tests 70-72: Classic Krylov helpers (kept)
+                Console.WriteLine("\n[Test 70] q_krylov_converged");
+                var t70 = test_krylov_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_converged = {t70}");
+
+                Console.WriteLine("\n[Test 71] q_krylov_norm_sq");
+                var t71 = test_krylov_norm_sq.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_norm_sq = {t71}");
+
+                Console.WriteLine("\n[Test 72] q_krylov_inner_product");
+                var t72 = test_krylov_inner_product.Run(sim, 0).Result;
+                Console.WriteLine($"  test_krylov_inner_product = {t72}");
+
+                // Test 73: GMRES converged
+                Console.WriteLine("\n[Test 74] q_gmres_converged");
+                var rgmr2 = test_gmres_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  q_gmres_converged = {rgmr2}");
+
+                // Test 77: GMRES hessenberg size
+                Console.WriteLine("\n[Test 75] q_gmres_hessenberg_size");
+                var rgmr3 = test_gmres_hessenberg_size.Run(sim, 0).Result;
+                Console.WriteLine($"  q_gmres_hessenberg_size = {rgmr3}");
+
+                // Test 78: GD norm
+                Console.WriteLine("\n[Test 76] q_gd_norm");
+                var rgd1 = test_gd_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  q_gd_norm = {rgd1}");
+
+                // Test 79: GD converged
+                Console.WriteLine("\n[Test 77] q_gd_converged");
+                var rgd2 = test_gd_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  q_gd_converged = {rgd2}");
+
+                // Test 80: GD norm sq
+                Console.WriteLine("\n[Test 78] q_gd_norm_sq");
+                var rgd3 = test_gd_norm_sq.Run(sim, 0).Result;
+                Console.WriteLine($"  q_gd_norm_sq = {rgd3}");
+
+                // Test 81: Newton norm
                 Console.WriteLine("\n[Test 73] q_newton_norm");
-                var res73 = test_newton_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_newton_norm = {res73}");
+                var r73 = test_newton_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_newton_norm = {r73}");
 
-                // Test 74: Newton converged
+                // Test 82: Newton converged
                 Console.WriteLine("\n[Test 74] q_newton_converged");
-                var res74 = test_newton_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_newton_converged = {res74}");
+                var r74 = test_newton_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_newton_converged = {r74}");
 
-                // Test 75: PCA eigenvalue norm
+                // Test 83: PCA eigenvalue norm
                 Console.WriteLine("\n[Test 75] q_pca_eigenvalue_norm");
-                var res75 = test_pca_eigenvalue_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pca_eigenvalue_norm = {res75}");
+                var r75 = test_pca_eigenvalue_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_eigenvalue_norm = {r75}");
 
-                // Test 76: PCA explained var
+                // Test 84: PCA explained var
                 Console.WriteLine("\n[Test 76] q_pca_explained_var");
-                var res76 = test_pca_explained_var.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pca_explained_var = {res76}");
+                var r76 = test_pca_explained_var.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_explained_var = {r76}");
 
-                // Test 77: PCA projection matrix
+                // Test 85: PCA projection matrix
                 Console.WriteLine("\n[Test 77] q_pca_projection_matrix");
-                var res77 = test_pca_projection_matrix.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pca_projection_matrix = {res77}");
+                var r77 = test_pca_projection_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_projection_matrix = {r77}");
 
-                // Test 78: Ridge effective cond
+                // Test 86: Ridge effective cond
                 Console.WriteLine("\n[Test 78] q_ridge_effective_cond");
-                var res78 = test_ridge_effective_cond.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ridge_effective_cond = {res78}");
+                var r78 = test_ridge_effective_cond.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_effective_cond = {r78}");
 
-                // Test 79: Ridge lambda opt
+                // Test 87: Ridge lambda opt
                 Console.WriteLine("\n[Test 79] q_ridge_lambda_opt");
-                var res79 = test_ridge_lambda_opt.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ridge_lambda_opt = {res79}");
+                var r79 = test_ridge_lambda_opt.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_lambda_opt = {r79}");
 
-                // Test 80: Ridge matrix dim
+                // Test 88: Ridge matrix dim
                 Console.WriteLine("\n[Test 80] q_ridge_matrix_dim");
-                var res80 = test_ridge_matrix_dim.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ridge_matrix_dim = {res80}");
+                var r80 = test_ridge_matrix_dim.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_matrix_dim = {r80}");
 
-                // Test 81: Trisol is triangular
+                // Test 89: Trisol is triangular
                 Console.WriteLine("\n[Test 81] q_trisol_is_triangular");
-                var res81 = test_trisol_is_triangular.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trisol_is_triangular = {res81}");
+                var r81 = test_trisol_is_triangular.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_is_triangular = {r81}");
 
-                // Test 82: Trisol diagonal nonzero
+                // Test 90: Trisol diagonal nonzero
                 Console.WriteLine("\n[Test 82] q_trisol_diagonal_nonzero");
-                var res82 = test_trisol_diagonal_nonzero.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trisol_diagonal_nonzero = {res82}");
+                var r82 = test_trisol_diagonal_nonzero.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_diagonal_nonzero = {r82}");
 
-                // Test 83: Trisol norm
-                Console.WriteLine("\n[Test 83] q_trisol_norm");
-                var res83 = test_trisol_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trisol_norm = {res83}");
-
-                // Test 84: QSP is valid phase
+                // Test 83: QSP is valid phase
                 Console.WriteLine("\n[Test 84] q_qsp_is_valid_phase");
-                var res84 = test_qsp_is_valid_phase.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_is_valid_phase = {res84}");
+                var r84 = test_qsp_is_valid_phase.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_is_valid_phase = {r84}");
 
-                // Test 85: QSP poly eval
+                // Test 93: QSP poly eval
                 Console.WriteLine("\n[Test 85] q_qsp_poly_eval");
-                var res85 = test_qsp_poly_eval.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_poly_eval = {res85}");
+                var r85 = test_qsp_poly_eval.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_poly_eval = {r85}");
 
-                // Test 86: QSP phase from degree
+                // Test 94: QSP phase from degree
                 Console.WriteLine("\n[Test 86] q_qsp_phase_from_degree");
-                var res86 = test_qsp_phase_from_degree.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_phase_from_degree = {res86}");
+                var r86 = test_qsp_phase_from_degree.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_phase_from_degree = {r86}");
 
-                // Test 87: QSP symmetric phase seq
+                // Test 95: QSP symmetric phase seq
                 Console.WriteLine("\n[Test 87] q_qsp_symmetric_phase_seq");
-                var res87 = test_qsp_symmetric_phase_seq.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_symmetric_phase_seq = {res87}");
+                var r87 = test_qsp_symmetric_phase_seq.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_symmetric_phase_seq = {r87}");
 
-                // Test 88: QSP apply rotation
+                // Test 96: QSP apply rotation
                 Console.WriteLine("\n[Test 88] q_qsp_apply_rotation");
-                var res88 = test_qsp_apply_rotation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_apply_rotation = {res88}");
+                var r88 = test_qsp_apply_rotation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_apply_rotation = {r88}");
 
-                // Test 89: QSP polynomial unitary
+                // Test 97: QSP polynomial unitary
                 Console.WriteLine("\n[Test 89] q_qsp_polynomial_unitary");
-                var res89 = test_qsp_polynomial_unitary.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_polynomial_unitary = {res89}");
+                var r89 = test_qsp_polynomial_unitary.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_polynomial_unitary = {r89}");
 
-                // Test 90: QSP eigenvalue transform
+                // Test 98: QSP eigenvalue transform
                 Console.WriteLine("\n[Test 90] q_qsp_eigenvalue_transform");
-                var res90 = test_qsp_eigenvalue_transform.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_eigenvalue_transform = {res90}");
+                var r90 = test_qsp_eigenvalue_transform.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_eigenvalue_transform = {r90}");
 
-                // Test 91: QSP Chebyshev phase
+                // Test 99: QSP Chebyshev phase
                 Console.WriteLine("\n[Test 91] q_qsp_chebyshev_phase");
-                var res91 = test_qsp_chebyshev_phase.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_chebyshev_phase = {res91}");
+                var r91 = test_qsp_chebyshev_phase.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_chebyshev_phase = {r91}");
 
-                // Test 92: QSP kernel
+                // Test 100: QSP kernel
                 Console.WriteLine("\n[Test 92] q_qsp_kernel");
-                var res92 = test_qsp_kernel.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_kernel = {res92}");
+                var r92 = test_qsp_kernel.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_kernel = {r92}");
 
-                // Test 93: QSP validate sequence
+                // Test 101: QSP validate sequence
                 Console.WriteLine("\n[Test 93] q_qsp_validate_sequence");
-                var res93 = test_qsp_validate_sequence.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_validate_sequence = {res93}");
+                var r93 = test_qsp_validate_sequence.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_validate_sequence = {r93}");
 
-                // Test 94: QSP linear combination
+                // Test 102: QSP linear combination
                 Console.WriteLine("\n[Test 94] q_qsp_linear_combination");
-                var res94 = test_qsp_linear_combination.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qsp_linear_combination = {res94}");
+                var r94 = test_qsp_linear_combination.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qsp_linear_combination = {r94}");
 
-                // Test 95: Trotter step size
+                // Test 103: Trotter step size
                 Console.WriteLine("\n[Test 95] q_trotter_step_size");
-                var res95 = test_trotter_step_size.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_step_size = {res95}");
+                var r95 = test_trotter_step_size.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_step_size = {r95}");
 
-                // Test 96: Trotter Suzuki 2nd order coeffs
+                // Test 104: Trotter Suzuki 2nd order coeffs
                 Console.WriteLine("\n[Test 96] q_trotter_suzuki_2_coeffs");
-                var res96 = test_trotter_suzuki_2_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_suzuki_2_coeffs = {res96}");
+                var r96 = test_trotter_suzuki_2_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_suzuki_2_coeffs = {r96}");
 
-                // Test 97: Trotter high order coeffs
+                // Test 105: Trotter high order coeffs
                 Console.WriteLine("\n[Test 97] q_trotter_suzuki_high_order_coeffs");
-                var res97 = test_trotter_suzuki_high_order_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_suzuki_high_order_coeffs = {res97}");
+                var r97 = test_trotter_suzuki_high_order_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_suzuki_high_order_coeffs = {r97}");
 
-                // Test 98: Trotter optimal steps
+                // Test 106: Trotter optimal steps
                 Console.WriteLine("\n[Test 98] q_trotter_optimal_steps");
-                var res98 = test_trotter_optimal_steps.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_optimal_steps = {res98}");
+                var r98 = test_trotter_optimal_steps.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_optimal_steps = {r98}");
 
-                // Test 99: Trotter first order
+                // Test 107: Trotter first order
                 Console.WriteLine("\n[Test 99] q_trotter_first_order");
-                var res99 = test_trotter_first_order.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_first_order = {res99}");
+                var r99 = test_trotter_first_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_first_order = {r99}");
 
-                // Test 100: Trotter Suzuki 2nd order
+                // Test 108: Trotter Suzuki 2nd order
                 Console.WriteLine("\n[Test 100] q_trotter_suzuki_2nd_order");
-                var res100 = test_trotter_suzuki_2nd_order.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_suzuki_2nd_order = {res100}");
+                var r100 = test_trotter_suzuki_2nd_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_suzuki_2nd_order = {r100}");
 
-                // Test 101: Trotter controlled first order
+                // Test 109: Trotter controlled first order
                 Console.WriteLine("\n[Test 101] q_trotter_C_first_order");
-                var res101 = test_trotter_C_first_order.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_C_first_order = {res101}");
+                var r101 = test_trotter_C_first_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_C_first_order = {r101}");
 
-                // Test 102: Trotter is valid order
+                // Test 110: Trotter is valid order
                 Console.WriteLine("\n[Test 102] q_trotter_is_valid_order");
-                var res102 = test_trotter_is_valid_order.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_is_valid_order = {res102}");
+                var r102 = test_trotter_is_valid_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_is_valid_order = {r102}");
 
-                // Test 103: Trotter error bound
+                // Test 111: Trotter error bound
                 Console.WriteLine("\n[Test 103] q_trotter_error_bound");
-                var res103 = test_trotter_error_bound.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_error_bound = {res103}");
+                var r103 = test_trotter_error_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_error_bound = {r103}");
 
-                // Test 104: Trotter decomposition length
+                // Test 112: Trotter decomposition length
                 Console.WriteLine("\n[Test 104] q_trotter_decomposition_length");
-                var res104 = test_trotter_decomposition_length.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_decomposition_length = {res104}");
+                var r104 = test_trotter_decomposition_length.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_decomposition_length = {r104}");
 
-                // Test 105: Trotter verify hamiltonian
+                // Test 113: Trotter verify hamiltonian
                 Console.WriteLine("\n[Test 105] q_trotter_verify_hamiltonian");
-                var res105 = test_trotter_verify_hamiltonian.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_verify_hamiltonian = {res105}");
+                var r105 = test_trotter_verify_hamiltonian.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_verify_hamiltonian = {r105}");
 
-                // Test 106: Trotter check ancilla
+                // Test 114: Trotter check ancilla
                 Console.WriteLine("\n[Test 106] q_trotter_check_ancilla");
-                var res106 = test_trotter_check_ancilla.Run(sim, 0).Result;
-                Console.WriteLine($"  test_trotter_check_ancilla = {res106}");
+                var r106 = test_trotter_check_ancilla.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trotter_check_ancilla = {r106}");
 
-                // Test 107: 2-sparse is 2-sparse
+                // Test 115: 2-sparse is 2-sparse
                 Console.WriteLine("\n[Test 107] q_2sparse_is_2sparse");
-                var res107 = test_2sparse_is_2sparse.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_is_2sparse = {res107}");
+                var r107 = test_2sparse_is_2sparse.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_is_2sparse = {r107}");
 
-                // Test 108: 2-sparse check row sparsity
+                // Test 116: 2-sparse check row sparsity
                 Console.WriteLine("\n[Test 108] q_2sparse_check_row_sparsity");
-                var res108 = test_2sparse_check_row_sparsity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_check_row_sparsity = {res108}");
+                var r108 = test_2sparse_check_row_sparsity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_check_row_sparsity = {r108}");
 
-                // Test 109: 2-sparse row norm
+                // Test 117: 2-sparse row norm
                 Console.WriteLine("\n[Test 109] q_2sparse_row_norm");
-                var res109 = test_2sparse_row_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_row_norm = {res109}");
+                var r109 = test_2sparse_row_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_row_norm = {r109}");
 
-                // Test 110: 2-sparse find nonzero
+                // Test 118: 2-sparse find nonzero
                 Console.WriteLine("\n[Test 110] q_2sparse_find_nonzero");
-                var res110 = test_2sparse_find_nonzero.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_find_nonzero = {res110}");
+                var r110 = test_2sparse_find_nonzero.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_find_nonzero = {r110}");
 
-                // Test 111: 2-sparse combined norm
+                // Test 119: 2-sparse combined norm
                 Console.WriteLine("\n[Test 111] q_2sparse_combined_norm");
-                var res111 = test_2sparse_combined_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_combined_norm = {res111}");
+                var r111 = test_2sparse_combined_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_combined_norm = {r111}");
 
-                // Test 112: 2-sparse walk simulation
+                // Test 120: 2-sparse walk simulation
                 Console.WriteLine("\n[Test 112] q_2sparse_walk_simulation");
-                var res112 = test_2sparse_walk_simulation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_walk_simulation = {res112}");
+                var r112 = test_2sparse_walk_simulation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_walk_simulation = {r112}");
 
-                // Test 113: 2-sparse controlled walk simulation
+                // Test 121: 2-sparse controlled walk simulation
                 Console.WriteLine("\n[Test 113] q_2sparse_C_walk_simulation");
-                var res113 = test_2sparse_C_walk_simulation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_C_walk_simulation = {res113}");
+                var r113 = test_2sparse_C_walk_simulation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_C_walk_simulation = {r113}");
 
-                // Test 114: 2-sparse stride bits
+                // Test 122: 2-sparse stride bits
                 Console.WriteLine("\n[Test 114] q_2sparse_stride_bits");
-                var res114 = test_2sparse_stride_bits.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_stride_bits = {res114}");
+                var r114 = test_2sparse_stride_bits.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_stride_bits = {r114}");
 
-                // Test 115: 2-sparse estimate norm
+                // Test 123: 2-sparse estimate norm
                 Console.WriteLine("\n[Test 115] q_2sparse_estimate_norm");
-                var res115 = test_2sparse_estimate_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_estimate_norm = {res115}");
+                var r115 = test_2sparse_estimate_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_estimate_norm = {r115}");
 
-                // Test 116: 2-sparse verify decomposition
+                // Test 124: 2-sparse verify decomposition
                 Console.WriteLine("\n[Test 116] q_2sparse_verify_decomposition");
-                var res116 = test_2sparse_verify_decomposition.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_verify_decomposition = {res116}");
+                var r116 = test_2sparse_verify_decomposition.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_verify_decomposition = {r116}");
 
-                // Test 117: 2-sparse optimal steps
+                // Test 125: 2-sparse optimal steps
                 Console.WriteLine("\n[Test 117] q_2sparse_optimal_steps");
-                var res117 = test_2sparse_optimal_steps.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_optimal_steps = {res117}");
+                var r117 = test_2sparse_optimal_steps.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_optimal_steps = {r117}");
 
-                // Test 118: 2-sparse check ancilla
+                // Test 126: 2-sparse check ancilla
                 Console.WriteLine("\n[Test 118] q_2sparse_check_ancilla");
-                var res118 = test_2sparse_check_ancilla.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_check_ancilla = {res118}");
+                var r118 = test_2sparse_check_ancilla.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_check_ancilla = {r118}");
 
-                // Test 119: 2-sparse eigenvalue bound
+                // Test 127: 2-sparse eigenvalue bound
                 Console.WriteLine("\n[Test 119] q_2sparse_eigenvalue_bound");
-                var res119 = test_2sparse_eigenvalue_bound.Run(sim, 0).Result;
-                Console.WriteLine($"  test_2sparse_eigenvalue_bound = {res119}");
+                var r119 = test_2sparse_eigenvalue_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_2sparse_eigenvalue_bound = {r119}");
 
-                // Test 120: QAA optimal iterations
+                // Test 128: QAA optimal iterations
                 Console.WriteLine("\n[Test 120] q_qaa_optimal_iterations");
-                var res120 = test_qaa_optimal_iterations.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qaa_optimal_iterations = {res120}");
+                var r120 = test_qaa_optimal_iterations.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qaa_optimal_iterations = {r120}");
 
-                // Test 121: QAA speedup
+                // Test 129: QAA speedup
                 Console.WriteLine("\n[Test 121] q_qaa_speedup");
-                var res121 = test_qaa_speedup.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qaa_speedup = {res121}");
+                var r121 = test_qaa_speedup.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qaa_speedup = {r121}");
 
-                // Test 122: QAA valid iterations
+                // Test 130: QAA valid iterations
                 Console.WriteLine("\n[Test 122] q_qaa_valid_iterations");
-                var res122 = test_qaa_valid_iterations.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qaa_valid_iterations = {res122}");
+                var r122 = test_qaa_valid_iterations.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qaa_valid_iterations = {r122}");
 
-                // Test 123: QAA schedule
+                // Test 131: QAA schedule
                 Console.WriteLine("\n[Test 123] q_qaa_schedule");
-                var res123 = test_qaa_schedule.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qaa_schedule = {res123}");
+                var r123 = test_qaa_schedule.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qaa_schedule = {r123}");
 
-                // Test 124: QAA state reflection
+                // Test 132: QAA state reflection
                 Console.WriteLine("\n[Test 124] q_qaa_state_reflection");
-                var res124 = test_qaa_state_reflection.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qaa_state_reflection = {res124}");
+                var r124 = test_qaa_state_reflection.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qaa_state_reflection = {r124}");
 
-                // Test 125: QPE phase from eigenvalue
+                // Test 133: QPE phase from eigenvalue
                 Console.WriteLine("\n[Test 125] q_qpe_phase_from_eigenvalue");
-                var res125 = test_qpe_phase_from_eigenvalue.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_phase_from_eigenvalue = {res125}");
+                var r125 = test_qpe_phase_from_eigenvalue.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_phase_from_eigenvalue = {r125}");
 
-                // Test 126: QPE Bayesian update
+                // Test 134: QPE Bayesian update
                 Console.WriteLine("\n[Test 126] q_qpe_bayesian_update");
-                var res126 = test_qpe_bayesian_update.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_bayesian_update = {res126}");
+                var r126 = test_qpe_bayesian_update.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_bayesian_update = {r126}");
 
-                // Test 127: QPE precision
+                // Test 135: QPE precision
                 Console.WriteLine("\n[Test 127] q_qpe_precision");
-                var res127 = test_qpe_precision.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_precision = {res127}");
+                var r127 = test_qpe_precision.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_precision = {r127}");
 
-                // Test 128: QPE validate eigenvalues
+                // Test 136: QPE validate eigenvalues
                 Console.WriteLine("\n[Test 128] q_qpe_validate_eigenvalues");
-                var res128 = test_qpe_validate_eigenvalues.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_validate_eigenvalues = {res128}");
+                var r128 = test_qpe_validate_eigenvalues.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_validate_eigenvalues = {r128}");
 
-                // Test 129: QPE iteration schedule
+                // Test 137: QPE iteration schedule
                 Console.WriteLine("\n[Test 129] q_qpe_iteration_schedule");
-                var res129 = test_qpe_iteration_schedule.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_iteration_schedule = {res129}");
+                var r129 = test_qpe_iteration_schedule.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_iteration_schedule = {r129}");
 
-                // Test 130: QPE success probability
+                // Test 138: QPE success probability
                 Console.WriteLine("\n[Test 130] q_qpe_success_probability");
-                var res130 = test_qpe_success_probability.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_success_probability = {res130}");
+                var r130 = test_qpe_success_probability.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_success_probability = {r130}");
 
-                // Test 131: QPE variance
+                // Test 139: QPE variance
                 Console.WriteLine("\n[Test 131] q_qpe_variance");
-                var res131 = test_qpe_variance.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_variance = {res131}");
+                var r131 = test_qpe_variance.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_variance = {r131}");
 
-                // Test 132: QPE check eigenstate
+                // Test 140: QPE check eigenstate
                 Console.WriteLine("\n[Test 132] q_qpe_check_eigenstate");
-                var res132 = test_qpe_check_eigenstate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_check_eigenstate = {res132}");
+                var r132 = test_qpe_check_eigenstate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_check_eigenstate = {r132}");
 
-                // Test 133: QPE optimal bits
+                // Test 141: QPE optimal bits
                 Console.WriteLine("\n[Test 133] q_qpe_optimal_bits");
-                var res133 = test_qpe_optimal_bits.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qpe_optimal_bits = {res133}");
+                var r133 = test_qpe_optimal_bits.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qpe_optimal_bits = {r133}");
 
-                // Test 134: QGE parameter shift
+                // Test 142: QGE parameter shift
                 Console.WriteLine("\n[Test 134] q_qge_parameter_shift");
-                var res134 = test_qge_parameter_shift.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_parameter_shift = {res134}");
+                var r134 = test_qge_parameter_shift.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_parameter_shift = {r134}");
 
-                // Test 135: QGE shift angle
+                // Test 143: QGE shift angle
                 Console.WriteLine("\n[Test 135] q_qge_shift_angle");
-                var res135 = test_qge_shift_angle.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_shift_angle = {res135}");
+                var r135 = test_qge_shift_angle.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_shift_angle = {r135}");
 
-                // Test 136: QGE gradient magnitude
+                // Test 144: QGE gradient magnitude
                 Console.WriteLine("\n[Test 136] q_qge_gradient_magnitude");
-                var res136 = test_qge_gradient_magnitude.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_gradient_magnitude = {res136}");
+                var r136 = test_qge_gradient_magnitude.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_gradient_magnitude = {r136}");
 
-                // Test 137: QGE quantum natural gradient
+                // Test 145: QGE quantum natural gradient
                 Console.WriteLine("\n[Test 137] q_qge_quantum_natural_gradient");
-                var res137 = test_qge_quantum_natural_gradient.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_quantum_natural_gradient = {res137}");
+                var r137 = test_qge_quantum_natural_gradient.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_quantum_natural_gradient = {r137}");
 
-                // Test 138: QGE converged
+                // Test 146: QGE converged
                 Console.WriteLine("\n[Test 138] q_qge_converged");
-                var res138 = test_qge_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_converged = {res138}");
+                var r138 = test_qge_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_converged = {r138}");
 
-                // Test 139: QGE optimal learning rate
+                // Test 147: QGE optimal learning rate
                 Console.WriteLine("\n[Test 139] q_qge_optimal_learning_rate");
-                var res139 = test_qge_optimal_learning_rate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_optimal_learning_rate = {res139}");
+                var r139 = test_qge_optimal_learning_rate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_optimal_learning_rate = {r139}");
 
-                // Test 140: QGE gradient descent step
+                // Test 148: QGE gradient descent step
                 Console.WriteLine("\n[Test 140] q_qge_gradient_descent_step");
-                var res140 = test_qge_gradient_descent_step.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_gradient_descent_step = {res140}");
+                var r140 = test_qge_gradient_descent_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_gradient_descent_step = {r140}");
 
-                // Test 141: QGE hessian estimate
+                // Test 149: QGE hessian estimate
                 Console.WriteLine("\n[Test 141] q_qge_hessian_estimate");
-                var res141 = test_qge_hessian_estimate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_hessian_estimate = {res141}");
+                var r141 = test_qge_hessian_estimate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_hessian_estimate = {r141}");
 
-                // Test 142: QGE valid shift
+                // Test 150: QGE valid shift
                 Console.WriteLine("\n[Test 142] q_qge_valid_shift");
-                var res142 = test_qge_valid_shift.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_valid_shift = {res142}");
+                var r142 = test_qge_valid_shift.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_valid_shift = {r142}");
 
-                // Test 143: QGE gradient variance
+                // Test 151: QGE gradient variance
                 Console.WriteLine("\n[Test 143] q_qge_gradient_variance");
-                var res143 = test_qge_gradient_variance.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_gradient_variance = {res143}");
+                var r143 = test_qge_gradient_variance.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_gradient_variance = {r143}");
 
-                // Test 144: QGE adam step
+                // Test 152: QGE adam step
                 Console.WriteLine("\n[Test 144] q_qge_adam_step");
-                var res144 = test_qge_adam_step.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qge_adam_step = {res144}");
+                var r144 = test_qge_adam_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qge_adam_step = {r144}");
 
-                // Test 145: QROM read
+                // Test 153: QROM read
                 Console.WriteLine("\n[Test 145] qrom_read");
-                var res145 = test_qrom_read.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qrom_read = {res145}");
+                var r145 = test_qrom_read.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qrom_read = {r145}");
 
-                // Test 146: QROM read multi
+                // Test 154: QROM read multi
                 Console.WriteLine("\n[Test 146] qrom_read_multi");
-                var res146 = test_qrom_read_multi.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qrom_read_multi = {res146}");
+                var r146 = test_qrom_read_multi.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qrom_read_multi = {r146}");
 
-                // Test 147: LCU block encode
+                // Test 155: LCU block encode
                 Console.WriteLine("\n[Test 147] lcu_block_encode");
-                var res147 = test_lcu_block_encode.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_block_encode = {res147}");
+                var r147 = test_lcu_block_encode.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_block_encode = {r147}");
 
-                // Test 148: LCU prepare coeffs
+                // Test 156: LCU prepare coeffs
                 Console.WriteLine("\n[Test 148] lcu_prepare_coeffs");
-                var res148 = test_lcu_prepare_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_prepare_coeffs = {res148}");
+                var r148 = test_lcu_prepare_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_prepare_coeffs = {r148}");
 
-                // Test 149: LCU compute alpha
+                // Test 157: LCU compute alpha
                 Console.WriteLine("\n[Test 149] lcu_compute_alpha");
-                var res149 = test_lcu_compute_alpha.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_compute_alpha = {res149}");
+                var r149 = test_lcu_compute_alpha.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_compute_alpha = {r149}");
 
-                // Test 150: LCU validate coeffs
+                // Test 158: LCU validate coeffs
                 Console.WriteLine("\n[Test 150] lcu_validate_coeffs");
-                var res150 = test_lcu_validate_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_validate_coeffs = {res150}");
+                var r150 = test_lcu_validate_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_validate_coeffs = {r150}");
 
-                // Test 151: OAA optimal iterations
+                // Test 159: OAA optimal iterations
                 Console.WriteLine("\n[Test 151] oaa_optimal_iterations");
-                var res151 = test_oaa_optimal_iterations.Run(sim, 0).Result;
-                Console.WriteLine($"  test_oaa_optimal_iterations = {res151}");
+                var r151 = test_oaa_optimal_iterations.Run(sim, 0).Result;
+                Console.WriteLine($"  test_oaa_optimal_iterations = {r151}");
 
-                // Test 152: OAA check amplification
+                // Test 160: OAA check amplification
                 Console.WriteLine("\n[Test 152] oaa_check_amplification");
-                var res152 = test_oaa_check_amplification.Run(sim, 0).Result;
-                Console.WriteLine($"  test_oaa_check_amplification = {res152}");
+                var r152 = test_oaa_check_amplification.Run(sim, 0).Result;
+                Console.WriteLine($"  test_oaa_check_amplification = {r152}");
 
-                // Test 153: QROM compute addr bits
+                // Test 161: QROM compute addr bits
                 Console.WriteLine("\n[Test 153] qrom_compute_addr_bits");
-                var res153 = test_qrom_compute_addr_bits.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qrom_compute_addr_bits = {res153}");
+                var r153 = test_qrom_compute_addr_bits.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qrom_compute_addr_bits = {r153}");
 
-                // Test 154: QROM validate addr space
+                // Test 162: QROM validate addr space
                 Console.WriteLine("\n[Test 154] qrom_validate_addr_space");
-                var res154 = test_qrom_validate_addr_space.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qrom_validate_addr_space = {res154}");
+                var r154 = test_qrom_validate_addr_space.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qrom_validate_addr_space = {r154}");
 
-                // Test 155: BE frobenius norm
+                // Test 163: BE frobenius norm
                 Console.WriteLine("\n[Test 155] q_be_frobenius_norm");
-                var res155 = test_q_be_frobenius_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_q_be_frobenius_norm = {res155}");
+                var r155 = test_q_be_frobenius_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_frobenius_norm = {r155}");
 
-                // Test 156: BE validate block encode
+                // Test 164: BE validate block encode
                 Console.WriteLine("\n[Test 156] q_be_validate_block_encode");
-                var res156 = test_q_be_validate_block_encode.Run(sim, 0).Result;
-                Console.WriteLine($"  test_q_be_validate_block_encode = {res156}");
+                var r156 = test_q_be_validate_block_encode.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_be_validate_block_encode = {r156}");
 
-                // Test 157: LCU scale coeffs
+                // Test 165: LCU scale coeffs
                 Console.WriteLine("\n[Test 157] q_lcu_scale_coeffs");
-                var res157 = test_q_lcu_scale_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_q_lcu_scale_coeffs = {res157}");
+                var r157 = test_q_lcu_scale_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_lcu_scale_coeffs = {r157}");
 
-                // Test 158: Signal rotation angle
+                // Test 166: Signal rotation angle
                 Console.WriteLine("\n[Test 158] q_signal_rotation_angle");
-                var res158 = test_q_signal_rotation_angle.Run(sim, 0).Result;
-                Console.WriteLine($"  test_q_signal_rotation_angle = {res158}");
+                var r158 = test_q_signal_rotation_angle.Run(sim, 0).Result;
+                Console.WriteLine($"  test_q_signal_rotation_angle = {r158}");
 
-                // Test 159: VQE HEA
+                // Test 167: VQE HEA
                 Console.WriteLine("\n[Test 159] vqe_hea");
-                var res159 = test_vqe_hea.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_hea = {res159}");
+                var r159 = test_vqe_hea.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_hea = {r159}");
 
-                // Test 160: VQE QAOA
+                // Test 168: VQE QAOA
                 Console.WriteLine("\n[Test 160] vqe_qaoa");
-                var res160 = test_vqe_qaoa.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_qaoa = {res160}");
+                var r160 = test_vqe_qaoa.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_qaoa = {r160}");
 
-                // Test 161: VQE SU2
+                // Test 169: VQE SU2
                 Console.WriteLine("\n[Test 161] vqe_su2");
-                var res161 = test_vqe_su2.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_su2 = {res161}");
+                var r161 = test_vqe_su2.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_su2 = {r161}");
 
-                // Test 162: VQE param shift plus
+                // Test 170: VQE param shift plus
                 Console.WriteLine("\n[Test 162] vqe_param_shift_plus");
-                var res162 = test_vqe_param_shift_plus.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_param_shift_plus = {res162}");
+                var r162 = test_vqe_param_shift_plus.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_param_shift_plus = {r162}");
 
-                // Test 163: VQE param shift minus
+                // Test 171: VQE param shift minus
                 Console.WriteLine("\n[Test 163] vqe_param_shift_minus");
-                var res163 = test_vqe_param_shift_minus.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_param_shift_minus = {res163}");
+                var r163 = test_vqe_param_shift_minus.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_param_shift_minus = {r163}");
 
-                // Test 164: VQE gradient from shifts
+                // Test 172: VQE gradient from shifts
                 Console.WriteLine("\n[Test 164] vqe_gradient_from_shifts");
-                var res164 = test_vqe_gradient_from_shifts.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_gradient_from_shifts = {res164}");
+                var r164 = test_vqe_gradient_from_shifts.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_gradient_from_shifts = {r164}");
 
-                // Test 165: VQE weighted sum
+                // Test 173: VQE weighted sum
                 Console.WriteLine("\n[Test 165] vqe_weighted_sum");
-                var res165 = test_vqe_weighted_sum.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_weighted_sum = {res165}");
+                var r165 = test_vqe_weighted_sum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_weighted_sum = {r165}");
 
-                // Test 166: VQE valid expectation
+                // Test 174: VQE valid expectation
                 Console.WriteLine("\n[Test 166] vqe_valid_expectation");
-                var res166 = test_vqe_valid_expectation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_valid_expectation = {res166}");
+                var r166 = test_vqe_valid_expectation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_valid_expectation = {r166}");
 
-                // Test 167: VQE gradient descent step
+                // Test 175: VQE gradient descent step
                 Console.WriteLine("\n[Test 167] vqe_gradient_descent_step");
-                var res167 = test_vqe_gradient_descent_step.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_gradient_descent_step = {res167}");
+                var r167 = test_vqe_gradient_descent_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_gradient_descent_step = {r167}");
 
-                // Test 168: VQE adam step
+                // Test 176: VQE adam step
                 Console.WriteLine("\n[Test 168] vqe_adam_step");
-                var res168 = test_vqe_adam_step.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_adam_step = {res168}");
+                var r168 = test_vqe_adam_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_adam_step = {r168}");
 
-                // Test 169: VQE converged
+                // Test 177: VQE converged
                 Console.WriteLine("\n[Test 169] vqe_converged");
-                var res169 = test_vqe_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_converged = {res169}");
+                var r169 = test_vqe_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_converged = {r169}");
 
-                // Test 170: VQE energy converged
+                // Test 178: VQE energy converged
                 Console.WriteLine("\n[Test 170] vqe_energy_converged");
-                var res170 = test_vqe_energy_converged.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_energy_converged = {res170}");
+                var r170 = test_vqe_energy_converged.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_energy_converged = {r170}");
 
-                // Test 171: VQE init adam
+                // Test 179: VQE init adam
                 Console.WriteLine("\n[Test 171] vqe_init_adam");
-                var res171 = test_vqe_init_adam.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_init_adam = {res171}");
+                var r171 = test_vqe_init_adam.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_init_adam = {r171}");
 
-                // Test 172: VQE ansatz depth
+                // Test 180: VQE ansatz depth
                 Console.WriteLine("\n[Test 172] vqe_ansatz_depth");
-                var res172 = test_vqe_ansatz_depth.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_ansatz_depth = {res172}");
+                var r172 = test_vqe_ansatz_depth.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_ansatz_depth = {r172}");
 
-                // Test 173: VQE count params
+                // Test 181: VQE count params
                 Console.WriteLine("\n[Test 173] vqe_count_params");
-                var res173 = test_vqe_count_params.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_count_params = {res173}");
+                var r173 = test_vqe_count_params.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_count_params = {r173}");
 
-                // Test 174: VQE parse pauli string
+                // Test 182: VQE parse pauli string
                 Console.WriteLine("\n[Test 174] vqe_parse_pauli_string");
-                var res174 = test_vqe_parse_pauli_string.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_parse_pauli_string = {res174}");
+                var r174 = test_vqe_parse_pauli_string.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_parse_pauli_string = {r174}");
 
-                // Test 175: VQE term weight
+                // Test 183: VQE term weight
                 Console.WriteLine("\n[Test 175] vqe_term_weight");
-                var res175 = test_vqe_term_weight.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_term_weight = {res175}");
+                var r175 = test_vqe_term_weight.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_term_weight = {r175}");
 
-                // Test 176: VQE shift angle
+                // Test 184: VQE shift angle
                 Console.WriteLine("\n[Test 176] vqe_shift_angle");
-                var res176 = test_vqe_shift_angle.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_shift_angle = {res176}");
+                var r176 = test_vqe_shift_angle.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_shift_angle = {r176}");
 
-                // Test 177: VQE hessian diag
+                // Test 185: VQE hessian diag
                 Console.WriteLine("\n[Test 177] vqe_hessian_diag");
-                var res177 = test_vqe_hessian_diag.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_hessian_diag = {res177}");
+                var r177 = test_vqe_hessian_diag.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_hessian_diag = {r177}");
 
-                // Test 178: VQE gradient variance
+                // Test 186: VQE gradient variance
                 Console.WriteLine("\n[Test 178] vqe_gradient_variance");
-                var res178 = test_vqe_gradient_variance.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_gradient_variance = {res178}");
+                var r178 = test_vqe_gradient_variance.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_gradient_variance = {r178}");
 
-                // Test 179: VQE adaptive lr
+                // Test 187: VQE adaptive lr
                 Console.WriteLine("\n[Test 179] vqe_adaptive_lr");
-                var res179 = test_vqe_adaptive_lr.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_adaptive_lr = {res179}");
+                var r179 = test_vqe_adaptive_lr.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_adaptive_lr = {r179}");
 
-                // Test 180: VQE shot allocation
+                // Test 188: VQE shot allocation
                 Console.WriteLine("\n[Test 180] vqe_shot_allocation");
-                var res180 = test_vqe_shot_allocation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_shot_allocation = {res180}");
+                var r180 = test_vqe_shot_allocation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_shot_allocation = {r180}");
 
-                // Test 181: VQE init state
+                // Test 189: VQE init state
                 Console.WriteLine("\n[Test 181] vqe_init_state");
-                var res181 = test_vqe_init_state.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_init_state = {res181}");
+                var r181 = test_vqe_init_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_init_state = {r181}");
 
-                // Test 182: VQE validate params
+                // Test 190: VQE validate params
                 Console.WriteLine("\n[Test 182] vqe_validate_params");
-                var res182 = test_vqe_validate_params.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vqe_validate_params = {res182}");
+                var r182 = test_vqe_validate_params.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vqe_validate_params = {r182}");
 
-                // Test 183: Kernel feature angles
+                // Test 191: Kernel feature angles
                 Console.WriteLine("\n[Test 183] kernel_feature_angles");
-                var res183 = test_kernel_feature_angles.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_feature_angles = {res183}");
+                var r183 = test_kernel_feature_angles.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_feature_angles = {r183}");
 
-                // Test 184: Kernel apply feature map
+                // Test 192: Kernel apply feature map
                 Console.WriteLine("\n[Test 184] kernel_apply_feature_map");
-                var res184 = test_kernel_apply_feature_map.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_apply_feature_map = {res184}");
+                var r184 = test_kernel_apply_feature_map.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_apply_feature_map = {r184}");
 
-                // Test 185: Kernel matrix
+                // Test 193: Kernel matrix
                 Console.WriteLine("\n[Test 185] kernel_matrix");
-                var res185 = test_kernel_matrix.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_matrix = {res185}");
+                var r185 = test_kernel_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_matrix = {r185}");
 
-                // Test 186: Kernel dot
+                // Test 194: Kernel dot
                 Console.WriteLine("\n[Test 186] kernel_dot");
-                var res186 = test_kernel_dot.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_dot = {res186}");
+                var r186 = test_kernel_dot.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_dot = {r186}");
 
-                // Test 187: Kernel validate
+                // Test 195: Kernel validate
                 Console.WriteLine("\n[Test 187] kernel_validate");
-                var res187 = test_kernel_validate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_validate = {res187}");
+                var r187 = test_kernel_validate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_validate = {r187}");
 
-                // Test 188: Kernel gaussian
+                // Test 196: Kernel gaussian
                 Console.WriteLine("\n[Test 188] kernel_gaussian");
-                var res188 = test_kernel_gaussian.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_gaussian = {res188}");
+                var r188 = test_kernel_gaussian.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_gaussian = {r188}");
 
-                // Test 189: Kernel polynomial
+                // Test 197: Kernel polynomial
                 Console.WriteLine("\n[Test 189] kernel_polynomial");
-                var res189 = test_kernel_polynomial.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_polynomial = {res189}");
+                var r189 = test_kernel_polynomial.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_polynomial = {r189}");
 
-                // Test 190: Kernel normalize
+                // Test 198: Kernel normalize
                 Console.WriteLine("\n[Test 190] kernel_normalize");
-                var res190 = test_kernel_normalize.Run(sim, 0).Result;
-                Console.WriteLine($"  test_kernel_normalize = {res190}");
+                var r190 = test_kernel_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_normalize = {r190}");
 
-                // Test 191: ZNE extrapolate
+                // Test 199: ZNE extrapolate
                 Console.WriteLine("\n[Test 191] zne_extrapolate");
-                var res191 = test_zne_extrapolate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_zne_extrapolate = {res191}");
+                var r191 = test_zne_extrapolate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_extrapolate = {r191}");
 
-                // Test 192: ZNE linear
+                // Test 200: ZNE linear
                 Console.WriteLine("\n[Test 192] zne_linear");
-                var res192 = test_zne_linear.Run(sim, 0).Result;
-                Console.WriteLine($"  test_zne_linear = {res192}");
+                var r192 = test_zne_linear.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_linear = {r192}");
 
-                // Test 193: ZNE noise factors
+                // Test 201: ZNE noise factors
                 Console.WriteLine("\n[Test 193] zne_noise_factors");
-                var res193 = test_zne_noise_factors.Run(sim, 0).Result;
-                Console.WriteLine($"  test_zne_noise_factors = {res193}");
+                var r193 = test_zne_noise_factors.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_noise_factors = {r193}");
 
-                // Test 194: ZNE optimal factors
+                // Test 202: ZNE optimal factors
                 Console.WriteLine("\n[Test 194] zne_optimal_factors");
-                var res194 = test_zne_optimal_factors.Run(sim, 0).Result;
-                Console.WriteLine($"  test_zne_optimal_factors = {res194}");
+                var r194 = test_zne_optimal_factors.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_optimal_factors = {r194}");
 
-                // Test 195: PEC coefficients
+                // Test 203: PEC coefficients
                 Console.WriteLine("\n[Test 195] pec_coefficients");
-                var res195 = test_pec_coefficients.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pec_coefficients = {res195}");
+                var r195 = test_pec_coefficients.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_coefficients = {r195}");
 
-                // Test 196: PEC validate
+                // Test 204: PEC validate
                 Console.WriteLine("\n[Test 196] pec_validate");
-                var res196 = test_pec_validate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pec_validate = {res196}");
+                var r196 = test_pec_validate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_validate = {r196}");
 
-                // Test 197: PEC sampling prob
+                // Test 205: PEC sampling prob
                 Console.WriteLine("\n[Test 197] pec_sampling_prob");
-                var res197 = test_pec_sampling_prob.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pec_sampling_prob = {res197}");
+                var r197 = test_pec_sampling_prob.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_sampling_prob = {r197}");
 
-                // Test 198: DD XY sequence
+                // Test 206: DD XY sequence
                 Console.WriteLine("\n[Test 198] dd_xy_sequence");
-                var res198 = test_dd_xy_sequence.Run(sim, 0).Result;
-                Console.WriteLine($"  test_dd_xy_sequence = {res198}");
+                var r198 = test_dd_xy_sequence.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_xy_sequence = {r198}");
 
-                // Test 199: DD padding interval
+                // Test 207: DD padding interval
                 Console.WriteLine("\n[Test 199] dd_padding_interval");
-                var res199 = test_dd_padding_interval.Run(sim, 0).Result;
-                Console.WriteLine($"  test_dd_padding_interval = {res199}");
+                var r199 = test_dd_padding_interval.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_padding_interval = {r199}");
 
-                // Test 200: DD validate sequence
+                // Test 208: DD validate sequence
                 Console.WriteLine("\n[Test 200] dd_validate_sequence");
-                var res200 = test_dd_validate_sequence.Run(sim, 0).Result;
-                Console.WriteLine($"  test_dd_validate_sequence = {res200}");
+                var r200 = test_dd_validate_sequence.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_validate_sequence = {r200}");
 
-                // Test 201: Readout calibration
+                // Test 209: Readout calibration
                 Console.WriteLine("\n[Test 201] readout_calibration");
-                var res201 = test_readout_calibration.Run(sim, 0).Result;
-                Console.WriteLine($"  test_readout_calibration = {res201}");
+                var r201 = test_readout_calibration.Run(sim, 0).Result;
+                Console.WriteLine($"  test_readout_calibration = {r201}");
 
-                // Test 202: Readout correct
+                // Test 210: Readout correct
                 Console.WriteLine("\n[Test 202] readout_correct");
-                var res202 = test_readout_correct.Run(sim, 0).Result;
-                Console.WriteLine($"  test_readout_correct = {res202}");
+                var r202 = test_readout_correct.Run(sim, 0).Result;
+                Console.WriteLine($"  test_readout_correct = {r202}");
 
-                // Test 203: DD fidelity improvement
+                // Test 211: DD fidelity improvement
                 Console.WriteLine("\n[Test 203] dd_fidelity_improvement");
-                var res203 = test_dd_fidelity_improvement.Run(sim, 0).Result;
-                Console.WriteLine($"  test_dd_fidelity_improvement = {res203}");
+                var r203 = test_dd_fidelity_improvement.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_fidelity_improvement = {r203}");
 
-                // Test 204: ZNE verify
+                // Test 212: ZNE verify
                 Console.WriteLine("\n[Test 204] zne_verify");
-                var res204 = test_zne_verify.Run(sim, 0).Result;
-                Console.WriteLine($"  test_zne_verify = {res204}");
+                var r204 = test_zne_verify.Run(sim, 0).Result;
+                Console.WriteLine($"  test_zne_verify = {r204}");
 
-                // Test 205: PEC normalize
+                // Test 213: PEC normalize
                 Console.WriteLine("\n[Test 205] pec_normalize");
-                var res205 = test_pec_normalize.Run(sim, 0).Result;
-                Console.WriteLine($"  test_pec_normalize = {res205}");
+                var r205 = test_pec_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pec_normalize = {r205}");
 
-                // Test 206: DD pulse timing
+                // Test 214: DD pulse timing
                 Console.WriteLine("\n[Test 206] dd_pulse_timing");
-                var res206 = test_dd_pulse_timing.Run(sim, 0).Result;
-                Console.WriteLine($"  test_dd_pulse_timing = {res206}");
+                var r206 = test_dd_pulse_timing.Run(sim, 0).Result;
+                Console.WriteLine($"  test_dd_pulse_timing = {r206}");
 
-                // Test 207: LU is square
+                // Test 215: LU is square
                 Console.WriteLine("\n[Test 207] lu_is_square");
-                var res207 = test_lu_is_square.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_is_square = {res207}");
+                var r207 = test_lu_is_square.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_is_square = {r207}");
 
-                // Test 208: LU diagonal nonzero
+                // Test 216: LU diagonal nonzero
                 Console.WriteLine("\n[Test 208] lu_diagonal_nonzero");
-                var res208 = test_lu_diagonal_nonzero.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_diagonal_nonzero = {res208}");
+                var r208 = test_lu_diagonal_nonzero.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_diagonal_nonzero = {r208}");
 
-                // Test 209: LU extract L
+                // Test 217: LU extract L
                 Console.WriteLine("\n[Test 209] lu_extract_l");
-                var res209 = test_lu_extract_l.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_extract_l = {res209}");
+                var r209 = test_lu_extract_l.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_extract_l = {r209}");
 
-                // Test 210: LU extract U
+                // Test 218: LU extract U
                 Console.WriteLine("\n[Test 210] lu_extract_u");
-                var res210 = test_lu_extract_u.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_extract_u = {res210}");
+                var r210 = test_lu_extract_u.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_extract_u = {r210}");
 
-                // Test 211: LU check dims
+                // Test 219: LU check dims
                 Console.WriteLine("\n[Test 211] lu_check_dims");
-                var res211 = test_lu_check_dims.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_check_dims = {res211}");
+                var r211 = test_lu_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_check_dims = {r211}");
 
-                // Test 212: LU pivot indices
+                // Test 220: LU pivot indices
                 Console.WriteLine("\n[Test 212] lu_pivot_indices");
-                var res212 = test_lu_pivot_indices.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_pivot_indices = {res212}");
+                var r212 = test_lu_pivot_indices.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_pivot_indices = {r212}");
 
-                // Test 213: LU solve
+                // Test 221: LU solve
                 Console.WriteLine("\n[Test 213] lu_solve");
-                var res213 = test_lu_solve.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lu_solve = {res213}");
+                var r213 = test_lu_solve.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_solve = {r213}");
 
-                // Test 214: QR check dims
+                // Test 222: QR check dims
                 Console.WriteLine("\n[Test 214] qr_check_dims");
-                var res214 = test_qr_check_dims.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qr_check_dims = {res214}");
+                var r214 = test_qr_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_check_dims = {r214}");
 
-                // Test 215: QR column norms
+                // Test 223: QR column norms
                 Console.WriteLine("\n[Test 215] qr_column_norms");
-                var res215 = test_qr_column_norms.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qr_column_norms = {res215}");
+                var r215 = test_qr_column_norms.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_column_norms = {r215}");
 
-                // Test 216: QR extract R
+                // Test 224: QR extract R
                 Console.WriteLine("\n[Test 216] qr_extract_r");
-                var res216 = test_qr_extract_r.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qr_extract_r = {res216}");
+                var r216 = test_qr_extract_r.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_extract_r = {r216}");
 
-                // Test 217: QR check orthogonal
+                // Test 225: QR check orthogonal
                 Console.WriteLine("\n[Test 217] qr_check_orthogonal");
-                var res217 = test_qr_check_orthogonal.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qr_check_orthogonal = {res217}");
+                var r217 = test_qr_check_orthogonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_check_orthogonal = {r217}");
 
-                // Test 218: QR rank estimate
+                // Test 226: QR rank estimate
                 Console.WriteLine("\n[Test 218] qr_rank_estimate");
-                var res218 = test_qr_rank_estimate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qr_rank_estimate = {res218}");
+                var r218 = test_qr_rank_estimate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_rank_estimate = {r218}");
 
-                // Test 219: Chol is symmetric
+                // Test 227: Chol is symmetric
                 Console.WriteLine("\n[Test 219] chol_is_symmetric");
-                var res219 = test_chol_is_symmetric.Run(sim, 0).Result;
-                Console.WriteLine($"  test_chol_is_symmetric = {res219}");
+                var r219 = test_chol_is_symmetric.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_is_symmetric = {r219}");
 
-                // Test 220: Chol matrix norm
+                // Test 228: Chol matrix norm
                 Console.WriteLine("\n[Test 220] chol_matrix_norm");
-                var res220 = test_chol_matrix_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_chol_matrix_norm = {res220}");
+                var r220 = test_chol_matrix_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_matrix_norm = {r220}");
 
-                // Test 221: Chol positive diagonal
+                // Test 229: Chol positive diagonal
                 Console.WriteLine("\n[Test 221] chol_check_positive_diagonal");
-                var res221 = test_chol_check_positive_diagonal.Run(sim, 0).Result;
-                Console.WriteLine($"  test_chol_check_positive_diagonal = {res221}");
+                var r221 = test_chol_check_positive_diagonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_check_positive_diagonal = {r221}");
 
-                // Test 222: Chol LDLT
+                // Test 230: Chol LDLT
                 Console.WriteLine("\n[Test 222] chol_ldlt");
-                var res222 = test_chol_ldlt.Run(sim, 0).Result;
-                Console.WriteLine($"  test_chol_ldlt = {res222}");
+                var r222 = test_chol_ldlt.Run(sim, 0).Result;
+                Console.WriteLine($"  test_chol_ldlt = {r222}");
 
-                // Test 223: Add check dims
+                // Test 231: Add check dims
                 Console.WriteLine("\n[Test 223] add_check_dims");
-                var res223 = test_add_check_dims.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_check_dims = {res223}");
+                var r223 = test_add_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_check_dims = {r223}");
 
-                // Test 224: Add matrix add
+                // Test 232: Add matrix add
                 Console.WriteLine("\n[Test 224] add_matrix_add");
-                var res224 = test_add_matrix_add.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_matrix_add = {res224}");
+                var r224 = test_add_matrix_add.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_matrix_add = {r224}");
 
-                // Test 225: Add matrix subtract
+                // Test 233: Add matrix subtract
                 Console.WriteLine("\n[Test 225] add_matrix_subtract");
-                var res225 = test_add_matrix_subtract.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_matrix_subtract = {res225}");
+                var r225 = test_add_matrix_subtract.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_matrix_subtract = {r225}");
 
-                // Test 226: Add scalar mult
+                // Test 234: Add scalar mult
                 Console.WriteLine("\n[Test 226] add_scalar_mult");
-                var res226 = test_add_scalar_mult.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_scalar_mult = {res226}");
+                var r226 = test_add_scalar_mult.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_scalar_mult = {r226}");
 
-                // Test 227: Add negate
+                // Test 235: Add negate
                 Console.WriteLine("\n[Test 227] add_negate");
-                var res227 = test_add_negate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_negate = {res227}");
+                var r227 = test_add_negate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_negate = {r227}");
 
-                // Test 228: Add linear combo
+                // Test 236: Add linear combo
                 Console.WriteLine("\n[Test 228] add_linear_combo");
-                var res228 = test_add_linear_combo.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_linear_combo = {res228}");
+                var r228 = test_add_linear_combo.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_linear_combo = {r228}");
 
-                // Test 229: Add Hadamard
+                // Test 237: Add Hadamard
                 Console.WriteLine("\n[Test 229] add_hadamard");
-                var res229 = test_add_hadamard.Run(sim, 0).Result;
-                Console.WriteLine($"  test_add_hadamard = {res229}");
+                var r229 = test_add_hadamard.Run(sim, 0).Result;
+                Console.WriteLine($"  test_add_hadamard = {r229}");
 
-                // Test 230: Vnorm L2
+                // Test 238: Vnorm L2
                 Console.WriteLine("\n[Test 230] vnorm_l2");
-                var res230 = test_vnorm_l2.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_l2 = {res230}");
+                var r230 = test_vnorm_l2.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_l2 = {r230}");
 
-                // Test 231: Vnorm L1
+                // Test 239: Vnorm L1
                 Console.WriteLine("\n[Test 231] vnorm_l1");
-                var res231 = test_vnorm_l1.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_l1 = {res231}");
+                var r231 = test_vnorm_l1.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_l1 = {r231}");
 
-                // Test 232: Vnorm Linf
+                // Test 240: Vnorm Linf
                 Console.WriteLine("\n[Test 232] vnorm_linf");
-                var res232 = test_vnorm_linf.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_linf = {res232}");
+                var r232 = test_vnorm_linf.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_linf = {r232}");
 
-                // Test 233: Vnorm ratio
+                // Test 241: Vnorm ratio
                 Console.WriteLine("\n[Test 233] vnorm_ratio");
-                var res233 = test_vnorm_ratio.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_ratio = {res233}");
+                var r233 = test_vnorm_ratio.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_ratio = {r233}");
 
-                // Test 234: Vnorm normalize
+                // Test 242: Vnorm normalize
                 Console.WriteLine("\n[Test 234] vnorm_normalize");
-                var res234 = test_vnorm_normalize.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_normalize = {res234}");
+                var r234 = test_vnorm_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_normalize = {r234}");
 
-                // Test 235: Vnorm is unit
+                // Test 243: Vnorm is unit
                 Console.WriteLine("\n[Test 235] vnorm_is_unit");
-                var res235 = test_vnorm_is_unit.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_is_unit = {res235}");
+                var r235 = test_vnorm_is_unit.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_is_unit = {r235}");
 
-                // Test 236: Vnorm distance
+                // Test 244: Vnorm distance
                 Console.WriteLine("\n[Test 236] vnorm_distance");
-                var res236 = test_vnorm_distance.Run(sim, 0).Result;
-                Console.WriteLine($"  test_vnorm_distance = {res236}");
+                var r236 = test_vnorm_distance.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_distance = {r236}");
 
-                // Test 237: IP dot
+                // Test 245: IP dot
                 Console.WriteLine("\n[Test 237] ip_dot");
-                var res237 = test_ip_dot.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ip_dot = {res237}");
+                var r237 = test_ip_dot.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_dot = {r237}");
 
-                // Test 238: IP fidelity
+                // Test 246: IP fidelity
                 Console.WriteLine("\n[Test 238] ip_fidelity");
-                var res238 = test_ip_fidelity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ip_fidelity = {res238}");
+                var r238 = test_ip_fidelity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_fidelity = {r238}");
 
-                // Test 239: IP normalize
+                // Test 247: IP normalize
                 Console.WriteLine("\n[Test 239] ip_normalize");
-                var res239 = test_ip_normalize.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ip_normalize = {res239}");
+                var r239 = test_ip_normalize.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_normalize = {r239}");
 
-                // Test 240: IP angle
+                // Test 248: IP angle
                 Console.WriteLine("\n[Test 240] ip_angle");
-                var res240 = test_ip_angle.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ip_angle = {res240}");
+                var r240 = test_ip_angle.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_angle = {r240}");
 
-                // Test 241: IP is orthogonal
+                // Test 249: IP is orthogonal
                 Console.WriteLine("\n[Test 241] ip_is_orthogonal");
-                var res241 = test_ip_is_orthogonal.Run(sim, 0).Result;
-                Console.WriteLine($"  test_ip_is_orthogonal = {res241}");
+                var r241 = test_ip_is_orthogonal.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_is_orthogonal = {r241}");
 
-                // Test 242: TK check dims
+                // Test 250: TK check dims
                 Console.WriteLine("\n[Test 242] tk_check_dims");
-                var res242 = test_tk_check_dims.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_check_dims = {res242}");
+                var r242 = test_tk_check_dims.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_check_dims = {r242}");
 
-                // Test 243: TK Kronecker
+                // Test 251: TK Kronecker
                 Console.WriteLine("\n[Test 243] tk_kronecker");
-                var res243 = test_tk_kronecker.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_kronecker = {res243}");
+                var r243 = test_tk_kronecker.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_kronecker = {r243}");
 
-                // Test 244: TK vector Kronecker
+                // Test 252: TK vector Kronecker
                 Console.WriteLine("\n[Test 244] tk_vector_kronecker");
-                var res244 = test_tk_vector_kronecker.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_vector_kronecker = {res244}");
+                var r244 = test_tk_vector_kronecker.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_vector_kronecker = {r244}");
 
-                // Test 245: TK identity
+                // Test 253: TK identity
                 Console.WriteLine("\n[Test 245] tk_identity");
-                var res245 = test_tk_identity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_identity = {res245}");
+                var r245 = test_tk_identity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_identity = {r245}");
 
-                // Test 246: TK Hadamard
+                // Test 254: TK Hadamard
                 Console.WriteLine("\n[Test 246] tk_hadamard");
-                var res246 = test_tk_hadamard.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_hadamard = {res246}");
+                var r246 = test_tk_hadamard.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_hadamard = {r246}");
 
-                // Test 247: TK verify
+                // Test 255: TK verify
                 Console.WriteLine("\n[Test 247] tk_verify");
-                var res247 = test_tk_verify.Run(sim, 0).Result;
-                Console.WriteLine($"  test_tk_verify = {res247}");
+                var r247 = test_tk_verify.Run(sim, 0).Result;
+                Console.WriteLine($"  test_tk_verify = {r247}");
 
                 // ============ Qubitization Tests ============
-                // Test 248: qubitization phases
+                // Test 256: qubitization phases
                 Console.WriteLine("\n[Test 248] qubitization_phases");
-                var res248 = test_qubitization_phases.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_phases = {res248}");
+                var r248 = test_qubitization_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_phases = {r248}");
 
-                // Test 249: qubitization query complexity
+                // Test 257: qubitization query complexity
                 Console.WriteLine("\n[Test 249] qubitization_query_complexity");
-                var res249 = test_qubitization_query_complexity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_query_complexity = {res249}");
+                var r249 = test_qubitization_query_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_query_complexity = {r249}");
 
-                // Test 250: qubitization chebyshev
+                // Test 258: qubitization chebyshev
                 Console.WriteLine("\n[Test 250] qubitization_chebyshev");
-                var res250 = test_qubitization_chebyshev.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_chebyshev = {res250}");
+                var r250 = test_qubitization_chebyshev.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_chebyshev = {r250}");
 
-                // Test 251: qubitization compute phases
+                // Test 259: qubitization compute phases
                 Console.WriteLine("\n[Test 251] qubitization_compute_phases");
-                var res251 = test_qubitization_compute_phases.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_compute_phases = {res251}");
+                var r251 = test_qubitization_compute_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_compute_phases = {r251}");
 
-                // Test 252: qubitization accuracy
+                // Test 260: qubitization accuracy
                 Console.WriteLine("\n[Test 252] qubitization_accuracy");
-                var res252 = test_qubitization_accuracy.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_accuracy = {res252}");
+                var r252 = test_qubitization_accuracy.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_accuracy = {r252}");
 
-                // Test 253: qubitization spectral gap
+                // Test 261: qubitization spectral gap
                 Console.WriteLine("\n[Test 253] qubitization_spectral_gap");
-                var res253 = test_qubitization_spectral_gap.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_spectral_gap = {res253}");
+                var r253 = test_qubitization_spectral_gap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_spectral_gap = {r253}");
 
-                // Test 254: qubitization timestep
+                // Test 262: qubitization timestep
                 Console.WriteLine("\n[Test 254] qubitization_timestep");
-                var res254 = test_qubitization_timestep.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_timestep = {res254}");
+                var r254 = test_qubitization_timestep.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_timestep = {r254}");
 
-                // Test 255: qubitization qsp phases
+                // Test 263: qubitization qsp phases
                 Console.WriteLine("\n[Test 255] qubitization_qsp_phases");
-                var res255 = test_qubitization_qsp_phases.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_qsp_phases = {res255}");
+                var r255 = test_qubitization_qsp_phases.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_qsp_phases = {r255}");
 
-                // Test 256: qubitization estimate queries
+                // Test 264: qubitization estimate queries
                 Console.WriteLine("\n[Test 256] qubitization_estimate_queries");
-                var res256 = test_qubitization_estimate_queries.Run(sim, 0).Result;
-                Console.WriteLine($"  test_qubitization_estimate_queries = {res256}");
+                var r256 = test_qubitization_estimate_queries.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_estimate_queries = {r256}");
 
                 // ============ LCU Optimized Tests ============
-                // Test 257: lcu ancilla bits
+                // Test 265: lcu ancilla bits
                 Console.WriteLine("\n[Test 257] lcu_ancilla_bits");
-                var res257 = test_lcu_ancilla_bits.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_ancilla_bits = {res257}");
+                var r257 = test_lcu_ancilla_bits.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_ancilla_bits = {r257}");
 
-                // Test 258: lcu gate count
+                // Test 266: lcu gate count
                 Console.WriteLine("\n[Test 258] lcu_gate_count");
-                var res258 = test_lcu_gate_count.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_gate_count = {res258}");
+                var r258 = test_lcu_gate_count.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_gate_count = {r258}");
 
-                // Test 259: lcu coefficient norm
+                // Test 267: lcu coefficient norm
                 Console.WriteLine("\n[Test 259] lcu_coefficient_norm");
-                var res259 = test_lcu_coefficient_norm.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_coefficient_norm = {res259}");
+                var r259 = test_lcu_coefficient_norm.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_coefficient_norm = {r259}");
 
-                // Test 260: lcu check coeffs
+                // Test 268: lcu check coeffs
                 Console.WriteLine("\n[Test 260] lcu_check_coeffs");
-                var res260 = test_lcu_check_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_check_coeffs = {res260}");
+                var r260 = test_lcu_check_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_check_coeffs = {r260}");
 
-                // Test 261: lcu amplitudes
+                // Test 269: lcu amplitudes
                 Console.WriteLine("\n[Test 261] lcu_amplitudes");
-                var res261 = test_lcu_amplitudes.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_amplitudes = {res261}");
+                var r261 = test_lcu_amplitudes.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_amplitudes = {r261}");
 
-                // Test 262: lcu success prob
+                // Test 270: lcu success prob
                 Console.WriteLine("\n[Test 262] lcu_success_prob");
-                var res262 = test_lcu_success_prob.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_success_prob = {res262}");
+                var r262 = test_lcu_success_prob.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_success_prob = {r262}");
 
-                // Test 263: lcu is power of two
+                // Test 271: lcu is power of two
                 Console.WriteLine("\n[Test 263] lcu_is_power_of_two");
-                var res263 = test_lcu_is_power_of_two.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_is_power_of_two = {res263}");
+                var r263 = test_lcu_is_power_of_two.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_is_power_of_two = {r263}");
 
-                // Test 264: lcu pad coeffs
+                // Test 272: lcu pad coeffs
                 Console.WriteLine("\n[Test 264] lcu_pad_coeffs");
-                var res264 = test_lcu_pad_coeffs.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_pad_coeffs = {res264}");
+                var r264 = test_lcu_pad_coeffs.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_pad_coeffs = {r264}");
 
-                // Test 265: lcu query complexity
+                // Test 273: lcu query complexity
                 Console.WriteLine("\n[Test 265] lcu_query_complexity");
-                var res265 = test_lcu_query_complexity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_query_complexity = {res265}");
+                var r265 = test_lcu_query_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_query_complexity = {r265}");
 
-                // Test 266: lcu csd angles
+                // Test 274: lcu csd angles
                 Console.WriteLine("\n[Test 266] lcu_csd_angles");
-                var res266 = test_lcu_csd_angles.Run(sim, 0).Result;
-                Console.WriteLine($"  test_lcu_csd_angles = {res266}");
+                var r266 = test_lcu_csd_angles.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_csd_angles = {r266}");
 
                 // ============ Gibbs Tests ============
-                // Test 267: gibbs compute beta
+                // Test 275: gibbs compute beta
                 Console.WriteLine("\n[Test 267] gibbs_compute_beta");
-                var res267 = test_gibbs_compute_beta.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_compute_beta = {res267}");
+                var r267 = test_gibbs_compute_beta.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_compute_beta = {r267}");
 
-                // Test 268: gibbs partition bound
+                // Test 276: gibbs partition bound
                 Console.WriteLine("\n[Test 268] gibbs_partition_bound");
-                var res268 = test_gibbs_partition_bound.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_partition_bound = {res268}");
+                var r268 = test_gibbs_partition_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_partition_bound = {r268}");
 
-                // Test 269: gibbs spectral gap
+                // Test 277: gibbs spectral gap
                 Console.WriteLine("\n[Test 269] gibbs_spectral_gap");
-                var res269 = test_gibbs_spectral_gap.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_spectral_gap = {res269}");
+                var r269 = test_gibbs_spectral_gap.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_spectral_gap = {r269}");
 
-                // Test 270: gibbs verify state
+                // Test 278: gibbs verify state
                 Console.WriteLine("\n[Test 270] gibbs_verify_state");
-                var res270 = test_gibbs_verify_state.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_verify_state = {res270}");
+                var r270 = test_gibbs_verify_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_verify_state = {r270}");
 
-                // Test 271: gibbs free energy
+                // Test 279: gibbs free energy
                 Console.WriteLine("\n[Test 271] gibbs_free_energy");
-                var res271 = test_gibbs_free_energy.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_free_energy = {res271}");
+                var r271 = test_gibbs_free_energy.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_free_energy = {r271}");
 
-                // Test 272: gibbs estimate temp
+                // Test 280: gibbs estimate temp
                 Console.WriteLine("\n[Test 272] gibbs_estimate_temp");
-                var res272 = test_gibbs_estimate_temp.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_estimate_temp = {res272}");
+                var r272 = test_gibbs_estimate_temp.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_estimate_temp = {r272}");
 
-                // Test 273: gibbs partition function
+                // Test 281: gibbs partition function
                 Console.WriteLine("\n[Test 273] gibbs_partition_function");
-                var res273 = test_gibbs_partition_function.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_partition_function = {res273}");
+                var r273 = test_gibbs_partition_function.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_partition_function = {r273}");
 
-                // Test 274: gibbs probabilities
+                // Test 282: gibbs probabilities
                 Console.WriteLine("\n[Test 274] gibbs_probabilities");
-                var res274 = test_gibbs_probabilities.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_probabilities = {res274}");
+                var r274 = test_gibbs_probabilities.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_probabilities = {r274}");
 
-                // Test 275: gibbs valid temp
+                // Test 283: gibbs valid temp
                 Console.WriteLine("\n[Test 275] gibbs_valid_temp");
-                var res275 = test_gibbs_valid_temp.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_valid_temp = {res275}");
+                var r275 = test_gibbs_valid_temp.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_valid_temp = {r275}");
 
-                // Test 276: gibbs complexity
+                // Test 284: gibbs complexity
                 Console.WriteLine("\n[Test 276] gibbs_complexity");
-                var res276 = test_gibbs_complexity.Run(sim, 0).Result;
-                Console.WriteLine($"  test_gibbs_complexity = {res276}");
+                var r276 = test_gibbs_complexity.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_complexity = {r276}");
 
                 // ============ Time-Dependent Tests ============
-                // Test 277: timedep discretize steps
+                // Test 285: timedep discretize steps
                 Console.WriteLine("\n[Test 277] timedep_discretize_steps");
-                var res277 = test_timedep_discretize_steps.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_discretize_steps = {res277}");
+                var r277 = test_timedep_discretize_steps.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_discretize_steps = {r277}");
 
-                // Test 278: timedep step size
+                // Test 286: timedep step size
                 Console.WriteLine("\n[Test 278] timedep_step_size");
-                var res278 = test_timedep_step_size.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_step_size = {res278}");
+                var r278 = test_timedep_step_size.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_step_size = {r278}");
 
-                // Test 279: timedep evaluate
+                // Test 287: timedep evaluate
                 Console.WriteLine("\n[Test 279] timedep_evaluate");
-                var res279 = test_timedep_evaluate.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_evaluate = {res279}");
+                var r279 = test_timedep_evaluate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_evaluate = {r279}");
 
-                // Test 280: timedep error bound
+                // Test 288: timedep error bound
                 Console.WriteLine("\n[Test 280] timedep_error_bound");
-                var res280 = test_timedep_error_bound.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_error_bound = {res280}");
+                var r280 = test_timedep_error_bound.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_error_bound = {r280}");
 
-                // Test 281: timedep norm variation
+                // Test 289: timedep norm variation
                 Console.WriteLine("\n[Test 281] timedep_norm_variation");
-                var res281 = test_timedep_norm_variation.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_norm_variation = {res281}");
+                var r281 = test_timedep_norm_variation.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_norm_variation = {r281}");
 
-                // Test 282: timedep verify evolution
+                // Test 290: timedep verify evolution
                 Console.WriteLine("\n[Test 282] timedep_verify_evolution");
-                var res282 = test_timedep_verify_evolution.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_verify_evolution = {res282}");
+                var r282 = test_timedep_verify_evolution.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_verify_evolution = {r282}");
 
-                // Test 283: timedep optimal order
+                // Test 291: timedep optimal order
                 Console.WriteLine("\n[Test 283] timedep_optimal_order");
-                var res283 = test_timedep_optimal_order.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_optimal_order = {res283}");
+                var r283 = test_timedep_optimal_order.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_optimal_order = {r283}");
 
-                // Test 284: timedep query count
+                // Test 292: timedep query count
                 Console.WriteLine("\n[Test 284] timedep_query_count");
-                var res284 = test_timedep_query_count.Run(sim, 0).Result;
-                Console.WriteLine($"  test_timedep_query_count = {res284}");
+                var r284 = test_timedep_query_count.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_query_count = {r284}");
+
+                // ======= New Quantum Operation Tests (285+) =======
+                Console.WriteLine("\n[Test 285] test_gmres_apply_matrix");
+                var r285 = test_gmres_apply_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gmres_apply_matrix = {r285}");
+
+                Console.WriteLine("\n[Test 286] test_gmres_apply_givens");
+                var r286 = test_gmres_apply_givens.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gmres_apply_givens = {r286}");
+
+                Console.WriteLine("\n[Test 287] test_cg_apply_matrix");
+                var r287 = test_cg_apply_matrix.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cg_apply_matrix = {r287}");
+
+                Console.WriteLine("\n[Test 288] test_gd_step");
+                var r288 = test_gd_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gd_step = {r288}");
+
+                Console.WriteLine("\n[Test 289] test_newton_hessian_diag");
+                var r289 = test_newton_hessian_diag.Run(sim, 0).Result;
+                Console.WriteLine($"  test_newton_hessian_diag = {r289}");
+
+                Console.WriteLine("\n[Test 290] test_pca_estimate_eigenvalues");
+                var r290 = test_pca_estimate_eigenvalues.Run(sim, 0).Result;
+                Console.WriteLine($"  test_pca_estimate_eigenvalues = {r290}");
+
+                Console.WriteLine("\n[Test 291] test_ridge_apply_regularized");
+                var r291 = test_ridge_apply_regularized.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ridge_apply_regularized = {r291}");
+
+                Console.WriteLine("\n[Test 292] test_trisol_forward_substitute");
+                var r292 = test_trisol_forward_substitute.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_forward_substitute = {r292}");
+
+                Console.WriteLine("\n[Test 293] test_trisol_backward_substitute");
+                var r293 = test_trisol_backward_substitute.Run(sim, 0).Result;
+                Console.WriteLine($"  test_trisol_backward_substitute = {r293}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }

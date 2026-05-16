@@ -4,7 +4,7 @@
 
 **QBLAS** (Quantum Basic Linear Algebra Subprograms) is an open-source quantum computing library for quantum linear algebra and quantum simulation.
 
-- **Version**: v0.2.9
+- **Version**: v0.2.13
 - **Tech Stack**: Microsoft Q# 0.28.x + .NET 6.0
 - **License**: GPL v3
 - **Location**: `src/qblas/`
@@ -193,7 +193,7 @@ for (i in 1 .. n - 1) {
 ### 3. Q# Version Compatibility
 - Project uses Q# 0.28.x
 - Deprecation warnings (QS3306, QS3003) are pre-existing and do not block compilation
-- All 247 tests pass
+- All 293 tests pass
 
 ## Test Patterns
 
@@ -367,3 +367,24 @@ git commit -m "feat: add q_newmodule with operations..."
 
 **Variational Algorithms:**
 - `q_vqe.qs`: VQE components (HEA, QAOA, SU2, optimizers)
+
+### v0.2.13 - 9 Modules Enhanced with Quantum Operations
+
+**Krylov Subspace Methods (Quantum Implementation):**
+- `q_krylov.qs`: Arnoldi iteration with quantum walk + SWAP test (6 new ops)
+- `q_lanczos.qs`: Lanczos tridiagonalization with three-term recurrence (5 new ops)
+- `q_gmres.qs`: GMRES solver with Hessenberg construction (4 new ops)
+
+**Optimization Methods (Quantum Implementation):**
+- `q_conjugate_gradient.qs`: CG linear system solver (3 new ops)
+- `q_gradient_descent.qs`: Gradient descent optimizer (2 new ops)
+- `q_newton.qs`: Newton method with Hessian estimation (2 new ops)
+
+**Matrix Decomposition & Applications:**
+- `q_pca.qs`: PCA with QPE eigenvalue estimation (2 new ops)
+- `q_ridge_regression.qs`: Ridge regression solver (2 new ops)
+- `q_triangular.qs`: Triangular system solver (3 new ops)
+
+**Infrastructure:**
+- Removed: q_cg_residual_norm, q_gmres_norm, q_krylov_residual_norm, q_trisol_norm, q_gmres_init_vec
+- Total: 293 tests pass
