@@ -4,7 +4,7 @@
 
 **QBLAS** (Quantum Basic Linear Algebra Subprograms) is an open-source quantum computing library for quantum linear algebra and quantum simulation.
 
-- **Version**: v0.3.0
+- **Version**: v0.3.1
 - **Tech Stack**: Microsoft QDK 1.28.0 (Rust/Python-based Q# compiler)
 - **License**: GPL v3
 - **Location**: `src/qblas/`
@@ -301,7 +301,7 @@ qblas/
 ### Git Workflow
 ```bash
 # Version bump (update version in README.md + qsharp.json before committing)
-# Current: v0.3.0 -> next: v0.3.1
+# Current: v0.3.1 -> next: v0.3.1
 # Update version in README.md, qsharp.json before committing
 
 # Stage files
@@ -404,7 +404,7 @@ git commit -m "feat: add q_newmodule with operations..."
 
 **Total: 18 new quantum operations, 308 tests pass**
 
-### v0.3.0 - QDK 1.28 Migration
+### v0.3.1 - QDK 1.28 Migration
 
 - Full migration from .NET-based QDK 0.28.x (archived qsharp-compiler) to Rust/Python-based QDK 1.28.0
 - Syntax transformations across all 60 .qs files:
