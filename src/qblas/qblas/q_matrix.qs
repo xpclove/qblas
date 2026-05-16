@@ -42,6 +42,5 @@ namespace qblas
         q_ram_call_SwapA(RAM, qs_address, qs_data, qs_weight);
     }
 
-    // DEPRECATED: Empty placeholder operation, not used in current implementation
-    operation q_matrix() : Unit { }
+
 }

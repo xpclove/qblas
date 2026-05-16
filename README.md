@@ -6,7 +6,7 @@ An open source quantum basic linear algebra and quantum simulation library.
 
 Developed with Microsoft Q# and Python (QDK 1.28.0).
 
-Version: v_0.3.1
+Version: v_0.3.2
 
 Released on GitHub from 11.15, 2019.
 

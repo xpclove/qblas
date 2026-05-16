@@ -33,12 +33,17 @@ namespace qblas
         if (a_0 == One) { set res = res + 1; }
         if (a_1 == One) { set res = res + 2; }
 
-        // Bob's correction based on Alice's measurement results
+        // Bob's Pauli correction based on Alice's measurement results.
+        // For |Ψ⁻⟩ Bell state (|01⟩ - |10⟩)/√2, the correction mapping is:
+        //   a_0 a_1 = 00 (res=0): I    - state already correct
+        //   a_0 a_1 = 10 (res=1): Z    - phase flip
+        //   a_0 a_1 = 01 (res=2): X    - bit flip
+        //   a_0 a_1 = 11 (res=3): Z*X  - both flips
         (Adjoint q_bell_state_creat)([qs_bob, qs_rec]);
         if (res == 0) { I(qs_rec); }
-        elif (res == 1) { I(qs_rec); }
-        elif (res == 2) { I(qs_rec); }
-        elif (res == 3) { I(qs_rec); }
+        elif (res == 1) { Z(qs_rec); }
+        elif (res == 2) { X(qs_rec); }
+        elif (res == 3) { Z(qs_rec); X(qs_rec); }
         ResetAll(qs_bell);
     }
 

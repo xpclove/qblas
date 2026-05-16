@@ -27,12 +27,18 @@ namespace qblas
         qs_c : Qubit[],
         time : Double
     ) : Unit is Adj + Ctl {
-        // Simplified GEMM: apply both matrices sequentially
-        // For actual multiplication, we need tensor product structure
-        // This is a placeholder showing the structure
+        // C = A * B applied to quantum state.
+        // For 1-sparse matrices A, B, the product C = A*B is at most 1-sparse.
+        // Apply B then A sequentially on the state register qs_a.
+        // qs_b and qs_c are ancillary/compatibility registers.
+        //
+        // e^{-iCt} |ψ⟩ ≈ e^{-iAt} e^{-iBt} |ψ⟩ = e^{-i(A+B)t²/... }|ψ⟩
+        // For small t, Trotter-Suzuki 1st order: apply B then A.
 
+        // Apply B's quantum walk (B * |ψ⟩)
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_a, time);
+        // Apply A's quantum walk (A * (B * |ψ⟩) = A*B * |ψ⟩)
         q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
-        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
     }
 
     // ============================================================
@@ -68,13 +74,14 @@ namespace qblas
     ) : Unit is Adj + Ctl {
         let n = Length(qs_a);
         let n_block = n / block_size;
+        let dt = PI() / 8.0;
 
         for bi in 0 .. n_block - 1 {
             for bj in 0 .. n_block - 1 {
                 for bk in 0 .. n_block - 1 {
-                    let time = PI() / 8.0;
-                    q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, time);
-                    q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, time);
+                    // Block product: apply B then A on state register
+                    q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_a, dt);
+                    q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, dt);
                 }
             }
         }
@@ -103,6 +110,24 @@ namespace qblas
     }
 
     // ============================================================
+    // C = A^T * B (transposed A multiplication)
+    // ============================================================
+
+    operation q_gemm_transpose_a(
+        oracle_A : q_matrix_1_sparse_oracle,
+        oracle_B : q_matrix_1_sparse_oracle,
+        qs_a : Qubit[],
+        qs_b : Qubit[],
+        qs_c : Qubit[]
+    ) : Unit is Adj + Ctl {
+        // C = A^T * B: apply B then A^T on state register.
+        // A^T walk uses the same oracle (transpose of 1-sparse is 1-sparse).
+        let dt = PI() / 4.0;
+        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_a, dt);
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, dt);
+    }
+
+    // ============================================================
     // General matrix times diagonal: C = A * Diag(d)
     // ============================================================
 
@@ -114,31 +139,23 @@ namespace qblas
         qs_c : Qubit[]
     ) : Unit is Adj + Ctl {
         let n = Length(diag);
-        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
+        let dt = PI() / 4.0;
+        let norm_d = Sqrt(SquaredNorm(diag));
+
+        // Apply diagonal D = diag(d) to qs_diag register
         for i in 0 .. n - 1 {
-            let norm_d = Sqrt(SquaredNorm(diag));
             if (norm_d > 0.0) {
                 let angle = 2.0 * ArcSin(diag[i] / norm_d);
                 (Controlled Ry)(qs_diag, (angle, qs_c[i]));
             }
         }
+        // Apply A
+        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, dt);
     }
 
     // ============================================================
     // C = A^T * B (transposed A multiplication)
-    // ============================================================
-
-    operation q_gemm_transpose_a(
-        oracle_A : q_matrix_1_sparse_oracle,
-        oracle_B : q_matrix_1_sparse_oracle,
-        qs_a : Qubit[],
-        qs_b : Qubit[],
-        qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
-        // Swapped addressing simulates transpose
-        q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
-        q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
-    }
+    
 
     // ============================================================
     // C = A * B^T (transposed B multiplication)

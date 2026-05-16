@@ -33,10 +33,6 @@ namespace qblas
         }
     }
 
-    // V operator: DEPRECATED placeholder/stub for matrix application
-    // Note: This operation is not used in current implementations
-    operation q_walk_op_V(matrix_A : q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_r : Qubit) : Unit is Adj + Ctl { }
-
     // M operator: apply the sparse matrix oracle
     operation q_walk_op_M(matrix_A : q_matrix_1_sparse_oracle, qs_a : Qubit[], qs_b : Qubit[], qs_weight : Qubit[]) : Unit is Adj + Ctl {
         matrix_A!(qs_a, qs_b, qs_weight);
