@@ -235,4 +235,89 @@ namespace qblas
 
         return angles;
     }
+
+    // ============================================================
+    // LCU Optimized: Prepare Ancilla State
+    //
+    // Purpose: Prepares single-ancilla superposition state
+    // encoding the LCU amplitudes using Ry rotations.
+    // State: |ψ⟩ = Σ_i √(α_i/α) |i⟩ on ancilla register.
+    //
+    // Input:
+    //   - amplitudes: Normalized LCU amplitudes α_i/α
+    //   - qs_anc: Ancilla qubit register (one-hot encoding)
+    //   - alpha: L1 norm Σ_i |α_i|
+    //
+    // Algorithm: For each amplitude, apply Ry(2·arcsin(α_i/α))
+    // on corresponding ancilla qubit to prepare amplitude.
+    //
+    // Complexity: O(L) gates for L terms
+    //
+    // Reference: Chakraborty, "Implementing any LCU on
+    // intermediate-term quantum computers", Quantum 2024.
+    // https://arxiv.org/abs/2405.00019
+    // ============================================================
+
+    operation q_lcu_optimized_prepare(
+        amplitudes : Double[],
+        qs_anc : Qubit[],
+        alpha : Double
+    ) : Unit {
+        body {
+            let n = Length(amplitudes);
+            for (i in 0 .. n - 1) {
+                let amp = amplitudes[i] / alpha;
+                let angle = 2.0 * ArcSin(amp);
+                Ry(angle, qs_anc[i]);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
+
+    // ============================================================
+    // LCU Optimized: SELECT + PREPARE Circuit
+    //
+    // Purpose: Implements the full SELECT+PREPARE LCU circuit
+    // for applying Σ_i α_i U_i to a quantum state.
+    //
+    // Input:
+    //   - unitaries: Array of unitary operations U_i
+    //   - amplitudes: LCU amplitudes α_i
+    //   - qs_sys: System qubit register
+    //   - qs_anc: Ancilla qubit register (one-hot)
+    //
+    // Algorithm:
+    //   1. PREPARE: Apply q_lcu_optimized_prepare to create
+    //      superposition on ancilla.
+    //   2. SELECT: For each i, apply U_i controlled on qs_anc[i].
+    //   3. UNPREPARE: Apply adjoint of PREPARE step.
+    //
+    // Complexity: O(L · G) where G is max gate count of U_i
+    //
+    // Reference: Childs & Wiebe, "Hamiltonian Simulation Using
+    // Linear Combinations of Unitary Operations", QIC 2012.
+    // https://arxiv.org/abs/1202.5822
+    // ============================================================
+
+    operation q_lcu_optimized_apply(
+        unitaries : (Qubit[] => Unit is Adj + Ctl)[],
+        amplitudes : Double[],
+        qs_sys : Qubit[],
+        qs_anc : Qubit[]
+    ) : Unit {
+        body {
+            let n = Length(unitaries);
+            let alpha = 1.0;
+            q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
+            for (i in 0 .. n - 1) {
+                (Controlled unitaries[i])([qs_anc[i]], qs_sys);
+            }
+            Adjoint q_lcu_optimized_prepare(amplitudes, qs_anc, alpha);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

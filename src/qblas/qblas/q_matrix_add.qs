@@ -490,4 +490,40 @@ namespace qblas
 
         return n == m;
     }
+
+    // ============================================================
+    // ADD: Block Encoding for Matrix Addition
+    //
+    // Block encoding for matrix addition A + B.
+    // Applies both oracles sequentially with equal time.
+    //
+    // Input:
+    //   - oracle_A: 1-sparse oracle for A
+    //   - oracle_B: 1-sparse oracle for B
+    //   - qs_state: State qubits
+    //   - qs_work: Workspace qubits
+    //   - time: Evolution time
+    //
+    // Complexity: O(poly(log(1/ε)))
+    //
+    // Reference: Low & Chuang, "Hamiltonian Simulation by Qubitization"
+    // Quantum 3, 163 (2019).
+    // ============================================================
+
+    operation q_matrix_add_block_encode(
+        oracle_A : q_matrix_1_sparse_oracle,
+        oracle_B : q_matrix_1_sparse_oracle,
+        qs_state : Qubit[],
+        qs_work : Qubit[],
+        time : Double
+    ) : Unit {
+        body {
+            let half_time = time / 2.0;
+            q_gemv(oracle_A, qs_state, qs_work, half_time);
+            q_gemv(oracle_B, qs_state, qs_work, half_time);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

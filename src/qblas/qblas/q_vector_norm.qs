@@ -394,4 +394,44 @@ namespace qblas
 
         return (l1, l2, linf);
     }
+
+    // ============================================================
+    // QNORM: Measure State Norm
+    //
+    // Estimates norm of quantum state via measurement statistics.
+    // Measures all qubits in computational basis over n_measure shots.
+    //
+    // Input:
+    //   - qs_state: Quantum state to measure
+    //   - n_measure: Number of measurement shots
+    //
+    // Output: Estimated norm
+    //
+    // Complexity: O(n_measure · n_qubits)
+    // ============================================================
+
+    operation q_vnorm_measure_state(
+        qs_state : Qubit[],
+        n_measure : Int
+    ) : Double {
+        body {
+            let n = Length(qs_state);
+            mutable sum = 0.0;
+            for (_ in 0 .. n_measure - 1) {
+                use qs_copy = Qubit[n];
+                for (q in 0 .. n - 1) {
+                    CNOT(qs_state[q], qs_copy[q]);
+                }
+                for (q in 0 .. n - 1) {
+                    let m = M(qs_copy[q]);
+                    if (m == Zero) {
+                        set sum = sum + 1.0;
+                    }
+                }
+                ResetAll(qs_copy);
+            }
+            let prob_zero = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
+            return Sqrt(prob_zero);
+        }
+    }
 }

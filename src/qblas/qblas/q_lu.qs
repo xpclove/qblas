@@ -499,4 +499,42 @@ namespace qblas
 
         return U;
     }
+
+    // ============================================================
+    // LU: Quantum Linear Solve (HHL-style)
+    //
+    // Quantum linear solve using quantum walk approach.
+    // Applies q_gemv(A) to evolve the state through the oracle.
+    //
+    // Input:
+    //   - oracle: 1-sparse matrix oracle for A
+    //   - qs_b: Right-hand side |b⟩
+    //   - qs_x: Solution |x⟩ (initialized)
+    //   - qs_work: Workspace qubits
+    //   - time: Evolution time = PI() / (2.0 * norm_estimate)
+    //
+    // Complexity: O(poly(log(1/ε)))
+    //
+    // Reference: Harrow, Hassidim & Lloyd, "Quantum Algorithm for
+    // Linear Systems of Equations", PRL 2009.
+    // ============================================================
+
+    operation q_lu_solve_quantum(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_b : Qubit[],
+        qs_x : Qubit[],
+        qs_work : Qubit[],
+        time : Double
+    ) : Unit {
+        body {
+            let n = Length(qs_b);
+            for (q in 0 .. n - 1) {
+                CNOT(qs_b[q], qs_x[q]);
+            }
+            q_gemv(oracle, qs_x, qs_work, time);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

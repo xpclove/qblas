@@ -299,4 +299,33 @@ namespace qblas
         let update = m_hat / (Sqrt(v_hat) + 1e-8);
         return (m_new, v_new, update);
     }
+
+    // ============================================================
+    // QGE: Parameter Shift Operation
+    //
+    // Applies parameter shift: rotates specific parameter qubit
+    // by shift_angle, controlled on qs_shift.
+    // Implements the parameter shift rule for gradient estimation.
+    //
+    // Input:
+    //   - qs_params: Parameter qubit register
+    //   - qs_shift: Control qubits for shift direction
+    //   - shift_angle: Rotation angle for shift
+    //   - idx: Index of parameter qubit to shift
+    //
+    // Complexity: O(1)
+    // ============================================================
+
+    operation q_ge_parameter_shift(
+        qs_params : Qubit[],
+        qs_shift : Qubit[],
+        shift_angle : Double,
+        idx : Int
+    ) : Unit {
+        body {
+            if (idx >= 0 and idx < Length(qs_params)) {
+                (Controlled Ry)(qs_shift, (shift_angle, qs_params[idx]));
+            }
+        }
+    }
 }

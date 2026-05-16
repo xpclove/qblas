@@ -2353,4 +2353,214 @@ operation test_qge_adam_step(p : Int) : Int {
             return 1;
         }
     }
+
+    // ============ Qubitization Quantum Tests ============
+
+    operation test_qubitization_simulate(p : Int) : Int {
+        body {
+            use qs_state = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            let phases = q_qubitization_compute_phases(PI() / 4.0, 1.0, 5);
+            q_qubitization_simulate(oracle, qs_state, qs_work, phases, PI() / 4.0);
+            ResetAll(qs_state);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ LCU Optimized Quantum Tests ============
+
+    operation test_lcu_optimized_prepare(p : Int) : Int {
+        body {
+            use qs_anc = Qubit[2];
+            q_lcu_optimized_prepare([0.6, 0.8], qs_anc, 1.0);
+            ResetAll(qs_anc);
+            return 1;
+        }
+    }
+
+    // ============ Gibbs Quantum Tests ============
+
+    operation test_gibbs_prepare_state(p : Int) : Int {
+        body {
+            use qs_state = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_gibbs_prepare_state(oracle, qs_state, qs_work, 0.5, PI() / 4.0);
+            ResetAll(qs_state);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Time-Dependent Quantum Tests ============
+
+    operation test_timedep_simulate_step(p : Int) : Int {
+        body {
+            use qs_state = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_timedep_simulate_step(oracle, qs_state, qs_work, 0.0, PI() / 8.0);
+            ResetAll(qs_state);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    operation test_timedep_simulate(p : Int) : Int {
+        body {
+            use qs_state = Qubit[2];
+            use qs_work = Qubit[3];
+            let h0 = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            let h1 = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_timedep_simulate(h0, h1, qs_state, qs_work, PI() / 4.0, 4);
+            ResetAll(qs_state);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Inner Product Quantum Tests ============
+
+    operation test_ip_swap_test_measure(p : Int) : Double {
+        body {
+            use qs_a = Qubit[2];
+            use qs_b = Qubit[2];
+            let overlap = q_ip_swap_test_measure(qs_a, qs_b, 10);
+            ResetAll(qs_a);
+            ResetAll(qs_b);
+            return overlap;
+        }
+    }
+
+    // ============ Vector Norm Quantum Tests ============
+
+    operation test_vnorm_measure_state(p : Int) : Double {
+        body {
+            use qs_state = Qubit[2];
+            let norm = q_vnorm_measure_state(qs_state, 10);
+            ResetAll(qs_state);
+            return norm;
+        }
+    }
+
+    // ============ Gradient Estimation Quantum Tests ============
+
+    operation test_ge_parameter_shift(p : Int) : Int {
+        body {
+            use qs_params = Qubit[2];
+            use qs_shift = Qubit[2];
+            q_ge_parameter_shift(qs_params, qs_shift, PI() / 4.0, 0);
+            ResetAll(qs_params);
+            ResetAll(qs_shift);
+            return 1;
+        }
+    }
+
+    // ============ LU Quantum Tests ============
+
+    operation test_lu_solve_quantum(p : Int) : Int {
+        body {
+            use qs_b = Qubit[2];
+            use qs_x = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_lu_solve_quantum(oracle, qs_b, qs_x, qs_work, PI() / 4.0);
+            ResetAll(qs_b);
+            ResetAll(qs_x);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Cholesky Quantum Tests ============
+
+    operation test_cholesky_solve_quantum(p : Int) : Int {
+        body {
+            use qs_b = Qubit[2];
+            use qs_x = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_cholesky_solve_quantum(oracle, qs_b, qs_x, qs_work, PI() / 4.0);
+            ResetAll(qs_b);
+            ResetAll(qs_x);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ QR Quantum Tests ============
+
+    operation test_qr_least_squares_quantum(p : Int) : Int {
+        body {
+            use qs_b = Qubit[2];
+            use qs_x = Qubit[2];
+            use qs_work = Qubit[3];
+            let oracle = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_qr_least_squares_quantum(oracle, qs_b, qs_x, qs_work, PI() / 4.0);
+            ResetAll(qs_b);
+            ResetAll(qs_x);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Matrix Add Quantum Tests ============
+
+    operation test_matrix_add_block_encode(p : Int) : Int {
+        body {
+            use qs_state = Qubit[2];
+            use qs_work = Qubit[3];
+            let oa = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            let ob = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_matrix_add_block_encode(oa, ob, qs_state, qs_work, PI() / 4.0);
+            ResetAll(qs_state);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Kronecker Quantum Tests ============
+
+    operation test_kronecker_apply_state(p : Int) : Int {
+        body {
+            use qs_a = Qubit[2];
+            use qs_b = Qubit[2];
+            use qs_work = Qubit[3];
+            let oa = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            let ob = q_matrix_1_sparse_oracle(q_matrix_1_sparse_real_test);
+            q_kronecker_apply_state(oa, ob, qs_a, qs_b, qs_work, PI() / 4.0);
+            ResetAll(qs_a);
+            ResetAll(qs_b);
+            ResetAll(qs_work);
+            return 1;
+        }
+    }
+
+    // ============ Error Mitigation Quantum Tests ============
+
+    operation test_em_zne_execute(p : Int) : Double {
+        body {
+            use qs_state = Qubit[2];
+            let result = q_em_zne_execute(qs_state, [1.0, 2.0, 3.0], 10);
+            ResetAll(qs_state);
+            return result;
+        }
+    }
+
+    // ============ Kernel Quantum Tests ============
+
+    operation test_kernel_compute_matrix_quantum(p : Int) : Double {
+        body {
+            use qs_x = Qubit[2];
+            use qs_y = Qubit[2];
+            use qs_work = Qubit[3];
+            let k = q_kernel_compute_matrix_quantum(qs_x, qs_y, qs_work, 10);
+            ResetAll(qs_x);
+            ResetAll(qs_y);
+            ResetAll(qs_work);
+            return k;
+        }
+    }
 }

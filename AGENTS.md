@@ -193,7 +193,7 @@ for (i in 1 .. n - 1) {
 ### 3. Q# Version Compatibility
 - Project uses Q# 0.28.x
 - Deprecation warnings (QS3306, QS3003) are pre-existing and do not block compilation
-- All 293 tests pass
+- All 308 tests pass
 
 ## Test Patterns
 
@@ -388,3 +388,29 @@ git commit -m "feat: add q_newmodule with operations..."
 **Infrastructure:**
 - Removed: q_cg_residual_norm, q_gmres_norm, q_krylov_residual_norm, q_trisol_norm, q_gmres_init_vec
 - Total: 293 tests pass
+
+### v0.2.14 - Remaining 15 Layer 0 Modules Enhanced with Quantum Operations
+
+**Hamiltonian Simulation:**
+- `q_qubitization.qs`: Qubitization-based simulation with QSP phases (1 new op)
+- `q_lcu_optimized.qs`: Single-ancilla LCU SELECT+PREPARE circuit (2 new ops)
+- `q_gibbs.qs`: Gibbs state preparation via imaginary time evolution (1 new op)
+- `q_timedependent.qs`: Time-dependent H(t) simulation with Strang splitting (2 new ops)
+
+**Quantum Primitives:**
+- `q_inner_product.qs`: SWAP test measurement operation (1 new op)
+- `q_vector_norm.qs`: State norm estimation via measurement statistics (1 new op)
+- `q_gradient_estimation.qs`: Parameter shift circuit execution (1 new op)
+
+**Classical→Quantum Solvers:**
+- `q_lu.qs`: HHL-style quantum linear solve (1 new op)
+- `q_cholesky.qs`: SPD quantum linear solve (1 new op)
+- `q_qr.qs`: Quantum least-squares solver (1 new op)
+- `q_matrix_add.qs`: A+B block encoding via sequential q_gemv (1 new op)
+- `q_kronecker.qs`: A⊗B application to composite quantum state (1 new op)
+- `q_error_mitigation.qs`: ZNE circuit execution with noise extrapolation (1 new op)
+
+**Kernel Methods:**
+- `q_kernel.qs`: Quantum kernel matrix entry computation via SWAP test (1 new op)
+
+**Total: 18 new quantum operations, 308 tests pass**

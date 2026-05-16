@@ -742,4 +742,59 @@ namespace qblas
 
         return times;
     }
+
+    // ============================================================
+    // ZNE: Execute Circuit with Zero-Noise Extrapolation
+    //
+    // Runs circuit at different noise levels (represented by
+    // repetition count) and extrapolates to zero noise.
+    //
+    // Input:
+    //   - qs_state: Quantum state qubits
+    //   - noise_factors: Array of noise scaling factors
+    //   - n_measure: Number of measurement shots per noise level
+    //
+    // Output: Extrapolated zero-noise estimate
+    //
+    // Complexity: O(n_noise · n_measure · n_qubits)
+    //
+    // Reference: Temme et al., PRL 119, 180509 (2017).
+    // ============================================================
+
+    operation q_em_zne_execute(
+        qs_state : Qubit[],
+        noise_factors : Double[],
+        n_measure : Int
+    ) : Double {
+        body {
+            let nf = Length(noise_factors);
+            mutable expectation_values = [];
+            let n = Length(qs_state);
+
+            for (i in 0 .. nf - 1) {
+                let factor = noise_factors[i];
+                let n_repeat = Max([1, Floor(factor)]);
+                mutable sum = 0.0;
+                for (_ in 0 .. n_measure - 1) {
+                    use qs_copy = Qubit[n];
+                    for (q in 0 .. n - 1) {
+                        CNOT(qs_state[q], qs_copy[q]);
+                    }
+                    for (r in 0 .. n_repeat - 1) {
+                        for (q in 0 .. n - 1) {
+                            let m = M(qs_copy[q]);
+                            if (m == Zero) {
+                                set sum = sum + 1.0;
+                            }
+                        }
+                    }
+                    ResetAll(qs_copy);
+                }
+                let avg = sum / (IntAsDouble(n) * IntAsDouble(n_measure));
+                set expectation_values += [avg];
+            }
+
+            return q_zne_extrapolate(expectation_values, noise_factors);
+        }
+    }
 }

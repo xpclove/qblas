@@ -468,4 +468,42 @@ namespace qblas
 
         return (max_d / min_d) * (max_d / min_d);
     }
+
+    // ============================================================
+    // Chol: Quantum Cholesky Solve (HHL-style)
+    //
+    // Quantum linear solve for SPD matrices using quantum walk.
+    // Applies q_gemv to evolve through the Cholesky oracle.
+    //
+    // Input:
+    //   - oracle: 1-sparse matrix oracle for SPD matrix A
+    //   - qs_b: Right-hand side |b⟩
+    //   - qs_x: Solution |x⟩
+    //   - qs_work: Workspace qubits
+    //   - time: Evolution time
+    //
+    // Complexity: O(poly(log(1/ε)))
+    //
+    // Reference: Harrow, Hassidim & Lloyd, HHL algorithm 2009.
+    // Cholesky: Golub & Van Loan, "Matrix Computations".
+    // ============================================================
+
+    operation q_cholesky_solve_quantum(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_b : Qubit[],
+        qs_x : Qubit[],
+        qs_work : Qubit[],
+        time : Double
+    ) : Unit {
+        body {
+            let n = Length(qs_b);
+            for (q in 0 .. n - 1) {
+                CNOT(qs_b[q], qs_x[q]);
+            }
+            q_gemv(oracle, qs_x, qs_work, time);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

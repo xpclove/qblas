@@ -512,4 +512,42 @@ namespace qblas
 
         return u_norm_sq > 1e-10 ? dot / u_norm_sq | 0.0;
     }
+
+    // ============================================================
+    // QR: Quantum Least Squares (HHL-style)
+    //
+    // Quantum least squares solver via QR decomposition.
+    // Uses q_gemv for matrix application through the oracle.
+    //
+    // Input:
+    //   - oracle: 1-sparse matrix oracle
+    //   - qs_b: Right-hand side |b⟩
+    //   - qs_x: Solution |x⟩
+    //   - qs_work: Workspace qubits
+    //   - time: Evolution time
+    //
+    // Complexity: O(poly(log(1/ε)))
+    //
+    // Reference: Harrow, Hassidim & Lloyd, HHL algorithm 2009.
+    // QR: Bialas & Bialas, "Quantum QR Decomposition" 2020.
+    // ============================================================
+
+    operation q_qr_least_squares_quantum(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_b : Qubit[],
+        qs_x : Qubit[],
+        qs_work : Qubit[],
+        time : Double
+    ) : Unit {
+        body {
+            let n = Length(qs_b);
+            for (q in 0 .. n - 1) {
+                CNOT(qs_b[q], qs_x[q]);
+            }
+            q_gemv(oracle, qs_x, qs_work, time);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

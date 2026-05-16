@@ -417,4 +417,52 @@ namespace qblas
 
         return G;
     }
+
+    // ============================================================
+    // QIP: SWAP Test Measurement
+    //
+    // Actually runs SWAP test on qubit registers and measures
+    // to estimate |⟨a|b⟩|.
+    //
+    // Input:
+    //   - qs_a: First quantum state
+    //   - qs_b: Second quantum state
+    //   - n_measure: Number of measurement shots
+    //
+    // Output: Estimated |⟨a|b⟩| ∈ [0, 1]
+    //
+    // Complexity: O(n_measure · n_qubits)
+    // ============================================================
+
+    operation q_ip_swap_test_measure(
+        qs_a : Qubit[],
+        qs_b : Qubit[],
+        n_measure : Int
+    ) : Double {
+        body {
+            let n = Length(qs_a);
+            mutable count_zero = 0;
+            for (_ in 0 .. n_measure - 1) {
+                use qs_ctrl = Qubit[1];
+                use qs_a_copy = Qubit[n];
+                use qs_b_copy = Qubit[n];
+                let ctrl = qs_ctrl[0];
+                for (q in 0 .. n - 1) {
+                    CNOT(qs_a[q], qs_a_copy[q]);
+                    CNOT(qs_b[q], qs_b_copy[q]);
+                }
+                q_swap_test_core(ctrl, qs_a_copy, qs_b_copy);
+                let m = M(ctrl);
+                if (m == Zero) {
+                    set count_zero += 1;
+                }
+                ResetAll(qs_a_copy);
+                ResetAll(qs_b_copy);
+                Reset(ctrl);
+            }
+            let prob_zero = IntAsDouble(count_zero) / IntAsDouble(n_measure);
+            let overlap_sq = 2.0 * prob_zero - 1.0;
+            return overlap_sq < 0.0 ? 0.0 | Sqrt(overlap_sq);
+        }
+    }
 }

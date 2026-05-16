@@ -560,4 +560,35 @@ namespace qblas
         let mid = Length(ds) / 2;
         return mid < Length(ds) ? ds[mid] | 1.0;
     }
+
+    // ============================================================
+    // QK: Compute Kernel Matrix Entry (Quantum)
+    //
+    // Computes quantum kernel entry K(x,y) = |⟨φ(x)|φ(y)⟩|²
+    // between two data points using SWAP test.
+    //
+    // Input:
+    //   - qs_x: Feature-encoded state for x
+    //   - qs_y: Feature-encoded state for y
+    //   - qs_work: Workspace qubits
+    //   - n_measure: Number of SWAP test repetitions
+    //
+    // Output: Estimated |⟨φ(x)|φ(y)⟩|²
+    //
+    // Complexity: O(n_measure · n_qubits)
+    //
+    // Reference: Havlicek et al., Nature 549, 242 (2019).
+    // ============================================================
+
+    operation q_kernel_compute_matrix_quantum(
+        qs_x : Qubit[],
+        qs_y : Qubit[],
+        qs_work : Qubit[],
+        n_measure : Int
+    ) : Double {
+        body {
+            let overlap = q_krylov_estimate_overlap(qs_x, qs_y, n_measure);
+            return overlap * overlap;
+        }
+    }
 }

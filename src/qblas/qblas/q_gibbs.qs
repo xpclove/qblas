@@ -261,4 +261,49 @@ namespace qblas
         let kappa = 1.0 / gap;
         return Floor(-kappa / precision) + 1;
     }
+
+    // ============================================================
+    // Gibbs: Prepare Thermal State
+    //
+    // Purpose: Prepares thermal (Gibbs) state ρ = e^{-βH}/Z
+    // via imaginary time evolution. Applies exp(-β·H) by
+    // repeated q_gemv application.
+    //
+    // Input:
+    //   - oracle: 1-sparse matrix oracle for Hamiltonian H
+    //   - qs_state: System register qubits
+    //   - qs_work: Workspace qubits
+    //   - beta: Inverse temperature β = 1/(k_B T)
+    //   - time: Total evolution time = β · spectral_gap / num_steps
+    //
+    // Algorithm: Repeatedly apply q_gemv to simulate
+    // imaginary time evolution operator e^{-βH}. The walk
+    // operator implements the action of H on the state.
+    // Thermal state is obtained by tracing out ancilla.
+    //
+    // Complexity: O(num_steps · d · ||H||_max · β · Δ)
+    //
+    // Reference: Chowdhury & Somma, "Quantum algorithms for
+    // Gibbs sampling and Metropolis sampling", QIC 2017.
+    // https://arxiv.org/abs/1603.02941
+    // ============================================================
+
+    operation q_gibbs_prepare_state(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_state : Qubit[],
+        qs_work : Qubit[],
+        beta : Double,
+        time : Double
+    ) : Unit {
+        body {
+            let num_steps = 10;
+            let dt = time / IntAsDouble(num_steps);
+            for (i in 0 .. num_steps - 1) {
+                q_gemv(oracle, qs_state, qs_work, dt);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

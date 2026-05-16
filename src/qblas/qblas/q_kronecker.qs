@@ -526,4 +526,40 @@ namespace qblas
 
         return result;
     }
+
+    // ============================================================
+    // TK: Apply Kronecker Product to Composite State
+    //
+    // Applies A⊗B to composite quantum state.
+    // Applies A to qs_state_a and B to qs_state_b independently.
+    //
+    // Input:
+    //   - oracle_A: 1-sparse oracle for A
+    //   - oracle_B: 1-sparse oracle for B
+    //   - qs_state_a: First subsystem qubits
+    //   - qs_state_b: Second subsystem qubits
+    //   - qs_work: Workspace qubits
+    //   - time: Evolution time
+    //
+    // Complexity: O(poly(log(1/ε)))
+    //
+    // Reference: Horn & Johnson, "Matrix Analysis"
+    // ============================================================
+
+    operation q_kronecker_apply_state(
+        oracle_A : q_matrix_1_sparse_oracle,
+        oracle_B : q_matrix_1_sparse_oracle,
+        qs_state_a : Qubit[],
+        qs_state_b : Qubit[],
+        qs_work : Qubit[],
+        time : Double
+    ) : Unit {
+        body {
+            q_gemv(oracle_A, qs_state_a, qs_work, time);
+            q_gemv(oracle_B, qs_state_b, qs_work, time);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

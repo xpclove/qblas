@@ -1512,6 +1512,67 @@ namespace Quantum.test
                 Console.WriteLine("\n[Test 293] test_trisol_backward_substitute");
                 var r293 = test_trisol_backward_substitute.Run(sim, 0).Result;
                 Console.WriteLine($"  test_trisol_backward_substitute = {r293}");
+
+                // ======= Layer 0 Quantum Tests (294+) =======
+                Console.WriteLine("\n[Test 294] test_qubitization_simulate");
+                var r294 = test_qubitization_simulate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qubitization_simulate = {r294}");
+
+                Console.WriteLine("\n[Test 295] test_lcu_optimized_prepare");
+                var r295 = test_lcu_optimized_prepare.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lcu_optimized_prepare = {r295}");
+
+                Console.WriteLine("\n[Test 296] test_gibbs_prepare_state");
+                var r296 = test_gibbs_prepare_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_gibbs_prepare_state = {r296}");
+
+                Console.WriteLine("\n[Test 297] test_timedep_simulate_step");
+                var r297 = test_timedep_simulate_step.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_simulate_step = {r297}");
+
+                Console.WriteLine("\n[Test 298] test_timedep_simulate");
+                var r298 = test_timedep_simulate.Run(sim, 0).Result;
+                Console.WriteLine($"  test_timedep_simulate = {r298}");
+
+                Console.WriteLine("\n[Test 299] test_ip_swap_test_measure");
+                var r299 = test_ip_swap_test_measure.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ip_swap_test_measure = {r299}");
+
+                Console.WriteLine("\n[Test 300] test_vnorm_measure_state");
+                var r300 = test_vnorm_measure_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_vnorm_measure_state = {r300}");
+
+                Console.WriteLine("\n[Test 301] test_ge_parameter_shift");
+                var r301 = test_ge_parameter_shift.Run(sim, 0).Result;
+                Console.WriteLine($"  test_ge_parameter_shift = {r301}");
+
+                Console.WriteLine("\n[Test 302] test_lu_solve_quantum");
+                var r302 = test_lu_solve_quantum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_lu_solve_quantum = {r302}");
+
+                Console.WriteLine("\n[Test 303] test_cholesky_solve_quantum");
+                var r303 = test_cholesky_solve_quantum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_cholesky_solve_quantum = {r303}");
+
+                Console.WriteLine("\n[Test 304] test_qr_least_squares_quantum");
+                var r304 = test_qr_least_squares_quantum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_qr_least_squares_quantum = {r304}");
+
+                Console.WriteLine("\n[Test 305] test_matrix_add_block_encode");
+                var r305 = test_matrix_add_block_encode.Run(sim, 0).Result;
+                Console.WriteLine($"  test_matrix_add_block_encode = {r305}");
+
+                Console.WriteLine("\n[Test 306] test_kronecker_apply_state");
+                var r306 = test_kronecker_apply_state.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kronecker_apply_state = {r306}");
+
+                Console.WriteLine("\n[Test 307] test_em_zne_execute");
+                var r307 = test_em_zne_execute.Run(sim, 0).Result;
+                Console.WriteLine($"  test_em_zne_execute = {r307}");
+
+                Console.WriteLine("\n[Test 308] test_kernel_compute_matrix_quantum");
+                var r308 = test_kernel_compute_matrix_quantum.Run(sim, 0).Result;
+                Console.WriteLine($"  test_kernel_compute_matrix_quantum = {r308}");
             }
             Console.WriteLine("\n=== All tests completed ===");
         }

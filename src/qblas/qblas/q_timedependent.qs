@@ -205,4 +205,93 @@ namespace qblas
         let per_step = Floor(IntAsDouble(sparsity) * h_max + Log(1.0 / precision) / Log(2.0)) + 1;
         return num_steps * per_step;
     }
+
+    // ============================================================
+    // Time-Dependent: Single Step Simulation
+    //
+    // Purpose: Performs a single step of time-dependent
+    // Hamiltonian simulation at time t_start with step dt.
+    //
+    // Input:
+    //   - oracle: 1-sparse oracle encoding H(t) at current time
+    //   - qs_state: System register qubits
+    //   - qs_work: Workspace qubits
+    //   - t_start: Current simulation time
+    //   - dt: Time step size
+    //
+    // Algorithm: Applies quantum walk via q_gemv with
+    // effective time = t_start · dt for this step.
+    //
+    // Complexity: O(d · ||H||_max · t_start · dt)
+    //
+    // Reference: Kim et al., "Finite Imaginary-Time Evolution
+    // for PUBO", 2026. https://arxiv.org/abs/2406.09283
+    // ============================================================
+
+    operation q_timedep_simulate_step(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_state : Qubit[],
+        qs_work : Qubit[],
+        t_start : Double,
+        dt : Double
+    ) : Unit {
+        body {
+            let time_step = t_start * dt;
+            q_gemv(oracle, qs_state, qs_work, time_step);
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
+
+    // ============================================================
+    // Time-Dependent: Full Simulation
+    //
+    // Purpose: Simulates time-dependent Hamiltonian
+    // H(t) = H0 + t · H1 over a time span using
+    // Strang splitting and repeated quantum walk steps.
+    //
+    // Input:
+    //   - h0_oracle: 1-sparse oracle for base Hamiltonian H0
+    //   - h1_oracle: 1-sparse oracle for variation H1
+    //   - qs_state: System register qubits
+    //   - qs_work: Workspace qubits
+    //   - t_span: Total simulation time T
+    //   - n_steps: Number of time steps N
+    //
+    // Algorithm: For each step k = 0..N-1 with t_k = k·T/N:
+    //   Apply Strang splitting for H(t_k):
+    //     exp(-i·H(t_k)·Δt) ≈
+    //       exp(-i·H0·Δt/2) ·
+    //       exp(-i·t_k·H1·Δt) ·
+    //       exp(-i·H0·Δt/2)
+    //   Each exponential is implemented via q_gemv walk.
+    //
+    // Complexity: O(N · d · ||H||_max · T/N)
+    //
+    // Reference: Dong & Lin, "Multi-level Quantum Signal
+    // Processing", 2024. https://arxiv.org/abs/2404.05782
+    // ============================================================
+
+    operation q_timedep_simulate(
+        h0_oracle : q_matrix_1_sparse_oracle,
+        h1_oracle : q_matrix_1_sparse_oracle,
+        qs_state : Qubit[],
+        qs_work : Qubit[],
+        t_span : Double,
+        n_steps : Int
+    ) : Unit {
+        body {
+            let dt = t_span / IntAsDouble(n_steps);
+            for (k in 0 .. n_steps - 1) {
+                let t_k = IntAsDouble(k) * dt;
+                q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
+                q_gemv(h1_oracle, qs_state, qs_work, t_k * dt);
+                q_gemv(h0_oracle, qs_state, qs_work, dt / 2.0);
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }

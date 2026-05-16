@@ -339,4 +339,52 @@ namespace qblas
         }
         return max_error < tolerance;
     }
+
+    // ============================================================
+    // Qubitization: Hamiltonian Simulation
+    //
+    // Purpose: Implements qubitization-based Hamiltonian simulation
+    // by interleaving quantum walk operations with QSP phase rotations.
+    // Uses pre-computed phase angles from q_qubitization_compute_phases.
+    //
+    // Input:
+    //   - oracle: 1-sparse matrix oracle for Hamiltonian
+    //   - qs_state: System register qubits
+    //   - qs_work: Workspace qubits
+    //   - phases: QSP phase angles array
+    //   - time: Total simulation time
+    //
+    // Algorithm: For each phase angle, apply the quantum walk
+    // (via q_gemv) for dt = time/L, then rotate each state qubit
+    // by the phase angle using Rz. This implements the QSP
+    // interleaving sequence for optimal Hamiltonian simulation.
+    //
+    // Complexity: O(L · d · ||H||_max · t/L) where L = len(phases)
+    //
+    // Reference: Low & Chuang, "Optimal Hamiltonian Simulation
+    // by Quantum Signal Processing", PRL 118, 010501 (2017)
+    // https://arxiv.org/abs/1606.02685
+    // ============================================================
+
+    operation q_qubitization_simulate(
+        oracle : q_matrix_1_sparse_oracle,
+        qs_state : Qubit[],
+        qs_work : Qubit[],
+        phases : Double[],
+        time : Double
+    ) : Unit {
+        body {
+            let n_phases = Length(phases);
+            let dt = time / IntAsDouble(n_phases);
+            for (i in 0 .. n_phases - 1) {
+                q_gemv(oracle, qs_state, qs_work, dt);
+                for (j in 0 .. Length(qs_state) - 1) {
+                    Rz(phases[i], qs_state[j]);
+                }
+            }
+        }
+        adjoint auto;
+        controlled auto;
+        controlled adjoint auto;
+    }
 }
