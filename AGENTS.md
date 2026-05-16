@@ -4,8 +4,8 @@
 
 **QBLAS** (Quantum Basic Linear Algebra Subprograms) is an open-source quantum computing library for quantum linear algebra and quantum simulation.
 
-- **Version**: v0.2.15
-- **Tech Stack**: Microsoft Q# 0.28.x + .NET 6.0
+- **Version**: v0.3.0
+- **Tech Stack**: Microsoft QDK 1.28.0 (Rust/Python-based Q# compiler)
 - **License**: GPL v3
 - **Location**: `src/qblas/`
 
