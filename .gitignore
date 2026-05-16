@@ -34,4 +34,3 @@
 # .NET build artifacts (QDK 0.28 legacy)
 src/qblas/**/bin/
 src/qblas/**/obj/
-doc/ref/*.pdf
