@@ -13,11 +13,8 @@
 
 ### Prerequisites
 ```bash
-# Install .NET 6.0 SDK to ~/.dotnet
-mkdir -p ~/.dotnet
-tar zxf dotnet-sdk-6.0.412-linux-x64.tar.gz -C ~/.dotnet
-export DOTNET_ROOT=~/.dotnet
-export PATH=$PATH:$HOME/.dotnet
+# Python 3.10+ with QDK 1.28
+pip install qsharp
 ```
 
 ### Commands
@@ -25,17 +22,11 @@ export PATH=$PATH:$HOME/.dotnet
 # Full build + test
 ./build.sh
 
-# Build library only
-cd src/qblas/qblas && dotnet build
+# Or run tests directly
+python tools/run_all_tests.py
 
-# Build tests only
-cd src/qblas/test && dotnet build
-
-# Run tests
-cd src/qblas/test && dotnet run
-
-# Clean
-./build.sh clean
+# Compile Q# library only (syntax check)
+python3.11 -c "import qsharp; qsharp.eval(open('src/qblas/qblas/q_com.qs').read())"
 ```
 
 ## Code Conventions
@@ -91,27 +82,22 @@ cd src/qblas/test && dotnet run
 
 **CORRECT pattern** (operation type):
 ```qsharp
-// Good: operation type with adjoint+controlled
-newtype qsvt_block_oracle = ((Qubit[], Qubit[]) => Unit is Adj + Ctl);
+// Correct: single parens for tuple type
+newtype qsvt_block_oracle = (Qubit[], Qubit[]) => Unit is Adj + Ctl;
 ```
 
-**WRONG pattern** (function type - causes QS5021 errors):
+**WRONG pattern** (extra wrapping parens - causes parse error in new QDK):
 ```qsharp
-// Bad: extra parentheses make this a function returning operation
-newtype qsvt_block_oracle = (((Qubit[], Qubit[]) => Unit is Adj + Ctl));
+// Bad: extra outer parentheses
+newtype qsvt_block_oracle = ((Qubit[], Qubit[]) => Unit is Adj + Ctl);
 ```
 
 ### Operation Signatures
 
 Operations that need adjoint/controlled should use `body (...)` with explicit specializations:
 ```qsharp
-operation q_gemv(...) : Unit {
-    body {
-        // implementation
-    }
-    adjoint auto;
-    controlled auto;
-    controlled adjoint auto;
+operation q_gemv(...) : Unit is Adj + Ctl {
+    // implementation
 }
 ```
 
@@ -191,33 +177,30 @@ for (i in 1 .. n - 1) {
 ```
 
 ### 3. Q# Version Compatibility
-- Project uses Q# 0.28.x
-- Deprecation warnings (QS3306, QS3003) are pre-existing and do not block compilation
-- All 308 tests pass
+- Project uses QDK 1.28.0 (Rust/Python-based Q# compiler)
+- Modern Q# syntax, no deprecation warnings
+- All 310 tests pass
 
 ## Test Patterns
 
 ### Test Operation Signature
 ```qsharp
 operation test_<module>_<name>(p : Int) : <ReturnType> {
-    body {
-        // test implementation
-        return <expected_value>;
-    }
+    // test implementation (no body { } wrapper)
+    return <expected_value>;
 }
 ```
 
-### Test Entry Point (Driver.cs)
-```csharp
-// C# test runner pattern
-Console.WriteLine("\n[Test N] test_name");
-var res = test_name.Run(sim, 0).Result;
-Console.WriteLine($"  result = {res}");
+### Test Entry Point (Python runner)
+```python
+# Python test runner pattern (tools/run_all_tests.py)
+result = qsharp.eval(f"Quantum.test.{op_name}({arg})")
+print(f"  {op_name}({arg}) = {result}")
 ```
 
 ### Running Tests
-- All tests run via `dotnet run` in test directory
-- Tests use `QuantumSimulator` for execution
+- All tests run via `python tools/run_all_tests.py` (or `./build.sh`)
+- Tests use QDK 1.28 Rust native simulator (not .NET QuantumSimulator)
 - Return types: `Double`, `Int`, `Result` (One/Zero)
 
 ## Adding New Modules
@@ -226,8 +209,8 @@ Console.WriteLine($"  result = {res}");
 1. Create `q_<module>.qs` in `src/qblas/qblas/`
 2. Implement operations/functions following naming conventions
 3. Add tests to `test_gemv_gemm.qs` or new test file
-4. Add test entries to `Driver.cs`
-5. Build and verify: `dotnet build && dotnet run`
+4. Add test entries to Python runner (`tools/run_all_tests.py`)
+5. Build and verify: `python tools/run_all_tests.py`
 
 ### Module Template
 ```qsharp
@@ -235,8 +218,8 @@ namespace qblas
 {
     open Microsoft.Quantum.Intrinsic;
     open Microsoft.Quantum.Canon;
-    open Microsoft.Quantum.Convert;
-    open Microsoft.Quantum.Math;
+    import Std.Convert.*;
+    import Std.Math.*;
 
     // ============================================================
     // Module Description
@@ -246,13 +229,11 @@ namespace qblas
     // ============================================================
 
     // Oracle types (if needed)
-    newtype q_<type>_oracle = ...;
+    newtype q_<type>_oracle = (Qubit[], Qubit[], Qubit[]) => Unit is Adj + Ctl;
 
     // Core operations
-    operation q_<module>_core(...) : Unit {
-        body (...) {
-            // implementation
-        }
+    operation q_<module>_core(...) : Unit is Adj + Ctl {
+        // implementation
     }
 
     // Helper functions
@@ -266,16 +247,24 @@ namespace qblas
 
 ```
 qblas/
+├── qsharp.json                   # Q# project manifest (QDK 1.28)
+├── .gitignore
 ├── src/qblas/
-│   ├── qblas/                    # Core library
-│   │   ├── qblas.csproj         # Q# library project
+│   ├── qblas/                    # Core library (55 modules)
 │   │   ├── q_*.qs              # Quantum operations
-│   │   └── qsvt_block_oracle   # Block encoding oracle type
+│   │   ├── qblas.csproj        # (legacy, retained for reference)
+│   │   └── test_package_ref.csproj  # (legacy)
 │   └── test/                     # Test suite
-│       ├── test.csproj           # Test project
-│       ├── Driver.cs            # C# test runner
-│       └── test*.qs             # Q# test operations
-├── build.sh                       # Build script
+│       ├── test*.qs             # Q# test operations
+│       ├── Driver.cs            # (legacy C# runner, retained)
+│       └── test.csproj          # (legacy)
+├── tools/                         # Python test & migration tools
+│   ├── run_all_tests.py         # Python test runner (replaces Driver.cs)
+│   ├── migrate_qsharp.py        # Q# syntax migrator (body->is Adj+Ctl)
+│   ├── fix_for_loops.py         # for(->for loop fix
+│   ├── fix_remaining.py         # import/math function fix
+│   └── fix_using.py             # using->use fix
+├── build.sh                       # Build/test script
 ├── README.md                     # Project documentation
 └── doc/
     └── qblas-develop-report.md   # Technical analysis
@@ -311,15 +300,15 @@ qblas/
 
 ### Git Workflow
 ```bash
-# Version bump (auto-increment patch version on every commit)
-# Current: v0.2.9 -> next: v0.2.10
-# Update version in README.md before committing
+# Version bump (update version in README.md + qsharp.json before committing)
+# Current: v0.3.0 -> next: v0.3.1
+# Update version in README.md, qsharp.json before committing
 
 # Stage files
 git add src/qblas/qblas/q_newmodule.qs
 git add src/qblas/test/test_newmodule.qs
-git add src/qblas/test/Driver.cs
-git add README.md  # version bump
+git add tools/run_all_tests.py  # add test entries
+git add README.md qsharp.json  # version bump
 
 # Commit with descriptive message
 git commit -m "feat: add q_newmodule with operations..."
@@ -414,3 +403,18 @@ git commit -m "feat: add q_newmodule with operations..."
 - `q_kernel.qs`: Quantum kernel matrix entry computation via SWAP test (1 new op)
 
 **Total: 18 new quantum operations, 308 tests pass**
+
+### v0.3.0 - QDK 1.28 Migration
+
+- Full migration from .NET-based QDK 0.28.x (archived qsharp-compiler) to Rust/Python-based QDK 1.28.0
+- Syntax transformations across all 60 .qs files:
+  - `body { ... } adjoint auto;` → `is Adj + Ctl` annotation (149 operations)
+  - `for (...)` → `for ...` (555 instances)
+  - `using (qs = ...)` → `use qs = ...` (16 instances)
+  - `PowD(a,b)` → `a ^ b`, `ExpD(x)` → `E() ^ x`
+  - `open Microsoft.Quantum.{Math,Convert}` → `import Std.{Math,Convert}.*`
+  - NewType: `((...))` → `(...)` (removed extra wrapping parens)
+  - `new Qubit[n]` → array concatenation; `new (Qubit[])` → incremental build
+- Test system: C# `Driver.cs` + `QuantumSimulator` → Python `tools/run_all_tests.py` + Rust native simulator
+- Build: .NET 6.0 + `dotnet build` → Python 3.10+ + `pip install qsharp`
+- **Total: 310 tests pass, zero old syntax patterns remaining**

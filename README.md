@@ -4,7 +4,7 @@ QBLAS(Quantum BLAS).   License: GPL v3.
 
 An open source quantum basic linear algebra and quantum simulation library.
 
-Developed with Q#.
+Developed with Microsoft Q# and Python (QDK 1.28.0).
 
 Version: v_0.3.0
 
@@ -47,26 +47,22 @@ QBLAS files structure:
 
 How to use it:
 
-    1. Install ".NET SDK 6.0" (https://dotnet.microsoft.com/download/dotnet/6.0)
+    1. Install QDK 1.28.0 (Python package):
 
-        For Ubuntu x64:
-            1) Download from (https://dotnet.microsoft.com/download/dotnet/thank-you/sdk-6.0.412-linux-x64-binaries)
-            2) Extract to $HOME/dotnet:
-                    mkdir -p $HOME/dotnet && tar zxf dotnet-sdk-6.0.412-linux-x64.tar.gz -C $HOME/dotnet
-            3) Set environment variables:
-                    export DOTNET_ROOT=$HOME/dotnet
-                    export PATH=$PATH:$HOME/dotnet
+            pip install qsharp
 
-    2. Build QBLAS:
+        Requires Python 3.10 or later.
+
+    2. Run all 310 tests:
 
             ./build.sh
 
-    3. Test QBLAS:
+        Or directly:
 
-            ./build.sh --test
+            python tools/run_all_tests.py
 
-    Note: Q# 0.28.x and .NET 6.0 are pre-configured in the build script.
-          For manual control, set DOTNET_ROOT=~/.dotnet before running dotnet commands.
+    Note: QBLAS uses QDK 1.28.0 (Rust/Python-based Q# compiler).
+          Legacy .NET-based files (.csproj, Driver.cs) retained for reference only.
 
 [Branch]
 
