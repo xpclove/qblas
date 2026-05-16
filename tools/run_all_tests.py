@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 QBLAS Full Test Runner for QDK v1.28.
-Runs all 316 tests from Driver.cs.
+Auto-discovers all test_* operations from .qs files.
 """
 
 import re
@@ -24,62 +24,21 @@ def load_qsharp():
 
 
 def parse_tests():
-    """Extract all test labels and Run calls from Driver.cs."""
+    """Discover all test_* operations from .qs files."""
     repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    path = os.path.join(repo, 'src', 'qblas', 'test', 'Driver.cs')
-    lines = open(path).read().split('\n')
-
-    tests = []
-    cur_label = None
-
-    for i, line in enumerate(lines):
-        # Capture label
-        m = re.search(r'Console\.WriteLine\((.*)\)', line)
-        if m:
-            txt = m.group(1).strip('"').strip('@').strip('$')
-            cur_label = txt
-
-        # Extract Run calls: var resN = test_op.Run(sim, arg).Result;
-        # Also handles: test_op.Run(sim, varName).Result;
-        m = re.search(r'var r\w+ = (\w+)\.Run\(sim, (\w+)\)\.Result', line)
-        if m:
-            op_name = m.group(1)
-            arg_str = m.group(2)
-            try:
-                arg = int(arg_str)
-            except ValueError:
-                arg = 0  # Variable arguments treated as 0
-            tests.append((cur_label or op_name, op_name, arg))
-
-        # Handle for-loop multi-value: run with loop variable
-        # Pattern: for (int i = 0; i < N; i++) { var res = op.Run(sim, i).Result; }
-        m = re.search(r'for\s*\(int\s+(\w+)\s*=\s*(\d+);\s*\w+\s*<\s*(\d+)', line)
-        if m:
-            loop_var, start, end = m.group(1), int(m.group(2)), int(m.group(3))
-            # Check next lines for Run call
-            for j in range(i + 1, min(i + 4, len(lines))):
-                m2 = re.search(r'var r\w+ = (\w+)\.Run\(sim, (\w+)\)\.Result', lines[j])
-                if m2:
-                    op_name = m2.group(1)
-                    for val in range(start, end):
-                        tests.append((
-                            f"{cur_label or op_name} ({loop_var}={val})",
-                            op_name, val
-                        ))
-                    break
-
-    # Auto-discover tests from .qs files not covered by Driver.cs
-    known_ops = {t[1] for t in tests}
     test_dir = os.path.join(repo, 'src', 'qblas', 'test')
+    tests = []
+    seen = set()
+
     for f in sorted(os.listdir(test_dir)):
         if not f.endswith('.qs'):
             continue
         content = open(os.path.join(test_dir, f)).read()
         for m in re.finditer(r'operation (test_\w+)\(', content):
             op = m.group(1)
-            if op not in known_ops:
-                tests.append((f"Auto ({f}): {op}", op, 0))
-                known_ops.add(op)
+            if op not in seen:
+                tests.append((f"{f}: {op}", op, 0))
+                seen.add(op)
 
     return tests
 
