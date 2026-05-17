@@ -17,13 +17,13 @@ namespace qblas
 // ============================================================
 
     // Hadamard + S gate = Hy (approximation of Y rotation)
-    operation Hy(qs : Qubit) : Unit is Adj + Ctl {
+    operation Hy(qs : Qubit) : Unit  is Adj + Ctl {
         H(qs);
         S(qs);
     }
 
     // Walk operator W: H on each qubit, then CNOT from a to b
-    operation q_walk_op_W(qs_a : Qubit[], qs_b : Qubit[]) : Unit is Adj + Ctl {
+    operation q_walk_op_W(qs_a : Qubit[], qs_b : Qubit[]) : Unit  is Adj + Ctl {
         let nbit = Length(qs_a);
         for i in 0 .. nbit - 1 {
             CNOT(qs_a[i], qs_b[i]);
@@ -50,7 +50,7 @@ namespace qblas
     // ============================================================
 
     // T gate simulation: SWAP * exp(-i*t) via walk operators
-    operation q_walk_simulation_C_T(qs_a : Qubit[], qs_b : Qubit[], qs_controls : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_C_T(qs_a : Qubit[], qs_b : Qubit[], qs_controls : Qubit[], t : Double) : Unit  is Adj + Ctl {
         let nbit = Length(qs_a);
         let angle = 2.0 * t;
         use qs_tmp = Qubit[1];
@@ -60,12 +60,12 @@ namespace qblas
         (Adjoint q_walk_op_A)(qs_a, qs_b, qs_bit);
     }
 
-    operation q_walk_simulation_C_SWAP(qs_controls : Qubit[], qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_C_SWAP(qs_controls : Qubit[], qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_C_T(qs_a, qs_b, qs_controls, t);
     }
 
     // T gate without control (uncontrolled version)
-    operation q_walk_simulation_T(qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_T(qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit  is Adj + Ctl {
         let angle = 2.0 * t;
         use qs_tmp = Qubit[1];
         let qs_bit = qs_tmp[0];
@@ -74,7 +74,7 @@ namespace qblas
         (Adjoint q_walk_op_A)(qs_a, qs_b, qs_bit);
     }
 
-    operation q_walk_simulation_SWAP(qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_SWAP(qs_a : Qubit[], qs_b : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_T(qs_a, qs_b, t);
     }
 
@@ -83,7 +83,7 @@ namespace qblas
     // ============================================================
 
     // Positive float rotation F_p
-    operation q_walk_simulation_F_p(qs_weight : Qubit[], t : Double, n_bits_float : Int) : Unit is Adj + Ctl {
+    operation q_walk_simulation_F_p(qs_weight : Qubit[], t : Double, n_bits_float : Int) : Unit  is Adj + Ctl {
         let nbit = Length(qs_weight);
         for i in 0 .. nbit - 1 {
             let fi = IntAsDouble(i);
@@ -95,7 +95,7 @@ namespace qblas
     }
 
     // Negative float rotation F_n
-    operation q_walk_simulation_F_n(qs_weight : Qubit[], t : Double, n_bits_float : Int) : Unit is Adj + Ctl {
+    operation q_walk_simulation_F_n(qs_weight : Qubit[], t : Double, n_bits_float : Int) : Unit  is Adj + Ctl {
         let nbit = Length(qs_weight);
         for i in 0 .. nbit - 1 {
             let fi = IntAsDouble(i);
@@ -124,7 +124,7 @@ namespace qblas
     // ============================================================
 
     // T gate with sF rotation (float-weighted)
-    operation q_walk_simulation_T_sF(qs_a : Qubit[], qs_b : Qubit[], qs_control : Qubit, qs_weight : Qubit[], n_bits_float : Int, t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_T_sF(qs_a : Qubit[], qs_b : Qubit[], qs_control : Qubit, qs_weight : Qubit[], n_bits_float : Int, t : Double) : Unit  is Adj + Ctl {
         let nbit = Length(qs_weight);
         let qs_sign = qs_weight[nbit - 1];
         q_walk_op_A(qs_a, qs_b, qs_sign);
@@ -133,7 +133,7 @@ namespace qblas
     }
 
     // T gate with R rotation (simple version)
-    operation q_walk_simulation_T_R(Rp : Pauli, qs_a : Qubit[], qs_b : Qubit[], qs_weight : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_T_R(Rp : Pauli, qs_a : Qubit[], qs_b : Qubit[], qs_weight : Qubit[], t : Double) : Unit  is Adj + Ctl {
         let nbit = Length(qs_weight);
         let qs_sign = qs_weight[nbit - 1];
         q_walk_op_A(qs_a, qs_b, qs_sign);
@@ -152,7 +152,7 @@ namespace qblas
     }
 
     // Controlled T gate with R rotation
-    operation q_walk_simulation_C_T_R(qs_controls : Qubit[], Rp : Pauli, qs_a : Qubit[], qs_b : Qubit[], qs_weight : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_C_T_R(qs_controls : Qubit[], Rp : Pauli, qs_a : Qubit[], qs_b : Qubit[], qs_weight : Qubit[], t : Double) : Unit  is Adj + Ctl {
         let nbit = Length(qs_weight);
         let qs_sign = qs_weight[nbit - 1];
         q_walk_op_A(qs_a, qs_b, qs_sign);
@@ -225,27 +225,27 @@ namespace qblas
     // Type-specific 1-sparse matrix simulations
     // ============================================================
 
-    operation q_walk_simulation_matrix_1_sparse_bool(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_bool(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(0, matrix_A, qs_state, t);
     }
 
-    operation q_walk_simulation_matrix_1_sparse_integer(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_integer(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(1, matrix_A, qs_state, t);
     }
 
-    operation q_walk_simulation_matrix_1_sparse_real(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_real(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(2, matrix_A, qs_state, t);
     }
 
-    operation q_walk_simulation_matrix_1_sparse_imagebool(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_imagebool(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(3, matrix_A, qs_state, t);
     }
 
-    operation q_walk_simulation_matrix_1_sparse_imageinteger(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_imageinteger(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(4, matrix_A, qs_state, t);
     }
 
-    operation q_walk_simulation_matrix_1_sparse_imagereal(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_imagereal(matrix_A : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(5, matrix_A, qs_state, t);
     }
 
@@ -253,7 +253,7 @@ namespace qblas
     // Complex matrix simulation (real + imaginary)
     // ============================================================
 
-    operation q_walk_simulation_matrix_1_sparse_complex(matrix_A_real : q_matrix_1_sparse_oracle, matrix_A_image : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double, N : Int) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_complex(matrix_A_real : q_matrix_1_sparse_oracle, matrix_A_image : q_matrix_1_sparse_oracle, qs_state : Qubit[], t : Double, N : Int) : Unit  is Adj + Ctl {
         let nbit = Length(qs_state);
         let dt = t / IntAsDouble(N);
         for i in 0 .. N - 1 {
@@ -266,11 +266,11 @@ namespace qblas
     // Type dispatchers
     // ============================================================
 
-    operation q_walk_simulation_matrix_1_sparse_type(matrix_type : Int, matrix : q_matrix_1_sparse_oracle, qs_u : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_matrix_1_sparse_type(matrix_type : Int, matrix : q_matrix_1_sparse_oracle, qs_u : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_matrix_1_sparse_core(matrix_type, matrix, qs_u, t);
     }
 
-    operation q_walk_simulation_C_matrix_1_sparse_type(qs_controls : Qubit[], matrix_type : Int, matrix : q_matrix_1_sparse_oracle, qs_u : Qubit[], t : Double) : Unit is Adj + Ctl {
+    operation q_walk_simulation_C_matrix_1_sparse_type(qs_controls : Qubit[], matrix_type : Int, matrix : q_matrix_1_sparse_oracle, qs_u : Qubit[], t : Double) : Unit  is Adj + Ctl {
         q_walk_simulation_C_matrix_1_sparse_core(qs_controls, matrix_type, matrix, qs_u, t);
     }
 }

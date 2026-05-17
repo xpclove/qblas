@@ -179,14 +179,13 @@ namespace qblas.applications
 
         // Allocate quantum registers
         use qs_state = Qubit[2];
-        use qs_phase = Qubit[2];
 
         // Step 1: Prepare quantum state from sample data
         // Sample 0 features: [1.0, 0.5]
         q_demo_prepare_state(qs_state, [1.0, 0.5]);
 
         // Step 2: Apply QFT preprocessing
-        // Transforms to Fourier basis for analysis
+        // Transforms to Fourier basis for frequency-domain analysis
         q_fft(qs_state);
 
         // Step 3: PCA explained variance (classical computation)
@@ -194,16 +193,16 @@ namespace qblas.applications
         let explained = q_pca_explained_var(eigenvalues);
         let n_pc = Length(explained);
 
-        // Step 4: Select regularization parameter
+        // Step 4: Select regularization parameter via cross-validation
         let lambda_opt = q_rls_lambda_cv(4, 10.0, 1e-6);
 
-        // Step 5: Compute effective condition number
+        // Step 5: Compute effective condition number for ridge regression
         let cond_eff = q_ridge_effective_cond(10.0, lambda_opt);
 
-        // Step 6: Amplification planning
+        // Step 6: Amplification planning (optimal iterations for 50% success)
         let n_amp = q_qaa_optimal_iterations(0.5, 10);
 
-        // Step 7: State reflection (amplification primitive)
+        // Step 7: State reflection (amplification primitive from q_qaa)
         q_qaa_state_reflection(qs_state);
 
         // Measure result
@@ -211,7 +210,6 @@ namespace qblas.applications
         let m1 = M(qs_state[1]) == One ? 2 | 0;
 
         ResetAll(qs_state);
-        ResetAll(qs_phase);
 
         // Return comprehensive result encoding pipeline steps:
         // bits 0-1: measurement result (0-3)

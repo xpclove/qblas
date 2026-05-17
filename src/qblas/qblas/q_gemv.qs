@@ -131,7 +131,7 @@ namespace qblas
         matrix_A : q_matrix_1_sparse_oracle,
         qs_state : Qubit[],
         qs_work : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         // Apply A
         q_gemv(matrix_A, qs_state, qs_work, PI() / 4.0);
     }

@@ -31,7 +31,7 @@ namespace qblas
         qs_b : Qubit[],
         qs_c : Qubit[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         // C = A * B applied to quantum state.
         // For 1-sparse matrices A, B, the product C = A*B is at most 1-sparse.
         // Apply B then A sequentially on the state register qs_a.
@@ -58,7 +58,7 @@ namespace qblas
         qs_c : Qubit[],
         time : Double,
         n_iter : Int
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let dt = time / IntAsDouble(n_iter);
         for i in 0 .. n_iter - 1 {
             q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, dt);
@@ -76,7 +76,7 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let n = Length(qs_a);
         let n_block = n / block_size;
         let dt = PI() / 8.0;
@@ -102,7 +102,7 @@ namespace qblas
         qs_diag : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let n = Length(diag);
         for i in 0 .. n - 1 {
             let norm_d = Sqrt(SquaredNorm(diag));
@@ -124,7 +124,7 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         // C = A^T * B: apply B then A^T on state register.
         // A^T walk uses the same oracle (transpose of 1-sparse is 1-sparse).
         let dt = PI() / 4.0;
@@ -142,7 +142,7 @@ namespace qblas
         qs_a : Qubit[],
         qs_diag : Qubit[],
         qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let n = Length(diag);
         let dt = PI() / 4.0;
         let norm_d = Sqrt(SquaredNorm(diag));
@@ -172,7 +172,7 @@ namespace qblas
         qs_a : Qubit[],
         qs_b : Qubit[],
         qs_c : Qubit[]
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         q_walk_simulation_matrix_1_sparse_real(oracle_B, qs_b, PI() / 4.0);
         q_walk_simulation_matrix_1_sparse_real(oracle_A, qs_a, PI() / 4.0);
     }
@@ -186,7 +186,7 @@ namespace qblas
         oracle_B : q_matrix_1_sparse_oracle,
         qs_pairs : (Qubit[], Qubit[], Qubit[])[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         for pair in qs_pairs {
             let (qs_a, qs_b, qs_c) = pair;
             q_gemm(oracle_A, oracle_B, qs_a, qs_b, qs_c, time);
