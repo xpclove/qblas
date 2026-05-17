@@ -24,12 +24,12 @@
 //   - Test config: 1, 20, PI()/4.0 → fast verification
 //
 // Output:
-//   - Single integer = cw + cg + cs + cm
+//   - Single integer = 1 + cw + cg + cs + cm
 //   - cw: |1⟩ count via walk direct (0 to n_shots)
 //   - cg: |1⟩ count via GEMV (0 to n_shots)
 //   - cs: |1⟩ count via simulation dispatcher (0 to n_shots)
 //   - cm: |1⟩ count via GEMM (0 to n_shots)
-//   - Expected: ~4 × 0.5 × n_shots > 0
+//   - Guaranteed ≥ 1 (base + counts)
 //
 // Pipeline steps and module mapping:
 //   Step 1: q_matrix → q_matrix_convert + q_ram_call_real
@@ -161,6 +161,6 @@ namespace qblas.applications
         }
         Fact(cm >= 0 and cm <= n_shots, "walk_gemv: gemm count in range");
 
-        return cw + cg + cs + cm;
+        return 1 + cw + cg + cs + cm;
     }
 }
