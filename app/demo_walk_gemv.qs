@@ -97,7 +97,7 @@ namespace qblas.applications
 
         // Step 2: Walk at t=0 (deterministic: no evolution)
         mutable c0 = 0;
-        for (_) in 0 .. n_shots - 1 {
+        for i in 0 .. n_shots - 1 {
             use qs = Qubit[n_state_qubits];
             q_walk_simulation_matrix_1_sparse_real(oracle, qs, 0.0);
             if (M(qs[0]) == One) {
@@ -109,7 +109,7 @@ namespace qblas.applications
 
         // Step 3: Walk at t>0 (probabilistic)
         mutable cw = 0;
-        for (_) in 0 .. n_shots - 1 {
+        for i in 0 .. n_shots - 1 {
             use qs = Qubit[n_state_qubits];
             q_walk_simulation_matrix_1_sparse_real(oracle, qs, t);
             if (M(qs[0]) == One) {
@@ -121,7 +121,7 @@ namespace qblas.applications
 
         // Step 4: GEMV at t>0 (probabilistic)
         mutable cg = 0;
-        for (_) in 0 .. n_shots - 1 {
+        for i in 0 .. n_shots - 1 {
             use qs = Qubit[n_state_qubits];
             use qw = Qubit[n_state_qubits + 1];
             q_gemv(oracle, qs, qw, t);
@@ -135,7 +135,7 @@ namespace qblas.applications
 
         // Step 5: Simulation dispatcher at t>0 (probabilistic)
         mutable cs = 0;
-        for (_) in 0 .. n_shots - 1 {
+        for i in 0 .. n_shots - 1 {
             use qs = Qubit[n_state_qubits];
             q_simulation_matrix_1_sparse_type(2, oracle, qs, t);
             if (M(qs[0]) == One) {
@@ -147,7 +147,7 @@ namespace qblas.applications
 
         // Step 6: GEMM at t>0 (probabilistic, two sequential walks)
         mutable cm = 0;
-        for (_) in 0 .. n_shots - 1 {
+        for i in 0 .. n_shots - 1 {
             use qa = Qubit[n_state_qubits];
             use qb = Qubit[n_state_qubits];
             use qc = Qubit[n_state_qubits];
