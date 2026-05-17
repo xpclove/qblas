@@ -87,7 +87,7 @@ namespace qblas
         qs_hessian : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_x);
 
         for q in 0 .. n - 1 {
@@ -123,7 +123,7 @@ namespace qblas
         qs_hessian : Qubit[],
         qs_grad : Qubit[],
         qs_delta : Qubit[]
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_delta);
         let angle = PI() / 4.0;
 

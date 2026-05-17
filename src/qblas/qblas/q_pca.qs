@@ -168,7 +168,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_eigenvalues : Qubit[],
         threshold : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_state);
         let angle = 2.0 * ArcSin(threshold);
 

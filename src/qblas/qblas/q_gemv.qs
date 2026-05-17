@@ -32,7 +32,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_state);
         let n_work = Length(qs_work);
 
@@ -54,7 +54,7 @@ namespace qblas
         qs_work : Qubit[],
         time : Double,
         n_iter : Int
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let dt = time / IntAsDouble(n_iter);
         for i in 0 .. n_iter - 1 {
             q_gemv(matrix_A, qs_state, qs_work, dt);
@@ -70,7 +70,7 @@ namespace qblas
         qs_vectors : Qubit[][],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         for idx in 0 .. Length(qs_vectors) - 1 {
             q_gemv(matrix_A, qs_vectors[idx], qs_work, time);
         }
@@ -87,7 +87,7 @@ namespace qblas
         super : Double[],
         qs_state : Qubit[],
         qs_work : Qubit[]
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(diag);
         if (Length(qs_state) != n) {
             fail $"Vector size mismatch: {n} vs {Length(qs_state)}";
@@ -110,7 +110,7 @@ namespace qblas
     operation q_gemv_diagonal(
         diag : Double[],
         qs_state : Qubit[]
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(diag);
         let norm_d = Sqrt(SquaredNorm(diag));
 

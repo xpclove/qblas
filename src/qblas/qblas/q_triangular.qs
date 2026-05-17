@@ -98,7 +98,7 @@ namespace qblas
         qs_y : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_y);
 
         for q in 0 .. n - 1 {
@@ -134,7 +134,7 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_x);
 
         for q in 0 .. n - 1 {
@@ -172,7 +172,7 @@ namespace qblas
         qs_work : Qubit[],
         is_lower : Bool,
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         if (is_lower) {
             q_trisol_forward_substitute(oracle, qs_b, qs_x, qs_work, time);
         } else {

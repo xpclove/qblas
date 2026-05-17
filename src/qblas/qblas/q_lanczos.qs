@@ -194,7 +194,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         q_gemv(oracle, qs_state, qs_work, time);
     }
 
@@ -361,7 +361,7 @@ namespace qblas
         n_qubits : Int,
         j_idx : Int,
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let start_vj = j_idx * n_qubits;
         let start_vjp1 = (j_idx + 1) * n_qubits;
         for q in 0 .. n_qubits - 1 {

@@ -207,7 +207,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let num_terms = Length(oracles);
         for i in 0 .. num_terms - 1 {
             q_walk_simulation_matrix_1_sparse_core(i, oracles[i], qs_state, delta);
@@ -237,7 +237,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let num_terms = Length(oracles);
         q_walk_simulation_matrix_1_sparse_core(0, oracles[0], qs_state, delta / 2.0);
         for i in 1 .. num_terms - 1 {
@@ -271,7 +271,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         delta : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let num_terms = Length(oracles);
         for i in 0 .. num_terms - 1 {
             q_walk_simulation_C_matrix_1_sparse_core(qs_controls, i, oracles[i], qs_state, delta);

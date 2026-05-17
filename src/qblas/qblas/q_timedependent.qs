@@ -234,7 +234,7 @@ namespace qblas
         qs_work : Qubit[],
         t_start : Double,
         dt : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let time_step = t_start * dt;
         q_gemv(oracle, qs_state, qs_work, time_step);
     }
@@ -275,7 +275,7 @@ namespace qblas
         qs_work : Qubit[],
         t_span : Double,
         n_steps : Int
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let dt = t_span / IntAsDouble(n_steps);
         for k in 0 .. n_steps - 1 {
             let t_k = IntAsDouble(k) * dt;

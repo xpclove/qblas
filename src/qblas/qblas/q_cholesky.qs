@@ -494,7 +494,7 @@ namespace qblas
         qs_x : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit {
+    ) : Unit is Adj + Ctl {
         let n = Length(qs_b);
         for q in 0 .. n - 1 {
             CNOT(qs_b[q], qs_x[q]);
