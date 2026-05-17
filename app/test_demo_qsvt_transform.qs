@@ -2,10 +2,10 @@
 // Licensed under the GPL v3 License.
 
 // ============================================================
-// Test: VQE Gradient Demo
+// Test: QSVT Polynomial Transformation
 //
-// Verifies all VQE optimization subroutines produce
-// expected outputs. All steps validated via Fact().
+// Verifies: QSP rotation on 8 qubits, measurement, utilities.
+// All classical steps validated via Fact().
 // ============================================================
 
 namespace Quantum.test
@@ -15,9 +15,9 @@ namespace Quantum.test
     open qblas;
     open qblas.applications;
 
-    operation test_demo_vqe_gradient(p : Int) : Int {
-        let result = DemoVqeGradient();
-        Fact(result >= 0, "demo_vqe_gradient: result must be >= 0");
+    operation test_demo_qsvt_transform(p : Int) : Int {
+        let result = DemoQsvtTransform();
+        Fact(result > 0, "demo_qsvt: result must be > 0");
         return result;
     }
 }
