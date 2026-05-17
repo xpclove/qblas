@@ -53,9 +53,9 @@
 //   Step 8:  q_newton → norm, converged, solve
 //
 // Verification:
-//   - Steps 2-8: 14 Fact() assertions on classical functions
+//   - Steps 2-8: 18 Fact() assertions on classical functions
 //   - Steps 2-8: 7 Fact() range checks on quantum operations
-//   - Total: 21 verification points
+//   - Total: 25 verification points
 //
 // Reference:
 //   [1] Golub & Van Loan, "Matrix Computations" (4th ed.)
