@@ -438,6 +438,7 @@ operation test_demo_<name>(p : Int) : Int {
 | `demo_gradient_estimation` | **4** | **9 个** | **8** | **1(必)** |
 | `demo_walk_gemv` | **10** | **6 个** | **11** | **0** |
 | `demo_krylov_arnoldi` | **21** | **4 个** | **20** | **0** |
+| `demo_gmres_cg` | **23** | **4 个** | **14** | **0** |
 
 所有新增 demo 须以此为质量基准。
 
