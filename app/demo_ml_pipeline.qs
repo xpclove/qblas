@@ -9,21 +9,22 @@
 //   quantum ML workflow: data encoding → QFT preprocessing →
 //   PCA dimensionality reduction → regularization selection →
 //   ridge regression configuration → amplitude amplification.
+//   Accepts a feature vector to make the pipeline generic.
 //
 // Input:
-//   Hard-coded 2D sample [1.0, 0.5] representing a data point
-//   with 2 normalized features from a 4-sample training set.
-//   Training data is defined via q_matrix oracle + q_ram.
+//   features: Double[] — feature vector for the test sample.
+//   Demo config:  8 features → 8 qubits (≥ 8 ✓)
+//   Test config:  2 features → 2 qubits
 //
 // Output:
-//   A single integer encoding 3 pieces of information:
-//     bits 0-1: quantum measurement of |ψ⟩ after QFT + reflection
-//               (2-bit result, 0-3, varies per run due to QM)
+//   A single integer encoding:
+//     lower n_qubits bits: quantum measurement (0 to 2^n - 1)
 //     bits 2-3: number of principal components (always 2)
 //     bits 4-5: amplification iterations (0 for 50% success prob)
 //
-//   Expected range: 4-15 (measurement 0-3 + PC dims = 8 always)
-//   Typical result: ~10 (measurement ≈ 2 + 8 = 10)
+//   Expected range: depends on n_qubits (min = 8, max = 2^n + 8)
+//   Demo (8 features):  typical result ~ 8 + 8 + 0 = 16
+//   Test (2 features):  typical result ~ 2 + 8 + 0 = 10
 //
 // Pipeline steps and module mapping:
 //   Step 1: q_matrix + q_ram   → Data oracle definition
@@ -177,13 +178,15 @@ namespace qblas.applications
     //   q_ridge_regression, q_regularized_ls, q_amplitude_amplification
     // ============================================================
 
-    operation DemoMLPipeline() : Int {
+    operation DemoMLPipeline(features : Double[]) : Int {
         let oracle = q_matrix_1_sparse_oracle(q_demo_data_oracle);
+        let n_qubits = Length(features);
+        if (n_qubits < 1) { return -1; }
 
-        use qs_state = Qubit[2];
+        use qs_state = Qubit[n_qubits];
 
         // Step 1: Amplitude encode sample using q_vector module
-        q_vector_amplitude_encode([1.0, 0.5], qs_state);
+        q_vector_amplitude_encode(features, qs_state);
 
         // Step 2: QFT preprocessing
         q_fft(qs_state);
@@ -211,12 +214,16 @@ namespace qblas.applications
         // Step 7: State reflection
         q_qaa_state_reflection(qs_state);
 
-        // Measure and return
-        let m0 = M(qs_state[0]) == One ? 1 | 0;
-        let m1 = M(qs_state[1]) == One ? 2 | 0;
+        // Measure all qubits and encode result
+        mutable m_result = 0;
+        for i in 0 .. n_qubits - 1 {
+            if (M(qs_state[i]) == One) {
+                set m_result += (1 <<< i);
+            }
+        }
 
         ResetAll(qs_state);
 
-        return m0 + m1 + (n_pc * 4) + (n_amp * 16);
+        return m_result + (n_pc * 4) + (n_amp * 16);
     }
 }

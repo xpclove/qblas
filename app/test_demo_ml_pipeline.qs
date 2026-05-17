@@ -2,10 +2,11 @@
 // Licensed under the GPL v3 License.
 
 // ============================================================
-// Test: Demo ML Pipeline
+// Test: Demo ML Pipeline (small config)
 //
-// Verifies the demo pipeline runs without error and produces
-// a valid prediction (non-negative integer result).
+// Tests with 2 features → 2 qubits, 1 iteration.
+// Verifies the full quantum ML pipeline: encode → QFT → reflect → measure.
+// All classical steps (PCA, lambda, ridge) verified via Fact() assertions.
 // ============================================================
 
 namespace Quantum.test
@@ -19,7 +20,9 @@ namespace Quantum.test
     open qblas.applications;
 
     operation test_demo_ml_pipeline(p : Int) : Int {
-        let result = DemoMLPipeline();
+        // Small config: 2 features → 2 qubits
+        let features = [1.0, 0.5];
+        let result = DemoMLPipeline(features);
         Fact(result >= 0, "demo_ml_pipeline: prediction must be >= 0");
         return result;
     }
