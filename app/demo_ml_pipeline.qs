@@ -4,24 +4,44 @@
 // ============================================================
 // Demo: Quantum Machine Learning Pipeline
 //
-// Purpose: Demonstrates QBLAS's modular quantum algorithms
-// working together to solve a regression problem.
+// What it does:
+//   Demonstrates 8 QBLAS modules working together in a complete
+//   quantum ML workflow: data encoding → QFT preprocessing →
+//   PCA dimensionality reduction → regularization selection →
+//   ridge regression configuration → amplitude amplification.
 //
-// Pipeline:
-//   1. Define data matrix oracle via q_matrix + q_ram
-//   2. Encode sample data as quantum state (q_vector)
-//   3. Quantum Fourier Transform preprocessing (q_fft)
-//   4. PCA dimensionality reduction planning (q_pca)
-//   5. Regularization parameter selection (q_regularized_ls)
-//   6. Ridge regression configuration (q_ridge_regression)
-//   7. Amplitude amplification (q_amplitude_amplification)
+// Input:
+//   Hard-coded 2D sample [1.0, 0.5] representing a data point
+//   with 2 normalized features from a 4-sample training set.
+//   Training data is defined via q_matrix oracle + q_ram.
 //
-// Modules used: q_matrix, q_ram, q_vector, q_fft, q_pca,
-//               q_ridge_regression, q_regularized_ls,
-//               q_amplitude_amplification, q_phase_estimate
+// Output:
+//   A single integer encoding 3 pieces of information:
+//     bits 0-1: quantum measurement of |ψ⟩ after QFT + reflection
+//               (2-bit result, 0-3, varies per run due to QM)
+//     bits 2-3: number of principal components (always 2)
+//     bits 4-5: amplification iterations (0 for 50% success prob)
 //
-// Data: 2 features × 4 samples
-//       y = 0.5·x₁ + 0.25·x₂ (linear regression)
+//   Expected range: 4-15 (measurement 0-3 + PC dims = 8 always)
+//   Typical result: ~10 (measurement ≈ 2 + 8 = 10)
+//
+// Pipeline steps and module mapping:
+//   Step 1: q_matrix + q_ram   → Data oracle definition
+//   Step 2: q_vector           → Quantum state preparation
+//   Step 3: q_fft              → QFT preprocessing
+//   Step 4: q_pca              → PCA explained variance
+//   Step 5: q_regularized_ls   → Lambda cross-validation
+//   Step 6: q_ridge_regression → Effective condition number
+//   Step 7: q_amplification    → Amplitude amplification planning
+//   Step 8: measurement        → Result readout
+//
+// Verification:
+//   Steps 4-7 use Fact() assertions to validate expected values:
+//     PCA variance ratios: [0.65789, 0.34211]
+//     Lambda (CV):         1e-7
+//     Effective cond:      9.999950000374998
+//     Amplification iters: 0
+//   Any deviation from these expected values causes test failure.
 //
 // Reference: Schuld & Petruccione,
 //            "Machine Learning with Quantum Computers" (2021)
