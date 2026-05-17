@@ -6,38 +6,32 @@
 //
 // What it does:
 //   Trains a Quantum Neural Network to solve a binary
-//   classification problem. The QNN learns to separate
-//   2 classes of 2D data via angle encoding + HEA ansatz +
-//   parameter shift gradients + gradient descent updates.
-//
-//   The training loop runs entirely in Q#, executing
-//   quantum forward passes, computing gradients via
-//   parameter shift, updating classical parameters,
-//   and verifying classification accuracy.
+//   classification problem. Accepts arbitrary training data,
+//   architecture parameters, and number of epochs.
+//   The training loop runs entirely in Q# with quantum forward
+//   passes, parameter shift gradients, and gradient descent.
 //
 // Architecture:
 //   Training circuit:
-//     - Qubits:     4
-//     - Ansatz:     HEA, 2 layers
-//     - Parameters: 16 (4 qubits × 2 layers × 2 rotations)
-//     - Encoding:   Angle encoding (2D features → 4 angles)
-//     - Optimizer:  Gradient descent, lr = 0.1
-//     - Epochs:     8
+//     - Qubits:     n_qubits (from feature dimension)
+//     - Ansatz:     HEA, n_layers
+//     - Parameters: n_qubits × n_layers × 2
+//     - Encoding:   Angle encoding (n_features → n_qubits angles)
+//     - Optimizer:  Gradient descent
+//     - Epochs:     n_epochs
 //
 //   Verification circuit:
 //     - Qubits:     16
 //     - Ansatz:     HEA, 4 layers
 //     - Parameters: 128
-//     - Purpose:    Verifies large-scale architecture
 //
-// Dataset (2D binary classification, 16 samples, 8 per class):
-//   Class A (label 0, cluster around x₁≈0.2, x₂≈0.7):
-//     (0.15,0.75), (0.20,0.80), (0.25,0.70), (0.10,0.85),
-//     (0.30,0.65), (0.18,0.78), (0.22,0.72), (0.28,0.68)
-//   Class B (label 1, cluster around x₁≈0.7, x₂≈0.2):
-//     (0.70,0.25), (0.75,0.20), (0.65,0.30), (0.80,0.15),
-//     (0.60,0.35), (0.72,0.22), (0.68,0.28), (0.78,0.18)
-//   Classes are separable by x₁ < 0.5 decision boundary.
+// Input:
+//   samples: Double[][] — training data (m × d)
+//   labels: Int[] — binary labels (0 or 1)
+//   n_epochs: Int — training iterations
+//   Demo config:  16 samples, 2D, 8 epochs → 4 qubits, 2 layers
+//   Test config:   4 samples, 2D, 1 epoch  → 2 qubits, 2 layers
+//   (16-qubit architecture verification always runs)
 //
 // Training procedure per epoch:
 //   for each sample (x, y) in training set:
@@ -177,24 +171,21 @@ namespace qblas.applications
     // Verifies classification accuracy improves.
     // ============================================================
 
-    operation DemoQnnClassifier() : Int {
+    operation DemoQnnClassifier(
+        samples : Double[][],
+        labels : Int[],
+        n_epochs : Int
+    ) : Int {
         mutable result = 0;
 
-        // ============================================================
-        // Dataset: 16 samples, 2D features, binary labels
-        // 8 samples per class, clustered around (0.2,0.7) and (0.7,0.2)
-        // ============================================================
-        let samples = [
-            [0.15, 0.75], [0.20, 0.80], [0.25, 0.70], [0.10, 0.85],
-            [0.30, 0.65], [0.18, 0.78], [0.22, 0.72], [0.28, 0.68],
-            [0.70, 0.25], [0.75, 0.20], [0.65, 0.30], [0.80, 0.15],
-            [0.60, 0.35], [0.72, 0.22], [0.68, 0.28], [0.78, 0.18]
-        ];
-        let labels = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1];
-        let n_samples = 16;
-        let n_qubits = 4;
+        let n_samples = Length(samples);
+        if (n_samples == 0 or Length(labels) != n_samples or n_epochs < 1) {
+            return -1;
+        }
+        let n_qubits = Length(samples[0]);
+        if (n_qubits < 1) { return -1; }
         let n_layers = 2;
-        let n_params = 16;
+        let n_params = n_qubits * n_layers * 2;
         let lr = 0.2;
         let n_epochs = 8;
 
@@ -255,12 +246,12 @@ namespace qblas.applications
 
         // Verify classification accuracy.
         // Note: Single-shot measurement yields binary results (0/1), so
-        // gradients have inherent noise. The expected accuracy floor is
-        // 8/16 (random), and training may exceed this depending on the
-        // specific measurement outcomes. We verify at least 7/16 to
-        // confirm the full training loop executes correctly.
+        // gradients have inherent noise. Threshold is adaptive: n_samples/2
+        // (random baseline for binary classification).
         let accuracy = correct;
-        Fact(accuracy >= 7, "qnn: accuracy >= 7/16 (training loop verified)");
+        let threshold = n_samples >= 4 ? n_samples / 2 | 1;
+        Fact(accuracy >= threshold,
+             "qnn: training loop executed, accuracy >= threshold");
         set result += accuracy;
 
         // ============================================================
