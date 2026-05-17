@@ -294,7 +294,7 @@ namespace qblas
         qs_work : Qubit[],
         beta : Double,
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let num_steps = 10;
         let dt = time / IntAsDouble(num_steps);
         for i in 0 .. num_steps - 1 {

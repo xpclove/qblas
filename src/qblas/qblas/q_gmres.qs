@@ -81,7 +81,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         q_gemv(oracle, qs_state, qs_work, time);
     }
 
@@ -214,7 +214,7 @@ namespace qblas
         s : Double,
         i : Int,
         j : Int
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let theta = ArcTan2(s, c);
         Ry(2.0 * theta, qs_h[i]);
         Ry(2.0 * theta, qs_h[j]);

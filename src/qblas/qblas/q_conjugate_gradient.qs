@@ -108,7 +108,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         q_gemv(oracle, qs_state, qs_work, time);
     }
 

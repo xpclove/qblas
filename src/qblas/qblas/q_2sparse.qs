@@ -268,7 +268,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         t : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let nbit = Length(qs_state);
         let dt = t / 10.0;
         for step in 0 .. 9 {
@@ -304,7 +304,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_ancilla : Qubit[],
         t : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let nbit = Length(qs_state);
         let dt = t / 10.0;
         for step in 0 .. 9 {

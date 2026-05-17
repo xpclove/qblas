@@ -372,7 +372,7 @@ namespace qblas
         qs_work : Qubit[],
         phases : Double[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let n_phases = Length(phases);
         let dt = time / IntAsDouble(n_phases);
         for i in 0 .. n_phases - 1 {

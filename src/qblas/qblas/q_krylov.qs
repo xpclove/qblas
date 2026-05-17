@@ -182,7 +182,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         q_gemv(oracle, qs_state, qs_work, time);
     }
 
@@ -213,7 +213,7 @@ namespace qblas
         n_qubits : Int,
         m_steps : Int,
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let total_qs = Length(qs_basis);
         if (total_qs < n_qubits * m_steps) {
             fail $"Insufficient qubits for Krylov basis. Need {n_qubits * m_steps}.";

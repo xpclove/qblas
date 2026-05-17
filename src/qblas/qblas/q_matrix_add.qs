@@ -516,7 +516,7 @@ namespace qblas
         qs_state : Qubit[],
         qs_work : Qubit[],
         time : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let half_time = time / 2.0;
         q_gemv(oracle_A, qs_state, qs_work, half_time);
         q_gemv(oracle_B, qs_state, qs_work, half_time);

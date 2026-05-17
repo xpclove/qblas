@@ -95,7 +95,7 @@ namespace qblas
         qs_x : Qubit[],
         qs_grad : Qubit[],
         learning_rate : Double
-    ) : Unit is Adj + Ctl {
+    ) : Unit {
         let n = Length(qs_x);
         let angle = 2.0 * ArcSin(learning_rate);
 
