@@ -39,8 +39,7 @@
 //   Step 2: q_kernel → q_kernel_apply_feature_map  — Encode centroid state
 //   Step 3: q_swap_test → q_swap_test_core        — SWAP distance estimate
 //   Step 4: M(control)                            — Read distance
-//   Step 5: q_inner_product → q_ip_dot            — Classical distance (verify)
-//   Step 6: q_vector_norm → q_vnorm_distance      — L2 distance verify
+//   Step 5: q_vector_norm → q_vnorm_distance      — Classical L2 distance verify
 //   Step 7: argmin + centroid update              — Classical k-means
 //
 // Verification:
@@ -170,10 +169,8 @@ namespace qblas.applications
         // Initialize centroids with first n_centroids samples
         mutable centroids = [ [0.0, size = n_dims], size = n_centroids ];
         for c in 0 .. n_centroids - 1 {
-            for d in 0 .. n_dims - 1 {
-                if (c < n_samples and d < Length(samples[c])) {
-                    set centroids w/= c <- samples[c];
-                }
+            if (c < n_samples) {
+                set centroids w/= c <- samples[c];
             }
         }
 
@@ -197,8 +194,13 @@ namespace qblas.applications
                     let class_dist = q_vnorm_distance(
                         samples[s], centroids[c]
                     );
+                    let inner = q_ip_dot(
+                        samples[s], centroids[c]
+                    );
                     Fact(class_dist >= 0.0,
                          "kmeans: classical distance must be >= 0");
+                    Fact(inner >= -1e10 and inner <= 1e10,
+                         "kmeans: inner product in valid range");
 
                     // Quantum-classical agreement check
                     // When class_dist < 1, quantum should give 0 (close)
