@@ -16,9 +16,17 @@
 //   Demo config:  n_qubits = 8, n_layers = 2 → 32 params, 8 qubits ≥ 8 ✓
 //   Test config:  n_qubits = 4, n_layers = 1 →  8 params, 4 qubits (fast)
 //
+// Architecture:
+//   - Qubits: n_qubits
+//   - Ansatz: HEA, n_layers
+//   - Parameters: n_qubits × n_layers × 2
+//   - Measurement: M × n_qubits
+//   - Demo: 8 qubits, 2 layers, 32 params
+//   - Test: 4 qubits, 1 layer, 8 params
+//
 // Output:
-//   Single integer encoding 6 test outcomes:
-//     bits 0-4: population count of |1⟩ measurements (0-8)
+//   Single integer encoding:
+//     lower bits: population count of |1⟩ (0 to n_qubits)
 //     bit 5:    HEA forward pass executed
 //     bit 6:    param counting verified
 //     bit 7:    ansatz depth verified
@@ -27,18 +35,17 @@
 //     bit 10:   valid expectation verified
 //
 // Pipeline steps and module mapping:
-//   Step 1: q_vqe → q_vqe_count_params       → Parameter count (32)
-//   Step 2: q_vqe → q_vqe_ansatz_depth        → Circuit depth (48)
-//   Step 3: q_vqe → q_vqe_hea(8 qubits)       → Quantum circuit execution
-//   Step 4: M(qs[i]) × 8                      → Measurement
-//   Step 5: q_vqe → param_shift + gd_step + converged + adam
+//   Step 1: q_vqe → q_vqe_hea(n_qubits, n_layers)  → Quantum circuit execution
+//   Step 2: M × n_qubits                           → Measurement
+//   Step 3: q_vqe → count_params, ansatz_depth      → Architecture verification
+//   Step 4: q_vqe → param_shift + gd_step + converged + adam
 //
 // Verification:
-//   - count_params(8,2,"hea") = 32 (Fact)
-//   - ansatz_depth(8,2,true) = 48 (Fact)
-//   - HEA on 8 qubits runs without error (quantum)
-//   - Measurement statistics in valid range 0-8 (Fact)
-//   - Gradient and optimization functions produce expected values
+//   - HEA on n_qubits runs without error (quantum)
+//   - Measurement pop. count in [0, n_qubits] (Fact)
+//   - count_params = n_qubits × n_layers × 2 (Fact)
+//   - ansatz_depth formula verified (Fact)
+//   - Gradient and optimization functions produce expected values (Fact)
 //
 // Reference:
 //   [1] Kandala et al., "Hardware-efficient variational quantum
