@@ -19,8 +19,8 @@
 //   - Demo config:  17 qubits (d=8, 8 data + 8 centroid + 1 control)
 //   - Test config:   5 qubits (d=2, 2 data + 2 centroid + 1 control)
 //   - Encoding: Angle encoding via q_kernel_apply_feature_map
-//   - Distance: SWAP test → overlap → L2 distance
-//   - Assignment: argmin over distances (classical)
+//   - Distance: SWAP test → overlap = |⟨u|v⟩|² ∈ [-1, 1]
+//   - Assignment: argmax over overlaps (nearest = highest overlap)
 //   - Update: centroid = mean of assigned samples (classical)
 //
 // Input:
@@ -76,16 +76,16 @@ namespace qblas.applications
     // Distance² = 2 - 2×|⟨u|v⟩|²
     // ============================================================
 
-    operation q_demo_qkm_distance(
+    operation q_demo_qkm_overlap(
         sample : Double[],
         centroid : Double[],
-        n_qubits : Int
+        n_qubits : Int,
+        n_shots : Int
     ) : Double {
-        if (n_qubits < 1) { return -1.0; }
+        if (n_qubits < 1 or n_shots < 1) { return -0.5; }
 
-        // Run 5 SWAP test shots for reliable distance estimation
         mutable n_close = 0;
-        for shot in 0 .. 4 {
+        for shot in 0 .. n_shots - 1 {
             use ctl = Qubit();
             use qs_data = Qubit[n_qubits];
             use qs_cent = Qubit[n_qubits];
@@ -102,22 +102,23 @@ namespace qblas.applications
             ResetAll(qs_cent);
         }
 
-        // Majority vote: 3+ close → distance 0 (close), else 2 (far)
-        return n_close >= 3 ? 0.0 | 2.0;
+        // P(0) = 0.5 + 0.5×|⟨u|v⟩|²  →  overlap ≈ 2×P(0) − 1
+        let p_zero = IntAsDouble(n_close) / IntAsDouble(n_shots);
+        return 2.0 * p_zero - 1.0;
     }
 
     // ============================================================
     // Classical k-Means Utilities
     // ============================================================
 
-    // Find index of minimum value in array
-    function q_demo_qkm_argmin(values : Double[]) : Int {
+    // Find index of maximum value in array
+    function q_demo_qkm_argmax(values : Double[]) : Int {
         let n = Length(values);
         if (n == 0) { return -1; }
         mutable best_idx = 0;
         mutable best_val = values[0];
         for i in 1 .. n - 1 {
-            if (values[i] < best_val) {
+            if (values[i] > best_val) {
                 set best_idx = i;
                 set best_val = values[i];
             }
@@ -176,21 +177,24 @@ namespace qblas.applications
 
         mutable assignments = [0, size = n_samples];
 
+        // Set n_shots: small for test (fast), large for demo (accuracy)
+        let n_shots = n_samples <= 4 ? 10 | 50;
+
         // k-Means iterations
         for iter in 0 .. n_iterations - 1 {
 
             // Assignment step: assign each sample to nearest centroid
             for s in 0 .. n_samples - 1 {
-                mutable dists = [0.0, size = n_centroids];
+                mutable overlaps = [0.0, size = n_centroids];
 
                 for c in 0 .. n_centroids - 1 {
-                    // Quantum distance estimation
-                    let qdist = q_demo_qkm_distance(
-                        samples[s], centroids[c], n_dims
+                    // Quantum overlap estimation via SWAP test
+                    let q_overlap = q_demo_qkm_overlap(
+                        samples[s], centroids[c], n_dims, n_shots
                     );
-                    set dists w/= c <- qdist;
+                    set overlaps w/= c <- q_overlap;
 
-                    // Classical distance for verification
+                    // Classical verification
                     let class_dist = q_vnorm_distance(
                         samples[s], centroids[c]
                     );
@@ -201,14 +205,12 @@ namespace qblas.applications
                          "kmeans: classical distance must be >= 0");
                     Fact(inner >= -1e10 and inner <= 1e10,
                          "kmeans: inner product in valid range");
-
-                    // Quantum-classical agreement check
-                    // When class_dist < 1, quantum should give 0 (close)
-                    // When class_dist > 1, quantum should give 2 (far)
-                    // This is probabilistic — verify at least 50% of cases
                 }
 
-                let best = q_demo_qkm_argmin(dists);
+                // Larger overlap → smaller distance → nearest centroid
+                // Overlap = |⟨u|v⟩|² ∈ [-1, 1],  distance² = 2 - 2×overlap
+                // So maximize overlap (most similar)
+                let best = q_demo_qkm_argmax(overlaps);
                 set assignments w/= s <- best;
             }
 

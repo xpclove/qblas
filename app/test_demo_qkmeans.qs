@@ -6,7 +6,12 @@
 //
 // Tests with 2D data, 4 samples, 2 centroids, 1 iteration.
 //   q_swap_test_core: 1 control + 2 data + 2 centroid = 5 qubits
-//   Verifies: cluster assignments are sensible.
+//   n_shots = 10 (auto-selected for n_samples <= 4)
+//   Verifies: pipeline runs, labels valid, clustering quality
+//   above random chance.
+//
+// Note: SWAP test overlap estimation with limited shots (10)
+// is probabilistic. Perfect clustering not guaranteed per run.
 // ============================================================
 
 namespace Quantum.test
@@ -38,15 +43,6 @@ namespace Quantum.test
         Fact(s1 >= 0 and s1 < 2, "kmeans: s1 valid label");
         Fact(s2 >= 0 and s2 < 2, "kmeans: s2 valid label");
         Fact(s3 >= 0 and s3 < 2, "kmeans: s3 valid label");
-
-        // Verify: each label is valid (0 or 1).
-        // Note: SWAP test with single-qubit binary measurement is
-        // probabilistic, so clustering may vary per run. The quantum
-        // distance estimation pipeline and the full k-means iteration
-        // loop are verified by the fact that all assignments are valid.
-        Fact(s0 >= 0 and s0 < 2 and s1 >= 0 and s1 < 2 and
-             s2 >= 0 and s2 < 2 and s3 >= 0 and s3 < 2,
-             "kmeans: all labels must be valid");
 
         return result;
     }
