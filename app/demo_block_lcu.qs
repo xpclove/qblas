@@ -112,10 +112,9 @@ namespace qblas.applications
         // Quantum Execution
         // ============================================================
 
-        // Determine qubit counts.
-        // n_sys matches the matrix dimension for encoding.
-        // Householder requires Length(householder_vector) == n_sys.
-        let n_sys = 4;
+        // Determine qubit counts from matrix size.
+        // Householder requires Length(vector) == n_sys.
+        let n_sys = MaxI(2, Length(matrix));
         let n_anc = n_sys;
         let n_lcu = 2;
 

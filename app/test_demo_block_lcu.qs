@@ -5,7 +5,7 @@
 // Test: Block Encoding + LCU (small config)
 //
 // Tests with 2×2 diagonal matrix, 2 LCU coefficients.
-//   q_be_diagonal: 2 sys + 2 anc + 2 lcu = 6 qubits
+//   q_be_diagonal: 2 sys + 2 anc + 2 lcu = 6 qubits (auto-selected from matrix size)
 //   Verifies: pipeline runs, all Fact() assertions pass.
 // ============================================================
 
