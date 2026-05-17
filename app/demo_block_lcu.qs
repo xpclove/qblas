@@ -22,33 +22,33 @@
 // Input:
 //   matrix: square matrix (Double[][]) to block-encode
 //   coeffs: LCU coefficients (Double[])
-//   unitaries: list of unitary operations for LCU
 //
 // Output:
 //   Encoded result (Int):
-//     bits 0-1: number of LCU terms (capped at 3)
-//     bit 2:    block encoding executed
 //     bit 3:    diagonal encoding executed
 //     bit 4:    compute_scaling verified
 //     bit 5:    coefficient norm verified
 //     bit 6:    success probability verified
-//     bit 7:    prepare superposition verified
+//     bit 7:    coefficient validity verified
+//     bit 8:    amplitude computation verified
 //
 // Pipeline steps and module mapping:
-//   Step 1: q_block_encoding → q_be_compute_scaling   — Scaling factor
-//   Step 2: q_block_encoding → q_be_diagonal           — Block encode diag. matrix
-//   Step 3: q_block_encoding → q_be_householder        — Householder reflection
-//   Step 4: q_block_encoding → q_be_prepare_superposition — Superposition
-//   Step 5: q_lcu_optimized → q_lcu_coefficient_norm   — Norm check
-//   Step 6: q_lcu_optimized → q_lcu_success_probability — Prob check
-//   Step 7: q_lcu_optimized → q_lcu_check_coefficients  — Validity check
-//   Step 8: q_lcu_optimized → q_lcu_optimized_prepare   — LCU prepare
+//   Step 1:  q_block_encoding → q_be_compute_scaling   — Scaling factor
+//   Step 2:  q_lcu_optimized → q_lcu_coefficient_norm   — Norm check
+//   Step 3:  q_lcu_optimized → q_lcu_success_probability — Prob check
+//   Step 4:  q_lcu_optimized → q_lcu_check_coefficients  — Validity check
+//   Step 5:  q_lcu_optimized → q_lcu_compute_amplitudes — Amplitude calc
+//   Step 6:  q_block_encoding → q_be_diagonal           — Block encode diag.
+//   Step 7:  q_block_encoding → q_be_householder        — Householder reflection
+//   Step 8:  q_block_encoding → q_be_prepare_superposition — Superposition
+//   Step 9:  q_lcu_optimized → q_lcu_optimized_prepare   — LCU prepare
+//   Step 10: q_block_encoding_v2 → q_lcu_block_encode    — Block encoding via LCU
 //
 // Verification:
 //   - compute_scaling([[1,0],[0,1]]) = 1.0 (Fact)
-//   - coefficient_norm([0.5,0.5]) = 0.5 (Fact)
+//   - coefficient_norm([0.5,0.5]) = 1.0 (Fact)
 //   - check_coefficients([0.5,0.5]) = true (Fact)
-//   - success_probability([0.5,0.5]) = 0.5 (Fact)
+//   - success_probability([0.5,0.5]) = 0.25 (Fact)
 //   - Diagonal block encoding runs without error (quantum)
 //   - LCU prepare runs without error (quantum)
 //
@@ -67,20 +67,6 @@ namespace qblas.applications
     import Std.Math.*;
     import Std.Diagnostics.Fact;
     open qblas;
-
-    // ============================================================
-    // LCU Sub-Unitaries
-    // ============================================================
-
-    // U₁ = Z (Pauli Z on first qubit)
-    operation q_demo_u1(qs : Qubit[]) : Unit is Adj + Ctl {
-        Z(qs[0]);
-    }
-
-    // U₂ = X (Pauli X on first qubit)
-    operation q_demo_u2(qs : Qubit[]) : Unit is Adj + Ctl {
-        X(qs[0]);
-    }
 
     // ============================================================
     // Main Block Encoding + LCU Entry Point
