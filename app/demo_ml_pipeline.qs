@@ -16,6 +16,14 @@
 //   Demo config:  8 features → 8 qubits (≥ 8 ✓)
 //   Test config:  2 features → 2 qubits
 //
+// Architecture:
+//   - Qubits: Length(features)
+//   - Encoding: Amplitude encoding via q_vector_amplitude_encode
+//   - QFT: q_fft on all qubits
+//   - Reflection: q_qaa_state_reflection
+//   - Measurement: M × n_qubits, bit-shift encoded
+//   - Classical: PCA explained var, lambda CV, ridge cond, amp planning
+//
 // Output:
 //   A single integer encoding:
 //     lower n_qubits bits: quantum measurement (0 to 2^n - 1)
