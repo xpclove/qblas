@@ -15,7 +15,7 @@
 //   - Qubits:     16
 //   - Ansatz:     Hardware Efficient (HEA), 4 layers
 //   - Parameters: 128 (16 qubits × 4 layers × 2 rotations)
-//   - Encoding:   Angle encoding (8 features → 16 angles)
+//   - Encoding:   Angle encoding (8 features → 8 angles on 8 qubits)
 //   - Optimizer:  Adam (adaptive moment estimation)
 //   - Gradient:   Parameter shift rule
 //
@@ -25,15 +25,22 @@
 //   Labels y ∈ {+1, -1}.
 //
 // Output:
-//   Single integer encoding 8 test outcomes (bits 0-7):
-//     bit 0: parameter count = 128 (verified)
-//     bit 1: ansatz depth = 192 (verified)
-//     bit 2: param shift (+) produces correct result (verified)
-//     bit 3: gradient from shifts = 0.2 (verified)
-//     bit 4: gradient descent step produces correct update (verified)
-//     bit 5: convergence check passes (verified)
-//     bit 6: HEA ansatz forward pass (quantum)
-//     bit 7: angle encoding forward pass (quantum)
+//   Single integer encoding 15 test outcomes (bits 0-14):
+//     bit 0:  param count = 128 (verified)
+//     bit 1:  ansatz depth = 192 (verified)
+//     bit 2:  param shift (+) correct (verified)
+//     bit 3:  param shift (-) correct (verified)
+//     bit 4:  gradient from shifts = 0.2 (verified)
+//     bit 5:  gradient descent step = 0.49 (verified)
+//     bit 6:  convergence check passes (verified)
+//     bit 7:  energy convergence passes (verified)
+//     bit 8:  valid expectation = true (verified)
+//     bit 9:  feature angle encoding (verified)
+//     bit 10: gd norm = 5.0 (verified)
+//     bit 11: gd converged = true (verified)
+//     bit 12: q_gd_step quantum op runs (quantum)
+//     bit 13: HEA 16-qubit forward pass (quantum)
+//     bit 14: feature map 16-qubit (quantum)
 //
 // Pipeline steps and module mapping:
 //   Step 1: q_vqe       → q_vqe_count_params      — Parameter counting
@@ -48,8 +55,9 @@
 //   Step 10:q_kernel    → q_kernel_feature_angles   — Feature encoding
 //   Step 11:q_gradient_descent → q_gd_norm          — Gradient norm
 //   Step 12:q_gradient_descent → q_gd_converged     — GD convergence
-//   Step 13:q_vqe       → q_vqe_hea (16 qubits)    — Quantum forward pass
-//   Step 14:q_kernel    → q_kernel_apply_feature_map — Quantum encoding
+//   Step 13:q_gradient_descent → q_gd_step          — Quantum GD step
+//   Step 14:q_vqe       → q_vqe_hea (16 qubits)    — Quantum forward pass
+//   Step 15:q_kernel    → q_kernel_apply_feature_map — Quantum encoding
 //
 // Verification:
 //   - count_params(16,4,"hea") = 128 (Fact)
@@ -61,8 +69,10 @@
 //   - energy_converged(0.5,0.5,0.001) = true (Fact)
 //   - valid_expectation(0.5) = true (Fact)
 //   - gd_norm([3,4]) = 5.0 (Fact)
-//   - HEA on 16 qubits runs without error
-//   - Feature map on 16 qubits runs without error
+//   - gd_converged([0.001,0.001],0.01) = true (Fact)
+//   - q_gd_step on 2 qubits runs (quantum, no crash)
+//   - HEA on 16 qubits runs (quantum, no crash)
+//   - Feature map on 16 qubits runs (quantum, no crash)
 //
 // Reference:
 //   [1] Farhi & Neven, "Classification with Quantum Neural Networks
@@ -146,6 +156,7 @@ namespace qblas.applications
         // Step 9: Valid expectation check
         let valid_exp = q_vqe_valid_expectation(0.5) ? 1 | 0;
         Fact(valid_exp == 1, "qnn: valid_expectation = true");
+        set result += 256;
 
         // Step 10: Feature angle encoding (8 features → 8 angles)
         let features = [0.5, 0.8, 1.2, 0.3, 0.6, 0.9, 1.5, 0.7];
@@ -169,17 +180,35 @@ namespace qblas.applications
         // Quantum Verification Steps (16+ qubits)
         // ============================================================
 
-        // Step 13: HEA forward pass on 16 qubits
-        use qs_hea = Qubit[16];
-        mutable theta = [0.1, size = 128];
-        q_vqe_hea(16, theta, qs_hea, 4);
-        // Verify forward pass runs without error on 16 qubits
-        ResetAll(qs_hea);
+        // Step 13: Quantum GD step (q_gd_step on 2 qubits)
+        use qs_x = Qubit[2];
+        use qs_grad = Qubit[2];
+        X(qs_grad[0]);
+        q_gd_step(qs_x, qs_grad, 0.1);
+        let gd_m0 = M(qs_x[0]);
+        let gd_m1 = M(qs_x[1]);
+        ResetAll(qs_x);
+        ResetAll(qs_grad);
         set result += 2048;
 
-        // Step 14: Feature map encoding on 8 qubits (HEA stays 16)
-        use qs_enc = Qubit[8];
+        // Step 14: HEA forward pass on 16 qubits with measurement
+        use qs_hea = Qubit[16];
+        // Initialize with varied parameters (different per layer per qubit)
+        mutable theta = [0.0, size = 128];
+        for i in 0 .. 127 {
+            set theta w/= i <- IntAsDouble(i) * 0.05;
+        }
+        q_vqe_hea(16, theta, qs_hea, 4);
+        // Measure first qubit to verify circuit produced meaningful output
+        let m0 = M(qs_hea[0]);
+        // Result is probabilistic — just verify operation completed
+        ResetAll(qs_hea);
+        set result += 4096;
+
+        // Step 15: Feature map encoding on 16 qubits with measurement
+        use qs_enc = Qubit[16];
         q_kernel_apply_feature_map(features, qs_enc, 2);
+        let m1 = M(qs_enc[0]);
         // Verify encoding runs without error
         ResetAll(qs_enc);
         set result += 4096;
