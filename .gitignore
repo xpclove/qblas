@@ -34,3 +34,5 @@
 # .NET build artifacts (QDK 0.28 legacy)
 src/qblas/**/bin/
 src/qblas/**/obj/
+legacy/csharp/bin/
+legacy/csharp/obj/
