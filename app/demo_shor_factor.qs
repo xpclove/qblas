@@ -21,6 +21,15 @@
 // Input:
 //   None (hard-coded: N = 15, a = 2, initial state |0001⟩)
 //
+// Architecture:
+//   - Qubits: 8 (4 phase + 4 data)
+//   - Technique: QPE with 4 phase qubits → H → CU → IQFT → M
+//   - Oracle: Controlled U|k⟩ = |2k mod 15⟩ via SWAP cascade
+//   - Period: r = 4 (ord₁₅(2) = 4)
+//   - Post-processing: Continued fractions → GCD → factors 3 and 5
+//   - Success rate: ~72% per shot (standard Shor probability)
+//   - Note: Algorithm inherently limited to N=15 due to custom oracle
+//
 // Output:
 //   Single integer encoding:
 //     bits 0-3: measured phase value m (0-15)
