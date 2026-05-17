@@ -436,6 +436,7 @@ operation test_demo_<name>(p : Int) : Int {
 | `demo_spectral_analysis` | **8** | **8 个** | **8** | **0** |
 | `demo_error_mitigation` | **2** | **8 个** | **8** | **0** |
 | `demo_gradient_estimation` | **4** | **9 个** | **8** | **1(必)** |
+| `demo_walk_gemv` | **10** | **6 个** | **11** | **0** |
 
 所有新增 demo 须以此为质量基准。
 
