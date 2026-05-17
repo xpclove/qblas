@@ -314,6 +314,121 @@ git add README.md qsharp.json  # version bump
 git commit -m "feat: add q_newmodule with operations..."
 ```
 
+## APP Demo Development
+
+### 1. Directory & Naming
+
+```
+app/
+├── demo_<name>.qs              # 主 demo 文件
+├── test_demo_<name>.qs         # 配套测试文件
+```
+
+| 元素 | 规则 | 示例 |
+|------|------|------|
+| 文件名 | `demo_<name>.qs` | `demo_qnn_classifier.qs` |
+| 主操作 | `Demo<Name>()` | `DemoQnnClassifier()` |
+| 辅助操作 | `q_demo_<name>_<step>` | `q_demo_qnn_forward` |
+| 测试 | `test_demo_<name>` | `test_demo_qnn_classifier` |
+
+### 2. File Header Requirements
+
+每个 demo 文件头部必须包含以下 7 项（模板）：
+
+```qsharp
+// ============================================================
+// Demo: <标题>
+//
+// What it does:
+//   一句话说明解决的问题 + 用到了 N 个 QBLAS 模块
+//
+// Architecture:
+//   - Qubits:     N（必须 ≥ 8，除非算法本身限制）
+//   - Ansatz:     <使用的 ansatz 或电路结构>
+//   - Parameters: <关键参数说明>
+//
+// Input:
+//   - 输入数据的来源（硬编码/参数）
+//   - 数据维度，编码方式
+//
+// Output:
+//   - 输出格式（整数位编码/浮点）
+//   - 每个 bit 的含义
+//   - 量子测量部分注明概率性
+//   - 确定性部分注明已验证
+//
+// Pipeline steps and module mapping:
+//   编号列出每一步 + 调用模块 + 功能
+//   每步格式：Step N: <模块名> → <函数名> — <说明>
+//
+// Verification:
+//   - 列出所有 Fact() 断言点
+//   - 每个断言注明预期值
+//   - 量子步骤注明无需断言仅验不崩溃
+//
+// Reference:
+//   [1] 论文标题, 期刊/arXiv (年份)
+// ============================================================
+```
+
+### 3. Code Requirements
+
+| 规则 | 强制 | 说明 |
+|------|------|------|
+| 调用库函数 | ✅ 必须 | 禁止直接使用 `Ry`, `H`, `CNOT` 等手动门电路。必须通过 `q_xxx` 库函数调用 |
+| 量子比特数 | ✅ 必须 | ≥ 8 qubits（除非算法有本质限制如 HHL 2×2 系统）|
+| 量子测量 | ✅ 必须 | 每个 demo 至少 1 次 `M()` 测量 |
+| 量子执行 | ✅ 必须 | 至少 1 个量子操作（除 oracle 定义外不得仅为纯经典函数调用） |
+| Fact() 断言 | ✅ 必须 | 所有确定性步骤必须加 `Fact()` 验证预期值 |
+| 结果范围验证 | ✅ 必须 | 概率性结果至少 `Fact(result >= 0)` |
+| 测试文件 | ✅ 必须 | 配套 `test_demo_<name>.qs`，至少验证 `result > 0` |
+| Oracle 定义 | ⚠️ 例外 | 自定义 oracle 不可避免使用 `Rz`/`Ry` 门，豁免手动门限制 |
+
+### 4. Test Requirements
+
+```qsharp
+operation test_demo_<name>(p : Int) : Int {
+    let result = Demo<Name>();
+    Fact(result > 0, "demo_<name>: result must be > 0");
+    return result;
+}
+```
+
+- 测试自动注册到 CI（`run_all_tests.py` 自动发现 `app/` 下所有 `test_*` 操作）
+- 每个 demo 必须 1 个对应测试文件
+
+### 5. Acceptance Checklist
+
+```
+□ 文件头含 7 项完整信息
+□ 输入/输出明确描述
+□ Architecture 段含 qubit 数、参数数
+□ 所有确定性步骤有 Fact() 断言
+□ 量子步骤至少验不崩溃 + 合法范围
+□ 测试至少验证 result > 0
+□ ≥ 8 qubits（除非算法有本质限制）
+□ 零手动门电路（除 oracle 定义外全部通过库函数调用）
+□ 至少 1 次量子测量
+□ Demo + Test 在同目录
+□ 命名符合规范
+□ 运行全部 350+ 测试不冲突
+```
+
+### 6. Completed APP Demos
+
+| Demo | Qubits | 库调用 | 验证点 | 手动门 |
+|------|--------|--------|--------|--------|
+| `demo_ml_pipeline` | 2 | 12 个 | 7 | 0 |
+| `demo_hhl_svd` | 7 | 5 个 | 5 | 3(必) |
+| `demo_qnn_classifier` | 20 | 10 个 | 10 | 1(必) |
+| `demo_vqe_execution` | 8 | 11 个 | 11 | 0 |
+| `demo_qsvt_transform` | 10 | 8 个 | 9 | 0 |
+| `demo_hamiltonian_sim` | 16 | 11 个 | 12 | 0 |
+
+所有新增 demo 须以此为质量基准。
+
+---
+
 ## Completed Modules
 
 ### v0.2.9 - 17 New Quantum Algorithm Modules
