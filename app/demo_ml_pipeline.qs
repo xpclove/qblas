@@ -95,14 +95,6 @@ namespace qblas.applications
     // Uses q_vector module for basis state preparation.
     // ============================================================
 
-    operation q_demo_prepare_state(qs : Qubit[], values : Double[]) : Unit {
-        let norm = Sqrt(SquaredNorm(values));
-        if (norm > 0.0) {
-            Ry(2.0 * ArcSin(values[0] / norm), qs[0]);
-            Ry(2.0 * ArcSin(values[1] / norm), qs[1]);
-        }
-    }
-
     // ============================================================
     // Step 3: QFT Preprocessing
     //
@@ -190,9 +182,8 @@ namespace qblas.applications
 
         use qs_state = Qubit[2];
 
-        // Step 1: Prepare quantum state |ψ⟩ = 0.894|0⟩ + 0.447|1⟩
-        // for sample with features [1.0, 0.5], norm = √1.25
-        q_demo_prepare_state(qs_state, [1.0, 0.5]);
+        // Step 1: Amplitude encode sample using q_vector module
+        q_vector_amplitude_encode([1.0, 0.5], qs_state);
 
         // Step 2: QFT preprocessing
         q_fft(qs_state);

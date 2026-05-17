@@ -20,11 +20,8 @@
 //     1-3 = various error conditions
 //
 // Pipeline steps and module mapping:
-//   Step 1: q_matrix + q_ram    → Define matrix A as controlled unitary
-//   Step 2: q_vector            → Prepare |b⟩ state from classical data
-//   Step 3: q_hhl               → Run HHL core (QPE + rotation + inverse QPE)
-//   Step 4: q_amplification     → Amplify success probability
-//   Step 5: q_svd_vartime       → SVD verification (classical post-processing)
+//   Step 1: q_hhl               → q_hhl_core (HHL core: QPE + rotation + inverse QPE)
+//   Step 2: q_svd_vartime       → SVD classical post-processing:
 //     - q_svd_sort_descending   → Sort eigenvalues descending
 //     - q_svd_filter            → Filter by threshold
 //     - q_svd_normalize         → Normalize singular values

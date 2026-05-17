@@ -120,11 +120,8 @@ namespace qblas.applications
     ) : Int {
         use qs = Qubit[n_qubits];
 
-        // Step 1: Angle encode features onto qubits
-        let angles = q_kernel_feature_angles(features, n_qubits);
-        for i in 0 .. Length(angles) - 1 {
-            Ry(angles[i], qs[i]);
-        }
+        // Step 1: Encode features via q_kernel feature map
+        q_kernel_apply_feature_map(features, qs, 1);
 
         // Step 2: Apply HEA variational ansatz
         q_vqe_hea(n_qubits, theta, qs, n_layers);
@@ -278,6 +275,15 @@ namespace qblas.applications
         ResetAll(qs_16);
         set result += 32;
 
+        // Step 13: Quantum gradient descent step via q_gradient_descent
+        use qs_gd_x = Qubit[2];
+        use qs_gd_grad = Qubit[2];
+        X(qs_gd_grad[0]);
+        q_gd_step(qs_gd_x, qs_gd_grad, 0.1);
+        ResetAll(qs_gd_x);
+        ResetAll(qs_gd_grad);
+        set result += 64;
+
         // ============================================================
         // Classical Function Verification
         // ============================================================
@@ -288,28 +294,28 @@ namespace qblas.applications
 
         let np_16 = q_vqe_count_params(16, 4, "hea");
         Fact(np_16 == 128, "qnn: 16×4×2 = 128 params");
-        set result += 64;
+        set result += 128;
 
         // Step V2: Ansatz depth
         let depth = q_vqe_ansatz_depth(4, 2, true);
         Fact(depth == 24, "qnn: ansatz depth = 24");
-        set result += 128;
+        set result += 256;
 
         // Step V3: Feature encoding
         let angles_a = q_kernel_feature_angles([0.2, 0.8], 4);
         Fact(Length(angles_a) == 2, "qnn: 2 features → 2 angles");
         Fact(AbsD(angles_a[0] - 1.3258176636680326) < 1e-10, "qnn: angle[0]");
-        set result += 256;
+        set result += 512;
 
         // Step V4: Parameter shift functions
         let sp = q_vqe_param_shift_plus([0.1, 0.2], PI() / 8.0);
         Fact(AbsD(sp[0] - 0.4926990816987241) < 1e-10, "qnn: shift_plus[0]");
-        set result += 512;
+        set result += 1024;
 
         // Step V5: Gradient norm
         let gnorm = q_gd_norm([3.0, 4.0]);
         Fact(AbsD(gnorm - 5.0) < 1e-10, "qnn: gd_norm = 5.0");
-        set result += 1024;
+        set result += 2048;
 
         return result;
     }
