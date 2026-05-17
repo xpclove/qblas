@@ -68,309 +68,46 @@ How to use it:
 
         master: stable branch,    dev: more recent development branch,    next: unstable latest branch
 
-[new features - v0.2]
-
-    QBLAS now includes high-priority quantum linear algebra primitives:
-
-    GEMV (q_gemv.qs):
-        Quantum matrix-vector multiplication using quantum walk simulation.
-        Supports iterative refinement, batch operations, and sparse matrices.
-
-    GEMM (q_gemm.qs):
-        Quantum matrix-matrix multiplication with block-wise multiplication,
-        iterative refinement, batch operations, and transpose variants.
-
-    Variable-time SVD (q_svd_vartime.qs):
-        Adaptive-precision singular value decomposition. Complexity improved
-        from O(1/epsilon) to O(log(1/epsilon)) for well-conditioned matrices.
-        Features: eigenvalue gap detection, condition number estimation.
-
-    Enhanced HHL (q_hhl_enhanced.qs):
-        Enhanced quantum linear system solver with preconditioning,
-        multi-precision rotation, eigenvalue filtering, amplitude amplification,
-        and dynamic decoupling.
-
-[new features - v0.2.12]
-
-    QBLAS v0.2.12 adds 4 new modules for advanced Hamiltonian simulation
-    and thermal state preparation:
-
-    === Qubitization-Based Hamiltonian Simulation ===
-
-    Qubitization (q_qubitization.qs):
-        Optimal Hamiltonian simulation using qubitization technique.
-        Combines block encoding with quantum signal processing (QSP)
-        to achieve O(d ||H||_max t + log(1/ε)) query complexity.
-        Includes: phase preparation, query complexity estimation,
-        Chebyshev polynomials, spectral gap computation.
-
-    === Optimized LCU ===
-
-    Optimized LCU (q_lcu_optimized.qs):
-        Efficient linear combination of unitaries using single-ancilla
-        qubit optimization with reduced gate complexity.
-        Implements: single-ancilla preparation, SELECT operation,
-        cosine-sine decomposition, gate count optimization.
-        Complexity: O(2^(ceil(log2(L)))(2n+1)-n-2 two-qubit gates.
-
-    === Thermal State Preparation ===
-
-    Gibbs State (q_gibbs.qs):
-        Thermal state (Gibbs state) preparation ρ = e^{-βH}/Tr(e^{-βH}).
-        Includes: partition function estimation, spectral gap computation,
-        temperature estimation, free energy calculation.
-        Complexity: O(κ/ε) where κ is condition number.
-
-    === Time-Dependent Hamiltonian Simulation ===
-
-    Time-Dependent (q_timedependent.qs):
-        Simulation of time-dependent Hamiltonians H(t) using piecewise
-        constant approximation with optimal order selection.
-        Includes: discretization, error bounds, norm variation,
-        evolution verification.
-
-[new features - v0.2.13]
-
-    QBLAS v0.2.13 is a major update that transforms 9 previously
-    skeletal modules into full quantum implementations with real
-    quantum circuit operations. The Krylov subspace family of
-    algorithms now has genuine quantum computing implementations
-    using quantum walk simulation (q_gemv) and SWAP test primitives.
-
-    === Quantum Krylov Subspace Methods (Quantum Implementation) ===
-
-    q_krylov.qs (Enhanced):
-        Full quantum Arnoldi iteration with quantum walk matrix
-        application and SWAP test overlap estimation.
-        New operations: q_krylov_apply_matrix, q_krylov_generate_subspace,
-        q_krylov_arnoldi_overlaps, q_krylov_gram_matrix,
-        q_krylov_estimate_overlap, q_krylov_swap_test_one_shot.
-
-    q_lanczos.qs (Enhanced):
-        Quantum Lanczos tridiagonalization with three-term recurrence.
-        New operations: q_lanczos_apply_matrix, q_lanczos_estimate_alpha,
-        q_lanczos_iterate, q_lanczos_step, q_lanczos_compute_tridiag.
-
-    q_gmres.qs (Enhanced):
-        Quantum GMRES solver with Arnoldi-based Hessenberg construction.
-        New operations: q_gmres_apply_matrix, q_gmres_arnoldi,
-        q_gmres_apply_givens, q_gmres_solve.
-
-    === Quantum Optimization Methods (Quantum Implementation) ===
-
-    q_conjugate_gradient.qs (Enhanced):
-        Quantum CG linear system solver with quantum walk matrix application.
-        New operations: q_cg_apply_matrix, q_cg_step, q_cg_solve.
-
-    q_gradient_descent.qs (Enhanced):
-        Quantum gradient descent optimizer with Ry-rotation based updates.
-        New operations: q_gd_step, q_gd_optimize.
-
-    q_newton.qs (Enhanced):
-        Quantum Newton method with Hessian diagonal estimation and Ry-based solve.
-        New operations: q_newton_hessian_diag, q_newton_solve.
-
-    === Quantum Matrix Decomposition & Applications ===
-
-    q_pca.qs (Enhanced):
-        Quantum PCA with QPE-based eigenvalue estimation.
-        New operations: q_pca_estimate_eigenvalues, q_pca_project.
-
-    q_ridge_regression.qs (Enhanced):
-        Quantum ridge regression with regularized linear system solver.
-        New operations: q_ridge_apply_regularized, q_ridge_solve.
-
-    q_triangular.qs (Enhanced):
-        Quantum triangular system solver with forward/backward substitution.
-        New operations: q_trisol_forward_substitute, q_trisol_backward_substitute,
-        q_trisol_solve.
-
-    === Infrastructure Improvements ===
-
-    - Removed 4 fake quantum functions that only counted qubits
-      (q_cg_residual_norm, q_gmres_norm, q_krylov_residual_norm, q_trisol_norm)
-    - Removed identity function q_gmres_init_vec
-    - All 293 tests pass with 0 errors
-    - 9 modules enhanced with real quantum operations (26 new operations total)
-
-[new features - v0.2.11]
-
-    QBLAS v0.2.11 adds 7 new modules for dense linear algebra
-    operations:
-
-    === Dense Linear Algebra ===
-
-    LU Decomposition (q_lu.qs):
-        LU decomposition for dense matrices without pivoting.
-        Computes lower and upper triangular matrices L and U such that
-        A = L * U. Supports determinant computation.
-
-    QR Decomposition (q_qr.qs):
-        QR decomposition using Gram-Schmidt orthonormalization.
-        Computes orthogonal matrix Q and upper triangular R such that
-        A = Q * R. Includes orthonormality verification.
-
-    Cholesky Decomposition (q_cholesky.qs):
-        Cholesky decomposition for symmetric positive definite matrices.
-        Computes lower triangular matrix L such that A = L * L^T.
-        Includes LDL^T variant and matrix inverse via Cholesky.
-
-    === Matrix Operations ===
-
-    Matrix Addition (q_matrix_add.qs):
-        Dense matrix addition with Hadamard product variants.
-        Supports row/column scaling, matrix-vector sum, and
-        strided operations for efficient block updates.
-
-    Kronecker Product (q_kronecker.qs):
-        Tensor product operation for matrices. Computes the Kronecker
-        product A ⊗ B for efficient block-diagonal constructions.
-        Includes Kronecker sum for matrix exponentiation.
-
-    === Vector Operations ===
-
-    Vector Norm (q_vector_norm.qs):
-        L1, L2, and L-infinity vector norms with condition number
-        estimation. Supports norm ratio computation for iterative
-        refinement and convergence analysis.
-
-    Inner Product (q_inner_product.qs):
-        Quantum inner product computation using SWAP test and
-        its variants. Includes fidelity estimation and overlaps
-        for state comparison.
-
-[new features - v0.2.10]
-
-    QBLAS v0.2.10 adds 2 new modules for quantum kernel methods
-    and error mitigation:
-
-    === Quantum Kernel Methods ===
-
-    Quantum Kernel (q_kernel.qs):
-        Quantum kernel computation for machine learning applications.
-        Implements quantum feature maps that embed classical data into
-        quantum states, enabling kernel K(x,y) = |<φ(x)|φ(y)>|² computation.
-        Includes:
-        - Feature map angles and parameters computation
-        - Gaussian and polynomial kernel functions
-        - Kernel matrix validation and PCA projection
-        - Ridge regression coefficients
-        - Median bandwidth selection for Gaussian kernels
-
-    === Error Mitigation ===
-
-    Error Mitigation (q_error_mitigation.qs):
-        Error mitigation techniques for NISQ devices without full
-        error correction. Includes:
-        - Zero-Noise Extrapolation (ZNE): linear, exponential,
-          Richardson, and Monte Carlo extrapolation
-        - Probabilistic Error Cancellation (PEC): channel
-          decomposition and sampling probability
-        - Dynamic Decoupling (DD): XY and XXZ pulse sequences
-        - Readout error calibration and correction
-
-[new features - v0.2.9]
-
-    QBLAS v0.2.9 adds 17 new quantum algorithm modules for advanced
-    linear algebra and quantum simulation:
-
-    === Krylov Subspace Methods ===
-
-    Conjugate Gradient (q_cg.qs):
-        Quantum implementation of CG for solving linear systems Ax = b.
-        Includes residual norm computation, convergence checking,
-        beta and alpha calculations.
-
-    Lanczos Algorithm (q_lanczos.qs):
-        Tridiagonalization for Krylov subspace construction.
-        Supports norm computation, eigenvector estimation, eigenvalue sums.
-
-    GMRES (q_gmres.qs):
-        Generalized Minimal Residual method for non-symmetric systems.
-        Includes Hessenberg matrix construction and restart support.
-
-    === Optimization Methods ===
-
-    Gradient Descent (q_gradient_descent.qs):
-        Quantum-accelerated gradient descent optimization.
-        Norm computation, convergence checking, momentum support.
-
-    Newton Method (q_newton.qs):
-        Second-order optimization using Hessian information.
-        Diagonal Hessian estimation for quantum natural gradient.
-
-    === Dimensionality Reduction ===
-
-    Quantum PCA (q_pca.qs):
-        Quantum principal component analysis for dimensionality reduction.
-        Eigenvalue ordering, explained variance computation, projection matrices.
-
-    Ridge Regression (q_ridge.qs):
-        Regularized least squares with Tikhonov regularization.
-        Effective condition number estimation, optimal lambda selection.
-
-    === Linear Solvers ===
-
-    Tridiagonal Solver (q_trisol.qs):
-        Efficient solver for tridiagonal systems common in PDEs.
-        Triangular checks, diagonal non-zero validation.
-
-    === Quantum Signal Processing ===
-
-    QSP (q_qsp.qs):
-        Quantum Signal Processing framework for eigenvalue transformation.
-        Implements polynomial transformations via phase angle sequences.
-        Supports symmetric phase sequences and Chebyshev polynomials.
-
-    === Hamiltonian Simulation ===
-
-    Trotter-Suzuki (q_trotter_suzuki.qs):
-        High-order Trotter-Suzuki decomposition for Hamiltonian simulation.
-        Supports orders 1, 2, 4 with optimal step size computation.
-        Error bounds and decomposition length calculation.
-
-    2-Sparse Simulation (q_2sparse.qs):
-        Quantum walk simulation for matrices with at most 2 non-zero
-        entries per row/column. Efficient stride-based encoding.
-
-    === Amplitude Amplification ===
-
-    QAA (q_amplitude_amplification.qs):
-        Quantum Amplitude Amplification for quadratic speedup.
-        Optimal iteration computation, fixed-point amplification,
-        state reflection operators.
-
-    === Phase Estimation ===
-
-    Modern QPE (q_qpe_modern.qs):
-        Bayesian-inspired phase estimation with adaptive precision.
-        Includes variance reduction, optimal bit allocation,
-        and eigenstate validation.
-
-    === Gradient Estimation ===
-
-    Quantum Gradient Estimation (q_gradient_estimation.qs):
-        Parameter shift rule for evaluating analytic gradients of
-        parameterized quantum circuits. Supports quantum natural gradient,
-        Hessian estimation, and Adam optimization.
-
-    === Block Encoding ===
-
-    Enhanced Block Encoding v2 (q_block_encoding_v2.qs):
-        Advanced block encoding primitives combining QROM (Quantum RAM),
-        LCU (Linear Combination of Unitaries), and OAA (Oblivious
-        Amplitude Amplification) for improved efficiency.
-
-    === Variational Algorithms ===
-
-    VQE Components (q_vqe.qs):
-        Variational Quantum Eigensolver building blocks:
-        - Hardware-Efficient Ansatz (HEA)
-        - QAOA-style ansatz
-        - SU(2) entangling ansatz
-        - Parameter shift rule for gradients
-        - Adam optimizer integration
-        - Shot allocation for measurement
+## Module Overview — 55 Quantum Modules
+
+| Category | Modules | Count |
+|----------|---------|:-----:|
+| Quantum Walk & Simulation | q_walk, q_gemv, q_gemm, q_simulation, q_2sparse | 5 |
+| Krylov Iterative Solvers | q_krylov, q_lanczos, q_gmres, q_conjugate_gradient | 4 |
+| Direct Solvers | q_cholesky, q_lu, q_qr, q_triangular | 4 |
+| Matrix Operations | q_matrix_add, q_kronecker, q_newton | 3 |
+| Hamiltonian Simulation | q_trotter_suzuki, q_qubitization, q_lcu_optimized, q_gibbs, q_timedependent | 5 |
+| Quantum Signal Processing | q_qsp, q_qsvt, q_chebyshev, q_eigenvalue_filter | 4 |
+| Phase Estimation | q_phase_estimate, q_qpe_modern | 2 |
+| Variational & Optimization | q_vqe, q_gradient_estimation, q_gradient_descent, q_pca, q_ridge_regression | 5 |
+| Block Encoding & QRAM | q_block_encoding, q_block_encoding_v2, q_ram, q_lcu_optimized | 4 |
+| Linear Algebra & HHL | q_hhl, q_hhl_enhanced, q_svd, q_svd_vartime, q_pseudoinverse, q_regularized_ls | 6 |
+| Quantum Primitives | q_vector, q_vector_norm, q_matrix, q_inner_product, q_swap_test, q_fft, q_kernel | 7 |
+| Utilities | q_com, q_math, q_matrix_function, q_debug, q_tele, q_amplitude_amplification, q_error_mitigation | 7 |
+| **Total** | | **55** |
+
+## APP Demos — 17 Verified Applications
+
+| Demo | Qubits | Modules Covered | Fact() |
+|------|:------:|:---------------:|:------:|
+| demo_ml_pipeline | 8 | 8 | 7 |
+| demo_hhl_svd | 7 | 5 | 5 |
+| demo_qnn_classifier | 20 | 10 | 10 |
+| demo_vqe_execution | 8 | 11 | 11 |
+| demo_qsvt_transform | 10 | 8 | 9 |
+| demo_hamiltonian_sim | 16 | 11 | 12 |
+| demo_shor_factor | 8 | 10 | 7 |
+| demo_qkmeans | 17 | 12 | 7 |
+| demo_qpe_standalone | 12 | 7 | 5 |
+| demo_block_lcu | 10 | 10 | 8 |
+| demo_teleport | 24 | 3 | 5 |
+| demo_spectral_analysis | 8 | 8 | 8 |
+| demo_error_mitigation | 2 | 8 | 8 |
+| demo_gradient_estimation | 4 | 9 | 8 |
+| demo_walk_gemv | 10 | 6 | 5 |
+| demo_krylov_arnoldi | 21 | 4 | 20 |
+| demo_gmres_cg | 23 | 4 | 14 |
+| demo_lin_solvers | 21 | 9 | 25 |
 
 [References]
 
@@ -406,7 +143,7 @@ Pan, "Entanglement-based machine learning on a quantum computer," Phys. Rev. Let
 
 [13]  Chong F T, Franklin D, Martonosi M. "Programming languages and compiler design for realistic quantum hardware". Nature, 2017, 549:180
 
-[new features - v0.2.9 references]
+### Module References
 
 Note: PDF references available in doc/ref/ directory.
 
@@ -536,27 +273,3 @@ Note: PDF references available in doc/ref/ directory.
 
 [r33] Bialczak, et al. "Quantum Error Correction." Nature Physics 6, 2010.
 
-PDF files in doc/ref/:
-- arXiv_0005055_Brassard_QAA.pdf
-- arXiv_9805082_Brassard_QuantumCounting.pdf
-- arXiv_1012.5112_Childs_SparseHamiltonians.pdf
-- arXiv_1304.0741_Higgins_QPE.pdf
-- arXiv_1606.02685_Low_QSP.pdf
-- arXiv_1612.00605_Rossi_TrotterSuzuki.pdf
-- arXiv_1612.02058_Temme_ErrorMitigation.pdf
-- arXiv_1711.00465_Gilyen_QuantumGradient.pdf
-- arXiv_1804.11326_Havlicek_QuantumKernel.pdf
-- arXiv_1807.02207_Endo_ErrorMitigation.pdf
-- arXiv_1807.04431_QuantumGradientDescent.pdf
-- arXiv_1909.02108_QuantumNaturalGradient.pdf
-- arXiv_2112.00778_Lanczos.pdf
-- arXiv_2112.01803_QuantumNewton.pdf
-- arXiv_2208.07125_QuantumPCA.pdf
-- arXiv_2208.07911_TriangularSolver.pdf
-- arXiv_2209.05478_QuantumRidge.pdf
-- arXiv_2210.07913_Krylov.pdf
-- arXiv_2211.15082_QuantumGMRES.pdf
-- arXiv_2305.11324_EigenvalueFilter.pdf
-- arXiv_2306.13305_QuantumCG.pdf
-- arXiv_2308.01551_MatrixFunction.pdf
-- arXiv_2310.12109_Chebyshev.pdf
