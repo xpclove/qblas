@@ -2,9 +2,9 @@
 // Licensed under the GPL v3 License.
 
 // ============================================================
-// Test: QSVT Polynomial Transformation
+// Test: QSVT Polynomial Transformation (small config)
 //
-// Verifies: QSP rotation on 8 qubits, measurement, utilities.
+// Tests with 2 qubits → 2+2=4 qubits.
 // All classical steps validated via Fact().
 // ============================================================
 
@@ -16,7 +16,9 @@ namespace Quantum.test
     open qblas.applications;
 
     operation test_demo_qsvt_transform(p : Int) : Int {
-        let result = DemoQsvtTransform();
+        // Small config: 2 qubits → fast verification
+        let data = [1.0, 0.0];
+        let result = DemoQsvtTransform(data);
         Fact(result > 0, "demo_qsvt: result must be > 0");
         return result;
     }

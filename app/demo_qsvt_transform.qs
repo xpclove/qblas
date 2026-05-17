@@ -6,15 +6,13 @@
 //
 // What it does:
 //   Applies QSP (Quantum Signal Processing) rotation to an
-//   8-qubit quantum state, demonstrating polynomial-based
+//   n-qubit quantum state, demonstrating polynomial-based
 //   eigenvalue transformation via the q_qsp module.
-//   Each data qubit undergoes an independent QSP rotation.
 //
 // Input:
-//   8 data qubits encoded with amplitudes via q_vector
-//   2 ancilla qubits for QSP rotations
-//   Phase sequence: 9 phases from symmetric_phase_seq(4)
-//   Rotation angle: π/4
+//   data: Double[] — amplitude data to encode (length = n_qubits)
+//   Demo config:  8 qubits [1,1,1,1,0.5,0.5,0.5,0.5] → 8+2=10 qubits
+//   Test config:  2 qubits [1.0, 0.0] → 2+2=4 qubits
 //
 // Output:
 //   Single integer encoding 8 test outcomes:
@@ -56,37 +54,39 @@ namespace qblas.applications
     import Std.Diagnostics.Fact;
     open qblas;
 
-    operation DemoQsvtTransform() : Int {
+    operation DemoQsvtTransform(data : Double[]) : Int {
         mutable result = 0;
+        let n_qubits = Length(data);
+        if (n_qubits < 1) { return -1; }
 
         // ============================================================
         // Quantum Execution
         // ============================================================
 
-        // Step 1: Amplitude encode 8-dim vector on 8 qubits
-        use qs_data = Qubit[8];
-        q_vector_amplitude_encode([1.0, 1.0, 1.0, 1.0, 0.5, 0.5, 0.5, 0.5], qs_data);
+        // Step 1: Amplitude encode data vector on n_qubits
+        use qs_data = Qubit[n_qubits];
+        q_vector_amplitude_encode(data, qs_data);
         set result += 16;
 
         // Step 2: Apply QSP rotation to each data qubit
         use qs_ancilla = Qubit[2];
         let phases = q_qsp_symmetric_phase_seq(4);
-        for i in 0 .. 7 {
+        for i in 0 .. n_qubits - 1 {
             q_qsp_apply_rotation(qs_data[i], qs_ancilla, phases, PI() / 4.0);
         }
         set result += 32;
 
-        // Step 3: Measure all 8 qubits and count |1⟩ outcomes
+        // Step 3: Measure all qubits and count |1⟩ outcomes
         mutable qsp_pop = 0;
-        for i in 0 .. 7 {
+        for i in 0 .. n_qubits - 1 {
             if (M(qs_data[i]) == One) {
                 set qsp_pop += 1;
             }
         }
         ResetAll(qs_data);
         ResetAll(qs_ancilla);
-        Fact(qsp_pop >= 0 and qsp_pop <= 8,
-             "qsvt: population count must be 0-8");
+        Fact(qsp_pop >= 0 and qsp_pop <= n_qubits,
+             "qsvt: population count must be 0-n_qubits");
         set result += qsp_pop;
 
         // ============================================================

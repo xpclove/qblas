@@ -7,17 +7,16 @@
 // What it does:
 //   Solves a 2×2 linear system Ax = b using HHL algorithm,
 //   then verifies the solution via SVD decomposition.
-//   Demonstrates 5 QBLAS modules working together.
+//   The matrix oracle defines A = diag(2, 3), and the RHS
+//   vector b is given as input.
 //
 // Input:
-//   - 2×2 diagonal matrix A = diag(2.0, 3.0) via controlled unitary
-//   - Right-hand side vector b = [1.0, 0.5] via amplitude encoding
-//   - Matrix has eigenvalues λ₁=2, λ₂=3 → condition number κ=1.5
-//
+//   b_vector: Double[] — right-hand side vector (2D for 2×2 system)
+//   Demo config:  b_vector = [1.0, 0.5] → 2+4+1 = 7 qubits
+//   Test config:  b_vector = [1.0, 0.5] → 7 qubits (oracle fixed)//
 // Output:
-//   Solution quality indicator (0-3):
-//     0 = solution check passed
-//     1-3 = various error conditions
+//   Solution quality indicator (0 = passed)
+//     q_svd_sort_descending, q_svd_filter, q_svd_normalize all verified via Fact()
 //
 // Pipeline steps and module mapping:
 //   Step 1: q_hhl               → q_hhl_core (HHL core: QPE + rotation + inverse QPE)
@@ -111,15 +110,15 @@ namespace qblas.applications
     // Main Entry Point
     // ============================================================
 
-    operation DemoHhlSvd() : Int {
+    operation DemoHhlSvd(b_vector : Double[]) : Int {
+        if (Length(b_vector) < 1) { return -1; }
+
         use qs_u = Qubit[2];
         use qs_phase = Qubit[4];
         use qs_r = Qubit[1];
 
-        // Step 1: Prepare eigenstate |u⟩ = α|0⟩ + β|1⟩
-        // Represents b = [1.0, 0.5] normalized
-        let norm = Sqrt(1.25);
-        Ry(2.0 * ArcSin(0.5 / norm), qs_u[0]);
+        // Step 1: Prepare |b⟩ state using q_vector amplitude encoding
+        q_vector_amplitude_encode(b_vector, qs_u);
 
         // Step 2: Run HHL core
         q_hhl_core(q_demo_hhl_oracle, qs_u, qs_phase, qs_r[0]);
