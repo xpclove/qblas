@@ -1,5 +1,10 @@
 # qblas
 
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![QDK](https://img.shields.io/badge/QDK-1.28.0-purple)](https://github.com/microsoft/qsharp)
+[![Python](https://img.shields.io/badge/Python-3.10+-green)](https://python.org)
+[![Tests](https://img.shields.io/badge/Tests-362%20passing-brightgreen)](tools/run_all_tests.py)
+
 QBLAS(Quantum BLAS).   License: GPL v3.
 
 An open source quantum basic linear algebra and quantum simulation library.
@@ -14,28 +19,27 @@ Released on GitHub from 11.15, 2019.
 Q# is a new high-level quantum-focused programming language developed by Microsoft.
 Ref: https://docs.microsoft.com/en-us/quantum/language/?view=qsharp-preview.
 
-[Introduction]
+## 📖 Introduction
 
 Quantum exponential acceleration algorithms will greatly accelerate various computational and machine learning tasks[1].
 The library help you run quantum basic linear algebra and quantum simulation algorithms on a quntum computer.The basic linear algebra part contains vector inner product[10,5], HHL matrix eigenvalue decomposition[4,6], fourier transform[8], Quantum phase estimation and other algorithms.
 The quantum simulation part contains sparse matrix quantum walk simulation[7], density matrix exponentiation simulation[2,6] and Trotter decomposition simulation[3].
 [Details: /doc/qblas.pdf](https://github.com/xpclove/qblas/blob/master/doc/qblas.pdf)
 
-[Motivation]
+## 🎯 Motivation
 
 Inspired by the rapid development of quantum machine learning algorithms[1] in recent years and the calls for open source quantum software[13], we started the project in the Spring of 2018 and completed the preliminary version in the Summer of 2019.
 Then, we decided to release it on Github to facilitate the communication of quantum open source software.
 To our knowledge, this is the first open-source library to focus on quantum linear algebra and quantum simulation.
 We hope it will promote the development of quantum machine learning and quantum open source software ecology.
 
-Authors：
-Xiaopeng Cui, Yu Shi. Department of Physics，Fudan University
+## 👥 Authors
 
-Shanghai, China
+Xiaopeng Cui, Yu Shi — Department of Physics, Fudan University, Shanghai, China
 
-Email: xpclove@gmail.com, yushi@fudan.edu.cn
+Email: xpclove@gmail.com | yushi@fudan.edu.cn
 
-Project website: http://qblas.site
+Project website: [qblas.site](http://qblas.site)
 
 QBLAS structure:
 
@@ -64,7 +68,7 @@ How to use it:
     Note: QBLAS uses QDK 1.28.0 (Rust/Python-based Q# compiler).
           Legacy .NET-based files (.csproj, Driver.cs) retained for reference only.
 
-[Branch]
+## 🌿 Branch
 
         master: stable branch,    dev: more recent development branch,    next: unstable latest branch
 
@@ -109,7 +113,7 @@ How to use it:
 | demo_gmres_cg | 23 | 4 | 14 |
 | demo_lin_solvers | 21 | 9 | 25 |
 
-[References]
+## 📚 References
 
 Review(Quantum machine learning, 2017, https://www.nature.com/articles/nature23474)
 
