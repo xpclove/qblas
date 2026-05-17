@@ -383,6 +383,7 @@ app/
 | 结果范围验证 | ✅ 必须 | 概率性结果至少 `Fact(result >= 0)` |
 | 测试文件 | ✅ 必须 | 配套 `test_demo_<name>.qs`，至少验证 `result > 0` |
 | Oracle 定义 | ⚠️ 例外 | 自定义 oracle 不可避免使用 `Rz`/`Ry` 门，豁免手动门限制 |
+| **通用接口 + 小规模测试** | ✅ 必须 | 主操作必须提供通用接口（接受任意参数）；测试用小规模参数调用同一接口验证正确性。禁止为测试单独写一个简化版操作 |
 
 ### 4. Test Requirements
 
@@ -396,6 +397,8 @@ operation test_demo_<name>(p : Int) : Int {
 
 - 测试自动注册到 CI（`run_all_tests.py` 自动发现 `app/` 下所有 `test_*` 操作）
 - 每个 demo 必须 1 个对应测试文件
+- **接口复用**: 测试必须调用主 demo 的同一入口操作，而非封装简化版
+- **参数缩放**: 测试用小规模参数（少量 qubits、少量轮次）确保快速验证
 
 ### 5. Acceptance Checklist
 
@@ -406,6 +409,7 @@ operation test_demo_<name>(p : Int) : Int {
 □ 所有确定性步骤有 Fact() 断言
 □ 量子步骤至少验不崩溃 + 合法范围
 □ 测试至少验证 result > 0
+□ 主操作提供通用接口，测试用小规模参数调用
 □ ≥ 8 qubits（除非算法有本质限制）
 □ 零手动门电路（除 oracle 定义外全部通过库函数调用）
 □ 至少 1 次量子测量
