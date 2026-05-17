@@ -15,7 +15,7 @@ import qsharp
 def load_qsharp():
     all_code = ''
     repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    for d in ['src/qblas/qblas', 'src/qblas/test']:
+    for d in ['src/qblas/qblas', 'src/qblas/test', 'app']:
         dirpath = os.path.join(repo, d)
         for f in sorted(os.listdir(dirpath)):
             if f.endswith('.qs'):
@@ -26,19 +26,25 @@ def load_qsharp():
 def parse_tests():
     """Discover all test_* operations from .qs files."""
     repo = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    test_dir = os.path.join(repo, 'src', 'qblas', 'test')
     tests = []
     seen = set()
+    search_dirs = [
+        os.path.join(repo, 'src', 'qblas', 'test'),
+        os.path.join(repo, 'app')
+    ]
 
-    for f in sorted(os.listdir(test_dir)):
-        if not f.endswith('.qs'):
+    for test_dir in search_dirs:
+        if not os.path.isdir(test_dir):
             continue
-        content = open(os.path.join(test_dir, f)).read()
-        for m in re.finditer(r'operation (test_\w+)\(', content):
-            op = m.group(1)
-            if op not in seen:
-                tests.append((f"{f}: {op}", op, 0))
-                seen.add(op)
+        for f in sorted(os.listdir(test_dir)):
+            if not f.endswith('.qs'):
+                continue
+            content = open(os.path.join(test_dir, f)).read()
+            for m in re.finditer(r'operation (test_\w+)\(', content):
+                op = m.group(1)
+                if op not in seen:
+                    tests.append((f"{f}: {op}", op, 0))
+                    seen.add(op)
 
     return tests
 
