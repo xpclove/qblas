@@ -13,7 +13,13 @@
 // Input:
 //   b_vector: Double[] — right-hand side vector (2D for 2×2 system)
 //   Demo config:  b_vector = [1.0, 0.5] → 2+4+1 = 7 qubits
-//   Test config:  b_vector = [1.0, 0.5] → 7 qubits (oracle fixed)//
+//   Test config:  b_vector = [1.0, 0.5] → 7 qubits (oracle fixed)
+//
+// Architecture:
+//   - Qubits: 7 (2 data + 4 phase + 1 result)
+//   - Note: 7 < 8 due to 2×2 HHL system's inherent dimension limit.
+//     The oracle defines a 2×2 matrix which requires exactly 2 data qubits.
+//
 // Output:
 //   Solution quality indicator (0 = passed)
 //     q_svd_sort_descending, q_svd_filter, q_svd_normalize all verified via Fact()
@@ -123,8 +129,8 @@ namespace qblas.applications
         // Step 2: Run HHL core
         q_hhl_core(q_demo_hhl_oracle, qs_u, qs_phase, qs_r[0]);
 
-        // Step 3: Check solution quality
-        let result = M(qs_r[0]) == One ? 1 | 0;
+        // Step 3: Measure result qubit and combine with SVD check
+        let hhl_ok = M(qs_r[0]) == One ? 1 | 0;
 
         // Step 4: Classical SVD verification
         let svd_ok = q_demo_svd_verify([3.0, 1.0, 2.0]);
@@ -133,6 +139,7 @@ namespace qblas.applications
         ResetAll(qs_phase);
         ResetAll(qs_r);
 
-        return svd_ok;
+        // Return: HHL success (bit 0) + SVD verify (bit 1)
+        return svd_ok + (hhl_ok * 2);
     }
 }

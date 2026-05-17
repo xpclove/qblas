@@ -14,28 +14,34 @@
 //   Demo config:  8 qubits [1,1,1,1,0.5,0.5,0.5,0.5] → 8+2=10 qubits
 //   Test config:  2 qubits [1.0, 0.0] → 2+2=4 qubits
 //
+// Architecture:
+//   - Qubits: n_qubits + 2 (ancilla)
+//   - Demo: 10 qubits (8 data + 2 ancilla)
+//   - Test:  4 qubits (2 data + 2 ancilla)
+//   - Encoding: Amplitude encoding via q_vector_amplitude_encode
+//   - Rotation: QSP phase rotations via q_qsp_apply_rotation × n_qubits
+//
 // Output:
-//   Single integer encoding 8 test outcomes:
-//     bits 0-3: first 4 measurement results (0-15)
-//     bit 4:    QSP rotation executed on 8 qubits
-//     bit 5:    phase sequence generation verified
-//     bit 6:    Chebyshev phase generation verified
+//   Single integer encoding:
+//     low bits: |1⟩ population count (0 to n_qubits, from measurement)
+//     bit 4:    QSP rotation executed
+//     bit 5:    phase sequence verified
+//     bit 6:    Chebyshev phase verified
 //     bit 7:    polynomial evaluation verified
-//     bit 8:    is_valid_phase verified
+//     bit 8:    phase validity verified
 //     bit 9:    vector normalization verified
-//     bit 10:   dimension check verified
 //
 // Pipeline steps and module mapping:
-//   Step 1: q_vector → q_vector_amplitude_encode    → State preparation (8 qubits)
-//   Step 2: q_qsp    → q_qsp_apply_rotation × 8    → QSP rotation on each qubit
-//   Step 3: M × 8                                   → Measurement
+//   Step 1: q_vector → q_vector_amplitude_encode    → State preparation (n_qubits)
+//   Step 2: q_qsp    → q_qsp_apply_rotation × n    → QSP rotation on each qubit
+//   Step 3: M × n_qubits                           → Measurement
 //   Step 4: q_qsp    → symmetric_phase_seq          → Phase generation
 //   Step 5: q_qsp    → chebyshev_phase, poly_eval   → Polynomial utilities
 //
 // Verification:
-//   - Amplitude encoding on 8 qubits runs (quantum)
-//   - QSP rotation on 8+2 qubits runs (quantum)
-//   - Measurement produces valid 0-8 count (Fact)
+//   - Amplitude encoding on n_qubits runs (quantum)
+//   - QSP rotation on n_qubits + 2 ancilla runs (quantum)
+//   - Measurement population in [0, n_qubits] (Fact)
 //   - All classical QSP functions verified via Fact()
 //
 // Reference:
