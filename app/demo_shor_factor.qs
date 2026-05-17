@@ -31,7 +31,7 @@
 //     If successful: returns m + 16 + 32 + 64 + 128 = m + 240
 //
 // Pipeline steps and module mapping:
-//   Step 1: q_vector          → Prepare data state |0001⟩
+//   Step 1: q_vector          → q_vector_prepare_basis(1, qs_data)
 //   Step 2: q_fft             → QFT on phase register
 //   Step 3: Controlled oracle → U^(2^k) applied per phase qubit
 //   Step 4: (Adjoint q_fft)   → Inverse QFT on phase register
@@ -106,55 +106,55 @@ namespace qblas.applications
     function q_shor_period_from_phase(m : Int) : Int {
         if (m == 0) { return 0; }
 
-        // Continued fraction expansion of m/16
+        // Continued fraction expansion of m/16.
+        // Track denominators k of convergents. The first convergent
+        // is always 0/1 when m < den (skip a=0 case, it's useless).
         mutable num = m;
         mutable den = 16;
-        mutable prev_k = 0;
-        mutable k = 1;
+        mutable k_prev2 = 0;  // denominator at i-2
+        mutable k_prev1 = 1;  // denominator at i-1
 
         for iter in 0 .. 10 {
-            let a = den == 0 ? 0 | num / den;
-            let new_num = den;
-            let new_den = den == 0 ? 0 | num % den;
-            set num = new_num;
-            set den = new_den;
-
-            // Compute convergent k = a * k + prev_k
-            let new_k = a * k + prev_k;
-            set prev_k = k;
-            set k = new_k;
-
-            // Stop if denominator is valid (positive and not N)
-            if (k > 0 and k < 15) {
-                // Verify candidate period: 2^k mod 15 == 1
-                mutable test = 1;
-                for i in 0 .. k - 1 {
-                    set test = (test * 2) % 15;
-                }
-                if (test == 1) {
-                    return k;
-                }
-                // Also try k as a factor of a valid period
-                if (k > 1) {
-                    return k;
-                }
-            }
-
-            if (den == 0) {  // exact convergent reached
-                // Try the reduced denominator directly
+            if (den == 0) {
                 let g = GreatestCommonDivisorI(m, 16);
                 let rd = 16 / g;
                 if (rd > 0 and rd < 15) {
-                    mutable test2 = 1;
-                    for i in 0 .. rd - 1 {
-                        set test2 = (test2 * 2) % 15;
-                    }
-                    if (test2 == 1) {
-                        return rd;
-                    }
+                    return rd;
                 }
                 return 0;
             }
+
+            let a = num / den;
+            let remainder = num % den;
+
+            // Compute next convergent denominator
+            let k = a * k_prev1 + k_prev2;
+
+            // Advance
+            set num = den;
+            set den = remainder;
+            set k_prev2 = k_prev1;
+            set k_prev1 = k;
+
+            // Skip the a=0 case (trivial convergent 0/1).
+            // Otherwise, k is the candidate period denominator.
+            if (a != 0) {
+                if (k > 1 and k < 15) {
+                    mutable test = 1;
+                    for i in 0 .. k - 1 {
+                        set test = (test * 2) % 15;
+                    }
+                    if (test == 1) {
+                        return k;
+                    }
+                }
+            }
+        }
+        // Fallback: reduced denominator
+        let g = GreatestCommonDivisorI(m, 16);
+        let rd = 16 / g;
+        if (rd > 1 and rd < 15) {
+            return rd;
         }
         return 0;
     }
@@ -186,9 +186,9 @@ namespace qblas.applications
         use qs_data = Qubit[n_data];
 
         // ============================================================
-        // Step 1: Prepare data register in |0001⟩ = |1⟩
+        // Step 1: Prepare data register in |0001⟩ = |1⟩ (via q_vector)
         // ============================================================
-        X(qs_data[0]);  // |0000⟩ → |0001⟩
+        q_vector_prepare_basis(1, qs_data);
 
         // ============================================================
         // Step 2: Superposition on phase register (QFT-free)
@@ -242,8 +242,15 @@ namespace qblas.applications
         mutable r = q_shor_period_from_phase(m);
 
         if (r == 0) {
-            // Could not determine period from this measurement
-            return m;
+            // Try reduced denominator from gcd(m, 16) as period
+            let g = GreatestCommonDivisorI(m, 16);
+            let trial_r = 16 / g;
+            if (trial_r > 1 and trial_r < 15) {
+                set r = trial_r;
+            } else {
+                // Could not determine period from this measurement
+                return m;
+            }
         }
 
         // Verify period: 2^r mod 15 must equal 1
