@@ -424,6 +424,7 @@ operation test_demo_<name>(p : Int) : Int {
 | `demo_vqe_execution` | 8 | 11 个 | 11 | 0 |
 | `demo_qsvt_transform` | 10 | 8 个 | 9 | 0 |
 | `demo_hamiltonian_sim` | 16 | 11 个 | 12 | 0 |
+| `demo_shor_factor` | **8** | **10 个** | **7** | **6(必)** |
 
 所有新增 demo 须以此为质量基准。
 
