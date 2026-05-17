@@ -433,6 +433,9 @@ operation test_demo_<name>(p : Int) : Int {
 | `demo_qpe_standalone` | **12** | **7 个** | **5** | **1(必)** |
 | `demo_block_lcu` | **10** | **10 个** | **8** | **0** |
 | `demo_teleport` | **24** | **3 个** | **5** | **0** |
+| `demo_spectral_analysis` | **8** | **8 个** | **8** | **0** |
+| `demo_error_mitigation` | **2** | **8 个** | **8** | **0** |
+| `demo_gradient_estimation` | **4** | **9 个** | **8** | **1(必)** |
 
 所有新增 demo 须以此为质量基准。
 
