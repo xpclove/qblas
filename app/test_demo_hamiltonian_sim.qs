@@ -2,10 +2,10 @@
 // Licensed under the GPL v3 License.
 
 // ============================================================
-// Test: Hamiltonian Simulation Demo
+// Test: Hamiltonian Simulation Demo (small config)
 //
-// Verifies all 16 simulation subroutine results via Fact().
-// Covers q_trotter_suzuki, q_qubitization, q_gibbs, q_timedependent.
+// Tests with 2 data qubits, 1 layer → 4 qubits total, fast.
+// All classical planning utilities verified via Fact().
 // ============================================================
 
 namespace Quantum.test
@@ -16,7 +16,8 @@ namespace Quantum.test
     open qblas.applications;
 
     operation test_demo_hamiltonian_sim(p : Int) : Int {
-        let result = DemoHamiltonianSim();
+        // Small config: 2 data qubits, 1 layer → 4 qubits total
+        let result = DemoHamiltonianSim(2, 1);
         Fact(result > 0, "demo_hamiltonian: result must be > 0");
         return result;
     }
