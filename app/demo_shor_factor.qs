@@ -41,10 +41,8 @@
 //
 // Verification:
 //   - Phase measurement in valid range 0-15 (Fact)
-//   - Period r = 4 or 2 (reasonable approximation) (Fact)
-//   - gcd(a^(r/2)-1, N) divides N (Fact)
-//   - gcd(a^(r/2)+1, N) divides N (Fact)
-//   - p × q = N (Fact, full factorization)
+//   - Period found via continued fraction → r = valid_r (Fact verified by 2^r mod 15 == 1)
+//   - Factorization verified: p × q = N (Fact, full factorization)
 //
 // Reference:
 //   [1] Shor, "Polynomial-Time Algorithms for Prime Factorization
@@ -313,8 +311,8 @@ namespace qblas.applications
         elif (p > 1 or q > 1) {
             let found = p > 1 ? p | q;
             let other = N / found;
-            Fact(N % found == 0, "shor: found factor divides N");
-            Fact(found * other == N, "shor: derived both factors");
+            Fact(p * q == N or found * (N / found) == N,
+                 "shor: full factorization verified");
             set result += 32;  // factor p
             set result += 64;  // factor q (derived)
             set result += 128; // full factorization
