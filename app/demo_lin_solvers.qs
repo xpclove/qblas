@@ -98,7 +98,7 @@ namespace qblas.applications
     operation DemoLinSolvers(n_state_qubits : Int, n_measure : Int, t : Double) : Int {
         let oracle = q_matrix_1_sparse_oracle(q_demo_lin_solvers_oracle);
         let n_qubits = n_state_qubits;
-        let n_shots = 50;
+        let n_shots = 5;
         mutable result = 0;
 
         // ============================================================
@@ -117,21 +117,21 @@ namespace qblas.applications
         set result += 2;
 
         // Quantum solve
-        use qs_b = Qubit[n_qubits];
-        use qs_x = Qubit[n_qubits];
-        use qs_work = Qubit[n_qubits + 1];
-        q_cholesky_solve_quantum(oracle, qs_b, qs_x, qs_work, t);
         mutable chol_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_b = Qubit[n_qubits];
+            use qs_x = Qubit[n_qubits];
+            use qs_work = Qubit[n_qubits + 1];
+            q_cholesky_solve_quantum(oracle, qs_b, qs_x, qs_work, t);
             if (M(qs_x[0]) == One) {
                 set chol_count += 1;
             }
+            ResetAll(qs_b);
+            ResetAll(qs_x);
+            ResetAll(qs_work);
         }
         Fact(chol_count >= 0 and chol_count <= n_shots, "chol: quantum count in range");
         set result += 4;
-        ResetAll(qs_b);
-        ResetAll(qs_x);
-        ResetAll(qs_work);
 
         // ============================================================
         // Step 3: LU (q_lu)
@@ -148,21 +148,21 @@ namespace qblas.applications
         set result += 16;
 
         // Quantum solve
-        use qs_lu_b = Qubit[n_qubits];
-        use qs_lu_x = Qubit[n_qubits];
-        use qs_lu_work = Qubit[n_qubits + 1];
-        q_lu_solve_quantum(oracle, qs_lu_b, qs_lu_x, qs_lu_work, t);
         mutable lu_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_lu_b = Qubit[n_qubits];
+            use qs_lu_x = Qubit[n_qubits];
+            use qs_lu_work = Qubit[n_qubits + 1];
+            q_lu_solve_quantum(oracle, qs_lu_b, qs_lu_x, qs_lu_work, t);
             if (M(qs_lu_x[0]) == One) {
                 set lu_count += 1;
             }
+            ResetAll(qs_lu_b);
+            ResetAll(qs_lu_x);
+            ResetAll(qs_lu_work);
         }
         Fact(lu_count >= 0 and lu_count <= n_shots, "lu: quantum count in range");
         set result += 32;
-        ResetAll(qs_lu_b);
-        ResetAll(qs_lu_x);
-        ResetAll(qs_lu_work);
 
         // ============================================================
         // Step 4: QR (q_qr)
@@ -180,21 +180,21 @@ namespace qblas.applications
         set result += 128;
 
         // Quantum least squares
-        use qs_qr_b = Qubit[n_qubits];
-        use qs_qr_x = Qubit[n_qubits];
-        use qs_qr_work = Qubit[n_qubits + 1];
-        q_qr_least_squares_quantum(oracle, qs_qr_b, qs_qr_x, qs_qr_work, t);
         mutable qr_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_qr_b = Qubit[n_qubits];
+            use qs_qr_x = Qubit[n_qubits];
+            use qs_qr_work = Qubit[n_qubits + 1];
+            q_qr_least_squares_quantum(oracle, qs_qr_b, qs_qr_x, qs_qr_work, t);
             if (M(qs_qr_x[0]) == One) {
                 set qr_count += 1;
             }
+            ResetAll(qs_qr_b);
+            ResetAll(qs_qr_x);
+            ResetAll(qs_qr_work);
         }
         Fact(qr_count >= 0 and qr_count <= n_shots, "qr: quantum count in range");
         set result += 256;
-        ResetAll(qs_qr_b);
-        ResetAll(qs_qr_x);
-        ResetAll(qs_qr_work);
 
         // ============================================================
         // Step 5: Triangular (q_triangular)
@@ -211,21 +211,21 @@ namespace qblas.applications
         set result += 1024;
 
         // Quantum triangular solve (forward substitution)
-        use qs_tri_b = Qubit[n_qubits];
-        use qs_tri_x = Qubit[n_qubits];
-        use qs_tri_work = Qubit[n_qubits + 1];
-        q_trisol_solve(oracle, qs_tri_b, qs_tri_x, qs_tri_work, true, t);
         mutable tri_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_tri_b = Qubit[n_qubits];
+            use qs_tri_x = Qubit[n_qubits];
+            use qs_tri_work = Qubit[n_qubits + 1];
+            q_trisol_solve(oracle, qs_tri_b, qs_tri_x, qs_tri_work, true, t);
             if (M(qs_tri_x[0]) == One) {
                 set tri_count += 1;
             }
+            ResetAll(qs_tri_b);
+            ResetAll(qs_tri_x);
+            ResetAll(qs_tri_work);
         }
         Fact(tri_count >= 0 and tri_count <= n_shots, "tri: quantum count in range");
         set result += 2048;
-        ResetAll(qs_tri_b);
-        ResetAll(qs_tri_x);
-        ResetAll(qs_tri_work);
 
         // ============================================================
         // Step 6: Matrix Add (q_matrix_add)
@@ -247,19 +247,19 @@ namespace qblas.applications
         set result += 8192;
 
         // Quantum block encode
-        use qs_add_state = Qubit[n_qubits];
-        use qs_add_work = Qubit[n_qubits + 1];
-        q_matrix_add_block_encode(oracle, oracle, qs_add_state, qs_add_work, t);
         mutable add_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_add_state = Qubit[n_qubits];
+            use qs_add_work = Qubit[n_qubits + 1];
+            q_matrix_add_block_encode(oracle, oracle, qs_add_state, qs_add_work, t);
             if (M(qs_add_state[0]) == One) {
                 set add_count += 1;
             }
+            ResetAll(qs_add_state);
+            ResetAll(qs_add_work);
         }
         Fact(add_count >= 0 and add_count <= n_shots, "add: quantum count in range");
         set result += 16384;
-        ResetAll(qs_add_state);
-        ResetAll(qs_add_work);
 
         // ============================================================
         // Step 7: Kronecker (q_kronecker)
@@ -281,21 +281,21 @@ namespace qblas.applications
         set result += 65536;
 
         // Quantum kronecker apply
-        use qs_kr_a = Qubit[n_qubits];
-        use qs_kr_b = Qubit[n_qubits];
-        use qs_kr_work = Qubit[n_qubits + 1];
-        q_kronecker_apply_state(oracle, oracle, qs_kr_a, qs_kr_b, qs_kr_work, t);
         mutable kr_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_kr_a = Qubit[n_qubits];
+            use qs_kr_b = Qubit[n_qubits];
+            use qs_kr_work = Qubit[n_qubits + 1];
+            q_kronecker_apply_state(oracle, oracle, qs_kr_a, qs_kr_b, qs_kr_work, t);
             if (M(qs_kr_a[0]) == One) {
                 set kr_count += 1;
             }
+            ResetAll(qs_kr_a);
+            ResetAll(qs_kr_b);
+            ResetAll(qs_kr_work);
         }
         Fact(kr_count >= 0 and kr_count <= n_shots, "kronecker: quantum count in range");
         set result += 131072;
-        ResetAll(qs_kr_a);
-        ResetAll(qs_kr_b);
-        ResetAll(qs_kr_work);
 
         // ============================================================
         // Step 8: Newton (q_newton)
@@ -312,21 +312,21 @@ namespace qblas.applications
         set result += 524288;
 
         // Quantum Newton solve
-        use qs_n_h = Qubit[n_qubits];
-        use qs_n_g = Qubit[n_qubits];
-        use qs_n_d = Qubit[n_qubits];
-        q_newton_solve(qs_n_h, qs_n_g, qs_n_d);
         mutable n_count = 0;
         for i in 0 .. n_shots - 1 {
+            use qs_n_h = Qubit[n_qubits];
+            use qs_n_g = Qubit[n_qubits];
+            use qs_n_d = Qubit[n_qubits];
+            q_newton_solve(qs_n_h, qs_n_g, qs_n_d);
             if (M(qs_n_d[0]) == One) {
                 set n_count += 1;
             }
+            ResetAll(qs_n_h);
+            ResetAll(qs_n_g);
+            ResetAll(qs_n_d);
         }
         Fact(n_count >= 0 and n_count <= n_shots, "newton: quantum count in range");
         set result += 1048576;
-        ResetAll(qs_n_h);
-        ResetAll(qs_n_g);
-        ResetAll(qs_n_d);
 
         return result;
     }
