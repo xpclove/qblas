@@ -5,14 +5,16 @@
 // Demo: VQE Circuit Execution
 //
 // What it does:
-//   Executes a 8-qubit HEA (Hardware Efficient Ansatz) circuit
-//   with 2 layers (32 parameters), measures all qubits, and
-//   validates the measurement statistics. Demonstrates real
-//   quantum circuit execution via the q_vqe module.
+//   Executes a HEA circuit with configurable qubits and layers,
+//   measures all qubits, validates measurement statistics and
+//   all VQE utility functions (count_params, ansatz_depth,
+//   param_shift, gradient, gd_step, converged, adam).
 //
 // Input:
-//   32 variational parameters (constant: i*0.1 for each param)
-//   2-layer HEA on 8 qubits
+//   n_qubits: number of qubits (≥ 1)
+//   n_layers: number of HEA layers (≥ 1)
+//   Demo config:  n_qubits = 8, n_layers = 2 → 32 params, 8 qubits ≥ 8 ✓
+//   Test config:  n_qubits = 4, n_layers = 1 →  8 params, 4 qubits (fast)
 //
 // Output:
 //   Single integer encoding 6 test outcomes:
@@ -54,46 +56,50 @@ namespace qblas.applications
     import Std.Diagnostics.Fact;
     open qblas;
 
-    operation DemoVqeExecution() : Int {
+    operation DemoVqeExecution(n_qubits : Int, n_layers : Int) : Int {
+        if (n_qubits < 1 or n_layers < 1) { return -1; }
+
         mutable result = 0;
+        let n_params = n_qubits * n_layers * 2;
 
         // ============================================================
         // Quantum Execution
         // ============================================================
 
-        // Step 1: HEA forward pass on 8 qubits, 2 layers (32 params)
-        use qs = Qubit[8];
-        mutable theta = [0.0, size = 32];
-        for i in 0 .. 31 {
+        // Step 1: HEA forward pass on n_qubits, n_layers
+        use qs = Qubit[n_qubits];
+        mutable theta = [0.0, size = n_params];
+        for i in 0 .. n_params - 1 {
             set theta w/= i <- IntAsDouble(i) * 0.1;
         }
-        q_vqe_hea(8, theta, qs, 2);
+        q_vqe_hea(n_qubits, theta, qs, n_layers);
         set result += 32;
 
-        // Step 2: Measure all 8 qubits and count |1⟩ outcomes
+        // Step 2: Measure all qubits and count |1⟩ outcomes
         mutable pop_count = 0;
-        for i in 0 .. 7 {
+        for i in 0 .. n_qubits - 1 {
             if (M(qs[i]) == One) {
                 set pop_count += 1;
             }
         }
         ResetAll(qs);
-        Fact(pop_count >= 0 and pop_count <= 8,
-             "vqe: population count must be 0-8");
+        Fact(pop_count >= 0 and pop_count <= n_qubits,
+             "vqe: population count must be 0-n_qubits");
         set result += pop_count;
 
         // ============================================================
         // Classical Verification
         // ============================================================
 
-        // Step 3: Parameter count (8 qubits × 2 layers × 2 rotations)
-        let np = q_vqe_count_params(8, 2, "hea");
-        Fact(np == 32, "vqe: 8*2*2 = 32 params");
+        // Step 3: Parameter count (n_qubits × n_layers × 2 rotations)
+        let np = q_vqe_count_params(n_qubits, n_layers, "hea");
+        Fact(np == n_params, "vqe: n_qubits*n_layers*2 = n_params");
         set result += 64;
 
         // Step 4: Ansatz depth
-        let depth = q_vqe_ansatz_depth(8, 2, true);
-        Fact(depth == 48, "vqe: ansatz depth = 48");
+        let depth = q_vqe_ansatz_depth(n_qubits, n_layers, true);
+        Fact(depth == n_qubits * n_layers * 2 + (n_layers - 1) * n_qubits + n_qubits,
+             "vqe: ansatz depth formula verified");
         set result += 128;
 
         // Step 5: Parameter shift (+)
